@@ -1,0 +1,87 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "evaluation_id": {
+      "title": "Evaluation Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "elapsed_seconds": {
+      "minimum": 0,
+      "title": "Elapsed Seconds",
+      "type": "number"
+    },
+    "environment": {
+      "title": "Environment",
+      "type": "string"
+    },
+    "seed": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Seed"
+    },
+    "episodes": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Episodes",
+      "type": "integer"
+    },
+    "results": {
+      "additionalProperties": true,
+      "title": "Results",
+      "type": "object"
+    },
+    "protocol": {
+      "default": "exploratory",
+      "title": "Protocol",
+      "type": "string"
+    },
+    "checkpoint_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Checkpoint Hash"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "evaluation_id",
+    "run_id",
+    "timestamp",
+    "elapsed_seconds",
+    "environment",
+    "results"
+  ],
+  "title": "EvaluationRecord",
+  "type": "object"
+}

@@ -1,0 +1,81 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "calibration_id": {
+      "title": "Calibration Id",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "source_trajectory_artifacts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Trajectory Artifacts",
+      "type": "array"
+    },
+    "simulator_version": {
+      "title": "Simulator Version",
+      "type": "string"
+    },
+    "parameters": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Parameters",
+      "type": "object"
+    },
+    "held_out_trajectory_artifacts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Held Out Trajectory Artifacts",
+      "type": "array"
+    },
+    "fit_metrics": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Fit Metrics",
+      "type": "object"
+    },
+    "validation_metrics": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Validation Metrics",
+      "type": "object"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "calibration_id",
+    "version",
+    "run_id",
+    "source_trajectory_artifacts",
+    "simulator_version",
+    "parameters",
+    "held_out_trajectory_artifacts",
+    "fit_metrics",
+    "validation_metrics"
+  ],
+  "title": "CalibrationRecord",
+  "type": "object"
+}

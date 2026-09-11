@@ -1,0 +1,590 @@
+{
+  "experiment": "runtime-screen",
+  "scope": "uncalibrated_simulator_exploration",
+  "qualifies_real_game": false,
+  "simulator_version": "surrogate-0.1.0",
+  "validation_seeds": [
+    10000,
+    10001,
+    10002,
+    10003,
+    10004,
+    10005,
+    10006,
+    10007,
+    10008,
+    10009,
+    10010,
+    10011,
+    10012,
+    10013,
+    10014,
+    10015,
+    10016,
+    10017,
+    10018,
+    10019
+  ],
+  "final_test_seeds_used": false,
+  "requested_training_budget_seconds": 480.0,
+  "actual_training_budget_seconds": 481.36474940003245,
+  "throughput": {
+    "run_id": "3d4dc35e-25c1-4671-8e8b-5c9bb150ac6c",
+    "results": [
+      {
+        "envs": 32,
+        "seconds": 3.0003281999961473,
+        "steps": 42976,
+        "steps_per_second": 14323.766313317052
+      },
+      {
+        "envs": 64,
+        "seconds": 3.0014455000055023,
+        "steps": 49728,
+        "steps_per_second": 16568.016977122803
+      },
+      {
+        "envs": 128,
+        "seconds": 3.003992499987362,
+        "steps": 72192,
+        "steps_per_second": 24032.017390290992
+      },
+      {
+        "envs": 256,
+        "seconds": 3.0007734000100754,
+        "steps": 110336,
+        "steps_per_second": 36769.18756998763
+      },
+      {
+        "envs": 512,
+        "seconds": 3.0067873999942094,
+        "steps": 154624,
+        "steps_per_second": 51424.98601673593
+      },
+      {
+        "envs": 1024,
+        "seconds": 3.0068996000045445,
+        "steps": 182272,
+        "steps_per_second": 60617.92019917277
+      }
+    ],
+    "policy_inference_included": false,
+    "warmup_steps_per_condition": 10,
+    "integrity": {
+      "run_id": "3d4dc35e-25c1-4671-8e8b-5c9bb150ac6c",
+      "valid": true,
+      "errors": []
+    }
+  },
+  "runs": [
+    {
+      "run_id": "d49e26ca-4389-4321-88f8-8e0fac21e585",
+      "algorithm": "ppo",
+      "seed": 0,
+      "device": "cpu",
+      "num_envs": 64,
+      "requested_seconds": 60.0,
+      "actual_training_seconds": 60.17736200001673,
+      "environment_steps": 309824,
+      "training_steps_per_second": 5148.514153875903,
+      "optimizer_updates": 2368,
+      "episodes": 377,
+      "validation_distance": {
+        "ci95_high": 590.6924979868123,
+        "ci95_low": 405.4166468196328,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 739.0328381765738,
+        "mean": 499.95408719896625,
+        "median": 563.7549893974578,
+        "minimum": 96.63397490428174,
+        "n": 20,
+        "p05": 111.005854064998,
+        "p25": 412.3196165582869,
+        "p75": 654.1782871045027,
+        "p95": 737.625052131155,
+        "std": 215.1104359240184
+      },
+      "validation_failures": {
+        "crash": 0.35,
+        "time_limit": 0.65
+      },
+      "validation_action_counts": [
+        0,
+        10954,
+        985,
+        3897
+      ],
+      "timing": {
+        "inference_seconds": 10.864150900306413,
+        "environment_seconds": 18.946177098958287,
+        "optimizer_seconds": 25.311613199854037
+      },
+      "checkpoint_hash": "355ff055d25e99444fb30ba585371f652079fb0b24621e1b412ee8b4ba5fdab2",
+      "checkpoint": "artifacts\\runs\\d49e26ca-4389-4321-88f8-8e0fac21e585\\files\\355ff055d25e99444fb30ba585371f652079fb0b24621e1b412ee8b4ba5fdab2_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "f6f6269e455c64a8793ea2096bf8cb7f99f32441d1d4392ff53f89f5f8f32ece",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "d49e26ca-4389-4321-88f8-8e0fac21e585",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "36a4fdb2-4c30-47a8-a980-0f3a302a20fa",
+      "algorithm": "ppo",
+      "seed": 0,
+      "device": "cpu",
+      "num_envs": 256,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.18244690002757,
+      "environment_steps": 481280,
+      "training_steps_per_second": 7997.016153222901,
+      "optimizer_updates": 3584,
+      "episodes": 487,
+      "validation_distance": {
+        "ci95_high": 565.3376180838422,
+        "ci95_low": 361.3886273513677,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 724.9349047889687,
+        "mean": 466.2465881691202,
+        "median": 566.7733875505762,
+        "minimum": 38.72860371148549,
+        "n": 20,
+        "p05": 81.58079328800613,
+        "p25": 215.43012211301354,
+        "p75": 651.2545223073088,
+        "p95": 720.201561834267,
+        "std": 234.54334571495573
+      },
+      "validation_failures": {
+        "crash": 0.35,
+        "time_limit": 0.65
+      },
+      "validation_action_counts": [
+        6012,
+        8896,
+        2,
+        0
+      ],
+      "timing": {
+        "inference_seconds": 5.81875539952307,
+        "environment_seconds": 12.37408309962484,
+        "optimizer_seconds": 37.49445160003961
+      },
+      "checkpoint_hash": "9341c73fc092c8616297bb8a60af85ca3bd51075522430e6afc0b4859ea2bd91",
+      "checkpoint": "artifacts\\runs\\36a4fdb2-4c30-47a8-a980-0f3a302a20fa\\files\\9341c73fc092c8616297bb8a60af85ca3bd51075522430e6afc0b4859ea2bd91_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "03c1acc90e2fc8743a6050f1fcf90bf74c34417cc46913525072df0d36aa0a46",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "36a4fdb2-4c30-47a8-a980-0f3a302a20fa",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "73404182-aee7-4618-b45d-3b9dddad30c2",
+      "algorithm": "ppo",
+      "seed": 0,
+      "device": "cuda",
+      "num_envs": 256,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.20084230002249,
+      "environment_steps": 347392,
+      "training_steps_per_second": 5770.550489455033,
+      "optimizer_updates": 2560,
+      "episodes": 340,
+      "validation_distance": {
+        "ci95_high": 597.7719255105627,
+        "ci95_low": 395.98670236045103,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 794.1677442684785,
+        "mean": 500.3386139259186,
+        "median": 571.3435631535342,
+        "minimum": 39.316009133046045,
+        "n": 20,
+        "p05": 81.49113039311803,
+        "p25": 363.4673833143379,
+        "p75": 671.5384251499054,
+        "p95": 752.8641977158944,
+        "std": 230.27010818448755
+      },
+      "validation_failures": {
+        "crash": 0.35,
+        "time_limit": 0.65
+      },
+      "validation_action_counts": [
+        4932,
+        10644,
+        29,
+        0
+      ],
+      "timing": {
+        "inference_seconds": 9.452579800068634,
+        "environment_seconds": 7.341770699771587,
+        "optimizer_seconds": 37.58445909997681
+      },
+      "checkpoint_hash": "a9631cb54ffeccacaaa5ca21aa48bf2193b17e4ce22c89428f1eef87925c8ee1",
+      "checkpoint": "artifacts\\runs\\73404182-aee7-4618-b45d-3b9dddad30c2\\files\\a9631cb54ffeccacaaa5ca21aa48bf2193b17e4ce22c89428f1eef87925c8ee1_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "4ea24f25b8d048eade7d19a83d9366754ba207c274e94577db632db0b51fbd1a",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "73404182-aee7-4618-b45d-3b9dddad30c2",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "57580930-1056-4baa-99ab-959a781fd1a0",
+      "algorithm": "cem",
+      "seed": 0,
+      "device": "cpu",
+      "num_envs": 64,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.14679359999718,
+      "environment_steps": 1404352,
+      "training_steps_per_second": 23348.742567052916,
+      "optimizer_updates": 21,
+      "episodes": 3572,
+      "validation_distance": {
+        "ci95_high": 590.7468895488471,
+        "ci95_low": 398.48934415237164,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 740.571794802069,
+        "mean": 495.5984679101622,
+        "median": 559.6485691735172,
+        "minimum": 44.01533711053748,
+        "n": 20,
+        "p05": 109.31572669221322,
+        "p25": 438.0405726047904,
+        "p75": 639.0263379316604,
+        "p95": 734.6418060920751,
+        "std": 219.5825529156439
+      },
+      "validation_failures": {
+        "crash": 0.25,
+        "time_limit": 0.75
+      },
+      "validation_action_counts": [
+        7292,
+        7580,
+        0,
+        1315
+      ],
+      "timing": {
+        "evaluated_candidate_episodes": 1365.0
+      },
+      "checkpoint_hash": "02365f33d8125d7eed867103a1d0cc896a1d40d191baab005cdfbe050a8799c9",
+      "checkpoint": "artifacts\\runs\\57580930-1056-4baa-99ab-959a781fd1a0\\files\\02365f33d8125d7eed867103a1d0cc896a1d40d191baab005cdfbe050a8799c9_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "cf7240adeb73d8e37023f602a50fb4912ec74fbd685c2587a84ade1811e4f6fa",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "57580930-1056-4baa-99ab-959a781fd1a0",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "8352319c-e6e7-499d-b2d0-de43f90dafe2",
+      "algorithm": "ppo",
+      "seed": 1,
+      "device": "cpu",
+      "num_envs": 256,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.175527499988675,
+      "environment_steps": 434944,
+      "training_steps_per_second": 7227.92168294797,
+      "optimizer_updates": 3328,
+      "episodes": 419,
+      "validation_distance": {
+        "ci95_high": 591.4036996939061,
+        "ci95_low": 359.6966527996666,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 785.1939382059421,
+        "mean": 476.4478416826175,
+        "median": 577.8254140788706,
+        "minimum": 43.683240718198505,
+        "n": 20,
+        "p05": 81.47015165713592,
+        "p25": 212.8606371299283,
+        "p75": 709.5792874486629,
+        "p95": 761.9602466897563,
+        "std": 265.1921690712935
+      },
+      "validation_failures": {
+        "crash": 0.4,
+        "time_limit": 0.6
+      },
+      "validation_action_counts": [
+        3896,
+        10375,
+        255,
+        0
+      ],
+      "timing": {
+        "inference_seconds": 5.85488830023678,
+        "environment_seconds": 12.14058270023088,
+        "optimizer_seconds": 37.181465900008334
+      },
+      "checkpoint_hash": "e8e6f5bc83b98ef6551b6d9457f1a56abb353e93cc85cd2d18c7b7d0b0c02efd",
+      "checkpoint": "artifacts\\runs\\8352319c-e6e7-499d-b2d0-de43f90dafe2\\files\\e8e6f5bc83b98ef6551b6d9457f1a56abb353e93cc85cd2d18c7b7d0b0c02efd_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "ed1328c734cb4878a29d3e91e949685cade349f0e6759fe776fee9b1686e162e",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "8352319c-e6e7-499d-b2d0-de43f90dafe2",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "bddaf26c-ef4a-43fb-bfe6-d96e59a162f2",
+      "algorithm": "cem",
+      "seed": 1,
+      "device": "cpu",
+      "num_envs": 64,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.16893759998493,
+      "environment_steps": 856896,
+      "training_steps_per_second": 14241.501249312645,
+      "optimizer_updates": 13,
+      "episodes": 2129,
+      "validation_distance": {
+        "ci95_high": 401.3113893244913,
+        "ci95_low": 182.66848250874324,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 768.4091626656314,
+        "mean": 288.0563696968488,
+        "median": 181.26293387507297,
+        "minimum": 40.07107858729798,
+        "n": 20,
+        "p05": 44.22066005974049,
+        "p25": 88.80187054222337,
+        "p75": 516.5727891527513,
+        "p95": 745.0157088180904,
+        "std": 254.72843458192824
+      },
+      "validation_failures": {
+        "crash": 0.75,
+        "time_limit": 0.25
+      },
+      "validation_action_counts": [
+        2107,
+        5881,
+        8,
+        936
+      ],
+      "timing": {
+        "evaluated_candidate_episodes": 842.0
+      },
+      "checkpoint_hash": "196a4ad92f68f4d1379ff7941e21805c3e1b79e9aceb6ad1aff9644f7bcb496e",
+      "checkpoint": "artifacts\\runs\\bddaf26c-ef4a-43fb-bfe6-d96e59a162f2\\files\\196a4ad92f68f4d1379ff7941e21805c3e1b79e9aceb6ad1aff9644f7bcb496e_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "f1797f93d73d94d33959566bf7d9d7c2600bcf17d60867cc167a5c37c8f2fd89",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "bddaf26c-ef4a-43fb-bfe6-d96e59a162f2",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "1f36377e-af40-41ec-b075-25aa6612be04",
+      "algorithm": "ppo",
+      "seed": 2,
+      "device": "cpu",
+      "num_envs": 256,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.18418720000773,
+      "environment_steps": 622592,
+      "training_steps_per_second": 10344.777074598758,
+      "optimizer_updates": 4624,
+      "episodes": 664,
+      "validation_distance": {
+        "ci95_high": 627.1782545352667,
+        "ci95_low": 429.7773185603705,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 788.993764363812,
+        "mean": 531.4590264109527,
+        "median": 578.2515068278813,
+        "minimum": 83.25497038596629,
+        "n": 20,
+        "p05": 95.69586243163963,
+        "p25": 515.2889643083472,
+        "p75": 700.662402697868,
+        "p95": 755.1767123509283,
+        "std": 228.2114384059641
+      },
+      "validation_failures": {
+        "crash": 0.25,
+        "time_limit": 0.75
+      },
+      "validation_action_counts": [
+        4542,
+        11515,
+        431,
+        10
+      ],
+      "timing": {
+        "inference_seconds": 6.010716898861574,
+        "environment_seconds": 12.457713101262925,
+        "optimizer_seconds": 36.58996909996495
+      },
+      "checkpoint_hash": "d38d6ce658274bc242845d105508177d9a64cf87d70b651b5898c4ef252778fd",
+      "checkpoint": "artifacts\\runs\\1f36377e-af40-41ec-b075-25aa6612be04\\files\\d38d6ce658274bc242845d105508177d9a64cf87d70b651b5898c4ef252778fd_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "f1797f93d73d94d33959566bf7d9d7c2600bcf17d60867cc167a5c37c8f2fd89",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "1f36377e-af40-41ec-b075-25aa6612be04",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "52a9a3cd-a16e-440a-ae13-e1d04bae1997",
+      "algorithm": "cem",
+      "seed": 2,
+      "device": "cpu",
+      "num_envs": 64,
+      "requested_seconds": 60,
+      "actual_training_seconds": 60.12865229998715,
+      "environment_steps": 1295616,
+      "training_steps_per_second": 21547.39796155845,
+      "optimizer_updates": 20,
+      "episodes": 3186,
+      "validation_distance": {
+        "ci95_high": 459.09903250300465,
+        "ci95_low": 243.6018133294892,
+        "ci_method": "episode percentile bootstrap; conditional on one trained policy",
+        "maximum": 715.9497310778642,
+        "mean": 351.82465647191583,
+        "median": 277.4824773301309,
+        "minimum": 37.26236181341188,
+        "n": 20,
+        "p05": 44.72122165424414,
+        "p25": 110.66967237786355,
+        "p75": 599.6659112418163,
+        "p95": 690.9581957832946,
+        "std": 249.75348945529998
+      },
+      "validation_failures": {
+        "crash": 0.65,
+        "time_limit": 0.35
+      },
+      "validation_action_counts": [
+        1631,
+        4864,
+        0,
+        4597
+      ],
+      "timing": {
+        "evaluated_candidate_episodes": 1292.0
+      },
+      "checkpoint_hash": "d7426ca85cb4ac34b46798113ad79849a365b27d5b4ff24286289f6c8a899bcd",
+      "checkpoint": "artifacts\\runs\\52a9a3cd-a16e-440a-ae13-e1d04bae1997\\files\\d7426ca85cb4ac34b46798113ad79849a365b27d5b4ff24286289f6c8a899bcd_policy-final.pt",
+      "source_sha": "b7ca30e1d9f43e701db797f73fc27d7c96f59f98",
+      "source_diff_sha256": "66c4f7bff590b5fc21b646e70e9bb29d601ce442b1b03d70188062209201a9ef",
+      "dirty_worktree": true,
+      "integrity": {
+        "run_id": "52a9a3cd-a16e-440a-ae13-e1d04bae1997",
+        "valid": true,
+        "errors": []
+      }
+    }
+  ],
+  "aggregates": {
+    "ppo_cpu_64": {
+      "training_seeds": [
+        0
+      ],
+      "run_ids": [
+        "d49e26ca-4389-4321-88f8-8e0fac21e585"
+      ],
+      "mean_of_validation_means": 499.95408719896625,
+      "std_of_validation_means": null,
+      "mean_of_validation_medians": 563.7549893974578,
+      "mean_training_steps_per_second": 5148.514153875903
+    },
+    "ppo_cpu_256": {
+      "training_seeds": [
+        0,
+        1,
+        2
+      ],
+      "run_ids": [
+        "36a4fdb2-4c30-47a8-a980-0f3a302a20fa",
+        "8352319c-e6e7-499d-b2d0-de43f90dafe2",
+        "1f36377e-af40-41ec-b075-25aa6612be04"
+      ],
+      "mean_of_validation_means": 491.3844854208968,
+      "std_of_validation_means": 35.07838394202921,
+      "mean_of_validation_medians": 574.2834361524427,
+      "mean_training_steps_per_second": 8523.238303589877
+    },
+    "ppo_cuda_256": {
+      "training_seeds": [
+        0
+      ],
+      "run_ids": [
+        "73404182-aee7-4618-b45d-3b9dddad30c2"
+      ],
+      "mean_of_validation_means": 500.3386139259186,
+      "std_of_validation_means": null,
+      "mean_of_validation_medians": 571.3435631535342,
+      "mean_training_steps_per_second": 5770.550489455033
+    },
+    "cem_cpu_64": {
+      "training_seeds": [
+        0,
+        1,
+        2
+      ],
+      "run_ids": [
+        "57580930-1056-4baa-99ab-959a781fd1a0",
+        "bddaf26c-ef4a-43fb-bfe6-d96e59a162f2",
+        "52a9a3cd-a16e-440a-ae13-e1d04bae1997"
+      ],
+      "mean_of_validation_means": 378.4931646929756,
+      "std_of_validation_means": 106.31010126393778,
+      "mean_of_validation_medians": 339.46466012624035,
+      "mean_training_steps_per_second": 19712.547259308005
+    }
+  },
+  "limits": [
+    "Scores are nominal simulator metres from idealized state estimates, not Hill Climb Racing performance.",
+    "Validation seeds were used for exploratory model/runtime selection; final test seeds remain untouched.",
+    "Episode bootstrap intervals condition on one trained policy; they do not measure training-seed uncertainty.",
+    "Only three training replicates compare PPO CPU256 and CEM; CPU64/CUDA256 screening each has one seed.",
+    "Runtime screens were sequential in a fixed order on a shared workstation; background load and thermal drift are uncontrolled.",
+    "Training clocks include env/model/optimizer initialization, collection, updates and callbacks; module import/provenance and offline evaluation are separately outside this clock.",
+    "CEM fits only two fixed training seeds per candidate (seed*10007+101 and +102); external validation is disjoint, but overfitting remains a risk.",
+    "CEM counts all executed simulator transitions, including automatic reset rollouts excluded from candidate fitness; evaluated_candidate_episodes exposes useful first episodes.",
+    "PPO four-frame MLP has 10,563 parameters; CEM single-frame linear controller has 100; this is a practical system comparison, not an architecture-matched optimizer ablation.",
+    "Pilot source was dirty and source-diff hashes are recorded. A clean committed configuration should govern the main run."
+  ],
+  "audit": {
+    "gae": "Time limits bootstrap their final observation; physical terminations do not; all resets cut the advantage trace.",
+    "pedals": "All 00/10/01/11 states supported; PPO has independent Bernoulli outputs and CEM has four joint-state logits.",
+    "priors": "All pilots are cold starts with no parent checkpoints; hand-designed uncalibrated dynamics and architecture are declared priors.",
+    "checkpoint_clock": "Requested schedule and actual elapsed timestamps both persisted; final callback serialization causes small recorded deadline overshoot.",
+    "learning_curves": "Rolling training episode scores differ from fixed-policy offline validation and must be labelled separately.",
+    "fixed_ppo_constants": {
+      "target_kl_after_epoch": 0.03,
+      "max_grad_norm": 0.5,
+      "value_loss_coefficient": 0.5,
+      "adam_epsilon": 1e-05
+    },
+    "throughput_variance": "Adaptive KL stopping changes optimizer work by seed; throughput differences cannot all be attributed to hardware."
+  },
+  "selection": {
+    "provisional_surrogate_trainer": "ppo_cpu_256",
+    "training_seed_policy": "Use a preregistered fresh seed, without loading pilot checkpoints.",
+    "reason": "Across three training seeds, PPO CPU256 had higher average validation distance and lower between-seed variability than the implemented CEM comparator. CPU256 also executed more transitions than CPU64 and CUDA256 in the seed0 runtime screen.",
+    "caveat": "Three seeds do not establish statistical superiority, and no real-game competence or transfer is established. CEM remains an informative low-capacity comparator.",
+    "next_ablation": "Compare four versus two PPO optimizer epochs under equal wall-clock budgets after the main governed run."
+  }
+}

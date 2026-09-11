@@ -1,0 +1,17 @@
+{
+  "benchmark_id": "HCR-1H",
+  "version": "0.1.0",
+  "checkpoint_seconds": [300, 600, 1200, 1800, 2700, 3600],
+  "clock": "actual_monotonic_elapsed_including_synchronous_evaluation",
+  "classes": ["cold_start", "simulator_pretrained", "generalist_adaptation", "fine_tuning"],
+  "qualification_environment": "actual_hill_climb_racing",
+  "surrogate_qualifies": false,
+  "minimum_real_episodes": 10,
+  "provisional_median_distance_m": 500,
+  "provisional_ratio_to_random": 3,
+  "high_level_reference": null,
+  "training_seeds": [0, 1, 2],
+  "validation_seed_start": 10000,
+  "test_seed_start": 20000,
+  "evaluation_seed_count": 20
+}

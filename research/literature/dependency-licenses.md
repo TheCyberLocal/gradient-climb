@@ -1,0 +1,57 @@
+# Dependency and candidate-code license review
+
+Review date: 2026-09-11. This inventory covers the major proposed Python stack, development tools, and inspected simulation/RL candidates. Linked upstream license files were inspected. It is not a claim that all optional packages are installed, that all releases have identical licenses, or that every transitive binary has a single top-level license.
+
+No third-party game implementation, game asset, model, or dataset was copied during this review. Original GradientClimb code may use MIT while installed dependencies retain their own terms. See [ADR-001](../../docs/decisions/ADR-001-licensing.md).
+
+## Major dependency families
+
+| Package / role | Inspected upstream terms | Reuse and obligations |
+| --- | --- | --- |
+| Python runtime | [PSF license and incorporated notices](https://docs.python.org/3/license.html) | Runtime prerequisite. Preserve the runtime's license material when distributing a bundled interpreter. |
+| NumPy / arrays | [BSD-3-Clause upstream](https://github.com/numpy/numpy/blob/main/LICENSE.txt) | Import dependency. The observed 2.5.3 wheel metadata declares `BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0`; retain wheel notices when distributing it. |
+| PyTorch / learning | [BSD-style license and incorporated notices](https://github.com/pytorch/pytorch/blob/main/LICENSE) | Import dependency; no copied implementation. CUDA-enabled binary distributions can include separately licensed components. Our MIT license does not relicense those components. |
+| Gymnasium / environment API | [MIT](https://github.com/Farama-Foundation/Gymnasium/blob/main/LICENSE) | Import and API contract; retain notices if redistributing library code. Optional environment extras require separate review. |
+| DuckDB / analytical queries | [MIT](https://github.com/duckdb/duckdb/blob/main/LICENSE) | Import dependency. Extension and bundled-component terms remain their own. |
+| PyArrow / Parquet | [Apache-2.0 plus bundled notices](https://github.com/apache/arrow/blob/main/LICENSE.txt) | Import dependency. Keep applicable LICENSE/NOTICE files; identify modifications if redistributing modified upstream code. |
+| Pydantic / validation | [MIT](https://github.com/pydantic/pydantic/blob/main/LICENSE) | Import dependency. Installed core and transitive distributions remain separately attributed. |
+| FastAPI / local dashboard API | [MIT](https://github.com/fastapi/fastapi/blob/master/LICENSE) | Import dependency. No upstream examples copied into project source. |
+| Uvicorn / server | [BSD-3-Clause](https://github.com/Kludex/uvicorn/blob/main/LICENSE.md) | Import dependency. Preserve notices and no-endorsement condition for redistributed code/binaries. |
+| psutil / system telemetry | [BSD-3-Clause](https://github.com/giampaolo/psutil/blob/master/LICENSE) | Import dependency with retained notices upon redistribution. |
+| Pillow / image I/O and capture | [MIT-CMU](https://github.com/python-pillow/Pillow/blob/main/LICENSE) | Import dependency. This is a distinct permissive license; preserve its full notices and incorporated codec terms. |
+| MSS 10.2.0 / native screen capture | [MIT](https://github.com/BoboTiG/python-mss/blob/main/LICENSE.txt) | Optional capture dependency. Installed license text inspected; no upstream source copied. |
+| opencv-python-headless 5.0.0.93 / pixel matching | [MIT packaging](https://github.com/opencv/opencv-python/blob/5.x/LICENSE.txt), [Apache-2.0 OpenCV core](https://github.com/opencv/opencv/blob/5.x/LICENSE), [additional binary notices](https://github.com/opencv/opencv-python/blob/5.x/LICENSE-3RD-PARTY.txt) | Optional import dependency. The installed third-party license explicitly includes FFmpeg under LGPL-2.1 and further platform-specific codec/component terms. Do not label the whole wheel MIT or Apache-only. No wheel/DLL is bundled in this repository. |
+| SciPy / fitting and statistics | [BSD-3-Clause upstream](https://github.com/scipy/scipy/blob/main/LICENSE.txt) | Candidate/import dependency. Wheels contain additional notices; do not reduce a binary inventory to this source-license label. |
+| HTTPX / API validation | [BSD-3-Clause](https://github.com/encode/httpx/blob/master/LICENSE.md) | Test/development dependency unless runtime use is added. |
+| pytest / tests | [MIT](https://github.com/pytest-dev/pytest/blob/main/LICENSE) | Development dependency; not vendored. |
+| Ruff / format and lint | [MIT with incorporated notices](https://github.com/astral-sh/ruff/blob/main/LICENSE) | Development binary; no implementation copied. |
+| Browser HTML/CSS/JavaScript | Original project source; browser APIs | No third-party charting library, font, CDN code, or design asset selected by this review. Audit any later addition. |
+| tkinter / optional simulation viewer | [Python standard-library wrapper](https://docs.python.org/3/library/tkinter.html); Tcl/Tk retains its incorporated runtime notices | Use the installed interpreter's optional module; no Tcl/Tk interpreter or binary is vendored. |
+| FFmpeg / optional video encoding | [Build-dependent LGPL/GPL terms](https://ffmpeg.org/legal.html) | The workstation's external executable is reported as a GPL build. Invoke the user-installed executable as an optional tool only; no executable, libraries, or FFmpeg source is bundled. This is separate from OpenCV's bundled LGPL FFmpeg component. |
+
+The dependency list above supports MIT for the project's own source, while dependencies retain their own terms. In particular, OpenCV wheels include an LGPL component, and the optional external FFmpeg executable is a GPL build; this source distribution republishes neither binary. Apache-2.0 components remain Apache-2.0; they are not converted to MIT. [Apache's own license](https://www.apache.org/licenses/LICENSE-2.0) defines its notice, modification, and patent terms.
+
+## Candidate environments and learning systems
+
+| Candidate | Inspected terms | Decision |
+| --- | --- | --- |
+| [alexzh3/hillclimbracing](https://github.com/alexzh3/hillclimbracing) | Repository declares GPL-3.0 and derivation from Code Bullet; LICENSE page retrieval failed, declaration visible in README | Literature only. Do not import or vendor code/models/assets into this MIT implementation. A future GPL component requires deliberate scope and distribution review. |
+| [Code-Bullet/Hill-Climb-Racing-AI](https://github.com/Code-Bullet/Hill-Climb-Racing-AI) | No license identified on the inspected repository landing page | No source or assets reused. Public visibility is not a reuse grant; absence on the landing page is not an exhaustive file audit. |
+| [0ql/AI-Hill-Climb-Racing](https://github.com/0ql/AI-Hill-Climb-Racing) | GPL-3.0 declared | Literature only; no code/assets reused. |
+| [FahzainAhmad/agent-hill-climb-supervised](https://github.com/FahzainAhmad/agent-hill-climb-supervised) | No license identified in inspected listing; linked dataset terms not audited | No source, demonstrations, or checkpoint reuse. Collect our own local trajectories. |
+| [Box2D](https://github.com/erincatto/box2d/blob/main/LICENSE) | Current upstream MIT | Permissive candidate engine; no source copied. Version, wrapper, and binary dependency inventory must match the actual selection. |
+| [pybox2d](https://github.com/pybox2d/pybox2d/blob/master/LICENSE) | Zlib, including historical C++/Python notices | Permissive candidate binding. Preserve notices and mark altered sources; do not describe this older binding as current Box2D under MIT. |
+| [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3/blob/master/LICENSE) | MIT | Eligible external comparator; importing the package is preferable to copying implementations. |
+| [SB3 Contrib](https://github.com/Stable-Baselines-Team/stable-baselines3-contrib/blob/master/LICENSE) | MIT | Eligible recurrent comparator; not vendored. |
+| [PufferLib](https://github.com/PufferAI/PufferLib/blob/4.0/LICENSE) | MIT | Eligible framework candidate; inspect selected environment extras and native vendor dependencies if adopted. |
+| [DreamerV3](https://github.com/danijar/dreamerv3) | MIT declared by official repository | Eligible later candidate; not installed or copied by this review; JAX/backend distribution needs its own inventory. |
+
+## Distribution boundary and refresh rule
+
+The repository license covers original code and original documentation. It grants no rights in Hill Climb Racing, Fingersoft branding, Google Play Games, screenshots, advertisements, or other third-party content. Local captures are experimental records and remain excluded from ordinary Git distribution. Using an ordinary screen/input interface does not change the game's license.
+
+Keep package versions, wheel/source provenance, and license-file hashes with each release's environment record. Preserve dependency notices with any bundled binary release. For source-only distribution, dependencies are declared rather than republished inside the source tree. Recheck this inventory when a major dependency, framework extra, pretrained model, copied code fragment, font, or asset is added. The [upstream explanation of unlicensed repositories](https://choosealicense.com/no-permission/) supports the conservative no-reuse choice for candidates without a verified grant.
+
+The [installed environment snapshot](installed-license-snapshot.json) records actual distribution versions, available license-file hashes, and the hash of `requirements-lock.txt`. Missing metadata stays null, not an inferred license. Mutable upstream links support this review's date; the snapshot improves traceability but is not a complete binary-component software bill of materials.
+
+For the newly installed capture dependencies, the inspected MSS license SHA-256 is `479b38354134f96c0b5f84e5449ae3497c1c585594bcca48a1164e8b819c8c38`; OpenCV's MIT packaging license is `edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107`, and its complete third-party notice file is `c1d60169b55cee56452b227c2fd2a7b9ddda3dd3741065f1c6201072be73fadb`. These hashes identify installed license files, not downloaded wheel hashes.

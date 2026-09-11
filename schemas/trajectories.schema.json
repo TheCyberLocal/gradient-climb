@@ -1,0 +1,109 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "episode_id": {
+      "title": "Episode Id",
+      "type": "string"
+    },
+    "step": {
+      "minimum": 0,
+      "title": "Step",
+      "type": "integer"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "elapsed_seconds": {
+      "minimum": 0,
+      "title": "Elapsed Seconds",
+      "type": "number"
+    },
+    "gas": {
+      "title": "Gas",
+      "type": "boolean"
+    },
+    "brake": {
+      "title": "Brake",
+      "type": "boolean"
+    },
+    "action_duration_seconds": {
+      "minimum": 0,
+      "title": "Action Duration Seconds",
+      "type": "number"
+    },
+    "observation": {
+      "additionalProperties": true,
+      "title": "Observation",
+      "type": "object"
+    },
+    "reward": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reward"
+    },
+    "terminated": {
+      "default": false,
+      "title": "Terminated",
+      "type": "boolean"
+    },
+    "truncated": {
+      "default": false,
+      "title": "Truncated",
+      "type": "boolean"
+    },
+    "termination_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Termination Reason"
+    },
+    "frame_artifact_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Frame Artifact Id"
+    }
+  },
+  "required": [
+    "run_id",
+    "episode_id",
+    "step",
+    "timestamp",
+    "elapsed_seconds",
+    "gas",
+    "brake",
+    "action_duration_seconds"
+  ],
+  "title": "TrajectoryRecord",
+  "type": "object"
+}

@@ -1,0 +1,73 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "experiment_id": {
+      "minLength": 1,
+      "title": "Experiment Id",
+      "type": "string"
+    },
+    "hypothesis_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Hypothesis Id"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "independent_variables": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Independent Variables",
+      "type": "array"
+    },
+    "dependent_variables": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Dependent Variables",
+      "type": "array"
+    },
+    "controls": {
+      "additionalProperties": true,
+      "title": "Controls",
+      "type": "object"
+    },
+    "success_criterion": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Success Criterion"
+    },
+    "governed": {
+      "default": false,
+      "title": "Governed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "experiment_id",
+    "description"
+  ],
+  "title": "ExperimentRecord",
+  "type": "object"
+}

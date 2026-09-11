@@ -1,0 +1,217 @@
+{
+  "$defs": {
+    "ObservationLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "source_artifact_id": {
+          "title": "Source Artifact Id",
+          "type": "string"
+        },
+        "source_path_relative_to_run": {
+          "title": "Source Path Relative To Run",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "source_filename": {
+          "title": "Source Filename",
+          "type": "string"
+        },
+        "source_session_id": {
+          "title": "Source Session Id",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/UIState"
+        },
+        "substate": {
+          "title": "Substate",
+          "type": "string"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "exclusiveMinimum": 0,
+          "title": "Height",
+          "type": "integer"
+        },
+        "captured_at": {
+          "default": null,
+          "title": "Captured At",
+          "type": "null"
+        },
+        "action_state": {
+          "default": null,
+          "title": "Action State",
+          "type": "null"
+        },
+        "split": {
+          "const": "prototype_train",
+          "default": "prototype_train",
+          "title": "Split",
+          "type": "string"
+        },
+        "legitimate_ad_close": {
+          "const": false,
+          "default": false,
+          "title": "Legitimate Ad Close",
+          "type": "boolean"
+        },
+        "restart_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Restart Authorized",
+          "type": "boolean"
+        },
+        "annotation_basis": {
+          "title": "Annotation Basis",
+          "type": "string"
+        },
+        "template_bbox_pixels": {
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Template Bbox Pixels",
+          "type": "array"
+        },
+        "template_artifact_id": {
+          "title": "Template Artifact Id",
+          "type": "string"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "observation_id",
+        "source_artifact_id",
+        "source_path_relative_to_run",
+        "source_sha256",
+        "source_filename",
+        "source_session_id",
+        "state",
+        "substate",
+        "width",
+        "height",
+        "annotation_basis",
+        "template_bbox_pixels",
+        "template_artifact_id",
+        "notes"
+      ],
+      "title": "ObservationLabel",
+      "type": "object"
+    },
+    "UIState": {
+      "enum": [
+        "main_menu",
+        "selection",
+        "starting",
+        "playing",
+        "paused",
+        "game_over",
+        "result",
+        "advertisement",
+        "return",
+        "unexpected"
+      ],
+      "title": "UIState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "discovery-observations-1",
+      "default": "discovery-observations-1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_id": {
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "evidence_domain": {
+      "const": "real_game_discovery",
+      "default": "real_game_discovery",
+      "title": "Evidence Domain",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "source_session_count": {
+      "const": 1,
+      "default": 1,
+      "title": "Source Session Count",
+      "type": "integer"
+    },
+    "independent_heldout_images": {
+      "const": 0,
+      "default": 0,
+      "title": "Independent Heldout Images",
+      "type": "integer"
+    },
+    "measured_generalization_accuracy": {
+      "default": null,
+      "title": "Measured Generalization Accuracy",
+      "type": "null"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/ObservationLabel"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Observations",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "run_id",
+    "created_at",
+    "observations",
+    "limitations"
+  ],
+  "title": "DiscoveryDataset",
+  "type": "object"
+}

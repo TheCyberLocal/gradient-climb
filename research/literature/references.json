@@ -1,0 +1,468 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-09-11",
+  "scope": "Focused primary-source architecture review; not an exhaustive systematic review. Sources read at abstract/README/documentation level unless explicitly noted. No external implementation was copied.",
+  "references": [
+    {
+      "id": "LIT-001",
+      "title": "Hill Climb Racing — Gymnasium RL Environment",
+      "authors": [
+        "alexzh3 project"
+      ],
+      "source": "Author-maintained GitHub repository",
+      "url": "https://github.com/alexzh3/hillclimbracing",
+      "year": null,
+      "license": "GPL-3.0 (repository declaration); original assets and upstream provenance not cleared",
+      "key_idea": "An HCR-like Box2D/Gymnasium environment with PPO baselines and comparisons of action and reward designs.",
+      "relevance": "An existing baseline design and a warning that reward improvements can favor slow wheel motion rather than useful progress.",
+      "reuse": "Literature comparison only; no source, sprites, datasets, or checkpoints reused.",
+      "limitations": "The discrete three-action and scalar motor-speed spaces omit independently held simultaneous pedals. Reported simulator scores do not establish transfer or one-hour real-game competence."
+    },
+    {
+      "id": "LIT-002",
+      "title": "Hill-Climb-Racing-AI",
+      "authors": [
+        "Code Bullet project"
+      ],
+      "source": "Author-maintained GitHub repository",
+      "url": "https://github.com/Code-Bullet/Hill-Climb-Racing-AI",
+      "year": null,
+      "license": "No repository license identified in the inspected landing page; reuse permission unverified",
+      "key_idea": "Neuroevolution applied to a browser hill-climbing game recreation.",
+      "relevance": "Motivates an evolutionary comparison and a separately rendered simulation.",
+      "reuse": "Conceptual review only; no code or media reused.",
+      "limitations": "A clone is not the installed commercial game. No reviewed evidence establishes calibrated dynamics, independent pedals, or governed transfer."
+    },
+    {
+      "id": "LIT-003",
+      "title": "AI-Hill-Climb-Racing",
+      "authors": [
+        "0ql project"
+      ],
+      "source": "Author-maintained GitHub repository",
+      "url": "https://github.com/0ql/AI-Hill-Climb-Racing",
+      "year": null,
+      "license": "GPL-3.0 (repository declaration)",
+      "key_idea": "NEAT evolves controllers in a Matter.js browser clone.",
+      "relevance": "Provides another example of derivative-free policy search on cheap simulation.",
+      "reuse": "No implementation or assets reused.",
+      "limitations": "Its physics and observations are not validated against the installed game; GPL code is not included in the MIT implementation."
+    },
+    {
+      "id": "LIT-004",
+      "title": "Hill Climb Racing AI — Vision-Based Driving Agent",
+      "authors": [
+        "FahzainAhmad project"
+      ],
+      "source": "Author-maintained GitHub repository",
+      "url": "https://github.com/FahzainAhmad/agent-hill-climb-supervised",
+      "year": null,
+      "license": "No repository license identified in inspected landing page; external dataset rights not audited",
+      "key_idea": "Behavioral cloning predicts driving inputs from labeled 64×64 gameplay frames.",
+      "relevance": "Shows a screen-observation pathway and motivates a small visual imitation baseline using our own recorded actions.",
+      "reuse": "No source, dataset, model, or footage reused.",
+      "limitations": "Three labels exclude simultaneous pedals. HUD masking removes useful fuel information. Random frame splitting could leak temporally adjacent samples; independent episode splits are required here."
+    },
+    {
+      "id": "LIT-005",
+      "title": "Proximal Policy Optimization Algorithms",
+      "authors": [
+        "John Schulman",
+        "Filip Wolski",
+        "Prafulla Dhariwal",
+        "Alec Radford",
+        "Oleg Klimov"
+      ],
+      "source": "Author paper, arXiv",
+      "url": "https://arxiv.org/abs/1707.06347",
+      "doi": "10.48550/arXiv.1707.06347",
+      "year": 2017,
+      "license": "Paper cited only; no third-party code license relied upon",
+      "key_idea": "A clipped policy objective permits multiple minibatch optimization epochs per on-policy rollout.",
+      "relevance": "A relatively compact, measurable initial policy learner.",
+      "reuse": "Published equations inform an original implementation; no implementation copied.",
+      "limitations": "PPO clipping does not guarantee improvement. Collection cost, optimization cost, and reward design remain workload dependent."
+    },
+    {
+      "id": "LIT-006",
+      "title": "High-Dimensional Continuous Control Using Generalized Advantage Estimation",
+      "authors": [
+        "John Schulman",
+        "Philipp Moritz",
+        "Sergey Levine",
+        "Michael Jordan",
+        "Pieter Abbeel"
+      ],
+      "source": "Author paper, arXiv",
+      "url": "https://arxiv.org/abs/1506.02438",
+      "doi": "10.48550/arXiv.1506.02438",
+      "year": 2015,
+      "license": "Paper cited only; no code reused",
+      "key_idea": "Exponentially weighted temporal-difference residuals trade advantage-estimate variance against bias.",
+      "relevance": "Defines the advantage estimator for the PPO baseline.",
+      "reuse": "Published algorithmic idea only.",
+      "limitations": "Discount and trace parameters alter the effective horizon. True terminal states and time-limit truncations require different bootstrap handling."
+    },
+    {
+      "id": "LIT-007",
+      "title": "Stable-Baselines3: Reliable Reinforcement Learning Implementations",
+      "authors": [
+        "Antonin Raffin",
+        "Ashley Hill",
+        "Adam Gleave",
+        "Anssi Kanervisto",
+        "Maximilian Ernestus",
+        "Noah Dormann"
+      ],
+      "source": "JMLR 22(268):1–8; official library documentation",
+      "url": "https://jmlr.org/papers/v22/20-1364.html",
+      "additional_urls": [
+        "https://stable-baselines3.readthedocs.io/en/v2.8.0/modules/ppo.html",
+        "https://github.com/DLR-RM/stable-baselines3/blob/master/LICENSE"
+      ],
+      "year": 2021,
+      "license": "MIT (library)",
+      "key_idea": "Consistent, tested PyTorch RL implementations with established environment interfaces.",
+      "relevance": "External algorithm reference and potential baseline; official PPO documentation supports MultiBinary and recommends testing frame stacking before recurrence.",
+      "reuse": "No copied source; install as an optional comparator only if included in the actual dependency manifest.",
+      "limitations": "Default vector wrappers and small-network GPU use may not maximize this host's throughput. Runtime measurements decide."
+    },
+    {
+      "id": "LIT-008",
+      "title": "Recurrent PPO — Stable Baselines3 Contrib",
+      "authors": [
+        "Stable-Baselines Team"
+      ],
+      "source": "Official project documentation",
+      "url": "https://sb3-contrib.readthedocs.io/en/master/modules/ppo_recurrent.html",
+      "additional_urls": [
+        "https://github.com/Stable-Baselines-Team/stable-baselines3-contrib/blob/master/LICENSE"
+      ],
+      "year": null,
+      "license": "MIT (library)",
+      "key_idea": "PPO with LSTM state carried through sequences and reset by episode-start masks.",
+      "relevance": "A reproducible recurrent comparator for partially observed vehicle dynamics.",
+      "reuse": "Documentation informs interface tests; no implementation copied.",
+      "limitations": "Sequence batching, hidden-state reset, and evaluation state handling add complexity. Recurrence must beat stacked observations at equal elapsed training time."
+    },
+    {
+      "id": "LIT-009",
+      "title": "Gymnasium vector environments",
+      "authors": [
+        "Farama Foundation"
+      ],
+      "source": "Official documentation and repository",
+      "url": "https://gymnasium.farama.org/api/vector/",
+      "additional_urls": [
+        "https://github.com/Farama-Foundation/Gymnasium/blob/main/LICENSE"
+      ],
+      "year": null,
+      "license": "MIT",
+      "key_idea": "Standard single/vector environment contracts separate policy learning from simulation.",
+      "relevance": "A stable interface for seeded reset, observations, actions, terminal flags, and batching.",
+      "reuse": "Package dependency and API contract; no vendored source.",
+      "limitations": "Autoreset conventions differ across libraries. Preserve final observations and test masks explicitly before training."
+    },
+    {
+      "id": "LIT-010",
+      "title": "Box2D and pybox2d",
+      "authors": [
+        "Erin Catto",
+        "Ken Lauer",
+        "Box2D contributors"
+      ],
+      "source": "Official upstream repositories",
+      "url": "https://github.com/erincatto/box2d",
+      "additional_urls": [
+        "https://github.com/erincatto/box2d/blob/main/LICENSE",
+        "https://github.com/pybox2d/pybox2d",
+        "https://github.com/pybox2d/pybox2d/blob/master/LICENSE"
+      ],
+      "year": null,
+      "license": "Current Box2D: MIT; inspected pybox2d: Zlib",
+      "key_idea": "Rigid bodies, contact handling, and joints provide a general basis for vehicle simulation.",
+      "relevance": "Candidate replacement if measured errors implicate suspension or collision dynamics in a simplified original model.",
+      "reuse": "Not adopted by this review; no source copied.",
+      "limitations": "Current Box2D and historical Python bindings are distinct versions with different APIs/licenses. Neither supplies calibrated HCR behavior automatically."
+    },
+    {
+      "id": "LIT-011",
+      "title": "PufferLib: Making Reinforcement Learning Libraries and Environments Play Nice",
+      "authors": [
+        "Joseph Suarez"
+      ],
+      "source": "Author paper and official repository",
+      "url": "https://arxiv.org/abs/2406.12905",
+      "doi": "10.48550/arXiv.2406.12905",
+      "additional_urls": [
+        "https://github.com/PufferAI/PufferLib",
+        "https://github.com/PufferAI/PufferLib/blob/4.0/LICENSE",
+        "https://puffer.ai/docs.html"
+      ],
+      "year": 2024,
+      "license": "MIT (library)",
+      "key_idea": "Environment compatibility wrappers and efficient vectorization reduce training-system overhead.",
+      "relevance": "Candidate throughput framework once profiling establishes a collection bottleneck.",
+      "reuse": "Review only; no framework implementation copied.",
+      "limitations": "The 2024 paper and the current 4.0 repository are different revisions. Published throughput is not a measured Windows/HCR result; native build feasibility is unverified."
+    },
+    {
+      "id": "LIT-012",
+      "title": "Sample Factory: Egocentric 3D Control from Pixels at 100000 FPS with Asynchronous Reinforcement Learning",
+      "authors": [
+        "Aleksei Petrenko",
+        "Zhehui Huang",
+        "Tushar Kumar",
+        "Gaurav Sukhatme",
+        "Vladlen Koltun"
+      ],
+      "source": "ICML 2020 author paper",
+      "url": "https://arxiv.org/abs/2006.11751",
+      "doi": "10.48550/arXiv.2006.11751",
+      "year": 2020,
+      "license": "Paper cited only; code license not audited because no code selected",
+      "key_idea": "Decouple collection and learning while controlling off-policy lag to use one machine efficiently.",
+      "relevance": "Explains why larger process counts alone may fail and why learner utilization and policy lag should be recorded.",
+      "reuse": "Systems ideas only.",
+      "limitations": "Asynchrony changes algorithm behavior and adds correctness costs. Its headline frame rate cannot be transferred to this simulator."
+    },
+    {
+      "id": "LIT-013",
+      "title": "Asymmetric Actor Critic for Image-Based Robot Learning",
+      "authors": [
+        "Lerrel Pinto",
+        "Marcin Andrychowicz",
+        "Peter Welinder",
+        "Wojciech Zaremba",
+        "Pieter Abbeel"
+      ],
+      "source": "Author paper, RSS/arXiv",
+      "url": "https://arxiv.org/abs/1710.06542",
+      "doi": "10.48550/arXiv.1710.06542",
+      "year": 2017,
+      "license": "Paper cited only; no code reused",
+      "key_idea": "Train the critic with simulator state while restricting the actor to deployable image observations.",
+      "relevance": "Privileged values may improve learning without making the deployed policy depend on unavailable state.",
+      "reuse": "Architecture idea for a planned ablation only.",
+      "limitations": "An actor receiving true simulator velocity, contact flags, or hidden vehicle parameters is still privileged unless a validated pixel/history estimator supplies them."
+    },
+    {
+      "id": "LIT-014",
+      "title": "Policy Distillation",
+      "authors": [
+        "Andrei A. Rusu",
+        "Sergio Gomez Colmenarejo",
+        "Caglar Gulcehre",
+        "Guillaume Desjardins",
+        "James Kirkpatrick",
+        "Razvan Pascanu",
+        "Volodymyr Mnih",
+        "Koray Kavukcuoglu",
+        "Raia Hadsell"
+      ],
+      "source": "Author paper, ICLR/arXiv",
+      "url": "https://arxiv.org/abs/1511.06295",
+      "doi": "10.48550/arXiv.1511.06295",
+      "year": 2015,
+      "license": "Paper cited only; no code reused",
+      "key_idea": "Transfer a trained policy into a smaller student or consolidate multiple teachers.",
+      "relevance": "Potentially reduce real-game inference time and provide vision training targets from a privileged simulator teacher.",
+      "reuse": "Planned experimental idea only.",
+      "limitations": "Student learning, teacher generation, and any demonstration collection consume time/prior data and must be accounted for. Teacher-state coverage may not cover student mistakes."
+    },
+    {
+      "id": "LIT-015",
+      "title": "Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World",
+      "authors": [
+        "Josh Tobin",
+        "Rachel Fong",
+        "Alex Ray",
+        "Jonas Schneider",
+        "Wojciech Zaremba",
+        "Pieter Abbeel"
+      ],
+      "source": "Author paper, IROS/arXiv",
+      "url": "https://arxiv.org/abs/1703.06907",
+      "doi": "10.48550/arXiv.1703.06907",
+      "year": 2017,
+      "license": "Paper cited only; no assets/code reused",
+      "key_idea": "Vary rendered scenes so a visual model does not depend on one simulated appearance.",
+      "relevance": "Motivates bounded appearance/noise randomization for synthetic perception labels.",
+      "reuse": "Idea only.",
+      "limitations": "Object-localization transfer does not establish vehicle-control transfer. HCR artwork is not licensed by this paper."
+    },
+    {
+      "id": "LIT-016",
+      "title": "Sim-to-Real Transfer of Robotic Control with Dynamics Randomization",
+      "authors": [
+        "Xue Bin Peng",
+        "Marcin Andrychowicz",
+        "Wojciech Zaremba",
+        "Pieter Abbeel"
+      ],
+      "source": "Author paper, arXiv",
+      "url": "https://arxiv.org/abs/1710.06537",
+      "doi": "10.48550/arXiv.1710.06537",
+      "year": 2017,
+      "license": "Paper cited only; no code reused",
+      "key_idea": "Vary simulated physical parameters during training to improve robustness to model mismatch.",
+      "relevance": "Compare a fixed calibrated model with physically bounded parameter distributions.",
+      "reuse": "Published idea; any implementation is original.",
+      "limitations": "Randomization is not calibration. Unbounded or implausible parameter ranges may slow learning or encourage conservative behavior."
+    },
+    {
+      "id": "LIT-017",
+      "title": "Preparing for the Unknown: Learning a Universal Policy with Online System Identification",
+      "authors": [
+        "Wenhao Yu",
+        "Jie Tan",
+        "C. Karen Liu",
+        "Greg Turk"
+      ],
+      "source": "Author paper, RSS/arXiv",
+      "url": "https://arxiv.org/abs/1702.02453",
+      "doi": "10.48550/arXiv.1702.02453",
+      "year": 2017,
+      "license": "Paper cited only; no code reused",
+      "key_idea": "Condition a broadly trained policy on dynamics parameters inferred from recent state/action history.",
+      "relevance": "An interpretable starting point for adapting to vehicle changes.",
+      "reuse": "Planned architecture idea only.",
+      "limitations": "Different physical parameters can produce similar short visual trajectories. Identification uncertainty and held-out vehicle testing matter."
+    },
+    {
+      "id": "LIT-018",
+      "title": "RMA: Rapid Motor Adaptation for Legged Robots",
+      "authors": [
+        "Ashish Kumar",
+        "Zipeng Fu",
+        "Deepak Pathak",
+        "Jitendra Malik"
+      ],
+      "source": "Author paper, RSS/arXiv",
+      "url": "https://arxiv.org/abs/2107.04034",
+      "doi": "10.48550/arXiv.2107.04034",
+      "year": 2021,
+      "license": "Paper cited only; code license not audited because no code reused",
+      "key_idea": "A base policy uses an environment representation estimated online by a separate adaptation module.",
+      "relevance": "Compare latent history context against explicit vehicle IDs and full recurrent policies.",
+      "reuse": "Planned research idea only.",
+      "limitations": "Robot results do not imply HCR performance. Rapid test-time adaptation relies on prior simulator training whose full cost must remain visible."
+    },
+    {
+      "id": "LIT-019",
+      "title": "RL²: Fast Reinforcement Learning via Slow Reinforcement Learning",
+      "authors": [
+        "Yan Duan",
+        "John Schulman",
+        "Xi Chen",
+        "Peter L. Bartlett",
+        "Ilya Sutskever",
+        "Pieter Abbeel"
+      ],
+      "source": "Author paper, arXiv",
+      "url": "https://arxiv.org/abs/1611.02779",
+      "doi": "10.48550/arXiv.1611.02779",
+      "year": 2016,
+      "license": "Paper cited only; no code reused",
+      "key_idea": "A recurrent policy learns an adaptation procedure through task-distributed training and retained within-task memory.",
+      "relevance": "Conceptual comparison for adaptation from observations, actions, rewards, and terminations.",
+      "reuse": "Review only.",
+      "limitations": "Do not call an ordinary recurrent PPO model meta-RL. Task distributions, cross-episode memory rules, and slow pretraining must be specified."
+    },
+    {
+      "id": "LIT-020",
+      "title": "World Models",
+      "authors": [
+        "David Ha",
+        "Jürgen Schmidhuber"
+      ],
+      "source": "Author paper, arXiv",
+      "url": "https://arxiv.org/abs/1803.10122",
+      "doi": "10.48550/arXiv.1803.10122",
+      "year": 2018,
+      "license": "Paper cited only; no model/code reused",
+      "key_idea": "Learn compact visual and temporal latent representations, then train a compact controller using them.",
+      "relevance": "Alternative if raw visual dynamics become the dominant data-efficiency bottleneck.",
+      "reuse": "Review only.",
+      "limitations": "Latent reconstruction fidelity need not preserve task-critical failures; model training and data collection costs count against the budget."
+    },
+    {
+      "id": "LIT-021",
+      "title": "Mastering Diverse Domains through World Models (DreamerV3)",
+      "authors": [
+        "Danijar Hafner",
+        "Jurgis Pasukonis",
+        "Jimmy Ba",
+        "Timothy Lillicrap"
+      ],
+      "source": "Author preprint and official implementation",
+      "url": "https://arxiv.org/abs/2301.04104",
+      "doi": "10.48550/arXiv.2301.04104",
+      "additional_urls": [
+        "https://github.com/danijar/dreamerv3"
+      ],
+      "year": 2023,
+      "license": "MIT (official implementation); no reuse in initial stack",
+      "key_idea": "Learn a world model and optimize an actor-critic with imagined trajectories across varied domains.",
+      "relevance": "A model-based candidate when real experience is expensive enough to justify greater learner compute.",
+      "reuse": "Review only; no JAX implementation copied or installed by this review.",
+      "limitations": "No evidence here establishes a one-hour HCR advantage. Compare total elapsed time including model learning, warm-up, evaluation, and prior data; the repository also cites a later Nature publication."
+    },
+    {
+      "id": "LIT-022",
+      "title": "Curriculum Learning",
+      "authors": [
+        "Yoshua Bengio",
+        "Jérôme Louradour",
+        "Ronan Collobert",
+        "Jason Weston"
+      ],
+      "source": "Author-hosted ICML 2009 paper",
+      "url": "https://ronan.collobert.com/pub/matos/2009_curriculum_icml.pdf",
+      "doi": "10.1145/1553374.1553380",
+      "year": 2009,
+      "license": "Paper cited only; no code/content reproduced",
+      "key_idea": "Order training examples by difficulty to influence optimization and generalization.",
+      "relevance": "Compare easy-to-hard terrain scheduling against training directly on the fixed target distribution.",
+      "reuse": "Idea only.",
+      "limitations": "Curriculum quality must be evaluated on unchanged held-out targets. An easier training distribution can create apparent improvement without competence gains."
+    },
+    {
+      "id": "LIT-023",
+      "title": "Evolving Neural Networks through Augmenting Topologies",
+      "authors": [
+        "Kenneth O. Stanley",
+        "Risto Miikkulainen"
+      ],
+      "source": "Author-hosted Evolutionary Computation 10(2), 2002 paper",
+      "url": "https://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf",
+      "doi": "10.1162/106365602320169811",
+      "year": 2002,
+      "license": "Paper cited only; implementation license not used",
+      "key_idea": "Evolve network structure and weights using historical markings, speciation, and gradual complexity growth.",
+      "relevance": "Motivates a derivative-free competitor to gradient learning.",
+      "reuse": "Review only.",
+      "limitations": "A fixed-topology evolution-strategy or cross-entropy baseline must not be labeled NEAT. Population evaluation may consume substantial experience."
+    },
+    {
+      "id": "LIT-024",
+      "title": "Deep Reinforcement Learning at the Edge of the Statistical Precipice",
+      "authors": [
+        "Rishabh Agarwal",
+        "Max Schwarzer",
+        "Pablo Samuel Castro",
+        "Aaron Courville",
+        "Marc G. Bellemare"
+      ],
+      "source": "Author paper, NeurIPS/arXiv",
+      "url": "https://arxiv.org/abs/2108.13264",
+      "doi": "10.48550/arXiv.2108.13264",
+      "year": 2021,
+      "license": "Paper cited only; no rliable code reused",
+      "key_idea": "Account for uncertainty and robust aggregate performance when evaluating stochastic RL.",
+      "relevance": "Use multiple training seeds, intervals, and matched evaluation conditions before claiming algorithm superiority.",
+      "reuse": "Methodological guidance only.",
+      "limitations": "Many episodes from one trained policy do not replace independent training seeds. Small seed counts warrant exploratory language."
+    }
+  ]
+}

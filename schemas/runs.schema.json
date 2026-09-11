@@ -1,0 +1,516 @@
+{
+  "$defs": {
+    "ArtifactRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "kind": {
+          "minLength": 1,
+          "title": "Kind",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "kind",
+        "run_id",
+        "path",
+        "size_bytes",
+        "sha256",
+        "created_at"
+      ],
+      "title": "ArtifactRecord",
+      "type": "object"
+    },
+    "EvaluationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "evaluation_id": {
+          "title": "Evaluation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "timestamp": {
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "elapsed_seconds": {
+          "minimum": 0,
+          "title": "Elapsed Seconds",
+          "type": "number"
+        },
+        "environment": {
+          "title": "Environment",
+          "type": "string"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        },
+        "episodes": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Episodes",
+          "type": "integer"
+        },
+        "results": {
+          "additionalProperties": true,
+          "title": "Results",
+          "type": "object"
+        },
+        "protocol": {
+          "default": "exploratory",
+          "title": "Protocol",
+          "type": "string"
+        },
+        "checkpoint_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checkpoint Hash"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "evaluation_id",
+        "run_id",
+        "timestamp",
+        "elapsed_seconds",
+        "environment",
+        "results"
+      ],
+      "title": "EvaluationRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "experiment_id": {
+      "minLength": 1,
+      "title": "Experiment Id",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "running",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "start_time": {
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End Time"
+    },
+    "duration": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duration"
+    },
+    "git_sha": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Git Sha"
+    },
+    "dirty_worktree": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dirty Worktree"
+    },
+    "source_diff_sha256": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Diff Sha256"
+    },
+    "project_version": {
+      "title": "Project Version",
+      "type": "string"
+    },
+    "machine_fingerprint": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Machine Fingerprint",
+      "type": "string"
+    },
+    "cpu": {
+      "title": "Cpu",
+      "type": "string"
+    },
+    "gpu": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Gpu",
+      "type": "array"
+    },
+    "ram": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ram"
+    },
+    "driver": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Driver"
+    },
+    "cuda": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cuda"
+    },
+    "hardware": {
+      "additionalProperties": true,
+      "title": "Hardware",
+      "type": "object"
+    },
+    "python_version": {
+      "title": "Python Version",
+      "type": "string"
+    },
+    "framework_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Framework Versions",
+      "type": "object"
+    },
+    "algorithm": {
+      "title": "Algorithm",
+      "type": "string"
+    },
+    "algorithm_version": {
+      "default": "1",
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "policy_architecture": {
+      "additionalProperties": true,
+      "title": "Policy Architecture",
+      "type": "object"
+    },
+    "configuration": {
+      "additionalProperties": true,
+      "title": "Configuration",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "environment": {
+      "title": "Environment",
+      "type": "string"
+    },
+    "environment_version": {
+      "default": "1",
+      "title": "Environment Version",
+      "type": "string"
+    },
+    "simulator_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Simulator Version"
+    },
+    "calibration_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calibration Version"
+    },
+    "vehicle_profile": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Vehicle Profile"
+    },
+    "map_profile": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Map Profile"
+    },
+    "seed": {
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "parent_checkpoint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Checkpoint"
+    },
+    "parent_run": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Run"
+    },
+    "training_steps": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Training Steps",
+      "type": "integer"
+    },
+    "environment_steps": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Environment Steps",
+      "type": "integer"
+    },
+    "episodes": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Episodes",
+      "type": "integer"
+    },
+    "optimizer_updates": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Optimizer Updates",
+      "type": "integer"
+    },
+    "wall_clock_seconds": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Wall Clock Seconds",
+      "type": "number"
+    },
+    "environment_steps_per_second": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Environment Steps Per Second",
+      "type": "number"
+    },
+    "evaluation_results": {
+      "items": {
+        "$ref": "#/$defs/EvaluationRecord"
+      },
+      "title": "Evaluation Results",
+      "type": "array"
+    },
+    "artifact_manifest": {
+      "items": {
+        "$ref": "#/$defs/ArtifactRecord"
+      },
+      "title": "Artifact Manifest",
+      "type": "array"
+    },
+    "checkpoint_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Checkpoint Hash"
+    },
+    "summary": {
+      "additionalProperties": true,
+      "title": "Summary",
+      "type": "object"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id",
+    "experiment_id",
+    "status",
+    "start_time",
+    "project_version",
+    "machine_fingerprint",
+    "cpu",
+    "python_version",
+    "algorithm",
+    "configuration",
+    "config_sha256",
+    "environment",
+    "seed"
+  ],
+  "title": "RunRecord",
+  "type": "object"
+}

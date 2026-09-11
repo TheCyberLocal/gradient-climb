@@ -1,0 +1,31 @@
+{
+  "protocol_version": "surrogate-ablations-0.1",
+  "status": "PROPOSED_NOT_RUN",
+  "evidence_domain": "uncalibrated_simulator",
+  "qualifies_real_game": false,
+  "registered_before_execution": true,
+  "question": "Which components improve held-out control quality per actual training second?",
+  "training_seeds": [10, 11, 12],
+  "validation_seeds": {"start_inclusive": 10000, "end_exclusive": 10020},
+  "final_test_seeds": {"start_inclusive": 20000, "end_exclusive": 20020, "use_after_selection_only": true},
+  "requested_seconds_per_run": 300,
+  "base_config": {
+    "num_envs": 256, "device": "cpu", "torch_threads": 1,
+    "hidden_size": 64, "stack": 4, "rollout_steps": 128,
+    "minibatch_size": 512, "epochs": 4, "learning_rate": 0.0003,
+    "gamma": 0.99, "gae_lambda": 0.95, "clip_coef": 0.2,
+    "entropy_coef": 0.01, "profile": "default", "terrain": "train",
+    "randomization": false, "max_steps": 1000, "log_interval": 5,
+    "checkpoint_times": [60, 120, 300]
+  },
+  "conditions": [
+    {"id": "reference", "overrides": {}, "status": "PROPOSED_NOT_RUN"},
+    {"id": "two_optimizer_epochs", "overrides": {"epochs": 2}, "status": "PROPOSED_NOT_RUN", "hypothesis": "Fewer optimizer passes increase useful experience per second enough to retain or improve validation distance."},
+    {"id": "single_frame", "overrides": {"stack": 1}, "status": "PROPOSED_NOT_RUN", "hypothesis": "Removing stacked history changes control quality and training cost; current-frame velocities and previous pedals remain available."},
+    {"id": "domain_randomization", "overrides": {"randomization": true}, "status": "PROPOSED_NOT_RUN", "hypothesis": "Training with dynamics perturbations improves zero-shot held-out vehicle performance, potentially reducing source-map quality."}
+  ],
+  "controls": ["Each run starts with fresh weights and no parent checkpoint.", "Compare complete configurations under equal actual wall-clock budgets; initialization and checkpoint overhead are counted.", "Use the same seed set, source version, machine, evaluation horizon and held-out validation seeds.", "Run conditions sequentially; randomize condition order within each training seed and record the realized order.", "Do not run performance trials concurrently with the governed one-hour session."],
+  "outcomes": ["mean and median validation distance", "between-training-seed variability", "actual training seconds", "environment transitions", "optimizer updates", "held-out heavy/rough quality", "source-condition retention"],
+  "decision_rule": "Treat validation quality, variability and runtime jointly. Preserve unfavorable results. Three seeds are exploratory and do not justify broad statistical superiority claims.",
+  "scope_limit": "This factorial component screen does not establish pixel perception, calibrated dynamics or real-game transfer."
+}

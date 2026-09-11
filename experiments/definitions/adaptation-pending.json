@@ -1,0 +1,31 @@
+{
+  "protocol_version": "surrogate-adaptation-0.1",
+  "status": "PROPOSED_NOT_RUN",
+  "evidence_domain": "uncalibrated_simulator",
+  "qualifies_real_game": false,
+  "parent_checkpoint": null,
+  "parent_run": null,
+  "parent_selection_rule": "Use the preregistered governed source-policy checkpoint, identified by source run and SHA-256, rather than selecting an adaptation seed retrospectively.",
+  "benchmark_class": "generalist_adaptation",
+  "training_seeds": [43, 44, 45],
+  "requested_seconds": 3600,
+  "exposure_checkpoints_seconds": [300, 600, 1800, 3600],
+  "exposure_checkpoints_minutes": [5, 10, 30, 60],
+  "validation_seeds": {"start_inclusive": 10000, "end_exclusive": 10020},
+  "base_config": {
+    "num_envs": 256, "device": "cpu", "torch_threads": 1,
+    "hidden_size": 64, "stack": 4, "rollout_steps": 128,
+    "minibatch_size": 512, "epochs": 4, "learning_rate": 0.0003,
+    "gamma": 0.99, "gae_lambda": 0.95, "clip_coef": 0.2,
+    "entropy_coef": 0.01, "randomization": false, "max_steps": 1000,
+    "checkpoint_times": [300, 600, 1800, 3600], "log_interval": 5
+  },
+  "conditions": [
+    {"id": "new_vehicle", "profile": "heavy", "terrain": "train", "status": "PROPOSED_NOT_RUN"},
+    {"id": "new_map", "profile": "default", "terrain": "rough", "status": "PROPOSED_NOT_RUN"},
+    {"id": "new_vehicle_and_map", "profile": "heavy", "terrain": "rough", "status": "PROPOSED_NOT_RUN"}
+  ],
+  "evaluation_plan": ["Measure the declared parent checkpoint zero-shot on source default/train and all shifted conditions before adaptation.", "Warm-start weights and optimizer with explicit parent lineage; simulator state resets and the run is not an exact trajectory continuation.", "Evaluate each saved 5/10/30/60-minute checkpoint offline on both the adaptation target and default/train retention condition with identical evaluation seeds.", "Compute forgetting only when paired before/after source-condition evaluations exist for the declared parent/child checkpoints.", "Report adaptation exposure separately from all prior training time, samples and compute."],
+  "pending_reason": "Source checkpoint must be finalized and identified before execution. This file defines proposed work; it is not an execution record.",
+  "scope_limit": "Held-out synthetic vehicle/map parameters are not new commercial-game vehicles or maps. Real adaptation remains unmeasured."
+}

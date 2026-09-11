@@ -1,0 +1,110 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "elapsed_seconds": {
+      "minimum": 0,
+      "title": "Elapsed Seconds",
+      "type": "number"
+    },
+    "cpu_percent": {
+      "anyOf": [
+        {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cpu Percent"
+    },
+    "per_core_cpu_percent": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Per Core Cpu Percent",
+      "type": "array"
+    },
+    "ram_used_bytes": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ram Used Bytes"
+    },
+    "process_rss_bytes": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Process Rss Bytes"
+    },
+    "gpu_percent": {
+      "anyOf": [
+        {
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gpu Percent"
+    },
+    "vram_used_bytes": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Vram Used Bytes"
+    },
+    "measurements": {
+      "additionalProperties": true,
+      "title": "Measurements",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id",
+    "timestamp",
+    "elapsed_seconds"
+  ],
+  "title": "SystemTelemetryRecord",
+  "type": "object"
+}

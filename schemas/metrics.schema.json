@@ -1,0 +1,53 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "value": {
+      "title": "Value",
+      "type": "number"
+    },
+    "step": {
+      "minimum": 0,
+      "title": "Step",
+      "type": "integer"
+    },
+    "elapsed_seconds": {
+      "minimum": 0,
+      "title": "Elapsed Seconds",
+      "type": "number"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "dimensions": {
+      "additionalProperties": true,
+      "title": "Dimensions",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id",
+    "name",
+    "value",
+    "step",
+    "elapsed_seconds",
+    "timestamp"
+  ],
+  "title": "MetricRecord",
+  "type": "object"
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>GradientClimb · Research workspace</title>
+  <link rel="stylesheet" href="/dashboard.css">
+  <script src="/dashboard.js" defer></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="GradientClimb home"><span class="brand-symbol" aria-hidden="true">↗</span><span>GradientClimb<small>Adaptive control research</small></span></a>
+  <div class="nav-label">Research workspace</div>
+  <nav aria-label="Research views">
+    <button class="nav-button active" data-view="overview"><span aria-hidden="true">◈</span> Overview</button>
+    <button class="nav-button" data-view="runs"><span aria-hidden="true">▤</span> Runs & lineage</button>
+    <button class="nav-button" data-view="learning"><span aria-hidden="true">⌁</span> Learning & efficiency</button>
+    <button class="nav-button" data-view="benchmark"><span aria-hidden="true">◷</span> One-hour benchmark</button>
+    <button class="nav-button" data-view="transfer"><span aria-hidden="true">⇄</span> Transfer & adaptation</button>
+    <button class="nav-button" data-view="controls"><span aria-hidden="true">⎍</span> Controls & calibration</button>
+  </nav>
+  <div class="sidebar-bottom"><span class="live-dot"></span> Local experiment store<p>Hill Climb Racing is the first testbed.</p><a href="/docs" target="_blank" rel="noreferrer">API reference ↗</a></div>
+</aside>
+<main>
+  <header class="page-header"><div><div class="breadcrumb">Research / <span id="breadcrumb">Overview</span></div><h1 id="page-title">Learning, measured.</h1><p id="page-description">Track quality, experience and time from reproducible experiment records.</p></div><div class="header-actions"><span id="updated" class="muted"></span><button id="refresh" class="button">↻ Refresh</button><button id="export" class="button primary">Export view ↓</button></div></header>
+  <div class="filters" aria-label="Run filters">
+    <label>Algorithm<select id="algorithm"><option value="">All algorithms</option></select></label>
+    <label>Environment<select id="environment"><option value="">All environments</option></select></label>
+    <label>Status<select id="status"><option value="">All statuses</option></select></label>
+    <label>Vehicle<select id="vehicle"><option value="">All vehicles</option></select></label>
+    <label>Map<select id="map"><option value="">All maps</option></select></label>
+    <button id="reset" class="text-button">Reset filters</button>
+  </div>
+  <div id="error" class="error hidden" role="alert"></div>
+  <div id="loading" class="empty">Reading the experiment store…</div>
+  <div id="content" aria-live="polite"></div>
+  <footer><span id="source-status">Canonical experiment records · DuckDB / Parquet</span><span id="scope-status"></span></footer>
+</main>
+<dialog id="detail-dialog"><div class="dialog-header"><div><div class="eyebrow">Experiment detail</div><h2 id="detail-title"></h2></div><button id="close-detail" class="button" aria-label="Close experiment detail">Close ×</button></div><div id="detail-body"></div></dialog>
+</body>
+</html>
