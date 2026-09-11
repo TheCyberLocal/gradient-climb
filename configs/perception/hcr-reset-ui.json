@@ -499,6 +499,36 @@
       "controls": {},
       "matching": "white_glyph",
       "notes": "Meta Audience Network muted-speaker glyph at the top-left of the game area during the video phase; no control, so recognition only extends the bounded no-input advertisement wait. Observed in Whole Moon and Food City video phases and the Fingersoft commercial-break pre-roll."
+    },
+    {
+      "label": "admob_small_layout_skip",
+      "state": "advertisement",
+      "file": "runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/reset-030.png",
+      "sha256": "204bf7d7c801b33a964fcc9bb9d0a63c4cfb3870682edeba5581b66dce8caf0e",
+      "anchors": [
+        [
+          1010,
+          42,
+          1034,
+          66
+        ],
+        [
+          476,
+          273,
+          486,
+          283
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          1010,
+          42,
+          1034,
+          66
+        ]
+      },
+      "matching": "rgb",
+      "notes": "Google-served video interstitial rendered by the emulator as a small player in the top-left corner over a black letterbox, with a dim skip-forward glyph at the extreme top-right of the game area and a static marker below the player's bottom-right corner. Only the exact skip glyph patch is clickable, after two stable frames; the creative, its Install pill and the player are never controls."
     }
   ],
   "glyph_threshold": 0.9,

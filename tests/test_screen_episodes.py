@@ -194,9 +194,8 @@ def test_interrupt_retains_partial_episode_and_releases():
 
 
 def test_attempt_classification_uses_registered_vocabulary():
-    from types import SimpleNamespace
-
-    from run_screen_episodes import classify_attempt, terminal_cause
+    module = episode_module()
+    classify_attempt, terminal_cause = module.classify_attempt, module.terminal_cause
 
     paused = SimpleNamespace(state="paused")
     tune = SimpleNamespace(state="tune")
