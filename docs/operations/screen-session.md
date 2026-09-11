@@ -1,4 +1,9 @@
-# Screen episode orchestrator: live use unvalidated
+# Generic screen episode contract: live use unvalidated
+
+This document describes the generic `ScreenEpisodeSession` abstraction. The
+separate native adapter and executable episode runner have later bounded real-game
+evidence; see [native operations](native-game-adapter.md). The generic abstraction
+itself was tested with synthetic callbacks and is not the native pilot's loop.
 
 `gradientclimb.control.session.ScreenEpisodeSession` supplies a bounded,
 fail-closed episode loop. It is tested with synthetic frames, mock controls and

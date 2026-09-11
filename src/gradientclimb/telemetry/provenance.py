@@ -169,6 +169,10 @@ def capture_provenance(
                 except ValueError:
                     continue
     hardware["gpus"] = gpus
+    # Imported framework state describes this process, not a different machine.
+    # Retain it below for diagnosis without allowing lazy imports to change identity.
+    hardware["machine_fingerprint_basis"] = "hardware-observation-v2"
+    machine_fingerprint = hashlib.sha256(canonical_json(hardware).encode()).hexdigest()
     torch = sys.modules.get("torch")
     cuda = getattr(getattr(torch, "version", None), "cuda", None)
     if torch is not None and hasattr(torch, "cuda"):
@@ -194,7 +198,7 @@ def capture_provenance(
         "dirty_worktree": bool(status) if status is not None else None,
         "source_diff_sha256": source_hash,
         "project_version": versions.get("gradientclimb", "0.1.0+uninstalled"),
-        "machine_fingerprint": hashlib.sha256(canonical_json(hardware).encode()).hexdigest(),
+        "machine_fingerprint": machine_fingerprint,
         "cpu": hardware["cpu"],
         "gpu": gpus,
         "ram": hardware["ram_bytes"],

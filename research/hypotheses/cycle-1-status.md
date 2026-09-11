@@ -1,0 +1,18 @@
+# Cycle 1 hypothesis disposition
+
+This register closes the active cycle at the [pause directive](../../docs/methodology/cycle-1-pause-directive.md). Only HYP-001 was a numbered hypothesis registered before its governed experiment. Remaining rows adjudicate existing protocol questions; they are not retroactively presented as preregistered hypotheses. **PAUSED** denotes an untested question, not a negative result.
+
+| Question and original location | Status | Evidence and limitation |
+| --- | --- | --- |
+| [HYP-001](HYP-001.md): five-minute surrogate PPO versus random | SUPPORTED, bounded | Two nominal five-minute checkpoints exceed 5× matching validation random median. Exact ≤300.000 s crossing is INCONCLUSIVE because both saved checkpoints overshot. |
+| [Runtime screen](../experiments/runtime-screen.json): compact CPU PPO/CEM selection | SUPPORTED, descriptive | Three short seeds favored the tested CPU256 PPO configuration in validation quality; throughput alone favored CEM. Architectures and observations differ, so this is a configuration comparison, not a causal algorithm theorem. |
+| [Original 300-second component screen](../../experiments/definitions/ablations.json) | PAUSED | Its seeds 10/11/12 and 300 s jobs were never executed. The completed 60 s battery uses different seeds/budget and must not be relabeled as this experiment. |
+| [Post-hour battery](../../experiments/definitions/post-hour-battery.json): randomization, history, optimizer passes | INCONCLUSIVE for general benefit | The 12 short paired runs are completed and reported. Three seeds and one-minute learning budgets support exploratory comparisons only; real transfer and long-budget effects remain unmeasured. |
+| Ten-minute heavy/rough fine-tuning improves this source policy on that synthetic target | SUPPORTED, bounded | Paired final tests show improved target performance and reduced source performance; see [finding F-001](../findings/F-001-surrogate-learning.md). One parent/child seed is not a continual-learning result across vehicles. |
+| [Original replicated 5/10/30/60-minute adaptation protocol](../../experiments/definitions/adaptation-pending.json) | PAUSED | Not executed as registered. One 600 s heavy/rough child is narrower evidence, not completion of the three-seed, three-shift plan. |
+| [Direct screen CEM](../../experiments/definitions/real-screen-cem.json) learns useful actual control | INCONCLUSIVE | Startup failures and one failed pilot; zero eligible episodes and no learner update. A stable 289 m terminal reading was not credited as fitness after parking failure. |
+| [Restricted student](../../docs/research/screen-body-distillation.md) transfers the surrogate teacher | PAUSED | Implemented/tested projection and student, but no training or real evaluation. Schema agreement does not establish distribution alignment. |
+| Observable dynamics and rolling context improve prediction or control | PAUSED | Ignored draft has 14 synthetic tests; no real fit or active actor integration. See [draft inventory](../../docs/research/deferred-screen-dynamics.md). |
+| Distance/score/time/recovery objectives improve strategic behavior | PAUSED | Future research required by the owner; [design](../../docs/research/reward-research.md) is unimplemented, unmeasured and not applied to old results. |
+
+No failed implementation attempt is labeled NOT_SUPPORTED for a learning hypothesis it never tested. No current numbered hypothesis is SUPERSEDED; historical plan files retain their original content and are interpreted alongside the [resumption plan](../../docs/operations/resumption-plan.md).

@@ -14,6 +14,13 @@ supervised integration must verify the complete start/score/park/update cycle on
 the current registered UI before the governed run. Unknown advertisements or
 uncovered controls can still stop the adapter safely.
 
+At the Cycle 1 pause, pilot `51d2527e-9274-40ec-a04d-309117de107d` had failed after
+one natural endpoint and an unknown-ad parking transition. Two agreeing readings
+measured 289 m, but parking failed, so zero episodes were eligible and no CEM
+generation updated. The sealed partial result is integration evidence, not a
+completed ten-minute run or a successful one-hour benchmark. Research remains
+paused under the [pause directive](../methodology/cycle-1-pause-directive.md).
+
 The CLI requires `--hud PATH` and `--result-reader PATH` pointing to the frozen
 gameplay-glyph manifest and result-reader manifest. Its default behavior validates
 the definition and prints a plan without native actions. `--execute` enables the
@@ -101,6 +108,10 @@ Snapshotting detaches mutable optimizer state; disk writes wait for the next
 stationary phase. Actual persistence times are separate. A delayed snapshot is
 never described as occurring exactly at the target time. The canonical checkpoint
 artifact hash is the identity used by later frozen-policy evaluation.
+The current `persistence_completed_elapsed_seconds` metadata marks the initial
+JSON file's flush/fsync before artifact registration; the later canonical copy and
+hashing cost still belongs to the governed clock. It is not a measurement of final
+record sealing or durable storage latency for the entire artifact pipeline.
 
 At the deadline, no further policy selection or optimizer update is admitted.
 Final release, trace storage, record sealing, and final checkpoint serialization

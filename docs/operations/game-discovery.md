@@ -1,5 +1,9 @@
 # Observed Hill Climb Racing installation
 
+Historical initial discovery: 2026-09-11. Later controlled input/capture, scoring
+and reset evidence is consolidated in [native operations](native-game-adapter.md)
+and the [paused resumption checkpoint](resume-state.md).
+
 Date: 2026-09-11. Google Play Games, `crosvm.exe`, target title starts with
 `Hill Climb Racing`. Game imagery remains in ignored local artifacts only.
 
@@ -31,8 +35,9 @@ X → OUT OF FUEL result → TOUCH TO CONTINUE. The offer was declined through i
 no advertisement was bypassed and no reward was claimed. Banner advertisement
 regions at the bottom were never targeted. The native control panel initially
 showed no configured overlay mappings. The user subsequently confirmed the game's
-native Right Arrow gas and Left Arrow brake bindings. Sustained response and
-simultaneous input have not yet been measured. A temporary overlay Tap draft was
+native Right Arrow gas and Left Arrow brake bindings. At this early snapshot, sustained response and
+simultaneous input had not yet been measured; both were exercised later. A temporary overlay Tap draft was
 opened during discovery; its placement/assignment was not established. Computer
-Use was stopped by physical Escape before cleanup could be verified. Inspect and
-clear that temporary draft before resuming collection; do not change native keys.
+Use was stopped by physical Escape before cleanup could be verified. No persistent mapping change is established by this observation. On any future
+resumption, inspect current controls rather than assuming an old draft is active;
+the later successful native tests used the existing arrow bindings.

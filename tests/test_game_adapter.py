@@ -513,6 +513,56 @@ def test_pointer_parking_is_a_separate_move_only_packet_and_trace():
     assert [row["kind"] for row in sender.trace] == ["menu_click", "pointer_park"]
 
 
+@pytest.mark.parametrize("interruption", [KeyboardInterrupt, SystemExit])
+@pytest.mark.parametrize("cleanup_fails", [False, True])
+def test_interrupted_native_click_attempts_release_and_retains_original(
+    interruption, cleanup_fails
+):
+    sender = _NativeMenuInput.__new__(_NativeMenuInput)
+    packets = []
+
+    def send(events):
+        packets.append([event.mi.dwFlags for event in events])
+        if len(packets) == 1:
+            raise interruption("original interruption")
+        if cleanup_fails:
+            raise KeyboardInterrupt("cleanup interruption")
+        return 1
+
+    sender.api = SimpleNamespace(
+        is_down=lambda key: False,
+        send=send,
+        user32=SimpleNamespace(
+            GetSystemMetrics=lambda index: {76: 0, 77: 0, 78: 1920, 79: 1080}[index]
+        ),
+    )
+    sender.guard = SimpleNamespace(api=SimpleNamespace(physical_pixels=nullcontext))
+    sender.trace = []
+    with pytest.raises(interruption, match="original interruption"):
+        sender.click((200, 300))
+    assert packets == [[0xC001, 2, 4], [4]]
+    assert sender.trace[0]["error"] == f"{interruption.__name__}: original interruption"
+    if cleanup_fails:
+        assert sender.trace[0]["cleanup_error"] == "KeyboardInterrupt: cleanup interruption"
+    else:
+        assert sender.trace[0]["cleanup_inserted"] == 1
+    assert sender.trace[0]["completed_ns"] >= sender.trace[0]["started_ns"]
+
+
+def test_interrupted_adapter_menu_click_latches_stop_and_releases_pedals(dataset):
+    adapter, _, _, released, _ = adapter_fixture(dataset, ["paused"])
+
+    def interrupt(point):
+        raise KeyboardInterrupt("operator interruption")
+
+    adapter.sender.click = interrupt
+    with pytest.raises(KeyboardInterrupt, match="operator interruption"):
+        adapter.click_verified("restart_paused", adapter.observe())
+    assert adapter._stopped.is_set() and released
+    assert adapter.trace[0]["accepted"] is False
+    assert adapter.trace[0]["error"] == "KeyboardInterrupt: operator interruption"
+
+
 def test_pointer_parking_rechecks_focus_after_successful_menu_click(dataset):
     adapter, _, current, _, clicks = adapter_fixture(dataset, ["paused"])
     adapter.pointer_park_xy = (40, 2)

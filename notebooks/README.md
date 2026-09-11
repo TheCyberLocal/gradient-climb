@@ -2,7 +2,9 @@
 
 These notebooks contain executed cell outputs from canonical local records. They do not train models, run model inference, or alter source measurements.
 
-- `checkpoint_learning.ipynb`: parameterized DuckDB query for the primary training curve, exact requested/actual checkpoint times, independent recomputation of episode means, and paired final-versus-earlier comparisons.
+Research Cycle 1 is paused. The refreshed evidence cutoff is `2026-09-11T20:01:46.950554Z`, covering all 100 finalized canonical records in the matching integrity audit. Both one-hour cold starts, all twelve short ablations, the source extension and heavy/rough fine-tuning completed; the student pilot never started. The audit and plan disposition are in `research/experiments/cycle-1-integrity.json` and `cycle-1-plan-status.json`.
+
+- `checkpoint_learning.ipynb`: parameterized DuckDB query for the primary training curve, exact requested/actual checkpoint times, independent recomputation of episode means, paired final-versus-earlier comparisons and the completed seed43 reproduction.
 - `generalization_adaptation.ipynb`: four-condition primary generalization, survival/termination outcomes, and conditional parent/child comparisons when matching completed records exist.
 
 The fixed primary run is `c0a9e142-1ad6-4d88-810d-bda4ca297f40`; checkpoint evaluation is `b8df5a43-deb0-4b3a-917b-2398322c327c`; generalization evaluation is `3a9a0c20-e544-4efd-9c68-e2830d8e8224`. Their source paths, record hashes, checkpoint lineage, and seal checks appear in the notebooks. The local `artifacts/runs/` store is required to rerun them; notebooks do not fetch missing data or substitute synthetic values.

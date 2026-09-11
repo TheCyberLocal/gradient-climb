@@ -1,6 +1,7 @@
 """Retained scoped source evidence; public OS/hardware queries are mocked."""
 
 import hashlib
+from types import SimpleNamespace
 
 from gradientclimb.artifacts import canonical_json, sha256_file
 from gradientclimb.telemetry import provenance
@@ -60,3 +61,29 @@ def test_unavailable_source_query_does_not_claim_a_complete_hash(tmp_path, monke
     assert record["source_diff_sha256"] is None
     assert state["tracked_diff_available"] is False
     assert state["untracked_manifest_available"] is False
+
+
+def test_machine_fingerprint_excludes_imported_framework_state(tmp_path, monkeypatch):
+    monkeypatch.setattr(provenance, "_command", lambda *args, **kwargs: None)
+    monkeypatch.setattr(provenance, "_nvidia_smi", lambda: None)
+    monkeypatch.setattr(provenance, "psutil", None)
+    monkeypatch.setattr(provenance.os, "cpu_count", lambda: 8)
+    monkeypatch.setitem(provenance.sys.modules, "torch", None)
+    before = provenance.capture_provenance(tmp_path)
+    monkeypatch.setitem(
+        provenance.sys.modules,
+        "torch",
+        SimpleNamespace(
+            version=SimpleNamespace(cuda="12.8"),
+            cuda=SimpleNamespace(is_available=lambda: True),
+        ),
+    )
+    after = provenance.capture_provenance(tmp_path)
+    assert before["machine_fingerprint"] == after["machine_fingerprint"]
+    assert after["hardware"]["machine_fingerprint_basis"] == "hardware-observation-v2"
+    assert "pytorch_cuda_available" not in before["hardware"]
+    assert after["hardware"]["pytorch_cuda_available"] is True
+    assert before["cuda"] is None and after["cuda"] == "12.8"
+    monkeypatch.setattr(provenance.os, "cpu_count", lambda: 16)
+    changed_hardware = provenance.capture_provenance(tmp_path)
+    assert changed_hardware["machine_fingerprint"] != after["machine_fingerprint"]

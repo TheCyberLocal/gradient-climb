@@ -39,6 +39,7 @@ def code(text):
 SETUP = """
 import hashlib
 import html
+import json
 import sys
 from pathlib import Path
 
@@ -66,6 +67,12 @@ primary = load_run(ROOT, PRIMARY)
 assert primary['status'] == 'completed'
 assert verify_run(ROOT, PRIMARY)['valid']
 display(Markdown(f"**Primary source:** `{PRIMARY}`. Actual training: **{primary['summary']['training_clock_seconds']:.3f} s**; final validation mean **{primary['summary']['mean_distance']:.2f} nominal m**. Real-game qualification remains incomplete."))
+cycle = json.loads((PROJECT/'research/experiments/cycle-1-plan-status.json').read_text())
+audit = json.loads((PROJECT/'research/experiments/cycle-1-integrity.json').read_text())
+assert audit['run_count'] == audit['valid_count'] and not audit['unfinished_run_ids']
+for checked in audit['runs']:
+    assert hashlib.sha256((ROOT/'runs'/checked['run_id']/'seal.json').read_bytes()).hexdigest() == checked['seal_sha256']
+display(Markdown(f"**Cycle 1 is paused.** Evidence cutoff: **{cycle['evidence_cutoff_utc']}**. The full integrity audit covers **{audit['valid_count']}** finalized records; current seal bytes match. The registered post-hour battery completed; the student pilot never started. This notebook performs record analysis only."))
 """
 
 
@@ -154,11 +161,31 @@ def checkpoint_notebook():
         paired = [(row['metadata']['requested_minutes'], compare_paired(final['results'],row['results'])['distance_difference']) for row in checkpoint_rows if row is not final]
         show_table(['Earlier requested min', 'Final minus earlier mean m', 'Paired episode CI95%'], [[minute, f"{value['mean']:+.2f}", f"[{value['ci95_low']:.2f}, {value['ci95_high']:.2f}]"] for minute,value in paired])
         """),
+        markdown(
+            "### 5. Independently seeded one-hour reproduction\nThe primary remains fixed. Seed43 was a separate clean cold start, not a continuation or post-test replacement. Different shared-machine throughput is recorded; two seeds do not establish broad reliability."
+        ),
+        code("""
+        reproduction = load_run(ROOT, 'db77b7cd-a11a-473a-8406-06d99b5de5ad')
+        reproduction_checkpoints = load_run(ROOT, '153b8e02-dd2f-442f-9a48-6230d3f5c1cb')
+        assert verify_run(ROOT,reproduction['run_id'])['valid']
+        assert verify_run(ROOT,reproduction_checkpoints['run_id'])['valid']
+        assert reproduction['parent_checkpoint'] is None and not reproduction['dirty_worktree']
+        show_table(['Run','Seed','Actual training s','Transitions','Final mean / median m','Source SHA'],[
+            [r['run_id'],r['seed'],f"{r['summary']['training_clock_seconds']:.3f}",r['environment_steps'],f"{r['summary']['mean_distance']:.2f} / {r['summary']['median_distance']:.2f}",r['git_sha']]
+            for r in [primary,reproduction]
+        ])
+        show_table(['Requested min','Reproduction actual s','Mean / median m'],[
+            [r['metadata']['requested_minutes'],f"{r['metadata']['training_elapsed_seconds']:.3f}",f"{r['results']['mean_distance']:.2f} / {r['results']['median_distance']:.2f}"]
+            for r in sorted(reproduction_checkpoints['evaluation_results'],key=lambda r:r['metadata']['requested_minutes'])
+        ])
+        reproduction_pair = compare_paired(reproduction['evaluation_results'][-1]['results'],primary['evaluation_results'][-1]['results'])['distance_difference']
+        print('Reproduction minus primary: conditional paired episode statistics',reproduction_pair)
+        """),
         markdown("## Takeaways"),
         code("""
         increases = sum(checkpoint_rows[index]['results']['mean_distance'] > checkpoint_rows[index-1]['results']['mean_distance'] for index in range(1,len(checkpoint_rows)))
         intervals_cross_zero = sum(value['ci95_low'] <= 0 <= value['ci95_high'] for _,value in paired)
-        display(Markdown(f"Observed mean increased at **{increases}/{len(checkpoint_rows)-1}** successive saved checkpoints. **{intervals_cross_zero}/{len(paired)}** final-versus-earlier paired intervals include zero. Treat the curve as measured evidence from one training seed; the separately recorded seed43 reproduction is required to assess reproducibility. No simulator result here establishes real-game control."))
+        display(Markdown(f"Observed mean increased at **{increases}/{len(checkpoint_rows)-1}** successive saved checkpoints. **{intervals_cross_zero}/{len(paired)}** final-versus-earlier paired intervals include zero. The completed seed43 reproduction supplies a second cold-start result, with final mean **{reproduction['summary']['mean_distance']:.2f}** nominal m; it does not establish universal training-seed reliability. No simulator result here establishes real-game control."))
         """),
     ]
 
@@ -221,7 +248,7 @@ def generalization_notebook():
         plt.show()
         """),
         markdown(
-            "### 3. Query actual completed adaptation evidence\nThe reusable report pairing helper requires matching checkpoints, scenario, horizon, simulator/calibration version, deterministic setting and episode seeds. Positive changes favor the child. Default/train measures retention on the original source condition."
+            "### 3. Query actual completed adaptation evidence\nThe reusable report pairing helper requires matching checkpoints, scenario, horizon, simulator/calibration version, deterministic setting and episode seeds. Positive changes favor the child. Default/train measures retention on the original source condition. Condition names refer to the original parent; rough terrain was trained during the adapted child's exposure."
         ),
         code("""
         records = list_runs(ROOT)
@@ -233,6 +260,9 @@ def generalization_notebook():
                 [row['child_training_run'],row['condition'],f"{row['before_mean']:.2f} / {row['after_mean']:.2f}",f"{row['difference_after_minus_before']['distance_difference']['mean']:+.2f}",f"[{row['difference_after_minus_before']['distance_difference']['ci95_low']:.2f}, {row['difference_after_minus_before']['distance_difference']['ci95_high']:.2f}]"]
                 for row in comparisons
             ])
+            target = next(row for row in comparisons if row['child_training_run']=='24eacdf3-cff5-430f-8978-b2e2bd34f396' and row['condition']=='new_vehicle_and_map')
+            retention = next(row for row in comparisons if row['child_training_run']==target['child_training_run'] and row['condition']=='in_distribution')
+            display(Markdown(f"The completed heavy/rough fine-tuning improved its target mean from **{target['before_mean']:.2f}** to **{target['after_mean']:.2f}** nominal m, while original source mean declined from **{retention['before_mean']:.2f}** to **{retention['after_mean']:.2f}**. This is a measured target/retention tradeoff for one child seed. Both ten-minute children load the original parent independently; no matched cold-start heavy/rough baseline establishes adaptation speed."))
         else:
             print('No matching completed parent/child generalization pairs are recorded yet. Adaptation and forgetting are not yet measured.')
         """),

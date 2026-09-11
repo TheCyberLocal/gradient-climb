@@ -1,0 +1,363 @@
+{
+  "schema_version": "cycle-plan-status-1",
+  "research_cycle": 1,
+  "status": "PAUSED_BY_USER",
+  "recorded_at_utc": "2026-09-11T20:09:48.093971+00:00",
+  "evidence_cutoff_utc": "2026-09-11T20:01:46.950554Z",
+  "directive": {
+    "path": "docs/methodology/cycle-1-pause-directive.md",
+    "sha256": "e99e6bd22cce2cf71a69390189f452f70e58499f4f01423ec22a16d5bb4cc6c0"
+  },
+  "no_new_experiments_authorized": true,
+  "active_owned_training_processes": [],
+  "post_hour_executor": {
+    "terminal_session_id": 10287,
+    "exit_code": 0,
+    "last_job_completed_utc": "2026-09-11T20:01:47.900541+00:00",
+    "actions_completed": 23,
+    "learning_runs_completed": 15,
+    "requested_learning_seconds": 5520,
+    "actual_learning_seconds": 5523.329475100036,
+    "plan": {
+      "path": "experiments/definitions/post-hour-battery.json",
+      "sha256": "4fdcced1cb030c65b310d7eb10aac589e4b2af69a4a48291cc2a0bb421e0c14e"
+    },
+    "executor_plan_hash": "5fa2b03e363f746978730b9d5535a53b69226a98e972d43befd35466e44cde23",
+    "hash_method": "sha256(json.dumps(parsed_plan, sort_keys=True).encode())",
+    "outcomes": {
+      "path": "artifacts/post-benchmark/5fa2b03e363f746978730b9d5535a53b69226a98e972d43befd35466e44cde23/outcomes.json",
+      "sha256": "4f1527dffc4b6096ad2627530652b6d4db3b5e911714bb5475360cfa71db732d"
+    },
+    "journal": {
+      "path": "artifacts/post-benchmark/5fa2b03e363f746978730b9d5535a53b69226a98e972d43befd35466e44cde23/events.jsonl",
+      "sha256": "270349d78b4b6868b7d810b7af41f61c85b5e9be516a896c2bdce60832ebe2ed"
+    },
+    "actions": [
+      {
+        "action_id": "source_checkpoints",
+        "kind": "evaluate_checkpoints",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "b8df5a43-deb0-4b3a-917b-2398322c327c"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T18:24:36.122726Z"
+      },
+      {
+        "action_id": "source_generalization",
+        "kind": "generalization",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "3a9a0c20-e544-4efd-9c68-e2830d8e8224"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T18:25:01.075235Z"
+      },
+      {
+        "action_id": "reproduction_seed43",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "db77b7cd-a11a-473a-8406-06d99b5de5ad"
+        ],
+        "requested_training_seconds": 3600,
+        "actual_training_seconds": 3600.3483894999954,
+        "last_record_end": "2026-09-11T19:25:12.707522Z"
+      },
+      {
+        "action_id": "reproduction_checkpoints",
+        "kind": "evaluate_checkpoints",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "153b8e02-dd2f-442f-9a48-6230d3f5c1cb"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T19:25:47.893856Z"
+      },
+      {
+        "action_id": "reproduction_generalization",
+        "kind": "generalization",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "c0a9db18-1344-4f74-b5ba-3e59d81b14ab"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T19:26:09.896104Z"
+      },
+      {
+        "action_id": "ablation_randomization_seed101",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "45a2aeff-821b-414c-acec-fe3468fb43b3"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.18896580001456,
+        "last_record_end": "2026-09-11T19:27:21.930842Z"
+      },
+      {
+        "action_id": "ablation_stack1_seed101",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "227ed74e-8bc4-46ee-924f-7c3e82728174"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.17558199999621,
+        "last_record_end": "2026-09-11T19:28:34.240667Z"
+      },
+      {
+        "action_id": "ablation_epochs2_seed101",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "a9885fe6-dbaa-4ad1-bf70-0737fc248974"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.286350500013214,
+        "last_record_end": "2026-09-11T19:29:46.767164Z"
+      },
+      {
+        "action_id": "ablation_baseline_seed101",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "b6da6f39-1873-4832-a0ec-484aaead5f4e"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.183095200016396,
+        "last_record_end": "2026-09-11T19:30:58.887023Z"
+      },
+      {
+        "action_id": "ablation_randomization_seed102",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "27182bff-4d14-42f1-8ea0-56728d4e1da8"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.193984500016086,
+        "last_record_end": "2026-09-11T19:32:11.083610Z"
+      },
+      {
+        "action_id": "ablation_baseline_seed102",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "f4edad87-c829-463d-9c7a-341f92b8f6be"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.19293900000048,
+        "last_record_end": "2026-09-11T19:33:23.321707Z"
+      },
+      {
+        "action_id": "ablation_epochs2_seed102",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "1e0b9987-adf9-4459-b4bc-3e6ba7e01a62"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.17943290001131,
+        "last_record_end": "2026-09-11T19:34:35.454931Z"
+      },
+      {
+        "action_id": "ablation_stack1_seed102",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "80fa223d-3bee-427d-8884-60da90604468"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.15879980000318,
+        "last_record_end": "2026-09-11T19:35:48.094158Z"
+      },
+      {
+        "action_id": "ablation_randomization_seed103",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "4a54587e-77e4-4ec7-a0e9-e5cff7ffb0fc"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.18345060001593,
+        "last_record_end": "2026-09-11T19:37:00.333205Z"
+      },
+      {
+        "action_id": "ablation_stack1_seed103",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "33ee7ff7-d314-42f1-b5f7-7cec3c38d2ff"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.164775000012014,
+        "last_record_end": "2026-09-11T19:38:12.662843Z"
+      },
+      {
+        "action_id": "ablation_epochs2_seed103",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "4a5d1c0d-6c37-4753-9a83-7ffda9dcb361"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.18841879998217,
+        "last_record_end": "2026-09-11T19:39:24.363053Z"
+      },
+      {
+        "action_id": "ablation_baseline_seed103",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "3a146447-9d71-4302-9c29-bd07b385bc34"
+        ],
+        "requested_training_seconds": 60,
+        "actual_training_seconds": 60.18554409997887,
+        "last_record_end": "2026-09-11T19:40:36.441789Z"
+      },
+      {
+        "action_id": "extended_source",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "6f193264-faa5-47ae-88b3-9e0f7ea413a5"
+        ],
+        "requested_training_seconds": 600,
+        "actual_training_seconds": 600.3198948999925,
+        "last_record_end": "2026-09-11T19:50:46.371368Z"
+      },
+      {
+        "action_id": "extended_checkpoints",
+        "kind": "evaluate_checkpoints",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "d75f8358-1574-4a8f-a2e4-6f1e6686587a"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T19:50:57.368554Z"
+      },
+      {
+        "action_id": "extended_generalization",
+        "kind": "generalization",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "44ad7e2e-6758-4957-aa21-1d953d807bd7"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T19:51:11.809293Z"
+      },
+      {
+        "action_id": "adapt_heavy_rough",
+        "kind": "train",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "24eacdf3-cff5-430f-8978-b2e2bd34f396"
+        ],
+        "requested_training_seconds": 600,
+        "actual_training_seconds": 600.3798524999875,
+        "last_record_end": "2026-09-11T20:01:20.353855Z"
+      },
+      {
+        "action_id": "adapt_checkpoints",
+        "kind": "evaluate_checkpoints",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "dfaf134b-49e2-4955-82d8-2d87e6856546"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T20:01:31.589786Z"
+      },
+      {
+        "action_id": "adapt_generalization",
+        "kind": "generalization",
+        "cycle_status": "COMPLETED",
+        "run_ids": [
+          "59768cd6-6640-4e20-8198-0158e7eb108c"
+        ],
+        "requested_training_seconds": 0,
+        "actual_training_seconds": 0,
+        "last_record_end": "2026-09-11T20:01:46.950554Z"
+      }
+    ]
+  },
+  "plans": [
+    {
+      "plan": {
+        "path": "experiments/definitions/one-hour-surrogate.json",
+        "sha256": "ed705a0ccece0c18a75d92498f568e3050dba230feaa7ada717f737032570069"
+      },
+      "cycle_status": "COMPLETED",
+      "execution_status": "COMPLETED",
+      "run_ids": [
+        "c0a9e142-1ad6-4d88-810d-bda4ca297f40"
+      ],
+      "note": "Original uncalibrated surrogate hour. Six scheduled offline evaluations and independent reproduction also complete."
+    },
+    {
+      "plan": {
+        "path": "experiments/definitions/post-hour-battery.json",
+        "sha256": "4fdcced1cb030c65b310d7eb10aac589e4b2af69a4a48291cc2a0bb421e0c14e"
+      },
+      "cycle_status": "COMPLETED",
+      "execution_status": "COMPLETED",
+      "run_ids": [],
+      "note": "All 23 sequential actions and 15 learning runs finalized; outcomes listed below. No remaining dispatch."
+    },
+    {
+      "plan": {
+        "path": "experiments/definitions/ablations.json",
+        "sha256": "c85b4e2d45717e9a7430a5cd76e6b18ea02b79d7ac5881c11cb841f22548c75a"
+      },
+      "cycle_status": "DEFERRED",
+      "execution_status": "NEVER_STARTED",
+      "run_ids": [],
+      "note": "Original 300-second seeds 10/11/12 protocol unexecuted; completed 60-second seeds 101/102/103 screen is distinct."
+    },
+    {
+      "plan": {
+        "path": "experiments/definitions/adaptation-pending.json",
+        "sha256": "bb6165a891c8a4cf2e8ee398474797a6c48510b651104eeec69acd5bd93e5356"
+      },
+      "cycle_status": "DEFERRED",
+      "execution_status": "NEVER_STARTED",
+      "run_ids": [],
+      "note": "Original replicated 5/10/30/60-minute protocol unexecuted. Completed single-seed 10-minute fine-tuning does not satisfy this protocol or establish a broadly pretrained generalist."
+    },
+    {
+      "plan": {
+        "path": "experiments/definitions/real-screen-cem.json",
+        "sha256": "852f44024247bf55fbc3b4e9223f24c6cac83a567fd0d93a22aa703a75af44ec"
+      },
+      "cycle_status": "PARTIAL",
+      "execution_status": "PILOT_FAILED_HOUR_NEVER_STARTED",
+      "run_ids": [
+        "51d2527e-9274-40ec-a04d-309117de107d"
+      ],
+      "note": "Shortened integration pilot failed on unrecognized advertisement during parking; zero eligible episodes and optimizer updates. Stable terminal 289 m is diagnostic; training fitness null. Governed native hour never started."
+    },
+    {
+      "plan": {
+        "path": "artifacts/distillation/proposed-screen-body-student.json",
+        "sha256": "15e9519d4f0f5f57b175fd8aea3072bbbde38aad899decd7cb4effb8a9c8fe87"
+      },
+      "cycle_status": "DEFERRED",
+      "execution_status": "NEVER_STARTED",
+      "run_ids": [],
+      "note": "Implementation and pure tests exist. Queued 60-second seed500 pilot cancelled before dispatch by user pause. No learned student, teacher-agreement measurement, simulator-performance measurement or native student evaluation."
+    }
+  ],
+  "historical_manifests_preserved": true,
+  "limitations": [
+    "Simulation distance is not commercial-game distance or sim-to-real transfer.",
+    "Longer child checkpoints absent from completed ten-minute protocols remain unmeasured.",
+    "Active governed work was allowed to finish. This status record authorizes no research restart."
+  ]
+}

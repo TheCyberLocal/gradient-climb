@@ -285,7 +285,7 @@ class _NativeMenuInput:
                 row["inserted"] = self.api.send([mouse_click_events(point, desktop)[0]])
             if row["inserted"] != 1:
                 raise RuntimeError("SendInput did not insert the pointer parking movement")
-        except Exception as exc:
+        except BaseException as exc:
             row["error"] = f"{type(exc).__name__}: {exc}"
             raise
         finally:
@@ -310,14 +310,14 @@ class _NativeMenuInput:
             row["inserted"] = count
             if count != 3:
                 raise RuntimeError("SendInput did not insert the complete menu click")
-        except Exception as exc:
+        except BaseException as exc:
             row["error"] = f"{type(exc).__name__}: {exc}"
             release = INPUT()
             release.type = 0
             release.mi = MOUSEINPUT(0, 0, 0, 0x0004, 0, 0)
             try:
                 row["cleanup_inserted"] = self.api.send([release])
-            except Exception as cleanup:  # noqa: BLE001 - retain original and cleanup failures
+            except BaseException as cleanup:  # noqa: BLE001 - preserve original interruption
                 row["cleanup_error"] = f"{type(cleanup).__name__}: {cleanup}"
             raise
         finally:
@@ -538,13 +538,13 @@ class NativeGameAdapter:
                     )
                     self.sender.park_pointer(park_point)
                     row["pointer_parked"] = True
-            except Exception as exc:
+            except BaseException as exc:
                 row["error"] = f"{type(exc).__name__}: {exc}"
                 raise
             finally:
                 row["completed_ns"] = int(self.clock() * 1e9)
                 self.trace.append(row)
-        except Exception:
+        except BaseException:
             self._stopped.set()
             self.release_pedals()
             raise

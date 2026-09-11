@@ -37,3 +37,26 @@ Before changing frameworks, record environment decisions/sec, physics substeps/s
 Before declaring transfer, pair the same checkpoint with simulator and real-game evaluation under recorded vehicle/map/upgrades and comparable metrics. Calibrate on training trajectories and reserve whole trajectories for validation. A deployment uses only rendered pixels and recorded input history. Missing real measurements must remain missing, not zero or inferred from synthetic reward.
 
 The main criterion for retaining complexity is improvement in held-out real-game quality or time-to-competence across training seeds. [Statistical evaluation work](https://arxiv.org/abs/2108.13264) supports interval reporting and discourages single-run winner claims. Revise this ADR when local experiment records select a framework, representation, or dynamics model; leave rejected candidates as documented negative findings rather than erasing them.
+
+## Cycle 1 disposition
+
+The CPU/256-environment PPO choice was supported as a provisional surrogate
+engineering choice by three 60-second training seeds: mean validation distance
+491.38 ±35.08 between-seed SD, versus implemented CEM 378.49 ±106.31. Two governed
+surrogate hours and a source extension/adaptation battery subsequently completed.
+This evidence does not select a real-game learner or establish simulator fidelity.
+See [F-001](../../research/findings/F-001-surrogate-learning.md).
+
+A separate compact direct-screen CEM avoids deploying oracle simulator state.
+Its native pilot collected an initial candidate trajectory but failed parking on
+an unknown advertisement with zero eligible episodes and no update. Student
+projection code is implemented but was never trained. These remain unproven
+alternatives; see [F-002](../../research/findings/F-002-native-observation-and-control.md).
+
+Cycle 1 is deliberately paused. The existing architecture is retained, with
+bounded cleanup/provenance/dashboard fixes and explicit lazy Torch/capture
+boundaries. The next cycle must investigate versioned multi-objective reward and
+recovery-conditioned skill credit after native episode reliability, preserving
+historical objectives and independent distance evaluation. No larger algorithm,
+physics redesign or reward campaign was adopted during stabilization. See the
+[resumption plan](../operations/resumption-plan.md).

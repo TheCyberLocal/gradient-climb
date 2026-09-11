@@ -521,6 +521,10 @@ def collect(root, benchmark_id=None, verify=False):
         "docs/operations/game-discovery.md",
         "docs/operations/workstation.md",
         "docs/methodology/qualification.md",
+        "docs/methodology/cycle-1-pause-directive.md",
+        "research/experiments/cycle-1-plan-status.json",
+        "research/experiments/cycle-1-integrity.json",
+        "docs/research/screen-body-distillation.md",
         "experiments/definitions/ablations.json",
         "experiments/definitions/adaptation-pending.json",
         "experiments/definitions/post-hour-battery.json",
@@ -534,6 +538,21 @@ def collect(root, benchmark_id=None, verify=False):
     for name in support:
         if (PROJECT / name).exists():
             snapshot(PROJECT / name, sources)
+    cycle_path = PROJECT / "research/experiments/cycle-1-plan-status.json"
+    cycle = json.loads(cycle_path.read_text()) if cycle_path.exists() else None
+    audit_path = PROJECT / "research/experiments/cycle-1-integrity.json"
+    audit = json.loads(audit_path.read_text()) if audit_path.exists() else None
+    if audit:
+        # Reuse the full audit only when its complete run set and seal bytes match.
+        current_ids = {r["run_id"] for r in runs}
+        audit_current = current_ids == {r["run_id"] for r in audit["runs"]}
+        for checked in audit["runs"]:
+            key = os.path.relpath(root / "runs" / checked["run_id"] / "seal.json", PROJECT).replace(
+                "\\", "/"
+            )
+            audit_current &= sources.get(key, {}).get("snapshot_sha256") == checked["seal_sha256"]
+        if not audit_current:
+            audit = None
     reference = next((r for r in runs if r["run_id"] == benchmark_id), runs[0] if runs else {})
     cutoff = max((datetime.fromisoformat(t) for t in evidence_times), default=None)
     return {
@@ -545,7 +564,11 @@ def collect(root, benchmark_id=None, verify=False):
         },
         "generated_at": datetime.now(UTC).isoformat(),
         "evidence_as_of": cutoff.isoformat() if cutoff else None,
-        "research_status": "INCOMPLETE_REAL_GAME_QUALIFICATION",
+        "research_status": "PAUSED_CYCLE_1_REAL_GAME_QUALIFICATION_INCOMPLETE"
+        if cycle
+        else "INCOMPLETE_REAL_GAME_QUALIFICATION",
+        "cycle_status": cycle,
+        "matching_full_integrity_audit": audit,
         "qualifies_real_game": False,
         "evidence_corrections": [DISCOVERY_CORRECTION]
         if any(r["run_id"] == DISCOVERY_CORRECTION["excluded_run"] for r in runs)
@@ -602,6 +625,33 @@ def collect(root, benchmark_id=None, verify=False):
             for r in runs
             if r["experiment_id"] == "real-control-probe"
         ],
+        "native_training_attempts": [
+            {
+                "run_id": r["run_id"],
+                "status": r["status"],
+                "duration_seconds": r.get("duration"),
+                "optimizer_updates": r.get("optimizer_updates"),
+                "requested_seconds": r.get("summary", {}).get("requested_training_seconds"),
+                "eligible_episodes": r.get("summary", {}).get("eligible_episodes"),
+                "stop_reason": r.get("summary", {}).get("stop_reason"),
+                "governed_elapsed_at_stop": r.get("summary", {}).get("governed_elapsed_at_stop"),
+                "episodes": [
+                    {
+                        k: ep.get(k)
+                        for k in (
+                            "distance",
+                            "observed_hud_max",
+                            "score_decision",
+                            "reason",
+                            "park_error",
+                        )
+                    }
+                    for ep in r.get("summary", {}).get("episode_summaries", [])
+                ],
+            }
+            for r in runs
+            if r.get("algorithm") == "sequential_episode_cem"
+        ],
         "pixel_measurements": [
             {"run_id": r["run_id"], "status": r["status"], "summary": r.get("summary", {})}
             for r in runs
@@ -643,6 +693,21 @@ def render(summary, output_dir, root):
     text += "The current evidence establishes learning in an original uncalibrated simulator. Real-game qualification remains incomplete. "
     text += f"The selected one-hour record is {summary['benchmark_run'] or 'not yet available'} ({summary['benchmark_status']})."
     paragraph("Abstract and research status", text)
+    cycle = summary.get("cycle_status")
+    if cycle:
+        battery = cycle["post_hour_executor"]
+        paragraph(
+            "Cycle 1 pause and evidence cutoff",
+            f"Research is paused by explicit user direction. All {battery['actions_completed']} registered post-hour actions completed, including {battery['learning_runs_completed']} learning runs: {fmt(battery['requested_learning_seconds'], 0)} requested training seconds and {fmt(battery['actual_learning_seconds'], 3)} actual training seconds. This total excludes the original hour and separate runtime pilots; process setup and offline evaluation have separate records. No queued experiment is authorized to start. Canonical evidence ends at {summary['evidence_as_of']}; report generation is a later read-only analysis. Source: research/experiments/cycle-1-plan-status.json. Historical preregistrations retain their original wording; the separate status record governs their terminal cycle disposition.",
+        )
+        table(
+            "Registered plan disposition",
+            ["Plan", "Cycle status", "Execution status", "Interpretation"],
+            [
+                [p["plan"]["path"], p["cycle_status"], p["execution_status"], p["note"]]
+                for p in cycle["plans"]
+            ],
+        )
     primary = next(
         (r for r in summary["training_runs"] if r["run_id"] == summary["benchmark_run"]), None
     )
@@ -932,7 +997,7 @@ def render(summary, output_dir, root):
             ]
             for r in parented
         ],
-        "No adaptation speed or forgetting claim is made without paired parent/child evaluations on identical source conditions and seeds. Proposed 5/10/30/60-minute adaptation and two-epoch, single-frame and randomization ablations are defined in experiments/definitions/ and remain pending unless corresponding canonical records exist.",
+        "Both completed ten-minute children load the fixed original parent independently. The source extension is not the heavy/rough child's parent. Paired source retention and target changes appear below. The earlier replicated 5/10/30/60-minute proposal remains deferred, distinct from these completed single-seed ten-minute trials.",
     )
     table(
         "Replicated short component screen",
@@ -951,13 +1016,15 @@ def render(summary, output_dir, root):
                 ", ".join(map(str, row["training_seeds"])),
                 fmt(row["mean_validation_distance"]),
                 fmt(row["std_between_training_seeds"]),
-                fmt(row["paired_difference_vs_baseline_mean"]),
+                "reference"
+                if row["condition"] == "baseline"
+                else fmt(row["paired_difference_vs_baseline_mean"]),
                 row["paired_training_seed_count"],
                 ", ".join(row["run_ids"]),
             ]
             for row in summary["ablations"]
         ],
-        "The registered post-hour screen uses 60 requested seconds and training seeds 101/102/103. Each named component is compared with its matched baseline training seed on validation seeds 10000–10019. Paired changes remain missing until both members exist. These short runs measure source-condition validation; they do not measure a domain-randomization generalization benefit. Three training seeds are exploratory; the earlier proposed 300-second screen remains a separate unexecuted protocol.",
+        "The completed registered screen uses 60 requested seconds and training seeds 101/102/103. Each component shares its baseline training seed and validation seeds 10000–10019. These short runs measure source-condition validation, not a domain-randomization generalization benefit. Removing history also changes first-layer size and cost; reducing epochs reallocates wall time between optimization and experience. Three training seeds are exploratory. The earlier 300-second screen remains a separate unexecuted protocol.",
     )
     other_scheduled = [
         {"training_run": run_id, **row}
@@ -1013,7 +1080,44 @@ def render(summary, output_dir, root):
             ]
             for row in summary["paired_adaptation"]
         ],
-        "Positive changes favor the child. The default/train (in_distribution) row measures retention on the original source condition; a negative change is observed forgetting there. Every pair requires the declared parent checkpoint and identical scenario, horizon, simulator/calibration version, deterministic setting and episode seeds. Bootstrap intervals concern paired episode variation for these fixed policies; one adaptation seed cannot establish training-seed reliability. This battery has no matched cold-start heavy/rough training baseline, so a warm-start speed advantage over training from scratch remains unmeasured.",
+        "Positive changes favor the child. Default/train (in_distribution) measures retention on the original source condition; a negative change is observed forgetting there. Condition names refer to the original parent: rough terrain is a trained condition for the adapted child. Every pair requires the declared parent checkpoint and identical scenario, horizon, simulator/calibration version, deterministic setting and episode seeds. Bootstrap intervals concern paired episode variation for these fixed policies; one adaptation seed cannot establish training-seed reliability. No matched cold-start heavy/rough baseline exists, so a warm-start speed advantage remains unmeasured.",
+    )
+    if summary["paired_adaptation"]:
+        parts = []
+        for row in summary["paired_adaptation"]:
+            if row["condition"] in {"in_distribution", "new_vehicle_and_map"}:
+                parts.append(
+                    f"Child {row['child_training_run']} on {row['condition']}: parent mean {fmt(row['before_mean'])} to child mean {fmt(row['after_mean'])} nominal m."
+                )
+        paragraph(
+            "Additional training outcome",
+            " ".join(parts)
+            + " The source extension does not establish broad improvement; heavy/rough fine-tuning shows a target improvement with source forgetting. These are single-child results with no measured 20/30/45/60-minute continuation.",
+        )
+    table(
+        "Native learning attempt at the pause",
+        [
+            "Run",
+            "Status",
+            "Requested s",
+            "Record duration s",
+            "Governed clock at stop s",
+            "Eligible episodes",
+            "Optimizer updates",
+        ],
+        [
+            [
+                r["run_id"],
+                r["status"],
+                fmt(r["requested_seconds"]),
+                fmt(r["duration_seconds"], 3),
+                fmt(r["governed_elapsed_at_stop"], 3),
+                r["eligible_episodes"] if r["eligible_episodes"] is not None else "not recorded",
+                r["optimizer_updates"],
+            ]
+            for r in summary.get("native_training_attempts", [])
+        ],
+        "Run 51d2527e-9274-40ec-a04d-309117de107d recorded a stable terminal reading of 289 m and 131 observation frames, then parking failed on an unrecognized advertisement. Its eligibility gate rejected the episode: fitness is null and no learner update occurred. The reading is retained as diagnostic native evidence, not a learned-policy score. The shortened pilot did not complete its 600-second budget; the planned native hour and its six checkpoints were never run.",
     )
     table(
         "Actual-window capture measurements",
@@ -1087,8 +1191,18 @@ def render(summary, output_dir, root):
         "The CUDA256 pilot executed fewer transitions than CPU256 for this small policy and CPU simulator. CEM seed0 looked competitive, but its replicated results were more variable; fitting two fixed training seeds is a material limitation. Architecture, observation history and optimizer all differ between PPO and CEM, so this comparison does not isolate a single causal component. PPO epoch work can vary due to the approximate-KL stop. Uncalibrated state observations, simple terrain families and finite episode horizons limit transfer claims. Native-game safety and perception must be validated before interpreting simulator scores as real competence.",
     )
     paragraph(
+        "Implemented student comparator, never trained",
+        "The teacher-to-screen-body student implementation and pure semantic tests are present in src/gradientclimb/algorithms/screen_distillation.py and docs/research/screen-body-distillation.md. Its eight body features, validity masks and temporal history exclude privileged velocity, fuel and contact inputs. The analytic projection is uncalibrated. The queued 60-second seed500 pilot was cancelled before dispatch at the user-directed pause. There is no learned student artifact, teacher-agreement measurement, student simulator score or native student evaluation. Implementation does not establish transfer.",
+    )
+    audit = summary.get("matching_full_integrity_audit")
+    if audit:
+        paragraph(
+            "Finalized integrity audit",
+            f"All {audit['run_count']} canonical runs passed full artifact verification at {audit['checked_at_utc']}, covering {audit['total_bytes']:,} bytes with no unfinished run. This report rechecked that the audit's run set and seal-file hashes match its sources. Source: research/experiments/cycle-1-integrity.json. Hash integrity does not establish measurement validity, scientific success or off-machine backup.",
+        )
+    paragraph(
         "Reproducibility and source integrity",
-        f"Generated from canonical run records and journals. Evidence cutoff: {summary['evidence_as_of']}. Verification: {summary['verification_mode']}. Active records are explicitly unsealed and may have different per-file cutoffs. Every source snapshot, configuration/source identifier and checkpoint hash is retained in results-summary.json. Refresh with python scripts/analyze_research.py --root artifacts; use --verify after serious runs finish to recheck all sealed artifacts. Literature: research/literature/README.md. Governing protocol: docs/methodology/qualification.md.",
+        f"Generated from canonical run records and journals. Evidence cutoff: {summary['evidence_as_of']}. Verification: {summary['verification_mode']}. Every source snapshot, configuration/source identifier and checkpoint hash is retained in results-summary.json. Refresh the fixed primary with python scripts/analyze_research.py --root artifacts --benchmark-run {summary['benchmark_run']}; --verify rechecks all sealed artifacts. Literature: research/literature/README.md. Governing protocol: docs/methodology/qualification.md. The cycle pause and resumption plan govern any future research dispatch.",
     )
     table(
         "Source run index",
@@ -1108,11 +1222,13 @@ def render(summary, output_dir, root):
     markdown = [
         "# GradientClimb research report",
         "",
-        "**Status: active research; real-game qualification incomplete.**",
+        "**Status: Cycle 1 paused; real-game qualification incomplete.**"
+        if cycle
+        else "**Status: real-game qualification incomplete.**",
         "",
     ]
     body = [
-        '<header><p class="eyebrow">GRADIENTCLIMB · RESEARCH RECORD</p><h1>Learning is measurable.<br>Game transfer remains unqualified.</h1><p class="status">Active research · real-game qualification incomplete</p></header>'
+        '<header><p class="eyebrow">GRADIENTCLIMB · RESEARCH RECORD</p><h1>Learning is measurable.<br>Game transfer remains unqualified.</h1><p class="status">Cycle 1 paused · real-game qualification incomplete</p></header>'
     ]
     for title, note, content in sections:
         markdown.extend([f"## {title}", "", note, ""])

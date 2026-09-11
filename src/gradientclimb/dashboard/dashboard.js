@@ -28,7 +28,7 @@ const runName = run => `${run.algorithm} · seed ${run.seed}`;
 const runButton = run => `<button class="row-link" data-run="${esc(run.run_id)}">${esc(runName(run))}</button><span class="small-id">${esc(run.run_id.slice(0, 8))} · ${esc(run.experiment_id)}</span>`;
 const byId = id => state.runs.find(run => run.run_id === id);
 const metricLabel = name => name.replaceAll("_", " ").replaceAll("/", " / ");
-const domain = run => run?.metadata?.evidence_domain || (run?.environment === "uncalibrated_hill_surrogate" ? "uncalibrated simulation" : run?.environment?.includes("synthetic") ? "synthetic demonstration" : run?.environment || "unspecified environment");
+const domain = run => run?.metadata?.evidence_domain || (run?.environment === "actual_hill_climb_racing" ? "real_game" : run?.environment === "uncalibrated_hill_surrogate" ? "uncalibrated simulation" : run?.environment?.includes("synthetic") ? "synthetic demonstration" : run?.environment || "unspecified environment");
 
 function scopedRuns() {
   const selected = {algorithm: $("#algorithm").value, environment: $("#environment").value, status: $("#status").value, vehicle_profile: $("#vehicle").value, map_profile: $("#map").value};
@@ -113,6 +113,47 @@ function quality(evaluation) {
   const candidates = [["Mean distance", result.mean_distance], ["Mean distance", result.summary?.distance?.mean], ["Quality", result.quality], ["Absolute error", result.absolute_error]];
   return candidates.find(([,value]) => finite(value)) || ["Quality", null];
 }
+function trainingRun(row) {
+  const evaluationRun=byId(row.run_id), parent=byId(evaluationRun?.parent_run);
+  const owns=run=>row.checkpoint_hash && (run?.artifact_manifest||[]).some(artifact=>artifact.kind==="checkpoint"&&artifact.sha256===row.checkpoint_hash);
+  if (owns(parent)) return parent;
+  const owners=state.runs.filter(owns);
+  return owners.length===1 ? owners[0] : null;
+}
+const trainingClass = row => trainingRun(row)?.metadata?.benchmark_class || byId(row.run_id)?.metadata?.benchmark_class || "Not recorded";
+function checkpointTargetMinutes(row) {
+  if (finite(row.metadata?.requested_minutes)) return row.metadata.requested_minutes;
+  const artifact=trainingRun(row)?.artifact_manifest?.find(item=>item.kind==="checkpoint"&&item.sha256===row.checkpoint_hash);
+  return finite(artifact?.metadata?.target_seconds) ? artifact.metadata.target_seconds/60 : null;
+}
+const checkpointActualSeconds = row => finite(row.metadata?.training_elapsed_seconds) ? row.metadata.training_elapsed_seconds : finite(row.metadata?.training_minutes) ? row.metadata.training_minutes*60 : null;
+function coldStartHour(row) {
+  const owner=trainingRun(row);
+  return row.protocol?.startsWith("one-hour") && byId(row.run_id)?.status==="completed" && owner?.status==="completed" && trainingClass(row)==="cold_start" && owner.configuration?.seconds===3600 && !owner.parent_checkpoint && !owner.configuration?.parent_checkpoint;
+}
+const runCondition = run => ({profile:run?.configuration?.profile || run?.vehicle_profile,terrain:run?.configuration?.terrain || run?.map_profile});
+function trainedCondition(row) {
+  const config=row.results?.policy_config || {}, owner=runCondition(trainingRun(row));
+  return {profile:config.profile || owner.profile,terrain:config.terrain || owner.terrain};
+}
+const evaluatedCondition = row => ({profile:row.results?.profile || row.metadata?.vehicle_profile,terrain:row.results?.terrain || row.metadata?.map_profile});
+const conditionName = condition => `${condition.profile || "Not recorded"} / ${condition.terrain || "Not recorded"}`;
+const sameCondition = (a,b) => a.profile && a.terrain && b.profile && b.terrain && a.profile===b.profile && a.terrain===b.terrain;
+function adaptedTraining(row) {
+  const owner=trainingRun(row), parent=byId(owner?.parent_run), current=runCondition(owner), previous=runCondition(parent);
+  return owner?.status==="completed" && parent && current.profile && current.terrain && previous.profile && previous.terrain && !sameCondition(current,previous) && ["fine_tuning","generalist_adaptation"].includes(trainingClass(row));
+}
+function adaptationMinutes(row) {
+  if (byId(row.run_id)?.status!=="completed") return null;
+  if (finite(row.metadata?.adaptation_minutes)) return row.metadata.adaptation_minutes;
+  return adaptedTraining(row) && finite(checkpointActualSeconds(row)) ? checkpointActualSeconds(row)/60 : null;
+}
+function evaluationContext(row) {
+  if (!adaptedTraining(row)) return "";
+  if (sameCondition(evaluatedCondition(row),trainedCondition(row))) return "Adapted condition";
+  if (sameCondition(evaluatedCondition(row),runCondition(byId(trainingRun(row)?.parent_run)))) return "Original-condition retention";
+  return "Post-adaptation evaluation";
+}
 function overview(data) {
   selectedMetric(data.metrics);
   const completed = data.runs.filter(run => run.status === "completed").length;
@@ -145,23 +186,24 @@ function learning(data) {
 }
 function benchmark(data) {
   const targets=[5,10,20,30,45,60];
-  const records=data.evaluations.filter(row=>row.protocol?.startsWith("one-hour"));
-  const atMinute=row=>row.metadata?.training_minutes ?? row.results?.training_minutes;
-  const measured=new Set(records.map(atMinute));
+  const allRecords=data.evaluations.filter(row=>row.protocol?.startsWith("one-hour")&&byId(row.run_id)?.status==="completed");
+  const records=allRecords.filter(coldStartHour), continued=allRecords.filter(row=>!coldStartHour(row));
+  const measured=new Set(records.map(checkpointTargetMinutes));
   const rail=`<div class="progress-rail">${targets.map(minute=>`<div class="checkpoint ${measured.has(minute)?"measured":""}"><b>${minute}<small>minutes</small></b><small>${measured.has(minute)?"Evaluation recorded":"Not measured"}</small></div>`).join("")}</div>`;
-  const rows=records.map(row=>{const run=byId(row.run_id),[label,value]=quality(row);return [run ? runButton(run):esc(row.run_id.slice(0,8)),esc(atMinute(row)??"Not recorded"),esc(domain(run)),`${num(value,2)}<span class="model-qualifier">${esc(label)}</span>`,esc(row.episodes),esc(row.checkpoint_hash?.slice(0,12)||"Not recorded")];});
+  const evaluationRows=entries=>entries.map(row=>{const run=byId(row.run_id),[label,value]=quality(row);return [run ? runButton(run):esc(row.run_id.slice(0,8)),num(checkpointTargetMinutes(row),2),finite(checkpointActualSeconds(row))?`${num(checkpointActualSeconds(row),2)} s`:"Not measured",esc(domain(run)),`${num(value,2)}<span class="model-qualifier">${esc(label)}</span>`,esc(row.episodes),esc(row.checkpoint_hash?.slice(0,12)||"Not recorded")];});
+  const headers=["Run","Target minutes","Actual training time","Evidence domain","Result","Episodes","Checkpoint"];
   const checkpoints=data.runs.flatMap(run=>(run.artifact_manifest||[]).filter(artifact=>artifact.kind==="checkpoint"&&finite(artifact.metadata?.target_seconds)).map(artifact=>({run,artifact})));
-  return panel("Governed checkpoint evaluations", "Only records explicitly labeled with a one-hour protocol appear here.",rail+`<div class="notice">A saved checkpoint establishes that a model was captured. Qualification requires measured held-out behavior in the actual game under a declared competence threshold.</div>`+(rows.length?table(["Run","Minute","Evidence domain","Result","Episodes","Checkpoint"],rows):empty("One-hour outcome not measured","No complete real-game qualification can be inferred from synthetic or uncalibrated simulator runs.")))+`<div class="grid" style="margin-top:20px">${panel("Recorded checkpoint artifacts","Artifact times preserve the training budget; separate evaluations may arrive later.",table(["Run","Target time","Actual training time","SHA-256"],checkpoints.map(({run,artifact})=>[runButton(run),seconds(artifact.metadata.target_seconds),seconds(artifact.metadata.training_elapsed_seconds),esc(artifact.sha256.slice(0,20))])))}</div>`;
+  return panel("Governed checkpoint evaluations", "Completed evaluations of cold-start runs with a declared 3,600-second budget. Badges use requested checkpoint targets; actual snapshot times remain separate.",rail+`<div class="notice">A saved checkpoint establishes that a model was captured. Qualification requires measured held-out behavior in the actual game under a declared competence threshold.</div>`+(records.length?table(headers,evaluationRows(records)):empty("One-hour outcome not measured","No complete real-game qualification can be inferred from synthetic or uncalibrated simulator runs.")))+(continued.length?`<div style="margin-top:20px">${panel("Continued or other checkpoint evaluations","These records do not populate the cold-start one-hour badges. Times are local to the training run and exclude inherited training.",table(["Training class",...headers],evaluationRows(continued).map((row,index)=>[esc(trainingClass(continued[index])),...row])))}</div>`:"")+`<div class="grid" style="margin-top:20px">${panel("Recorded checkpoint artifacts","Training class and local target/actual times preserve the distinction between cold starts and continued training.",table(["Run","Training class","Target time","Actual training time","SHA-256"],checkpoints.map(({run,artifact})=>[runButton(run),esc(run.metadata?.benchmark_class||"Not recorded"),seconds(artifact.metadata.target_seconds),seconds(artifact.metadata.training_elapsed_seconds),esc(artifact.sha256.slice(0,20))])))}</div>`;
 }
 function transfer(data) {
   const generalization=data.evaluations.filter(row=>["in_distribution","new_map","new_vehicle","new_vehicle_and_map"].includes(row.metadata?.condition)||row.protocol?.includes("generalization"));
-  const rows=generalization.map(row=>{const run=byId(row.run_id),[label,value]=quality(row);return [run?runButton(run):esc(row.run_id.slice(0,8)),esc(row.metadata?.condition||"held-out"),esc(`${run?.vehicle_profile||"unspecified"} / ${run?.map_profile||"unspecified"}`),esc(`${row.results?.profile||row.metadata?.vehicle_profile||"unspecified"} / ${row.results?.terrain||row.metadata?.map_profile||"unspecified"}`),`${num(value,2)}<span class="model-qualifier">${esc(label)}</span>`,esc(row.results?.scope||domain(run))];});
-  const adaptation=data.evaluations.filter(row=>row.protocol?.includes("adaptation")||finite(row.metadata?.adaptation_minutes));
-  const adaptationGroups=new Map();for(const row of adaptation){const run=byId(row.run_id),key=run?runName(run):row.run_id;if(!adaptationGroups.has(key))adaptationGroups.set(key,[]);adaptationGroups.get(key).push({x:row.metadata?.adaptation_minutes,y:quality(row)[1]});}
+  const rows=generalization.map(row=>{const run=byId(row.run_id),[label,value]=quality(row);return [run?runButton(run):esc(row.run_id.slice(0,8)),`${esc(row.metadata?.condition||"held-out")}<span class="model-qualifier">${esc(evaluationContext(row))}</span>`,esc(conditionName(trainedCondition(row))),esc(conditionName(evaluatedCondition(row))),`${num(value,2)}<span class="model-qualifier">${esc(label)}</span>`,esc(row.results?.scope||domain(run))];});
+  const adaptation=data.evaluations.filter(row=>finite(adaptationMinutes(row)));
+  const adaptationGroups=new Map();for(const row of adaptation){const run=trainingRun(row)||byId(row.run_id),key=`${run?runName(run):row.run_id} · ${run?.run_id.slice(0,8)||row.run_id.slice(0,8)} · ${conditionName(evaluatedCondition(row))}`;if(!adaptationGroups.has(key))adaptationGroups.set(key,[]);adaptationGroups.get(key).push({x:adaptationMinutes(row),y:quality(row)[1]});}
   const adaptedSeries=[...adaptationGroups].map(([name,points],index)=>({name,points,color:palette[index%palette.length]}));
   const paired=new Map();for(const row of data.evaluations){if(!row.checkpoint_hash)continue;const key=`${row.checkpoint_hash}|${row.metadata?.comparison_condition || ""}`;if(!paired.has(key))paired.set(key,[]);paired.get(key).push(row);}
   const gaps=[];for(const [key,items]of paired){const real=items.find(row=>["real_game","real-game"].includes(domain(byId(row.run_id)))),sim=items.find(row=>["simulation","uncalibrated simulation"].includes(domain(byId(row.run_id))));if(real&&sim){const [realName,realValue]=quality(real),[simName,simValue]=quality(sim);if(realName===simName&&finite(realValue)&&finite(simValue))gaps.push([esc(key.split("|")[0].slice(0,14)),num(realValue,2),num(simValue,2),simValue!==0?num(realValue/simValue,3):"Undefined (zero simulator score)",esc(realName)]);}}
-  return `<div class="grid">${panel("Vehicle × map generalization", "Each row retains training and evaluation conditions; unfamiliar dynamics are evaluated separately.",rows.length?table(["Run","Condition","Trained vehicle / map","Evaluation vehicle / map","Result","Scope"],rows):empty("Generalization not measured","Evaluate held-out maps, vehicles, and their combined change with explicit condition labels."))}</div><div class="grid equal">${panel("Adaptation over exposure", "Recorded quality versus minutes adapting to unfamiliar dynamics.",chart(adaptedSeries,{xLabel:"Adaptation minutes"}))}${panel("Sim-to-real transfer", "Ratios require matching checkpoint hashes, condition labels and measurement definitions.",gaps.length?table(["Checkpoint","Real","Simulator","Real / sim","Metric"],gaps):empty("Transfer gap not measured","No matched real-game and simulator evaluation pair is available."))}</div>`;
+  return `<div class="grid">${panel("Vehicle × map generalization", "Original condition labels describe the source evaluation grid. Latest training conditions come from the saved policy/configuration; an adapted condition is not newly held out.",rows.length?table(["Run","Source condition label","Latest trained vehicle / map","Evaluation vehicle / map","Result","Scope"],rows):empty("Generalization not measured","Evaluate held-out maps, vehicles, and their combined change with explicit condition labels."))}</div><div class="grid equal">${panel("Adaptation over exposure", "Recorded quality versus actual additional training minutes in a changed vehicle/map condition. Parent training is excluded; same-condition continuation is excluded.",chart(adaptedSeries,{xLabel:"Additional adaptation minutes"}))}${panel("Sim-to-real transfer", "Ratios require matching checkpoint hashes, condition labels and measurement definitions.",gaps.length?table(["Checkpoint","Real","Simulator","Real / sim","Metric"],gaps):empty("Transfer gap not measured","No matched real-game and simulator evaluation pair is available."))}</div>`;
 }
 function controls(data) {
   const runSelect=`<div class="local-controls"><label>Trajectory run<select id="trajectory-run"><option value="">Most recent with trajectories</option>${data.runs.filter(run=>data.controls.some(row=>row.run_id===run.run_id)).map(run=>`<option value="${esc(run.run_id)}">${esc(runName(run))}</option>`).join("")}</select></label></div>`;

@@ -24,3 +24,27 @@ hash but did not retain its underlying patch or untracked manifest. Their sealed
 observations and artifacts remain inspectable, but the exact dirty source cannot
 be reconstructed from the run alone. Those finalized records are not rewritten.
 Use a clean source checkpoint for major governed training and reproduction runs.
+
+For records created after Cycle 1 stabilization, `hardware.machine_fingerprint_basis`
+is `hardware-observation-v2`. The fingerprint hashes the recorded OS, CPU, core
+counts, RAM, GPU/driver observations, and that basis marker before adding optional
+framework runtime measurements. Importing Torch therefore cannot make the same
+observed machine configuration appear to be a different machine. The optional
+`hardware.pytorch_cuda_available` and top-level `cuda` values remain diagnostic
+observations only; provenance collection does not import Torch to obtain them.
+
+Older records have no basis marker and hashed the entire hardware dictionary,
+including Torch availability when Torch was already loaded. Their fingerprints
+are not directly comparable with v2 or necessarily with each other across import
+paths. Compare the retained hardware fields explicitly; sealed records are unchanged.
+Even v2 identifies an observed configuration, not a unique physical host: OS/driver
+changes or unavailable hardware queries can change its hash.
+
+There is no separately populated historical `reward_version` field. Source SHA,
+retained scoped diff, configuration hash, and saved policy/measurement schema
+identify the implemented objective. Configuration already permits an explicit
+reward version for future protocols. Existing PPO runs used shaped progress reward
+(`0.1 * progress - 0.0004 - 1.0 * terminated`); screen CEM selects eligible distance
+at a declared terminal or paused boundary. Neither history is relabeled as a new
+objective. Versioned score/time/recovery reward comparisons are deferred by the
+[Cycle 1 pause directive](../methodology/cycle-1-pause-directive.md).

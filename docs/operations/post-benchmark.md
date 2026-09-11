@@ -1,4 +1,11 @@
-# Registered post-hour battery
+# Completed post-hour battery — Cycle 1 paused
+
+All 23 actions finalized successfully by 2026-09-11 20:01:47.900541 UTC.
+The 15 learning runs consumed 5,523.3294751 actual training seconds against 5,520
+requested. No work is queued. Read the [terminal plan-status record](../../research/experiments/cycle-1-plan-status.json)
+and [interim report](../../research/reports/gradientclimb-research-report.md).
+Commands below preserve reproducibility of the historical protocol; they are not
+an instruction to restart it when opening the repository.
 
 The execution plan is `experiments/definitions/post-hour-battery.json`, version `post-hour-battery-1.1`. It was registered before dispatch. Its canonical JSON SHA-256 is `5fa2b03e363f746978730b9d5535a53b69226a98e972d43befd35466e44cde23` (sorted JSON keys using the dispatcher's serialization). Version 1.0 was revised before any job executed. The plan's original registration-status field is immutable; current execution state comes from the canonical runs and `artifacts/post-benchmark/<plan_sha256>/events.jsonl`.
 

@@ -85,7 +85,10 @@ creative, shop, purchase, vehicle, or stage selector is actionable.
 
 Menu clicks use ordinary Windows SendInput with physical virtual-desktop coordinates.
 The backend refuses to click while the physical left mouse button is held, checks
-the inserted event count, and attempts mouse-up cleanup on a partial/error response.
+the inserted event count, and attempts mouse-up cleanup on a partial/error response,
+including `KeyboardInterrupt` and `SystemExit`. The original interruption and any
+cleanup failure are retained separately; an interrupted menu dispatch latches the
+adapter off and releases owned pedals before propagating the interruption.
 After a successful click on the inspected 1034 × 581 wrapper, it rechecks the
 window/focus/geometry guard and sends one separate movement-only packet to the
 verified blank title-bar point (520, 18). This avoids cursor hover obscuring future
@@ -97,12 +100,13 @@ OS insertion is not game acknowledgment; the following classified state provides
 separate evidence of a menu transition. Archive these traces, the UI profile, its
 reference images, and reset/terminal frames in the canonical run record.
 
-Focused validation currently covers 86 adapter/session tests with synthetic frames
+Focused validation covers adapter/session tests with synthetic frames
 and mock I/O, including cold capture retry, stale recovery, focus/geometry/Escape
 faults, exact state-role checks, stationary handoff, a 30-second known-ad wait,
 two ad phases, unknown creatives, timeout, callback failure, and partial mouse input.
-All 12 local references recognize their intended state and controls; this is a
-construction consistency check, not held-out accuracy. The adapter does not verify
+Local reference self-matches are construction consistency checks, not held-out
+accuracy; adding a reference does not establish performance on independent frames.
+The adapter does not verify
 vehicle/map selection from the Tune screen alone: the operator must preserve the
 inspected configuration until an independently validated identity reader exists.
 
@@ -119,3 +123,14 @@ To add another observed UI phase, save a normalized frame and capture metadata i
 new immutable run, inspect its state and narrowly scoped control, add a hash-pinned
 variant, then test positive and negative examples before live use. Existing source
 references and completed run records must not be rewritten.
+
+Cycle 1 is paused. The latest native CEM pilot,
+`51d2527e-9274-40ec-a04d-309117de107d`, reached one natural result with two agreeing
+289 m readings, then stopped on an unrecognized advertisement during parking.
+Its partial evidence is sealed, its episode remained ineligible, and no optimizer
+generation completed. Do not weaken a classifier or extend an ad action allowlist
+to turn this failed attempt into a completed result. The successful baseline
+`dad65c73-370f-4df9-9ff1-071ab9999680` recorded 458 m and 411 m at verified paused
+boundaries after its two 60-second always-gas episodes, including release-to-pause
+delay. This demonstrates that specific start/pause/restart path; general unattended
+reset coverage and real learned-policy competence remain unproven.

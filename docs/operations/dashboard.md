@@ -25,7 +25,7 @@ records as JSON; **Export run JSON** downloads one complete run record.
 | Overview | Run counts, recorded experience/time, per-run curves, held-out evaluations |
 | Runs & lineage | Searchable provenance and explicit parent run/checkpoint relationships |
 | Learning & efficiency | Curves versus elapsed time, recorded steps or episodes; final metric distributions across completed runs; quality/time scatter; CPU/GPU samples; cumulative component costs |
-| One-hour benchmark | Explicit `one-hour*` evaluation protocols at 5/10/20/30/45/60 minutes, plus saved checkpoint artifact times |
+| One-hour benchmark | Completed cold-start 3,600-second training records and their checkpoint evaluations; requested 5/10/20/30/45/60-minute targets, actual snapshot seconds, separately labeled continuation, and saved artifacts |
 | Transfer & adaptation | Held-out vehicle/map conditions, adaptation measurements and matched checkpoint sim/real comparisons |
 | Controls & calibration | Independent gas/brake trajectories, four-state action counts, and recorded calibration errors |
 
@@ -63,13 +63,27 @@ file to lock a training process, and no dashboard-only source of truth.
 
 - Set `metadata.evidence_domain` on a run to `real_game` or `simulation` when
   justified by the actual observation source. The versioned surrogate is
-  explicitly classified as uncalibrated simulation.
+  explicitly classified as uncalibrated simulation. If this optional tag is
+  absent, the exact environment `actual_hill_climb_racing` identifies native
+  evidence. Its recorded baseline evaluations count as real-game measurements,
+  without qualifying them as learned-policy competence or one-hour outcomes.
 - Set evaluation `protocol` to `one-hour-v1` and
-  `metadata.training_minutes` to the governed checkpoint time.
+  `metadata.requested_minutes` to the declared checkpoint target. Record actual
+  `metadata.training_elapsed_seconds` separately. The one-hour rail resolves the
+  checkpoint's registered training owner and requires a completed cold start with
+  a 3,600-second configured budget; continuation does not fill its badges. Actual
+  elapsed times are never rounded into a requested target.
 - Generalization evaluations use `metadata.condition` values
   `in_distribution`, `new_map`, `new_vehicle`, or `new_vehicle_and_map` and
   preserve the actual evaluated `profile`/`terrain` in results.
-- Adaptation evaluations record `metadata.adaptation_minutes` and their protocol.
+- Adaptation evaluations may record `metadata.adaptation_minutes` explicitly.
+  Existing fine-tuning checkpoint records are also recognized when registered
+  checkpoint lineage proves a change from the parent's vehicle/map condition;
+  their actual child training time supplies the exposure axis. Same-condition
+  extension stays separate. Generalization rows use the saved policy configuration
+  or checkpoint owner's latest training condition, not the evaluation command's
+  default profile. Original condition labels remain visible with adapted-condition
+  and original-condition-retention qualifiers where supported by lineage.
 - Sim/real ratios require the same `checkpoint_hash`, measurement definition,
   and declared `metadata.comparison_condition`. Ratios with a zero simulator
   denominator remain undefined.

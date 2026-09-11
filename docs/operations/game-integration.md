@@ -1,6 +1,27 @@
 # Real-game integration status and operating contract
 
-Last updated: 2026-09-11. The current implementation supplies capture, control, pixel-estimation, and restricted calibration building blocks. It does **not** establish a validated unattended game agent, a calibrated HCR simulator, or measured sim-to-real performance.
+## Final Cycle 1 status
+
+Cycle 1 is intentionally paused. Ordinary native capture, corrected arrow input
+and all four pedal combinations now have controlled evidence. Two 60-second gas
+episodes completed through automated truncated resets, with paused-boundary OCR
+458/411 m. The direct-screen pilot read a terminal 289 m but failed closed on an
+unknown advertisement: zero eligible episodes and no learning update. Natural
+reset coverage and unattended reliability remain incomplete. No real trained-policy
+qualification, calibrated HCR simulator or sim-to-real transfer is established.
+
+The current operating references are [native adapter](native-game-adapter.md),
+[scoring](scoring-readers.md), [screen features](screen-feature-bridge.md), and
+[resumption checkpoint](resume-state.md). The adapter now explicitly selects
+DXcam/MSS/Pillow; its ordinary menu actions are separate from the pedal backend.
+
+## Historical early integration snapshot
+
+The sections below preserve the earlier implementation and discovery constraints.
+Statements that input/capture remained unmeasured describe that early snapshot,
+not the final Cycle 1 state. The old Escape latch was session-local and was later
+cleared through a user-authorized fresh turn; it is not an active blocker or a
+request to resume now. Read the final references above for current evidence.
 
 ## Confirmed setup and current boundary
 

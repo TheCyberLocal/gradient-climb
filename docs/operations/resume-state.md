@@ -1,88 +1,172 @@
-# Active research state — 2026-09-11
+# Research Cycle 1 resumption checkpoint
 
-This is a continuation checkpoint, not a final completion report. The user's full
-research brief remains active. Do not restart already completed work or silently
-substitute simulator evidence for actual Hill Climb Racing qualification.
+**When work resumes, start here.** Cycle 1 is intentionally paused. Do not resume
+an old queued battery or launch a one-hour run automatically. The owner's
+[pause directive](../methodology/cycle-1-pause-directive.md) supersedes the earlier
+open-ended completion mandate for this release.
 
-## Repository
+**Exact first task:** verify the frozen release and local artifact seals, then
+preregister Cycle 2 objective/behavioral metrics and a bounded native reset/scoring
+reliability test before new training. The first operational gate is repeatable,
+scored native episodes with reliable natural termination/reset. Inspect the failed
+native pilot below and reacquire current window/control/profile evidence. See the
+canonical [resumption plan](resumption-plan.md) for prerequisites and completion
+criteria. The new reward campaign is future work, not an automatically queued job.
 
-- Starting SHA: b7ca30e1d9f43e701db797f73fc27d7c96f59f98.
-- Validated implementation/training source:73c5ea2ec6864a90ec15c8b0b209287507da5bd7.
-- Branch dev pushed/tracking origin/dev; main unchanged.
--58 tests passed locally before this continuation's additional independent work.
-- GitHub Actions run34627485686 passed for73c5ea2.
+## Exact repository checkpoint
 
-## Running benchmark — do not launch a duplicate
-
-Run:c0a9e142-1ad6-4d88-810d-bda4ca297f40. Started17:22:54.783UTC (12:22:54Chicago).
-PPO CPU256, seed42, cold start,3600actual seconds. Config:
-experiments/definitions/one-hour-surrogate.json. Source recorded clean73c5ea2.
-No pilot weights loaded. All results are **uncalibrated surrogate**, not real-game
-qualification. Compute session93709; output artifacts/one-hour-console.log.
-Canonical files:artifacts/runs/c0a9e142-1ad6-4d88-810d-bda4ca297f40/.
-The300s checkpoint exists. Expected completion approximately18:23UTC.
-
-After completion, verify the sealed record and evaluate each checkpoint:
+- Project version: **0.1.0a1**; no ceremonial version bump.
+- Original research starting SHA: `b7ca30e1d9f43e701db797f73fc27d7c96f59f98`.
+- Stabilization starting dev SHA: `f8183772d78641dc692a1008152af9ba085207bf`.
+- Frozen release ref: **`cycle-1-paused`**, an annotated Git tag published only
+  after final dev CI, main synchronization and main CI succeed.
+- Final main SHA and final dev SHA are the tag's target commit (fast-forward
+  integration). The tag annotation records their full literal SHAs, any merge
+  SHA and successful workflow IDs. This avoids a self-referential commit hash
+  inside its own tracked file.
 
 ```powershell
-.venv/Scripts/python -m gradientclimb experiment verify c0a9e142-1ad6-4d88-810d-bda4ca297f40
-.venv/Scripts/python -m gradientclimb evaluate-checkpoints c0a9e142-1ad6-4d88-810d-bda4ca297f40
+git fetch origin --tags
+git rev-parse 'cycle-1-paused^{commit}'
+git for-each-ref refs/tags/cycle-1-paused --format='%(contents)'
+git rev-parse origin/main origin/dev
 ```
 
-Pilot screen:8runs ×60s requested,481.36s actual, separate from the hour.
-PPOCPU256 across3training seeds:491.38mean validation distance,35.08between-seedSD.
-CEM:378.49mean,106.31SD. Source-linked records in research/experiments/runtime-screen.json.
-Validation seeds10000–10019; final test20000–20019 untouched by learned-policy selection.
-Random baseline run:f015c7ca-d1bd-4c8a-bfa9-1a4c2c8877c5 (median20.8918nominalm).
-Scripted gas baseline:5235fad7-9d8f-4713-bb8b-1a58029020dd (median35.4455nominalm).
-These brief evaluations and normal desktop/dashboard activity occurred during
-the governed run; this was not an otherwise idle-machine experiment.
+The tag remains the immutable Cycle 1 checkpoint if branches later advance. Its
+containing revision is also the completion audit/report revision. `dev` is
+preserved. Historical `REGISTERED_PENDING_DISPATCH` text is a preregistration
+snapshot, not a live queue; consult the terminal cycle plan-status record.
 
-## Actual-game continuation
+## Architecture and versions
 
-User explicitly authorized resumed game control using existing arrow keys:
-Right=gas, Left=brake. The native Computer Use helper remains Escape-stop-latched
-for this tool turn despite that resumption; root stopped native calls and did not
-bypass the stop via a different input backend. A fresh conversation turn is needed.
+| Component | Frozen implementation / boundary |
+| --- | --- |
+| Records | `src/gradientclimb/experiments/`; schema 1.0.0, append-only journals, sealed JSON/Parquet, artifact hashes and lineage. |
+| Surrogate | `surrogate-0.1.0`, `simulation/hill.py`; original batched dynamics, uncalibrated. Oracle observations are not deployable pixels. |
+| PPO | `ActorCritic`, tensor-only `.pt` format_version 1, two Bernoulli heads; primary MLP 64×64, stack 4, CPU 256 environments. |
+| Simulator CEM | `LinearPolicy`, tensor-only `.pt` format_version 1, categorical four-state policy, final-distance fitness. |
+| Screen CEM | JSON policy type `screen-linear-independent-pedals-1`; 34 parameters, independent heads, resumable optimizer state. An initial candidate was exercised; no trained native policy. |
+| Student | `.pt` format `screen-body-student-1`; 8 body features and masks × history 4. Implementation tested; training never started. Projection uncalibrated. |
+| Native bridge | `hcr-screen-relative-1`; 49 features + 49 masks × history 4 = 392 values. Image-relative estimates, not world position/contact truth. |
+| Adapter | Ordinary capture/SendInput; identity/focus/geometry/freshness guards; bounded leases; explicit backend. |
+| Dashboard | FastAPI/static assets; read-only DuckDB snapshots of canonical files; no separate database or scheduler. |
 
-Use the Computer Use skill to reacquire the returned actual game window; do not
-trust cached coordinates/handles. The title starts Hill Climb Racing and the
-Google Play Games process is crosvm.exe. Do not click the advertisement banner.
-A temporary Tap/Q mapping draft was opened while discovering controls; inspect
-and clear it before continuing. The native arrows already exist and need no remap.
+Screen schema SHA-256:
+`f144123b15edd1dad4d05879aa06e18508cd438cbbdb59837762a3dae2bf509c`.
+UI profile: `configs/perception/hcr-reset-ui.json`,
+`hcr-wrapper-reset-construction-v1` (version 1, 15 construction variants).
+Pixel profile: `configs/perception/hcr-discovery-wrapper.json`,
+`hcr-country-hillclimber-discovery-wrapper-prototype-1`.
+Both assume normalized 1034×581 images and local references. Run configuration
+content hashes distinguish revisions within these prototype profile identifiers.
 
-Observed vehicle Hill Climber, CountrySide, max levels13/13engine,14/14suspension,
-16/16tires,10/10drivetrain. No-input discovery result26m out of fuel is not a random
-policy evaluation. State flow and local screenshots are documented separately.
-Next: validate sustained arrow holds and both pedals; benchmark safe target-only
-capture; collect timestamped independent controlled action trajectories; label
-held-out frames; fit and validate effective dynamics before real-transfer claims.
+Historical reward semantics remain source-bound: surrogate PPO uses
+`0.1 * new_best_distance - 0.0004 - 1.0 * terminated`; simulator CEM selects mean
+final distance; native CEM uses eligible verified episode distance. Legacy records
+are not rewritten to invent an explicit reward ID they never carried. No score,
+coin or trick composite is implemented. Future version IDs, exact parameters,
+observability masks and independent behavioral metrics are required research work.
 
-Offline labels: corrected run b978c7e7-a4ff-40ae-a1bd-2577ea935010,5actual single-session
-images, self-match5/5, heldout0, no measured generalization. Original b5a1748c run
-retained but its mistaken default episodic-evaluation count is documented/excluded.
-Template prototypes are state-only and not validated to authorize unattended input.
+## Important runs and models
 
-## Dashboard and follow-through
+All IDs resolve under `artifacts/runs/<run-id>/`. Read `run.json`, its registered
+files and `seal.json`; never modify finalized directories.
 
-Dashboard localhost:8765, serverPID26828, execsession58258; six analytical views.
-All views/filter/reset/details and desktop/mobile rendering inspected with no
-browser errors. Query canonical records; never add a second dashboard source.
+| Evidence | Run ID / result |
+| --- | --- |
+| Primary cold-start hour | `c0a9e142-1ad6-4d88-810d-bda4ca297f40`; clean `73c5ea2`, 3600.3219 training seconds, 41,648,128 transitions; final validation mean 681.5519, median 716.1228 nominal surrogate m. |
+| Primary checkpoints | `b8df5a43-deb0-4b3a-917b-2398322c327c`; actual 5/10/20/30/45/60-minute snapshots. |
+| Primary held-out conditions | `3a9a0c20-e544-4efd-9c68-e2830d8e8224`; source mean 700.747, rough 122.304, heavy 681.618, combined 146.879. |
+| Hour reproduction | `db77b7cd-a11a-473a-8406-06d99b5de5ad`; seed 43, 3600.3484 seconds, 31,382,272 transitions; final validation mean 696.1396, median 705.0922. |
+| Reproduction evaluations | `153b8e02-dd2f-442f-9a48-6230d3f5c1cb` checkpoints; `c0a9db18-1344-4f74-b5ba-3e59d81b14ab` held-out conditions. |
+| Source extension +10 min | `6f193264-faa5-47ae-88b3-9e0f7ea413a5`; fixed primary parent, 600.3199 seconds; +5 min validation mean 704.3531, +10 min 702.2869. No broad held-out improvement. |
+| Combined-shift adaptation +10 min | `24eacdf3-cff5-430f-8978-b2e2bd34f396`; fixed primary parent; report includes checkpoints/retention. No +30/+60-minute result. |
+| Simulator random / gas | `f015c7ca-d1bd-4c8a-bfa9-1a4c2c8877c5` / `5235fad7-9d8f-4713-bb8b-1a58029020dd`. |
+| Corrected four-state input | `06a5ab40-7201-43e5-a5a8-137325c4c38d`; 35 frames / 7.5-second scripted native probe. |
+| Native gas pair | `dad65c73-370f-4df9-9ff1-071ab9999680`; two 60-second episodes, paused-boundary OCR 458/411 m, release-to-pause delay included. |
+| Terminal score / reset failure | `0d84a31d-4b78-4506-a869-6bdf7cbb20a3`; 203 m reading, animated result/reset failed. |
+| Direct-screen pilot | `51d2527e-9274-40ec-a04d-309117de107d`; clean `f8183772`, requested 600 s, stop at 102.0990 governed s; run duration 106.6049 s, pre-finalize elapsed 107.7381 s. Stable terminal OCR 289 m; unknown ad prevented parking, 0 eligible episodes / 0 optimizer updates. |
 
-Remaining original work includes controlled real data, live unattended-loop
-validation, actual calibrated simulator/alternative strategy evidence, real
-one-hour qualification, transfer, held-out real vehicles/maps, adaptation and
-forgetting, selected ablations, extended training, reproducibility rerun and final
-scientific reporting. Preregistered pending definitions do not establish results.
-The research report must remain explicit about incomplete real-game evidence.
+The **fixed primary model of record** is:
+`artifacts/runs/c0a9e142-1ad6-4d88-810d-bda4ca297f40/files/87c469539110d3134c04ebcf11e95f9c84e595c90ba7e6b2b106917115e04ec0_policy-final.pt`.
+The reproduction final hash is
+`f9ba71dc136529518c9ade34a51f1d58a3650d5b7a3c918f6994c049148cb41d`.
+It has the largest final one-hour validation mean, but paired uncertainty and poor
+rough-map outcomes prevent calling it universally better. The extended +5-minute
+checkpoint has a higher validation mean at additional cost. Use condition-specific
+comparisons rather than a single 'best' label.
 
-## Paused independent implementation
+## Native facts and required local artifacts
 
-The harness subagent drafted a bounded screen-session orchestrator. It is preserved
-at ignored `artifacts/drafts/session.py`, outside the published package pending
-focused control-flow tests. It compiles and passes lint, but was not functionally
-validated. Restore it to `src/gradientclimb/control/session.py` only while completing
-those tests and review. The simulation subagent's source-linked report generator
-was still being prepared; no incomplete generator file was published. Both agents
-were interrupted to preserve this checkpoint and let the native tool turn reset.
-They can resume their existing bounded subtasks in the next turn.
+Observed game: Google Play Games, Hill Climber / Countryside, engine 13/13,
+suspension 14/14, tires 16/16, drivetrain 10/10. Right Arrow is gas, Left Arrow is
+brake. All four combinations are independent. No purchase/unlock was performed.
+Reacquire the actual window; cached handles and coordinates are not durable target
+identity. Native sessions are stopped; no game input should restart automatically.
+
+- Gameplay bank:
+  `artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/gameplay-glyphs/hud-glyphs.json`.
+- Result reader:
+  `artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-reader.json`.
+- UI references include `artifacts/game-discovery/` and paths in the reset profile.
+  Restore every referenced file and verify hashes before native use.
+- Preserve **all** `artifacts/runs/`, including failures: 100 sealed runs total
+  717,929,878 bytes at the pause cutoff. Also preserve auxiliary `game-discovery`,
+  `post-benchmark`, `diagnostics`, `demos`, `probe-analysis`, labeling folders and
+  the [auxiliary evidence inventory](../../research/experiments/cycle-1-local-evidence.json) and local draft inventory linked by the resumption plan.
+- Git contains compact reports/protocols/source, **not** trained models/game pixels.
+  A fresh clone runs ordinary tests/dashboard but cannot reconstruct local evidence
+  or native templates without this separate store. No external backup is claimed.
+
+DXcam worked in the corrected native pilot after eager Torch imports were removed.
+Paired diagnostics associate Torch import with DXGI unsupported failure; the exact
+DLL/driver mechanism is unknown. MSS/Pillow are explicit alternatives, not proven
+equivalent capture distributions. Do not silently switch within a governed
+comparison. See [native operations](native-game-adapter.md).
+
+## Environment, dashboard and reproduction
+
+Workstation: Windows 11, Python 3.13.5, i9-14900HX (24 physical / 32 logical
+cores), 63.71 GiB RAM, RTX 4090 Laptop 16 GB, driver 616.56, Torch 2.11.0+cu128.
+Small-policy benchmarks selected CPU/256 environments. Concurrent desktop/research
+work means these are not isolated-machine benchmarks.
+
+```powershell
+python -m venv .venv
+.venv/Scripts/python -m pip install -e ".[dev,train,capture,analysis]"
+.venv/Scripts/python -m gradientclimb doctor
+.venv/Scripts/python -m gradientclimb --root artifacts dashboard --port 8765
+```
+
+Open <http://127.0.0.1:8765/> and Refresh. Process IDs are not resumption dependencies.
+Stop the server with Ctrl+C in its owning terminal. Locked CUDA wheels require the
+official PyTorch CUDA 12.8 index; portable CPU installs may differ. See
+`requirements-lock.txt` and [validation](stabilization-validation.md).
+
+Evidence/report reconstruction, without new learning:
+
+```powershell
+.venv/Scripts/python scripts/audit_cycle_state.py
+.venv/Scripts/python scripts/analyze_research.py --verify --benchmark-run c0a9e142-1ad6-4d88-810d-bda4ca297f40
+.venv/Scripts/python scripts/build_research_notebooks.py --execute
+```
+
+These commands write derived inventories/reports, never mutate sealed source runs.
+Inspect changes before committing. Exact training configurations remain in
+`experiments/definitions/` and canonical records; **do not execute them merely to
+open this checkpoint**. Historical plans are not an automatic queue.
+
+## Unproven boundaries
+
+Native unattended reliability, trained native policy quality, real qualification,
+calibrated world dynamics, broad independent perception accuracy, matched
+sim-to-real transfer, real held-out vehicles/maps, real adaptation/retention and
+human-equivalent performance remain unestablished. Surrogate adaptation/ablations
+are narrower evidence. Student and ignored dynamics drafts have no trained real
+performance. Future reward design must retain distance independently and test
+provisional trick credit plus reward-hacking cases.
+
+Read the [completion audit](../methodology/completion-audit.md) for original gate
+coverage, the [interim report](../../research/reports/gradientclimb-research-report.md)
+for results, and the [resumption plan](resumption-plan.md) for the ordered research
+map. No reconstruction from chat history is required.

@@ -1,7 +1,11 @@
 # Screen-body student distillation protocol
 
 Status: implemented and semantically tested; **training and real-game evaluation
-have not been dispatched**. This is a transfer comparator with a trained teacher
+were never dispatched and are deferred at the Cycle 1 pause**. The queued
+60-second seed500 pilot was cancelled before it started when the user paused
+research. There is no learned student artifact or measured teacher agreement,
+surrogate student score, or native student evaluation. The historical proposal
+below is not authorization to resume. This is a transfer comparator with a trained teacher
 prior. It is neither a cold start nor evidence of successful sim-to-real transfer.
 
 The frozen teacher is primary PPO run `c0a9e142-1ad6-4d88-810d-bda4ca297f40`,
