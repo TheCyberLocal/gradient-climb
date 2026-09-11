@@ -597,6 +597,7 @@ def main():
     parser.add_argument("--artifacts", type=Path, default=Path("artifacts"))
     parser.add_argument("--seconds", type=float, default=3600)
     parser.add_argument("--episode-seconds", type=int)
+    parser.add_argument("--capture-backend", choices=["dxcam", "mss", "pillow"], default="dxcam")
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args()
     budget = GovernedClock(args.seconds, started=ENTRY_CLOCK)
@@ -611,6 +612,7 @@ def main():
             json.dumps(
                 {
                     "execute": False,
+                    "capture_backend": args.capture_backend,
                     "requested_seconds": args.seconds,
                     "protocol": protocol.model_dump(mode="json"),
                 },
@@ -654,6 +656,7 @@ def main():
         "screen_schema": bridge.schema,
         "screen_schema_id": bridge.schema_id,
         "input_mode": "extended_scancode",
+        "capture_backend": args.capture_backend,
         "park_reserve_seconds": PARK_RESERVE_SECONDS,
         "score_gate": "stable terminal pair or full-horizon verified paused readout",
         "unknown_score_policy": "retain pending candidate; stop after three invalid attempts",
@@ -681,7 +684,11 @@ def main():
                 lambda: budget.remaining > 0 and adapter is not None and adapter.is_playing(),
             )
             adapter = NativeGameAdapter(
-                target, args.ui_profile, args.reference_root, release_pedals=controller.release
+                target,
+                args.ui_profile,
+                args.reference_root,
+                release_pedals=controller.release,
+                capture_backend=args.capture_backend,
             )
             adapter.sender.api = DeadlineInput(adapter.sender.api, budget)
             runtime = SimpleNamespace(

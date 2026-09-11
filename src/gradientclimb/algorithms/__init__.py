@@ -1,8 +1,6 @@
-"""Transparent baselines and wall-clock governed learning."""
+"""Public algorithm APIs without eagerly initializing optional runtimes."""
 
-from .cem import train_cem
-from .policies import AlwaysGasPolicy, LinearPolicy, RandomPolicy, load_policy
-from .ppo import ActorCritic, TrainingResult, train_ppo
+from importlib import import_module
 
 __all__ = [
     "ActorCritic",
@@ -14,3 +12,27 @@ __all__ = [
     "train_cem",
     "train_ppo",
 ]
+
+_EXPORT_MODULES = {
+    "ActorCritic": "ppo",
+    "AlwaysGasPolicy": "policies",
+    "LinearPolicy": "policies",
+    "RandomPolicy": "policies",
+    "TrainingResult": "ppo",
+    "load_policy": "policies",
+    "train_cem": "cem",
+    "train_ppo": "ppo",
+}
+
+
+def __getattr__(name):
+    module_name = _EXPORT_MODULES.get(name)
+    if module_name is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    value = getattr(import_module(f".{module_name}", __name__), name)
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(set(globals()) | set(__all__))

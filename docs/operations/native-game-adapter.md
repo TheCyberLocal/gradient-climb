@@ -26,7 +26,10 @@ result variants and rejects references lacking both glyph and outline evidence.
 
 Compose it with an already discovered `WindowTarget`, `PedalController`, and a
 required release callback. No input occurs while loading the profile or calling
-`observe()`. The normal capture backend is DXcam, normalized to the profile size.
+`observe()`. The default capture backend is DXcam, normalized to the profile size.
+The explicit `capture_backend="dxcam"|"mss"|"pillow"` parameter selects the reader;
+both native runners expose `--capture-backend` and record it in run configuration.
+No automatic fallback changes the capture protocol after a failure.
 Window identity, foreground status, unchanged physical client geometry, Escape,
 monotonic timestamps, and a maximum observation age of 0.45 seconds guard every
 action. The first stale capture is discarded and one new capture is attempted;
@@ -94,7 +97,7 @@ OS insertion is not game acknowledgment; the following classified state provides
 separate evidence of a menu transition. Archive these traces, the UI profile, its
 reference images, and reset/terminal frames in the canonical run record.
 
-Focused validation currently covers 82 adapter/session tests with synthetic frames
+Focused validation currently covers 86 adapter/session tests with synthetic frames
 and mock I/O, including cold capture retry, stale recovery, focus/geometry/Escape
 faults, exact state-role checks, stationary handoff, a 30-second known-ad wait,
 two ad phases, unknown creatives, timeout, callback failure, and partial mouse input.

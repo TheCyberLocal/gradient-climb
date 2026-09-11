@@ -23,6 +23,23 @@ unqualified shortened integration. An episode-horizon override is rejected for a
 3,600-second run. UI, measurement, and experiment-definition paths can be supplied
 explicitly; all resolved dependencies are frozen and copied into the run record.
 
+Both this trainer and `run_screen_episodes.py` accept
+`--capture-backend dxcam|mss|pillow`. DXcam remains the default. The selected backend
+is recorded in configuration and frame metadata; failure never silently selects a
+different backend. Use a separate controlled run to compare MSS or Pillow, with the
+same UI profile, normalization, freshness threshold, and input mode. Their capture
+latency may be too high to admit a pedal lease; measurement determines eligibility.
+
+During native integration, three trainer startups failed before input at DXGI
+DuplicateOutput with `DXGI_ERROR_UNSUPPORTED`, while a baseline inspection worked.
+An isolated local comparison then reproduced the failure after importing PyTorch,
+and succeeded without that import. This establishes an import-associated failure
+on this workstation, not a confirmed driver-level cause. The algorithms package
+now resolves exports lazily: importing the NumPy screen policy or this trainer does
+not initialize PyTorch. Fresh-process regression tests verify that boundary. Torch
+is still loaded when a Torch policy/training implementation is actually requested;
+its capture compatibility requires a separately recorded comparison.
+
 Actual execution requires a clean committed Git checkout, exactly one discovered
 game window, and an initially recognized PAUSED or Tune screen. The operator must
 preserve the previously inspected vehicle, map, upgrades, resolution, focus, and
@@ -101,7 +118,7 @@ episodes and pending candidate state remain on interruption. Training-selection
 scores are not independent evaluation results, and the trainer never marks them
 as qualification evidence.
 
-Focused trainer validation currently includes 22 tests covering a full synthetic
+Focused trainer validation currently includes 25 tests covering a full synthetic
 CEM generation, partial collection failure, invalid-score candidate retries,
 required-feature neutral actions, fixed-horizon admission, source and manifest
 integrity, measured-zero eligibility, deadline-crossing callbacks, OS packet

@@ -297,6 +297,7 @@ def main():
     parser.add_argument("--episode-seconds", type=float, default=8)
     parser.add_argument("--max-seconds", type=float, default=120)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--capture-backend", choices=["dxcam", "mss", "pillow"], default="dxcam")
     parser.add_argument(
         "--inspect", action="store_true", help="Classify one current frame; never navigate or drive"
     )
@@ -373,6 +374,7 @@ def main():
         "screen_schema_id": bridge.schema_id,
         "target": target.as_dict(),
         "input_mode": "scancode",
+        "capture_backend": args.capture_backend,
         "max_lease_seconds": 0.4,
         "scope": "frozen learned-policy evaluation"
         if args.policy
@@ -382,7 +384,12 @@ def main():
     adapter = None
     backend = WindowsPedalBackend(target, gas_vk=0x27, brake_vk=0x25, input_mode="scancode")
     controller = PedalController(backend, lambda: adapter is not None and adapter.is_playing())
-    adapter = NativeGameAdapter(target, args.ui_profile, release_pedals=controller.release)
+    adapter = NativeGameAdapter(
+        target,
+        args.ui_profile,
+        release_pedals=controller.release,
+        capture_backend=args.capture_backend,
+    )
     summaries, reset_frames = [], []
     terminal = ResultScoreCollector(result_reader)
     error = None

@@ -256,6 +256,53 @@ def test_mouse_events_use_physical_virtual_desktop_coordinates():
         mouse_click_events((1920, 0), ClientRect(-1920, 0, 3840, 1080))
 
 
+@pytest.mark.parametrize("backend", ["dxcam", "mss", "pillow"])
+def test_explicit_capture_backend_constructs_only_selected_reader(dataset, backend, monkeypatch):
+    root, path, _, _ = dataset
+    created = []
+
+    def capture(guard, **kwargs):
+        created.append(kwargs)
+        return SimpleNamespace()
+
+    monkeypatch.setattr("gradientclimb.control.game_adapter.WindowCapture", capture)
+    adapter = NativeGameAdapter(
+        TARGET,
+        path,
+        root,
+        guard=SimpleNamespace(),
+        sender=SimpleNamespace(),
+        capture_backend=backend,
+        release_pedals=lambda: None,
+    )
+    assert adapter.capture_backend_name == backend
+    assert created == [{"backend": backend, "output_size": (80, 60)}]
+
+
+def test_capture_backend_has_no_automatic_fallback(dataset, monkeypatch):
+    root, path, _, _ = dataset
+    attempts = []
+
+    def failing_capture(guard, **kwargs):
+        attempts.append(kwargs["backend"])
+        raise RuntimeError("chosen capture unavailable")
+
+    monkeypatch.setattr("gradientclimb.control.game_adapter.WindowCapture", failing_capture)
+    with pytest.raises(RuntimeError, match="chosen capture unavailable"):
+        NativeGameAdapter(
+            TARGET,
+            path,
+            root,
+            guard=SimpleNamespace(),
+            sender=SimpleNamespace(),
+            capture_backend="mss",
+            release_pedals=lambda: None,
+        )
+    assert attempts == ["mss"]
+    with pytest.raises(ValueError, match="Explicit capture backend"):
+        NativeGameAdapter(TARGET, path, root, capture_backend="automatic")
+
+
 def test_stale_watchdog_releases_without_permanent_stop_and_recovers(dataset):
     adapter, clock, _, _, _ = adapter_fixture(dataset, ["playing"])
     adapter.observe()

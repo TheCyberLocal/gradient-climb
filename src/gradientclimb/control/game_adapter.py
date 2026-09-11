@@ -341,12 +341,15 @@ class NativeGameAdapter:
         *,
         guard=None,
         capture=None,
+        capture_backend: Literal["dxcam", "mss", "pillow"] = "dxcam",
         sender=None,
         release_pedals=None,
         max_observation_age_seconds=0.45,
         clock=time.perf_counter,
         sleep=time.sleep,
     ):
+        if capture_backend not in {"dxcam", "mss", "pillow"}:
+            raise ValueError("Explicit capture backend must be dxcam, mss, or pillow")
         if (
             not math.isfinite(max_observation_age_seconds)
             or not 0 < max_observation_age_seconds <= 0.5
@@ -355,11 +358,14 @@ class NativeGameAdapter:
         self.target = target
         self.guard = guard if guard is not None else WindowGuard(target)
         self.recognizer = GameUIRecognizer.from_file(profile_path, reference_root)
+        self.capture_backend_name = capture_backend
         self.capture_backend = (
             capture
             if capture is not None
             else WindowCapture(
-                self.guard, backend="dxcam", output_size=self.recognizer.profile.expected_size
+                self.guard,
+                backend=capture_backend,
+                output_size=self.recognizer.profile.expected_size,
             )
         )
         self.sender = sender if sender is not None else _NativeMenuInput(self.guard)

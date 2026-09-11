@@ -360,3 +360,23 @@ def test_clean_source_and_manifest_hashes_are_mandatory(trainer, tmp_path):
     glyph.write_bytes(b"changed")
     with pytest.raises(ValueError, match="hash mismatch"):
         trainer.manifest_dependencies(manifest)
+
+
+@pytest.mark.parametrize("backend", ["dxcam", "mss", "pillow"])
+def test_capture_backend_is_explicit_in_nonexecuting_plan(trainer, monkeypatch, capsys, backend):
+    monkeypatch.setattr(
+        trainer.sys,
+        "argv",
+        [
+            "train_screen_cem.py",
+            "--hud",
+            "unused.json",
+            "--result-reader",
+            "unused-result.json",
+            "--capture-backend",
+            backend,
+        ],
+    )
+    trainer.main()
+    plan = json.loads(capsys.readouterr().out)
+    assert plan["capture_backend"] == backend and plan["execute"] is False
