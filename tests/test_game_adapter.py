@@ -406,15 +406,16 @@ def test_known_ad_waits_for_own_close_then_handles_second_phase(dataset):
     sequence = [
         "result",
         *(["ad_wait"] * 620),
-        "advertisement",
+        *(["advertisement"] * 5),
         "unknown",
-        "second_ad",
+        *(["second_ad"] * 5),
         "tune",
         "playing",
     ]
     adapter, clock, _, _, _ = adapter_fixture(dataset, sequence)
     assert adapter.reset(on_terminal=lambda observation: None).state == "playing"
     assert clock.now > 30
+    assert any("confirming stability" in row["reason"] for row in adapter.guard_trace)
     assert [row["name"] for row in adapter.trace] == [
         "continue_result",
         "legitimate_ad_close",
@@ -426,7 +427,9 @@ def test_known_ad_waits_for_own_close_then_handles_second_phase(dataset):
 def test_ad_unknown_creative_waits_bounded_without_generic_close(dataset):
     _, _, frames, _ = dataset
     frames["unknown_creative"] = np.full((60, 80, 3), 220, dtype=np.uint8)
-    adapter, _, _, _, clicks = adapter_fixture(dataset, ["advertisement", "unknown_creative"])
+    adapter, _, _, _, clicks = adapter_fixture(
+        dataset, [*(["advertisement"] * 5), "unknown_creative"]
+    )
     with pytest.raises((RuntimeError, TimeoutError)):
         adapter.reset(allow_initial_start=True, max_seconds=0.2)
     assert len(clicks) == 1
@@ -435,11 +438,161 @@ def test_ad_unknown_creative_waits_bounded_without_generic_close(dataset):
 def test_result_continue_unknown_video_wait_then_only_registered_close(dataset):
     _, _, frames, _ = dataset
     frames["unknown_video"] = np.full((60, 80, 3), 220, dtype=np.uint8)
-    sequence = ["result", *(["unknown_video"] * 410), "advertisement", "unknown_video", "tune"]
+    sequence = [
+        "result",
+        *(["unknown_video"] * 410),
+        *(["advertisement"] * 5),
+        "unknown_video",
+        "tune",
+    ]
     adapter, clock, _, _, _ = adapter_fixture(dataset, sequence)
     assert adapter.reset(start_next=False, on_terminal=lambda observation: True).state == "tune"
     assert clock.now > 20
     assert [row["name"] for row in adapter.trace] == ["continue_result", "legitimate_ad_close"]
+
+
+def test_single_frame_or_moving_ad_close_is_never_clicked(dataset):
+    _, _, frames, _ = dataset
+    frames["ad_wait"] = frames["advertisement"].copy()
+    frames["ad_wait"][25:45, 5:25] = 0
+    # One close frame between waits cannot satisfy the stability requirement.
+    adapter, _, _, _, clicks = adapter_fixture(
+        dataset, ["advertisement", *(["ad_wait"] * 3), "advertisement", *(["ad_wait"] * 400)]
+    )
+    with pytest.raises(TimeoutError):
+        adapter.reset(max_seconds=3.0, transition_seconds=0.5, ad_transition_seconds=1.0)
+    assert not clicks
+    # A control that moves between consecutive frames restarts the confirmation.
+    shifted = np.roll(frames["advertisement"], 3, axis=1)
+    frames["shifted_ad"] = shifted
+    sequence = ["advertisement", "shifted_ad", "advertisement", "shifted_ad", "advertisement"]
+    adapter, _, _, _, clicks = adapter_fixture(dataset, sequence + ["ad_wait"] * 300)
+    with pytest.raises(TimeoutError):
+        adapter.reset(max_seconds=2.0, transition_seconds=0.5, ad_transition_seconds=1.0)
+    assert not clicks
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"max_seconds": 121},
+        {"ad_transition_seconds": 91},
+        {"transition_seconds": 16},
+        {"max_clicks": 11},
+        {"max_clicks": 0},
+        {"ad_close_stability_seconds": 2.5},
+        {"ad_close_stability_seconds": -0.1},
+    ],
+)
+def test_reset_bounds_remain_finite_and_bounded(dataset, kwargs):
+    adapter, _, _, _, _ = adapter_fixture(dataset, ["paused"])
+    with pytest.raises(ValueError, match="bounded"):
+        adapter.reset(**kwargs)
+
+
+def chrome_dataset(tmp_path, *, version=2, state="advertisement", anchors=None):
+    """Two-frame synthetic chrome: one white skip glyph on different creatives."""
+    rng = np.random.default_rng(3)
+
+    def creative(seed):
+        frame = np.asarray(np.random.default_rng(seed).integers(0, 120, (60, 80, 3)), np.uint8)
+        frame[20:40, 20:60] = rng.integers(0, 256, (20, 40, 3), dtype=np.uint8)
+        return frame
+
+    def with_glyph(frame):
+        frame = frame.copy()
+        # Translucent disk then a solid white "skip" glyph: triangle plus bar.
+        frame[2:18, 62:78] = (frame[2:18, 62:78] * 0.4).astype(np.uint8)
+        for row in range(5):
+            frame[5 + row, 65 : 66 + row] = 255
+            frame[14 - row, 65 : 66 + row] = 255
+        frame[5:15, 72:75] = 255
+        return frame
+
+    reference = with_glyph(creative(11))
+    other = with_glyph(creative(12))
+    path = tmp_path / "chrome.png"
+    Image.fromarray(reference).save(path)
+    profile = {
+        "version": version,
+        "profile_id": "synthetic-chrome",
+        "expected_size": [80, 60],
+        "margin_pixels": 2,
+        "threshold": 0.97,
+        "variants": [
+            {
+                "label": "chrome",
+                "state": state,
+                "file": path.name,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "anchors": anchors or [[62, 2, 78, 18]],
+                "controls": {"legitimate_ad_close": [62, 2, 78, 18]}
+                if state == "advertisement"
+                else {},
+                "matching": "white_glyph",
+            }
+        ],
+    }
+    profile_path = tmp_path / "chrome-profile.json"
+    profile_path.write_text(json.dumps(profile))
+    return profile_path, reference, other, creative(13)
+
+
+def observe_rgb(recognizer, rgb):
+    frame = CapturedFrame(rgb, 1, 2, "t", ClientRect(0, 0, 80, 60), "mock", 1.0)
+    return recognizer.observe(frame)
+
+
+def test_white_glyph_chrome_matches_across_creatives_but_not_blank_or_missing(tmp_path):
+    profile_path, reference, other, plain = chrome_dataset(tmp_path)
+    recognizer = GameUIRecognizer.from_file(profile_path, tmp_path)
+    for rgb in (reference, other):
+        observed = observe_rgb(recognizer, rgb)
+        assert observed.state == "advertisement" and observed.confidence >= 0.95
+        assert [c.name for c in observed.controls] == ["legitimate_ad_close"]
+        assert observed.controls[0].bounds_xyxy == (62, 2, 78, 18)
+    assert observe_rgb(recognizer, plain).state == "unknown"
+    blank = other.copy()
+    blank[0:20, 60:80] = 255
+    assert observe_rgb(recognizer, blank).state == "unknown"
+    # A partially different glyph fails the control threshold but may still be chrome.
+    damaged = other.copy()
+    damaged[5:15, 72:75] = 0
+    observed = observe_rgb(recognizer, damaged)
+    assert not observed.controls
+
+
+@pytest.mark.parametrize(
+    "kwargs,match",
+    [
+        ({"version": 1}, "version 2"),
+        ({"state": "tune"}, "scoped to advertisement"),
+    ],
+)
+def test_white_glyph_matching_is_versioned_and_scoped(tmp_path, kwargs, match):
+    profile_path, *_ = chrome_dataset(tmp_path, **kwargs)
+    with pytest.raises(ValueError, match=match):
+        GameUIRecognizer.from_file(profile_path, tmp_path)
+
+
+def test_pixel_variants_still_require_two_anchors_and_glyph_references_need_white_shape(
+    tmp_path, dataset
+):
+    root, path, _, profile = dataset
+    profile["variants"][0]["anchors"] = profile["variants"][0]["anchors"][:1]
+    path.write_text(json.dumps(profile))
+    with pytest.raises(ValueError, match="two anchors"):
+        GameUIRecognizer.from_file(path, root)
+    profile_path, reference, *_ = chrome_dataset(tmp_path)
+    data = json.loads(profile_path.read_text())
+    dark = reference.copy()
+    dark[2:18, 62:78] = np.random.default_rng(5).integers(0, 200, (16, 16, 3), dtype=np.uint8)
+    file = tmp_path / "dark.png"
+    Image.fromarray(dark).save(file)
+    data["variants"][0].update(file=file.name, sha256=hashlib.sha256(file.read_bytes()).hexdigest())
+    profile_path.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="solid white shape"):
+        GameUIRecognizer.from_file(profile_path, tmp_path)
 
 
 def test_known_ad_without_close_times_out_without_click(dataset):

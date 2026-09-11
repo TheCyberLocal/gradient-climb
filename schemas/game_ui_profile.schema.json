@@ -2,6 +2,7 @@
   "$defs": {
     "ReferenceVariant": {
       "additionalProperties": false,
+      "description": "One hash-pinned full-frame reference with anchor patches and named controls.\n\n``matching=\"white_glyph\"`` (profile version 2) compares binarized white glyph\nshapes instead of raw pixels. It exists for advertisement-network chrome such\nas skip/close/mute icons drawn on translucent disks over arbitrary creatives,\nwhere raw RGB similarity is dominated by the creative behind the glyph. Such\nvariants may carry a single anchor because the glyph shape itself is the\ncreative-independent evidence; they are restricted to the advertisement state,\nand a click still requires the control glyph to match at its own threshold.",
       "properties": {
         "label": {
           "minLength": 1,
@@ -51,7 +52,7 @@
             ],
             "type": "array"
           },
-          "minItems": 2,
+          "minItems": 1,
           "title": "Anchors",
           "type": "array"
         },
@@ -82,7 +83,8 @@
           "default": "rgb",
           "enum": [
             "rgb",
-            "outlined_white"
+            "outlined_white",
+            "white_glyph"
           ],
           "title": "Matching",
           "type": "string"
@@ -107,8 +109,11 @@
   "additionalProperties": false,
   "properties": {
     "version": {
-      "const": 1,
       "default": 1,
+      "enum": [
+        1,
+        2
+      ],
       "title": "Version",
       "type": "integer"
     },
@@ -153,6 +158,20 @@
       "maximum": 0.1,
       "minimum": 0,
       "title": "Ambiguity Margin",
+      "type": "number"
+    },
+    "glyph_threshold": {
+      "default": 0.9,
+      "maximum": 1,
+      "minimum": 0.85,
+      "title": "Glyph Threshold",
+      "type": "number"
+    },
+    "glyph_control_threshold": {
+      "default": 0.95,
+      "maximum": 1,
+      "minimum": 0.9,
+      "title": "Glyph Control Threshold",
       "type": "number"
     },
     "evidence_scope": {

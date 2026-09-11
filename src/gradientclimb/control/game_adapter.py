@@ -64,14 +64,25 @@ NEXT_STATES = {
 
 
 class ReferenceVariant(BaseModel):
+    """One hash-pinned full-frame reference with anchor patches and named controls.
+
+    ``matching="white_glyph"`` (profile version 2) compares binarized white glyph
+    shapes instead of raw pixels. It exists for advertisement-network chrome such
+    as skip/close/mute icons drawn on translucent disks over arbitrary creatives,
+    where raw RGB similarity is dominated by the creative behind the glyph. Such
+    variants may carry a single anchor because the glyph shape itself is the
+    creative-independent evidence; they are restricted to the advertisement state,
+    and a click still requires the control glyph to match at its own threshold.
+    """
+
     model_config = ConfigDict(extra="forbid")
     label: str = Field(min_length=1)
     state: GameState
     file: str
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
-    anchors: list[tuple[int, int, int, int]] = Field(min_length=2)
+    anchors: list[tuple[int, int, int, int]] = Field(min_length=1)
     controls: dict[str, tuple[int, int, int, int]] = Field(default_factory=dict)
-    matching: Literal["rgb", "outlined_white"] = "rgb"
+    matching: Literal["rgb", "outlined_white", "white_glyph"] = "rgb"
     notes: str = ""
 
     @model_validator(mode="after")
@@ -80,6 +91,10 @@ class ReferenceVariant(BaseModel):
             raise ValueError("Unknown cannot authorize a reference/control")
         if self.matching == "outlined_white" and self.state != "result":
             raise ValueError("Outlined text matching is scoped to inspected result labels")
+        if self.matching == "white_glyph" and self.state != "advertisement":
+            raise ValueError("White glyph chrome matching is scoped to advertisement chrome")
+        if self.matching != "white_glyph" and len(self.anchors) < 2:
+            raise ValueError("Pixel-matched references require at least two anchors")
         for name in self.controls:
             if CONTROL_STATES.get(name) != self.state:
                 raise ValueError("Control is not permitted for this exact game state")
@@ -88,12 +103,14 @@ class ReferenceVariant(BaseModel):
 
 class GameUIProfile(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
-    version: Literal[1] = 1
+    version: Literal[1, 2] = 1
     profile_id: str
     expected_size: tuple[int, int] = (1034, 581)
     threshold: float = Field(default=0.97, ge=0.97, le=1)
     margin_pixels: int = Field(default=4, ge=0, le=8)
     ambiguity_margin: float = Field(default=0.01, ge=0, le=0.1)
+    glyph_threshold: float = Field(default=0.90, ge=0.85, le=1)
+    glyph_control_threshold: float = Field(default=0.95, ge=0.90, le=1)
     evidence_scope: str = "local construction references; live reset unvalidated"
     variants: list[ReferenceVariant] = Field(min_length=1)
 
@@ -102,11 +119,21 @@ class GameUIProfile(BaseModel):
         width, height = self.expected_size
         if width < 2 or height < 2 or len({v.label for v in self.variants}) != len(self.variants):
             raise ValueError("Profile size and unique reference labels are required")
+        if self.glyph_control_threshold < self.glyph_threshold:
+            raise ValueError("Control glyph threshold cannot be below the state glyph threshold")
         for variant in self.variants:
+            if variant.matching == "white_glyph" and self.version < 2:
+                raise ValueError("White glyph matching requires profile version 2")
             for left, top, right, bottom in [*variant.anchors, *variant.controls.values()]:
                 if not 0 <= left < right <= width or not 0 <= top < bottom <= height:
                     raise ValueError("Reference boxes must stay inside the normalized frame")
         return self
+
+    def state_threshold(self, variant: ReferenceVariant) -> float:
+        return self.glyph_threshold if variant.matching == "white_glyph" else self.threshold
+
+    def control_threshold(self, variant: ReferenceVariant) -> float:
+        return self.glyph_control_threshold if variant.matching == "white_glyph" else self.threshold
 
 
 @dataclass(frozen=True)
@@ -149,6 +176,8 @@ class GameUIRecognizer:
                 patches.append(patch.astype(np.float32))
                 if variant.matching == "outlined_white":
                     self.reference_masks[(variant.label, index)] = self._text_mask(patch)
+                elif variant.matching == "white_glyph":
+                    self.reference_masks[(variant.label, index)] = self._glyph_mask(patch)
             self.references.append((variant, patches))
 
     @staticmethod
@@ -164,11 +193,24 @@ class GameUIRecognizer:
             raise ValueError("Result text mask requires both white glyphs and dark outlines")
         return (white | outline).astype(np.uint8)
 
+    @staticmethod
+    def _white(rgb):
+        return (rgb.min(axis=2) >= 225) & (np.ptp(rgb, axis=2) <= 25)
+
+    @classmethod
+    def _glyph_mask(cls, patch):
+        # A chrome glyph is a compact solid white shape; its translucent disk and
+        # the creative behind it are deliberately not evidence.
+        white = cls._white(patch)
+        if white.sum() < 40 or white.mean() > 0.5:
+            raise ValueError("A chrome glyph reference needs a compact solid white shape")
+        return white.astype(np.uint8)
+
     @classmethod
     def from_file(cls, path, reference_root):
         return cls(GameUIProfile.model_validate_json(Path(path).read_text()), reference_root)
 
-    def _match(self, rgb, patch, box, mask=None):
+    def _match(self, rgb, patch, box, mask=None, *, glyph=False):
         import cv2
 
         left, top, right, bottom = box
@@ -177,6 +219,17 @@ class GameUIRecognizer:
         region = rgb[
             y0 : min(rgb.shape[0], bottom + margin), x0 : min(rgb.shape[1], right + margin)
         ]
+        if glyph:
+            # Dice overlap between binarized white shapes at the best translation.
+            binary = self._white(region).astype(np.float32)
+            reference = mask.astype(np.float32)
+            _, _, point, _ = cv2.minMaxLoc(cv2.matchTemplate(binary, reference, cv2.TM_SQDIFF))
+            x, y = point
+            candidate = binary[y : y + reference.shape[0], x : x + reference.shape[1]] > 0
+            glyph_pixels = mask > 0
+            union = int(candidate.sum()) + int(glyph_pixels.sum())
+            score = 2 * int((candidate & glyph_pixels).sum()) / union if union else 0.0
+            return score, (x0 + x, y0 + y, x0 + x + reference.shape[1], y0 + y + reference.shape[0])
         minimum, _, point, _ = cv2.minMaxLoc(
             cv2.matchTemplate(region.astype(np.float32), patch, cv2.TM_SQDIFF, mask=mask)
         )
@@ -196,39 +249,45 @@ class GameUIRecognizer:
         digest = hashlib.sha256(rgb.tobytes()).hexdigest()
         ranked = []
         for variant, patches in self.references:
+            glyph = variant.matching == "white_glyph"
             matches = [
-                self._match(rgb, patch, box, self.reference_masks.get((variant.label, index)))
+                self._match(
+                    rgb, patch, box, self.reference_masks.get((variant.label, index)), glyph=glyph
+                )
                 for index, (patch, box) in enumerate(
                     zip(patches[: len(variant.anchors)], variant.anchors, strict=True)
                 )
             ]
-            ranked.append((min(score for score, _ in matches), variant, patches))
+            score = min(score for score, _ in matches)
+            # Scores are compared as margins above each variant's own threshold so
+            # pixel similarity and glyph overlap never compete on different scales.
+            ranked.append((score - self.profile.state_threshold(variant), score, variant, patches))
         ranked.sort(key=lambda item: item[0], reverse=True)
         # A known modal has priority over unobscured HUD anchors behind it.
         # Near-threshold modal evidence vetoes PLAYING without granting a click.
         modal = [
             item
             for item in ranked
-            if item[1].state != "playing"
-            and item[0] >= self.profile.threshold - self.profile.ambiguity_margin
+            if item[2].state != "playing" and item[0] >= -self.profile.ambiguity_margin
         ]
         if modal:
-            ranked = [item for item in ranked if item[1].state != "playing"]
-        score, variant, patches = ranked[0]
-        competitors = [s for s, v, _ in ranked if v.state != variant.state]
-        if score < self.profile.threshold or (
-            competitors and score - max(competitors) < self.profile.ambiguity_margin
+            ranked = [item for item in ranked if item[2].state != "playing"]
+        excess, score, variant, patches = ranked[0]
+        competitors = [e for e, _, v, _ in ranked if v.state != variant.state]
+        if excess < 0 or (
+            competitors and excess - max(competitors) < self.profile.ambiguity_margin
         ):
             return GameObservation(frame, "unknown", 0.0, None, (), digest)
         controls = []
+        glyph = variant.matching == "white_glyph"
         for index, ((name, box), patch) in enumerate(
             zip(variant.controls.items(), patches[len(variant.anchors) :], strict=True),
             start=len(variant.anchors),
         ):
             control_score, bounds = self._match(
-                rgb, patch, box, self.reference_masks.get((variant.label, index))
+                rgb, patch, box, self.reference_masks.get((variant.label, index)), glyph=glyph
             )
-            if control_score >= self.profile.threshold:
+            if control_score >= self.profile.control_threshold(variant):
                 controls.append(
                     VerifiedControl(
                         name, UI_STATES[variant.state], frame.timestamp_ns, bounds, control_score
@@ -556,24 +615,36 @@ class NativeGameAdapter:
         start_next=True,
         allow_initial_start=False,
         max_seconds=60.0,
-        max_clicks=6,
+        max_clicks=8,
         transition_seconds=10.0,
-        ad_transition_seconds=30.0,
+        ad_transition_seconds=45.0,
+        ad_close_stability_seconds=0.15,
         on_terminal=None,
         on_observation=None,
     ):
+        """Drive the inspected menu flow to the next boundary with only verified clicks.
+
+        Advertisement phases are bounded by ``ad_transition_seconds`` measured from
+        the most recent recognized advertisement chrome; unknown frames inside that
+        window wait without input. A legitimate close/skip control must be observed
+        on two separate fresh frames at least ``ad_close_stability_seconds`` apart,
+        at the same location, before it is clicked, so a control that is fading or
+        moving cannot be hit.
+        """
         if (
             type(truncate) is not bool
             or type(start_next) is not bool
             or type(allow_initial_start) is not bool
             or not math.isfinite(max_seconds)
-            or not 0 < max_seconds <= 60
+            or not 0 < max_seconds <= 120
             or not math.isfinite(transition_seconds)
-            or not 0 < transition_seconds <= 10
+            or not 0 < transition_seconds <= 15
             or not math.isfinite(ad_transition_seconds)
-            or not 0 < ad_transition_seconds <= 30
+            or not 0 < ad_transition_seconds <= 90
+            or not math.isfinite(ad_close_stability_seconds)
+            or not 0 <= ad_close_stability_seconds <= 2
             or type(max_clicks) is not int
-            or not 1 <= max_clicks <= 6
+            or not 1 <= max_clicks <= 10
         ):
             raise ValueError("Reset requires finite bounded time/click limits")
         deadline = self.clock() + max_seconds
@@ -584,6 +655,7 @@ class NativeGameAdapter:
         observation = None
         known_ad_until = None
         known_result_until = None
+        ad_close_seen = None
         try:
             self.release_pedals()
             for _ in range(2000):
@@ -608,6 +680,8 @@ class NativeGameAdapter:
                     else:
                         raise RuntimeError("Unexpected or timed-out reset transition")
                 state = observation.state
+                if state != "advertisement":
+                    ad_close_seen = None
                 if state == "result":
                     known_result_until = min(deadline, self.clock() + transition_seconds)
                 elif state == "unknown" and known_result_until is not None:
@@ -642,10 +716,24 @@ class NativeGameAdapter:
                 elif state == "bonus_offer":
                     name = "decline_bonus_offer"
                 elif state == "advertisement":
-                    if not any(c.name == "legitimate_ad_close" for c in observation.controls):
+                    closes = [c for c in observation.controls if c.name == "legitimate_ad_close"]
+                    if not closes:
+                        ad_close_seen = None
                         self._guard_event("Known advertisement; close unavailable; waiting")
                         self.sleep(0.03)
                         continue
+                    stamp, bounds = closes[0].frame_timestamp_ns, closes[0].bounds_xyxy
+                    if ad_close_seen is None or any(
+                        abs(a - b) > 2 for a, b in zip(ad_close_seen[1], bounds, strict=True)
+                    ):
+                        ad_close_seen = (stamp, bounds)
+                        self._guard_event("Advertisement close visible; confirming stability")
+                        self.sleep(0.03)
+                        continue
+                    if (stamp - ad_close_seen[0]) / 1e9 < ad_close_stability_seconds:
+                        self.sleep(0.03)
+                        continue
+                    ad_close_seen = None
                     name = "legitimate_ad_close"
                 elif state == "result":
                     if on_terminal is None:

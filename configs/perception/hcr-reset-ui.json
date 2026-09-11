@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "profile_id": "hcr-wrapper-reset-construction-v1",
+  "version": 2,
+  "profile_id": "hcr-wrapper-reset-v2",
   "expected_size": [
     1034,
     581
@@ -8,7 +8,7 @@
   "threshold": 0.97,
   "margin_pixels": 4,
   "ambiguity_margin": 0.01,
-  "evidence_scope": "Inspected HillClimber/CountrySide session; construction references only; native menu coverage incomplete",
+  "evidence_scope": "Inspected HillClimber/CountrySide session; construction references only; native menu coverage incomplete. Version 2 adds creative-independent advertisement-network chrome glyphs (Meta Audience Network skip and muted-audio icons) matched by binarized shape; offline audit over stored frames precedes live use.",
   "variants": [
     {
       "label": "playing_native",
@@ -458,6 +458,49 @@
         ]
       },
       "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game."
+    },
+    {
+      "label": "meta_chrome_skip_available",
+      "state": "advertisement",
+      "file": "runs/51d2527e-9274-40ec-a04d-309117de107d/reset-0046.png",
+      "sha256": "d32b724e60e6ad7c60594aaff999cef04e3d01f50319535149ffcfefec468e24",
+      "anchors": [
+        [
+          993,
+          71,
+          1025,
+          105
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          993,
+          71,
+          1025,
+          105
+        ]
+      },
+      "matching": "white_glyph",
+      "notes": "Meta Audience Network skip-forward glyph at the top-right of the game area; the same glyph is the evidence and the control. Observed across single-pane end cards, two-pane video layouts and different creatives (Whole Moon, Food City, Gnomon). Clicked only after two stable fresh frames. No creative pixel is evidence."
+    },
+    {
+      "label": "meta_chrome_video_muted",
+      "state": "advertisement",
+      "file": "runs/51d2527e-9274-40ec-a04d-309117de107d/reset-0026.png",
+      "sha256": "a10a42ee874c7390f81636b65cdbb22af606c1b79bdd1e2a19a6960ec204ff39",
+      "anchors": [
+        [
+          78,
+          76,
+          106,
+          100
+        ]
+      ],
+      "controls": {},
+      "matching": "white_glyph",
+      "notes": "Meta Audience Network muted-speaker glyph at the top-left of the game area during the video phase; no control, so recognition only extends the bounded no-input advertisement wait. Observed in Whole Moon and Food City video phases and the Fingersoft commercial-break pre-roll."
     }
-  ]
+  ],
+  "glyph_threshold": 0.9,
+  "glyph_control_threshold": 0.95
 }

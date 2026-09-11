@@ -67,6 +67,11 @@ class ResultScoreCollector:
             **self.reader.read(
                 observation.frame.rgb, result_state_confirmed=observation.state == "result"
             ),
+            # The recognized result variant is the only terminal-cause evidence today;
+            # it is retained as evidence, not asserted as a validated cause label.
+            "ui_state": observation.state,
+            "ui_variant": getattr(observation, "variant", None),
+            "ui_confidence": getattr(observation, "confidence", None),
         }
         self.readings.append(reading)
         if self.first_attempt_ns is None:
@@ -107,6 +112,10 @@ class ResultScoreCollector:
             return unresolved()
         self.pending = reading
         return unresolved()
+
+
+def adapter_profile_id(path):
+    return json.loads(Path(path).read_text(encoding="utf-8")).get("profile_id", "unknown")
 
 
 def annotate_parked_score(summary, parked, paused_reader):
@@ -275,6 +284,54 @@ def save_episode(run, index, summary, rows, images):
     run.register_artifact(path, "screen_episode_summary")
 
 
+UNKNOWN_HALT_MARKERS = (
+    "Unrecognized advertisement",
+    "Unrecognized/unauthorized reset state",
+    "did not recover",
+    "Unexpected or timed-out reset transition",
+)
+
+
+def classify_attempt(summary, parked, *, halted_error=None):
+    """Terminal classification registered by native-reliability-2.0; never post hoc."""
+    error = summary.get("error") or summary.get("park_error") or halted_error
+    if error:
+        if any(marker in error for marker in UNKNOWN_HALT_MARKERS):
+            return "unknown_failure"
+        return "recoverable_failure"
+    if parked is None:
+        return "unknown_failure"
+    reason = summary.get("reason")
+    if reason == "episode_time_limit" and parked.state == "paused":
+        reading = summary.get("paused_reading") or {}
+        if reading.get("valid") and summary.get("distance") is not None:
+            return "success_truncated_scored"
+        return "success_unscored"
+    if reason in {"observed_result", "observed_revive_offer"} and parked.state == "tune":
+        if summary.get("accepted_terminal_readings") and summary.get("distance") is not None:
+            return "success_natural_scored"
+        return "success_unscored"
+    if parked.state in {"paused", "tune"}:
+        return "success_unscored"
+    return "unknown_failure"
+
+
+def terminal_cause(summary):
+    """Evidence-backed terminal cause; unknown unless the result variant was recognized."""
+    if summary.get("reason") == "episode_time_limit":
+        return "truncated_horizon"
+    variants = {r.get("ui_variant") for r in summary.get("terminal_readings", []) if r}
+    if any(v and "driver_down" in v for v in variants):
+        return "driver_down"
+    if any(v and "out_of_fuel" in v for v in variants):
+        return "out_of_fuel"
+    if summary.get("reason") in {"observed_result", "observed_revive_offer"}:
+        return "natural_unlabeled"
+    if summary.get("error"):
+        return "aborted"
+    return "unknown"
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -291,7 +348,9 @@ def main():
     parser.add_argument("--policy-kind", choices=["screen-linear", "screen-body-student"])
     parser.add_argument("--parent-run", help="Sealed canonical run that registered the checkpoint")
     parser.add_argument(
-        "--baseline", choices=["always_gas", "random", "neutral"], default="always_gas"
+        "--baseline",
+        choices=["always_gas", "random", "neutral", "alternating_gas_random"],
+        default="always_gas",
     )
     parser.add_argument("--episodes", type=int, default=2)
     parser.add_argument("--episode-seconds", type=float, default=8)
@@ -301,7 +360,30 @@ def main():
     parser.add_argument(
         "--inspect", action="store_true", help="Classify one current frame; never navigate or drive"
     )
+    parser.add_argument(
+        "--experiment-id",
+        help="Canonical experiment identifier; defaults to the pilot/evaluation identifiers",
+    )
+    parser.add_argument(
+        "--protocol",
+        type=Path,
+        help="Registered protocol definition whose hash and versions are frozen into the run",
+    )
+    parser.add_argument("--note", default="", help="Operator note recorded in the configuration")
+    parser.add_argument(
+        "--exploratory",
+        action="store_true",
+        help="Label the run exploratory (for example advertisement discovery); never study data",
+    )
+    parser.add_argument(
+        "--reset-seconds",
+        type=float,
+        default=90.0,
+        help="Per-reset overall deadline (<= 120 s) covering menus and advertisements",
+    )
     args = parser.parse_args()
+    if not 1 <= args.reset_seconds <= 120:
+        raise ValueError("Reset deadline must be within 1..120 seconds")
     if any((args.policy, args.policy_kind, args.parent_run)) and not all(
         (args.policy, args.policy_kind, args.parent_run)
     ):
@@ -323,11 +405,18 @@ def main():
     )
     paused_reader = PausedDistanceReader.from_gameplay_manifest(args.hud)
     rng = np.random.default_rng(args.seed)
-    choose = lambda _: (
-        int(rng.integers(4))
-        if args.baseline == "random"
-        else (1 if args.baseline == "always_gas" else 0)
-    )
+    scripted = {
+        "random": lambda _: int(rng.integers(4)),
+        "always_gas": lambda _: 1,
+        "neutral": lambda _: 0,
+    }
+
+    def attempt_policy_name(index):
+        if args.baseline == "alternating_gas_random":
+            return "always_gas" if index % 2 == 0 else "random"
+        return args.baseline
+
+    choose = scripted[attempt_policy_name(0)]
     checkpoint_hash = None
     algorithm = args.baseline
     if args.policy:
@@ -358,6 +447,9 @@ def main():
             else 0
         )
         algorithm = args.policy_kind
+    protocol = None
+    if args.protocol:
+        protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
     config = {
         "baseline": args.baseline if not args.policy else None,
         "policy_kind": args.policy_kind,
@@ -380,7 +472,26 @@ def main():
         if args.policy
         else "scripted baseline evaluation",
         "inspect_only": args.inspect,
+        "exploratory": args.exploratory,
+        "operator_note": args.note,
+        "reset_deadline_seconds": args.reset_seconds,
+        "initial_playing_policy": "pause and restart before the first attempt",
+        "protocol_path": str(args.protocol) if args.protocol else None,
+        "protocol_sha256": sha256_file(args.protocol) if args.protocol else None,
+        "protocol_version": protocol.get("protocol_version") if protocol else None,
+        "attempt_policy_schedule": [attempt_policy_name(i) for i in range(args.episodes)]
+        if not args.policy
+        else None,
     }
+    if protocol and protocol.get("cycle2_versions") and not args.exploratory:
+        from gradientclimb.experiments.objectives import ExperimentVersions, stamp_versions
+
+        declared = dict(protocol["cycle2_versions"])
+        declared["observation_schema"] = f"{bridge.schema['version']}@{bridge.schema_id[:16]}"
+        declared["ui_profile"] = (
+            f"{adapter_profile_id(args.ui_profile)}@{config['ui_profile_sha256'][:16]}"
+        )
+        config = stamp_versions(config, ExperimentVersions.model_validate(declared))
     adapter = None
     backend = WindowsPedalBackend(target, gas_vk=0x27, brake_vk=0x25, input_mode="scancode")
     controller = PedalController(backend, lambda: adapter is not None and adapter.is_playing())
@@ -393,9 +504,13 @@ def main():
     summaries, reset_frames = [], []
     terminal = ResultScoreCollector(result_reader)
     error = None
+    experiment_id = args.experiment_id or (
+        "real-screen-policy-evaluation" if args.policy else "real-screen-episode-pilot"
+    )
+    attempt_outcomes = []
     with RunRecorder(
         "artifacts",
-        "real-screen-policy-evaluation" if args.policy else "real-screen-episode-pilot",
+        experiment_id,
         config,
         seed=args.seed,
         algorithm=algorithm,
@@ -427,9 +542,11 @@ def main():
                     run.register_artifact(path, "result_reader_dependency")
         start = time.perf_counter()
         deadline = start + args.max_seconds
+        attempt_states = {}
 
         def reset_observation(observation):
-            if len(reset_frames) < 60 and (
+            attempt_states[observation.state] = attempt_states.get(observation.state, 0) + 1
+            if len(reset_frames) < 120 and (
                 not reset_frames
                 or reset_frames[-1][1]["state"] != observation.state
                 or (
@@ -461,31 +578,66 @@ def main():
                         flush=True,
                     )
                 else:
-                    for index in range(args.episodes):
-                        remaining = deadline - time.perf_counter()
-                        if remaining < 1:
-                            break
-                        terminal.reset()
-                        first = adapter.reset(
-                            allow_initial_start=True,
-                            max_seconds=min(60.0, remaining),
+                    initial = adapter.observe()
+                    if initial.state == "playing":
+                        # A game left mid-episode by the operator is never data: pause
+                        # and restart so the first attempt starts at a fresh boundary.
+                        adapter.reset(
+                            truncate=True,
+                            start_next=False,
+                            max_seconds=min(args.reset_seconds, deadline - time.perf_counter()),
                             on_terminal=terminal,
                             on_observation=reset_observation,
                         )
                         terminal.reset()
+                    for index in range(args.episodes):
+                        remaining = deadline - time.perf_counter()
+                        if remaining < 1:
+                            break
+                        attempt_states.clear()
+                        choose = scripted.get(attempt_policy_name(index), choose)
+                        attempt_started = time.perf_counter()
+                        menu_rows_before = len(adapter.trace)
+                        terminal.reset()
+                        halted_error = None
+                        summary, rows, images, parked, first = None, [], [], None, None
+                        try:
+                            first = adapter.reset(
+                                allow_initial_start=True,
+                                max_seconds=min(args.reset_seconds, remaining),
+                                on_terminal=terminal,
+                                on_observation=reset_observation,
+                            )
+                        except Exception:  # noqa: BLE001 - classify, persist, then stop safely
+                            halted_error = traceback.format_exc()
+                        start_reset_seconds = time.perf_counter() - attempt_started
+                        terminal.reset()
                         terminal_start = len(terminal.readings)
                         accepted_start = len(terminal.accepted)
                         episode_run_elapsed = run.elapsed_seconds
-                        summary, rows, images = collect_episode(
-                            adapter,
-                            controller,
-                            backend,
-                            bridge,
-                            choose,
-                            first,
-                            seconds=args.episode_seconds,
-                            deadline=deadline,
-                        )
+                        if first is not None:
+                            summary, rows, images = collect_episode(
+                                adapter,
+                                controller,
+                                backend,
+                                bridge,
+                                choose,
+                                first,
+                                seconds=args.episode_seconds,
+                                deadline=deadline,
+                            )
+                        else:
+                            summary = {
+                                "reason": "start_failure",
+                                "observed_seconds": 0.0,
+                                "frames": 0,
+                                "actions_dispatched": 0,
+                                "accepted_hud_frames": 0,
+                                "observed_hud_max": None,
+                                "distance": None,
+                                "error": halted_error,
+                                "score_semantics": "no episode started",
+                            }
                         for row in rows:
                             row["canonical_elapsed_seconds"] = (
                                 episode_run_elapsed + row["elapsed_seconds"]
@@ -493,7 +645,7 @@ def main():
                         # Park before evidence persistence or policy updates, so the
                         # next episode cannot run while previous data is written.
                         remaining = deadline - time.perf_counter()
-                        parked = None
+                        park_started = time.perf_counter()
                         try:
                             if summary["error"]:
                                 raise RuntimeError(summary["error"])
@@ -501,10 +653,13 @@ def main():
                                 parked = adapter.reset(
                                     truncate=summary["reason"] == "episode_time_limit",
                                     start_next=False,
-                                    max_seconds=min(60.0, remaining),
+                                    max_seconds=min(args.reset_seconds, remaining),
                                     on_terminal=terminal,
                                     on_observation=reset_observation,
                                 )
+                        except Exception:  # noqa: BLE001 - retain the halt with the attempt
+                            summary["park_error"] = traceback.format_exc()
+                            halted_error = halted_error or summary["park_error"]
                         finally:
                             annotate_parked_score(summary, parked, paused_reader)
                             summary["terminal_readings"] = terminal.readings[terminal_start:]
@@ -519,6 +674,30 @@ def main():
                                 summary["score_semantics"] = (
                                     "two agreeing fresh right-side result-field readings at least 0.15s apart"
                                 )
+                            menu_rows = adapter.trace[menu_rows_before:]
+                            summary["attempt"] = {
+                                "index": index,
+                                "policy": attempt_policy_name(index)
+                                if not args.policy
+                                else args.policy_kind,
+                                "classification": classify_attempt(
+                                    summary, parked, halted_error=halted_error
+                                ),
+                                "terminal_cause": terminal_cause(summary),
+                                "parked_state": parked.state if parked is not None else None,
+                                "start_reset_seconds": start_reset_seconds,
+                                "park_reset_seconds": time.perf_counter() - park_started,
+                                "attempt_seconds": time.perf_counter() - attempt_started,
+                                "menu_clicks": [row["name"] for row in menu_rows],
+                                "advertisement_closes": sum(
+                                    row["name"] == "legitimate_ad_close" for row in menu_rows
+                                ),
+                                "advertisement_frames": attempt_states.get("advertisement", 0),
+                                "unknown_frames": attempt_states.get("unknown", 0),
+                                "reset_state_counts": dict(attempt_states),
+                                "stale_captures": len(adapter.capture_trace),
+                            }
+                            attempt_outcomes.append(summary["attempt"])
                             save_episode(run, index, summary, rows, images)
                             summaries.append(summary)
                             if summary["distance"] is not None:
@@ -531,7 +710,12 @@ def main():
                             run.metric(
                                 "episode_observed_seconds", summary["observed_seconds"], index
                             )
+                            run.metric(
+                                "attempt_seconds", summary["attempt"]["attempt_seconds"], index
+                            )
                         print(json.dumps({"episode": index, **summary}), flush=True)
+                        if halted_error:
+                            raise RuntimeError(halted_error)
         except Exception:  # noqa: BLE001 - release and persist all native traces on every failure
             error = traceback.format_exc()
         finally:
@@ -559,6 +743,34 @@ def main():
                 run.register_artifact(path, f"{prefix}_frame", metadata)
         scored = [s for s in summaries if s["distance"] is not None and not s["error"]]
         statistics = summarize([s["distance"] for s in scored]) if scored else None
+        classifications = {}
+        for outcome in attempt_outcomes:
+            key = outcome["classification"]
+            classifications[key] = classifications.get(key, 0) + 1
+        not_attempted = max(0, args.episodes - len(attempt_outcomes)) if not args.inspect else 0
+        longest_success_run, current_run = 0, 0
+        for outcome in attempt_outcomes:
+            if outcome["classification"].startswith("success") and outcome[
+                "classification"
+            ].endswith("scored"):
+                current_run += 1
+                longest_success_run = max(longest_success_run, current_run)
+            else:
+                current_run = 0
+        reliability = {
+            "attempts_requested": args.episodes if not args.inspect else 0,
+            "attempts_completed": len(attempt_outcomes),
+            "not_attempted": not_attempted,
+            "classifications": classifications,
+            "longest_consecutive_scored_successes": longest_success_run,
+            "advertisement_closes": sum(o["advertisement_closes"] for o in attempt_outcomes),
+            "advertisement_encounters": sum(
+                1 for o in attempt_outcomes if o["advertisement_frames"]
+            ),
+            "manual_interventions": 0,
+            "unintended_actions": 0,
+            "unintended_action_evidence": "every click is an allowlisted named control; see menu-transitions",
+        }
         if summaries:
             run.evaluation(
                 {
@@ -574,6 +786,8 @@ def main():
                         "median_distance": statistics["median"] if statistics else None,
                         "game_seed_control": False,
                         "scope": config["scope"],
+                        "attempt_outcomes": attempt_outcomes,
+                        "reliability": reliability,
                     },
                 }
             )
@@ -584,6 +798,7 @@ def main():
             episode_summaries=summaries,
             scored_episodes=len(scored),
             distance_statistics=statistics,
+            reliability=reliability,
             error=error,
             observed_session_seconds=time.perf_counter() - start,
             qualification_evidence=False,

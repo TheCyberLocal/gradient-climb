@@ -24,6 +24,33 @@ unchanged. A result remains recognized while Continue blinks, but no dismissal i
 sent until its own glyph patch is visible. This matching mode is restricted to
 result variants and rejects references lacking both glyph and outline evidence.
 
+## Advertisement-network chrome (profile version 2)
+
+The Cycle 1 pilot `51d2527e` stopped on a Meta Audience Network advertisement whose
+creative had never been seen. Per-creative brand anchors cannot cover an unbounded
+creative space, so profile version 2 (`hcr-wrapper-reset-v2`) adds a third matcher,
+`white_glyph`, for creative-independent network chrome: the skip-forward glyph at
+the top-right of the game area and the muted-speaker glyph at the top-left. Both
+are solid white shapes on translucent disks, so the reference patch is binarized
+(min channel ≥ 225, channel spread ≤ 25) and compared to the binarized capture by
+Dice overlap at the best translation inside the box plus margin; the creative
+behind the disk is never evidence. State evidence needs Dice ≥ `glyph_threshold`
+(0.90); a control needs Dice ≥ `glyph_control_threshold` (0.95). Scores are ranked
+as margins above each variant's own threshold so the two scales never compete.
+
+Chrome variants may carry a single anchor because the glyph shape is the evidence;
+they are restricted to the advertisement state, and the muted-speaker variant has
+no control, so it can only extend the bounded no-input wait. The skip variant's
+control is the same glyph. Before any advertisement close is clicked the control
+must be observed on two separate fresh frames at least 0.15 s apart at the same
+location (±2 px); a control that appears once, fades or moves restarts the
+confirmation. The offline replay audit (`scripts/audit_ui_profile.py`) classifies
+every stored real frame: on 907 classifiable frames the version 2 profile produced
+zero disagreements with recorded game states, zero advertisement hits on game
+screens, and recognized 52 previously unknown advertisement frames. That is
+construction/offline evidence; live coverage of other networks remains open and
+any new chrome is added as another hash-pinned variant after the same audit.
+
 Compose it with an already discovered `WindowTarget`, `PedalController`, and a
 required release callback. No input occurs while loading the profile or calling
 `observe()`. The default capture backend is DXcam, normalized to the profile size.
@@ -56,10 +83,13 @@ Useful methods are:
   source pixels immediately before mapping the verified control center into the
   pinned physical client rectangle.
 
-`reset()` has a default overall deadline of 60 seconds, at most six clicks, at most
-2,000 captures, and at most ten seconds for an ordinary expected transition.
-Transitions involving an advertisement allow up to 30 seconds of no-input waiting,
-always clamped to the remaining overall deadline. `on_observation` and `on_terminal` must do cheap memory
+`reset()` has a default overall deadline of 60 seconds (callers may raise it to
+120 seconds to cover advertisement sequences), at most eight clicks (bounded at
+ten), at most 2,000 captures, and at most ten seconds (bounded at fifteen) for an
+ordinary expected transition. Transitions involving an advertisement allow 45
+seconds of no-input waiting by default (bounded at 90), measured from the most
+recent recognized advertisement chrome and always clamped to the remaining overall
+deadline. `on_observation` and `on_terminal` must do cheap memory
 copies or bounded fast measurements only: slow work can stale the frame. Returning
 `False` from `on_terminal` requests another fresh result frame without dismissal;
 the callback repeats within the same overall deadline. `None` or `True` confirms
@@ -76,7 +106,7 @@ bonus-offer decline, result continue, Tune Start, and the exact available close 
 each registered advertisement. A recognized ad without its own close patch waits
 within the overall deadline and grants no input. After an inspected action whose
 expected route includes an ad, unknown video/fade/interstitial frames may wait for
-up to 30 seconds. After a recognized result, temporary unknown frames may wait for
+up to the advertisement transition bound. After a recognized result, temporary unknown frames may wait for
 up to ten seconds to cover reward-text animation and label occlusion. An initial
 unknown screen without this transition context stops the reset. Unknown frames
 never authorize a click; fresh recognized state and exact named control are still
@@ -124,13 +154,21 @@ new immutable run, inspect its state and narrowly scoped control, add a hash-pin
 variant, then test positive and negative examples before live use. Existing source
 references and completed run records must not be rewritten.
 
-Cycle 1 is paused. The latest native CEM pilot,
-`51d2527e-9274-40ec-a04d-309117de107d`, reached one natural result with two agreeing
-289 m readings, then stopped on an unrecognized advertisement during parking.
-Its partial evidence is sealed, its episode remained ineligible, and no optimizer
-generation completed. Do not weaken a classifier or extend an ad action allowlist
-to turn this failed attempt into a completed result. The successful baseline
+The last Cycle 1 native CEM pilot, `51d2527e-9274-40ec-a04d-309117de107d`, reached
+one natural result with two agreeing 289 m readings, then stopped on an unrecognized
+advertisement during parking. Its partial evidence is sealed, its episode remained
+ineligible, and no optimizer generation completed. That record is unchanged; Cycle 2
+answers it with the chrome matcher above rather than by weakening a classifier or
+extending an allowlist retroactively. The successful Cycle 1 baseline
 `dad65c73-370f-4df9-9ff1-071ab9999680` recorded 458 m and 411 m at verified paused
 boundaries after its two 60-second always-gas episodes, including release-to-pause
-delay. This demonstrates that specific start/pause/restart path; general unattended
-reset coverage and real learned-policy competence remain unproven.
+delay. General unattended reset coverage is the subject of the registered
+[native reliability study](../../experiments/definitions/cycle-2-native-reliability.json);
+until that study reports, unattended reliability remains unestablished.
+
+The episode runner (`scripts/run_screen_episodes.py`) now pauses and restarts a game
+left mid-episode by the operator before its first attempt, records the recognized
+result variant with every terminal reading as terminal-cause evidence, classifies
+every attempt with the registered vocabulary (`classify_attempt`), records reset,
+parking and advertisement overhead per attempt, and freezes the protocol hash plus
+Cycle 2 versions into the run configuration when a registered protocol is supplied.

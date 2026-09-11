@@ -191,3 +191,42 @@ def test_interrupt_retains_partial_episode_and_releases():
     )
     assert sent == [1] and released and len(rows) == len(images) == 1
     assert "KeyboardInterrupt" in summary["error"]
+
+
+def test_attempt_classification_uses_registered_vocabulary():
+    from types import SimpleNamespace
+
+    from run_screen_episodes import classify_attempt, terminal_cause
+
+    paused = SimpleNamespace(state="paused")
+    tune = SimpleNamespace(state="tune")
+    truncated = {
+        "reason": "episode_time_limit",
+        "distance": 120,
+        "paused_reading": {"valid": True},
+        "terminal_readings": [],
+    }
+    assert classify_attempt(truncated, paused) == "success_truncated_scored"
+    assert terminal_cause(truncated) == "truncated_horizon"
+    unscored = {**truncated, "distance": None, "paused_reading": {"valid": False}}
+    assert classify_attempt(unscored, paused) == "success_unscored"
+    natural = {
+        "reason": "observed_result",
+        "distance": 289,
+        "accepted_terminal_readings": [{"distance_meters": 289}],
+        "terminal_readings": [{"ui_variant": "driver_down_native"}],
+    }
+    assert classify_attempt(natural, tune) == "success_natural_scored"
+    assert terminal_cause(natural) == "driver_down"
+    fuel = {**natural, "terminal_readings": [{"ui_variant": "out_of_fuel_discovery"}]}
+    assert terminal_cause(fuel) == "out_of_fuel"
+    unlabeled = {**natural, "terminal_readings": []}
+    assert terminal_cause(unlabeled) == "natural_unlabeled"
+    halted = {**natural, "park_error": "RuntimeError: Unrecognized advertisement; no click"}
+    assert classify_attempt(halted, None) == "unknown_failure"
+    focus = {**natural, "error": "RuntimeError: Target is not the foreground window"}
+    assert classify_attempt(focus, None) == "recoverable_failure"
+    assert terminal_cause(focus) == "driver_down"
+    assert classify_attempt({"reason": "observed_result", "distance": None}, None) == (
+        "unknown_failure"
+    )
