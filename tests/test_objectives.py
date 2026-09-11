@@ -197,8 +197,13 @@ def test_derived_ratios_publish_denominators_and_unknown_on_invalid_denominator(
     assert zero["hud_progress_per_gameplay_second"]["semantics"].startswith("HUD")
 
 
-def rows_from(values_by_step, hud_by_step, dt=0.5):
-    names = ["left_wheel_to_terrain_axles", "right_wheel_to_terrain_axles"]
+def rows_from(values_by_step, hud_by_step, dt=0.5, radius=0.17, radius_valid=True):
+    names = [
+        "left_wheel_to_terrain_axles",
+        "right_wheel_to_terrain_axles",
+        "left_radius_axles",
+        "right_radius_axles",
+    ]
     rows = []
     for step, (clearance, hud) in enumerate(zip(values_by_step, hud_by_step, strict=True)):
         valid = clearance is not None
@@ -208,8 +213,8 @@ def rows_from(values_by_step, hud_by_step, dt=0.5):
                 "elapsed_seconds": step * dt,
                 "screen": {
                     "feature_names": names,
-                    "values": [clearance or 0.0, clearance or 0.0],
-                    "valid": [valid, valid],
+                    "values": [clearance or 0.0, clearance or 0.0, radius, radius],
+                    "valid": [valid, valid, radius_valid, radius_valid],
                     "hud": {"valid": hud is not None, "hud_displayed_progress_meters": hud},
                 },
             }
@@ -220,12 +225,30 @@ def rows_from(values_by_step, hud_by_step, dt=0.5):
 def test_airtime_detection_requires_valid_clearance_on_consecutive_frames():
     clearance = [0.0, 0.3, 0.4, None, 0.5, 0.0, 0.2, 0.0]
     hud = [0, 5, 10, 15, 20, 25, 30, 35]
-    events = detect_airtime_events(rows_from(clearance, hud), minimum_frames=2)
+    rows = rows_from(clearance, hud)
+    events = detect_airtime_events(rows, radius_multiple=None, minimum_frames=2)
     assert len(events) == 1 and events[0]["frames"] == 2
     assert events[0]["start_seconds"] == 0.5 and events[0]["end_seconds"] == 1.0
-    assert detect_airtime_events(rows_from(clearance, hud), minimum_frames=1)[1]["frames"] == 1
+    assert detect_airtime_events(rows, radius_multiple=None, minimum_frames=1)[1]["frames"] == 1
     with pytest.raises(ValueError):
         detect_airtime_events([], clearance_threshold_axles=0)
+    with pytest.raises(ValueError, match="radius_multiple"):
+        detect_airtime_events([], radius_multiple=1.0)
+
+
+def test_airtime_detection_is_radius_relative_by_default():
+    # A resting wheel's centre sits one radius (0.17) above the terrain: not airborne.
+    resting = [0.17, 0.18, 0.19, 0.2, 0.2]
+    hud = [0, 1, 2, 3, 4]
+    assert detect_airtime_events(rows_from(resting, hud)) == []
+    # Clear of the terrain by more than 1.6 radii on consecutive frames: one event.
+    airborne = [0.17, 0.4, 0.45, 0.5, 0.17]
+    events = detect_airtime_events(rows_from(airborne, hud))
+    assert len(events) == 1 and events[0]["frames"] == 3
+    # Without valid radii the radius-relative detector cannot decide: no event.
+    assert detect_airtime_events(rows_from(airborne, hud, radius_valid=False)) == []
+    # The absolute floor still applies when radii are tiny.
+    assert detect_airtime_events(rows_from([0.1, 0.12, 0.12, 0.1, 0.1], hud, radius=0.02)) == []
 
 
 def test_hud_trace_rejects_decreases_and_time_to_reach_reports_unknown_coverage():

@@ -485,18 +485,27 @@ def detect_airtime_events(
     rows: list[dict[str, Any]],
     *,
     clearance_threshold_axles: float = 0.15,
+    radius_multiple: float | None = 1.6,
     minimum_frames: int = 2,
 ) -> list[dict[str, Any]]:
     """Segment windows where both wheels are measured clear of the terrain.
 
-    Rows are the runner's per-frame observation records. A window needs both wheel
-    clearance features valid and above the threshold on ``minimum_frames``
+    Rows are the runner's per-frame observation records. A wheel counts as clear
+    when its centre-to-terrain distance exceeds both the absolute floor and
+    ``radius_multiple`` times its own measured radius: a grounded wheel's centre
+    already sits about one radius above the surface, so an absolute threshold alone
+    reads resting wheels as airborne. Both wheels, both clearances and (when a
+    radius multiple is used) both radii must be valid on ``minimum_frames``
     consecutive frames. Missing measurements end a window rather than extend it.
     Detector version: ``airtime-wheel-clearance-2.0``. Thresholds are image-relative
     hypotheses until validated against independent labels.
     """
     if not math.isfinite(clearance_threshold_axles) or clearance_threshold_axles <= 0:
         raise ValueError("Clearance threshold must be positive")
+    if radius_multiple is not None and (
+        not math.isfinite(radius_multiple) or radius_multiple <= 1.0
+    ):
+        raise ValueError("radius_multiple must exceed 1.0 (a resting wheel sits at one radius)")
     if type(minimum_frames) is not int or minimum_frames < 1:
         raise ValueError("minimum_frames must be a positive integer")
     events, current = [], None
@@ -506,15 +515,20 @@ def detect_airtime_events(
         values, valid = screen.get("values") or [], screen.get("valid") or []
         airborne = False
         if names and len(values) == len(names) == len(valid):
-            try:
-                left = names.index("left_wheel_to_terrain_axles")
-                right = names.index("right_wheel_to_terrain_axles")
-            except ValueError:
-                left = right = None
-            if left is not None and valid[left] and valid[right]:
-                airborne = (
-                    values[left] > clearance_threshold_axles
-                    and values[right] > clearance_threshold_axles
+            index = {name: position for position, name in enumerate(names)}
+            wheels = ("left_wheel_to_terrain_axles", "right_wheel_to_terrain_axles")
+            radii = ("left_radius_axles", "right_radius_axles")
+            needed = wheels + (radii if radius_multiple is not None else ())
+            if all(name in index and valid[index[name]] for name in needed):
+                thresholds = [clearance_threshold_axles, clearance_threshold_axles]
+                if radius_multiple is not None:
+                    thresholds = [
+                        max(floor, radius_multiple * values[index[radius]])
+                        for floor, radius in zip(thresholds, radii, strict=True)
+                    ]
+                airborne = all(
+                    values[index[wheel]] > threshold
+                    for wheel, threshold in zip(wheels, thresholds, strict=True)
                 )
         elapsed = row.get("elapsed_seconds")
         if airborne and elapsed is not None:
