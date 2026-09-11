@@ -529,6 +529,36 @@
       },
       "matching": "rgb",
       "notes": "Google-served video interstitial rendered by the emulator as a small player in the top-left corner over a black letterbox, with a dim skip-forward glyph at the extreme top-right of the game area and a static marker below the player's bottom-right corner. Only the exact skip glyph patch is clickable, after two stable frames; the creative, its Install pill and the player are never controls."
+    },
+    {
+      "label": "vehicle_select_hill_climber",
+      "state": "tune",
+      "file": "runs/56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5/reset-000.png",
+      "sha256": "8b166def4258479d5f162928586b0818db787f67fe29b7a5158708e8adfcd392",
+      "anchors": [
+        [
+          484,
+          110,
+          622,
+          138
+        ],
+        [
+          488,
+          370,
+          612,
+          432
+        ]
+      ],
+      "controls": {
+        "start_episode": [
+          757,
+          384,
+          883,
+          436
+        ]
+      },
+      "matching": "rgb",
+      "notes": "Vehicle selection screen shown after a cold boot with HILL CLIMBER selected; the vehicle title is an identity anchor. Start is the only control; Shop, Stage, Vehicle previews, boosters and currency are never actionable. Captured after the emulator crash/relaunch during Cycle 2."
     }
   ],
   "glyph_threshold": 0.9,
