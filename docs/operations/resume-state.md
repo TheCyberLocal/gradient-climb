@@ -75,3 +75,14 @@ one-hour qualification, transfer, held-out real vehicles/maps, adaptation and
 forgetting, selected ablations, extended training, reproducibility rerun and final
 scientific reporting. Preregistered pending definitions do not establish results.
 The research report must remain explicit about incomplete real-game evidence.
+
+## Paused independent implementation
+
+The harness subagent drafted a bounded screen-session orchestrator. It is preserved
+at ignored `artifacts/drafts/session.py`, outside the published package pending
+focused control-flow tests. It compiles and passes lint, but was not functionally
+validated. Restore it to `src/gradientclimb/control/session.py` only while completing
+those tests and review. The simulation subagent's source-linked report generator
+was still being prepared; no incomplete generator file was published. Both agents
+were interrupted to preserve this checkpoint and let the native tool turn reset.
+They can resume their existing bounded subtasks in the next turn.
