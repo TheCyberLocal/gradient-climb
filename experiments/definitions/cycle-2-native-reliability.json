@@ -1,0 +1,78 @@
+{
+  "protocol_version": "native-reliability-2.0",
+  "status": "REGISTERED before data collection; exploratory ad-discovery sessions preceding this study are labeled exploratory and are not study attempts",
+  "question": "Can the native episode lifecycle cycle scored Hill Climb Racing episodes unattended across natural results, full-horizon truncation, revive/bonus offers and advertisements, without any unintended action?",
+  "hypothesis": "In one unattended session of twelve consecutive attempts, at least ten attempts complete a full cycle (start -> gameplay -> natural result or governed truncation -> qualified score -> park at Tune or Paused) with zero unintended actions and zero manual interventions.",
+  "environment": "actual_hill_climb_racing",
+  "vehicle": "Hill Climber",
+  "map": "Countryside",
+  "upgrades": "reacquired from the Tune screen at session start and recorded in the run configuration; not assumed from Cycle 1",
+  "policies": {
+    "schedule": "attempt index even -> always_gas, odd -> random; scripted non-learning controls only",
+    "random_seed": 4201,
+    "purpose": "natural terminations and full-horizon truncations must both occur; this is not a baseline study"
+  },
+  "episode_horizon_seconds": 60,
+  "attempts_per_session": 12,
+  "maximum_sessions": 3,
+  "session_budget_seconds": 2400,
+  "capture_backend": "dxcam",
+  "maximum_observation_age_seconds": 0.45,
+  "maximum_lease_seconds": 0.4,
+  "ui_profile": "configs/perception/hcr-reset-ui.json (version 2 chrome-aware profile; hash recorded per run)",
+  "score_readers": {
+    "gameplay_hud": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/gameplay-glyphs/hud-glyphs.json",
+    "result": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-reader.json"
+  },
+  "terminal_classification": [
+    "success_natural_scored: natural result, two agreeing fresh readings >=0.15 s apart, parked at Tune",
+    "success_truncated_scored: full 60 s horizon, verified paused readout valid, parked at Paused",
+    "success_unscored: parked at a stationary boundary but the score reader returned unknown",
+    "recoverable_failure: the adapter raised a bounded known failure and the session halted safely with pedals released",
+    "unknown_failure: an unknown UI state or advertisement stopped the adapter with no click",
+    "not_attempted: the session halted before this attempt index"
+  ],
+  "measurements": [
+    "capture initialization success per session",
+    "foreground/geometry validation events and latched faults",
+    "pedal delivery: OS insertion count versus requested leases",
+    "stale captures discarded and stale watchdog releases",
+    "score-reader success per attempt (terminal and paused)",
+    "natural termination recognition latency and result animation waits",
+    "full-horizon pause scoring success",
+    "reset success and reset duration per attempt",
+    "advertisement encounters, phases, waits and legitimate closes",
+    "unknown-state incidence and its evidence frames",
+    "safe neutral release after every halt",
+    "manual interventions (any -> unattended claim fails)",
+    "unintended actions (any click outside the allowlisted named controls -> study fails)"
+  ],
+  "primary_endpoint": "longest run of consecutive successful cycles within a single session",
+  "secondary_endpoints": [
+    "overall success fraction across all study sessions",
+    "score coverage: scored successes / attempts",
+    "reset coverage: parked attempts / attempts",
+    "advertisement handling: legitimate closes / advertisement encounters",
+    "median reset and advertisement overhead seconds"
+  ],
+  "success_criteria": {
+    "consecutive_successes": ">= 10 within one session of 12 attempts",
+    "unintended_actions": 0,
+    "manual_interventions": 0,
+    "score_coverage": ">= 10/12 scored"
+  },
+  "exclusion_rules": "none after the fact; every attempt is reported with its terminal classification; a halted session reports remaining attempts as not_attempted",
+  "missingness_rules": "unknown scores stay unknown; an unscored parked attempt is not a scored success",
+  "evidence": "every attempt is a sealed canonical run record with per-frame observations, reset/terminal frames, menu, guard, capture and pedal traces",
+  "cycle2_versions": {
+    "metric_schema": "behavioral-metrics-2.0",
+    "observation_schema": "hcr-screen-relative-1",
+    "reward_fitness": "distance-only-2.0",
+    "benchmark": "native-reliability-2.0",
+    "simulator": null,
+    "calibration": null,
+    "ui_profile": "hcr-wrapper-reset-v2",
+    "score_reader": "result-reader-66ce7f08 + hud-glyphs-78a29b33",
+    "recovery_definition": null
+  }
+}
