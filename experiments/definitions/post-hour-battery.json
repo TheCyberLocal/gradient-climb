@@ -1,0 +1,693 @@
+{
+  "protocol_version": "post-hour-battery-1.1",
+  "status": "REGISTERED_PENDING_DISPATCH",
+  "after_run": "c0a9e142-1ad6-4d88-810d-bda4ca297f40",
+  "evidence_domain": "uncalibrated_simulator",
+  "qualifies_real_game": false,
+  "registered_before_execution": true,
+  "total_requested_learning_seconds": 5520,
+  "requested_learning_runs": 15,
+  "baseline_configuration_source": "experiments/definitions/one-hour-surrogate.json",
+  "ablation_order": {
+    "method": "Fisher-Yates with xorshift32",
+    "initial_seed": 20260911,
+    "realized": [
+      {
+        "seed": 101,
+        "conditions": [
+          "randomization",
+          "stack1",
+          "epochs2",
+          "baseline"
+        ]
+      },
+      {
+        "seed": 102,
+        "conditions": [
+          "randomization",
+          "baseline",
+          "epochs2",
+          "stack1"
+        ]
+      },
+      {
+        "seed": 103,
+        "conditions": [
+          "randomization",
+          "stack1",
+          "epochs2",
+          "baseline"
+        ]
+      }
+    ]
+  },
+  "protocol_notes": [
+    "Execute no action until root dispatches and the governed source run has completed with a valid seal.",
+    "Run every job sequentially in a fresh Python process on the same physical workstation. Ordinary desktop work and workload overlap are disclosed.",
+    "The source checkpoint is fixed by after_run and its recorded SHA-256, not selected after seeing test performance.",
+    "Validation uses seeds 10000\u00e2\u20ac\u201c10019 built into run_training and scheduled checkpoint evaluation. Generalization uses paired seeds 20000\u00e2\u20ac\u201c20019 across default/train, default/rough, heavy/train, heavy/rough.",
+    "Reuse of generalization seeds enables paired retention comparisons but does not create independent test sets. Later choices informed by these scores are exploratory.",
+    "Short ablations reuse the original main configuration and checkpoint schedule; at 60 seconds only the actual final checkpoint is expected. Seed101/102/103 conditions are randomized in the registered order.",
+    "This registered 60-second screen is a separate exploratory battery. Earlier proposed 300-second ablations and 5/10/30/60-minute replicated adaptations remain unexecuted.",
+    "Extended default/train and heavy/rough runs each load the original source weights and optimizer. Each is fine_tuning with 600 additional seconds and explicit parent lineage; neither starts from the other child.",
+    "Source training, development/search, and each child's additional exposure remain separate. Report actual monotonic training time, process time and offline evaluation time separately; 5520 seconds is the sum of requested learning budgets only.",
+    "Reproduction seed43 uses the exact original one-hour configuration and six checkpoint targets, fresh weights and a clean source worktree. Any change to action order or configuration requires a new plan version/hash before execution.",
+    "No scores here demonstrate real-game control, calibrated dynamics, held-out perception accuracy, or transfer.",
+    "Explicit offline evaluation scores the saved 300/600-second checkpoints of each fine-tuning child on its training condition. Their final four-condition generalization remains a separate paired retention comparison. Requested 20/30/45/60-minute child measurements remain missing.",
+    "Before any heavy job, the root task commits the revised plan and source. The clean seed43 reproduction follows primary checkpoint/generalization evaluation and precedes all ablations and child training. Derived report refreshes remain under artifacts until this reproduction has started."
+  ],
+  "actions": [
+    {
+      "id": "source_checkpoints",
+      "kind": "evaluate_checkpoints",
+      "source": "after_run",
+      "episodes": 20
+    },
+    {
+      "id": "source_generalization",
+      "kind": "generalization",
+      "source": "after_run",
+      "episodes": 20,
+      "seed_start": 20000
+    },
+    {
+      "id": "reproduction_seed43",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 3600,
+      "seeds": [
+        43
+      ],
+      "experiment": "one-hour-surrogate-reproduction",
+      "benchmark_class": "cold_start",
+      "require_clean_source": true,
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "reproduction_checkpoints",
+      "kind": "evaluate_checkpoints",
+      "source": "action:reproduction_seed43",
+      "episodes": 20
+    },
+    {
+      "id": "reproduction_generalization",
+      "kind": "generalization",
+      "source": "action:reproduction_seed43",
+      "episodes": 20,
+      "seed_start": 20000
+    },
+    {
+      "id": "ablation_randomization_seed101",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        101
+      ],
+      "experiment": "post-hour-ablation-randomization",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": true,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_stack1_seed101",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        101
+      ],
+      "experiment": "post-hour-ablation-stack1",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 1,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_epochs2_seed101",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        101
+      ],
+      "experiment": "post-hour-ablation-epochs2",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 2,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_baseline_seed101",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        101
+      ],
+      "experiment": "post-hour-ablation-baseline",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_randomization_seed102",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        102
+      ],
+      "experiment": "post-hour-ablation-randomization",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": true,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_baseline_seed102",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        102
+      ],
+      "experiment": "post-hour-ablation-baseline",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_epochs2_seed102",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        102
+      ],
+      "experiment": "post-hour-ablation-epochs2",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 2,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_stack1_seed102",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        102
+      ],
+      "experiment": "post-hour-ablation-stack1",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 1,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_randomization_seed103",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        103
+      ],
+      "experiment": "post-hour-ablation-randomization",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": true,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_stack1_seed103",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        103
+      ],
+      "experiment": "post-hour-ablation-stack1",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 1,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_epochs2_seed103",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        103
+      ],
+      "experiment": "post-hour-ablation-epochs2",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 2,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "ablation_baseline_seed103",
+      "kind": "train",
+      "algorithm": "ppo",
+      "seconds": 60,
+      "seeds": [
+        103
+      ],
+      "experiment": "post-hour-ablation-baseline",
+      "benchmark_class": "cold_start",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600,
+          1200,
+          1800,
+          2700,
+          3600
+        ]
+      }
+    },
+    {
+      "id": "extended_source",
+      "kind": "train",
+      "source": "after_run",
+      "algorithm": "ppo",
+      "seconds": 600,
+      "seeds": [
+        42
+      ],
+      "experiment": "post-hour-extended-source",
+      "benchmark_class": "fine_tuning",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "default",
+        "terrain": "train",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600
+        ]
+      }
+    },
+    {
+      "id": "extended_checkpoints",
+      "kind": "evaluate_checkpoints",
+      "source": "action:extended_source",
+      "episodes": 20
+    },
+    {
+      "id": "extended_generalization",
+      "kind": "generalization",
+      "source": "action:extended_source",
+      "episodes": 20,
+      "seed_start": 20000
+    },
+    {
+      "id": "adapt_heavy_rough",
+      "kind": "train",
+      "source": "after_run",
+      "algorithm": "ppo",
+      "seconds": 600,
+      "seeds": [
+        42
+      ],
+      "experiment": "post-hour-adapt-heavy-rough",
+      "benchmark_class": "fine_tuning",
+      "config": {
+        "num_envs": 256,
+        "device": "cpu",
+        "torch_threads": 1,
+        "hidden_size": 64,
+        "stack": 4,
+        "rollout_steps": 128,
+        "minibatch_size": 512,
+        "epochs": 4,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_coef": 0.2,
+        "entropy_coef": 0.01,
+        "profile": "heavy",
+        "terrain": "rough",
+        "randomization": false,
+        "max_steps": 1000,
+        "log_interval": 5,
+        "checkpoint_times": [
+          300,
+          600
+        ]
+      }
+    },
+    {
+      "id": "adapt_checkpoints",
+      "kind": "evaluate_checkpoints",
+      "source": "action:adapt_heavy_rough",
+      "episodes": 20
+    },
+    {
+      "id": "adapt_generalization",
+      "kind": "generalization",
+      "source": "action:adapt_heavy_rough",
+      "episodes": 20,
+      "seed_start": 20000
+    }
+  ]
+}

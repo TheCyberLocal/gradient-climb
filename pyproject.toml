@@ -12,8 +12,9 @@ dependencies = ["numpy>=2.1", "gymnasium>=1.1", "duckdb>=1.2", "pyarrow>=18", "p
 
 [project.optional-dependencies]
 train = ["torch>=2.6"]
+analysis = ["matplotlib>=3.10"]
 dev = ["pytest>=8", "ruff>=0.9", "httpx>=0.27"]
-capture = ["mss>=10", "opencv-python-headless>=4.10"]
+capture = ["mss>=10", "opencv-python-headless>=4.10", "dxcam>=0.3.0; sys_platform == 'win32'"]
 
 [project.scripts]
 gradientclimb = "gradientclimb.cli:main"

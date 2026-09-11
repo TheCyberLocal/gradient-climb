@@ -50,6 +50,10 @@ def test_full_run_roundtrip_and_artifact_snapshot(tmp_path):
     assert result["machine_fingerprint"]
     assert result["git_sha"]
     assert result["python_version"]
+    source = json.loads((run.directory / "source-state.json").read_text())
+    assert source["source_diff_sha256"] == result["source_diff_sha256"]
+    assert source["git_sha"] == result["git_sha"]
+    assert any(a["kind"] == "source_provenance" for a in result["artifact_manifest"])
     assert result["duration"] > 0
     assert result["environment_steps_per_second"] > 0
     assert result["evaluation_results"][0]["results"]["distance"] == 17.2
@@ -133,7 +137,8 @@ def test_nested_metadata_and_evaluations_are_input_snapshots(tmp_path):
     record = load_run(tmp_path, run.run_id)
     assert record["policy_architecture"] == {"layers": [8, 4]}
     assert record["evaluation_results"][0]["results"]["quality"]["mean"] == 2.0
-    assert record["artifact_manifest"][0]["metadata"] == {"history": [1, 2]}
+    artifact = next(a for a in record["artifact_manifest"] if a["kind"] == "checkpoint")
+    assert artifact["metadata"] == {"history": [1, 2]}
 
 
 def test_failed_experiment_is_retained(tmp_path):

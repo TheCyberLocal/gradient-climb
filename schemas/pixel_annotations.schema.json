@@ -1,0 +1,226 @@
+{
+  "$defs": {
+    "PointLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "minimum": 0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "minimum": 0,
+          "title": "Y",
+          "type": "number"
+        },
+        "uncertainty_pixels": {
+          "default": 2,
+          "minimum": 0,
+          "title": "Uncertainty Pixels",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "PointLabel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Null targets mean unannotated, never a zero-valued target or a failure label.",
+  "properties": {
+    "schema_version": {
+      "const": "pixel-annotation-1",
+      "default": "pixel-annotation-1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "annotation_id": {
+      "minLength": 1,
+      "title": "Annotation Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "session_id": {
+      "minLength": 1,
+      "title": "Session Id",
+      "type": "string"
+    },
+    "split": {
+      "enum": [
+        "train",
+        "heldout"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "evidence_domain": {
+      "enum": [
+        "real_game",
+        "synthetic"
+      ],
+      "title": "Evidence Domain",
+      "type": "string"
+    },
+    "width": {
+      "exclusiveMinimum": 1,
+      "title": "Width",
+      "type": "integer"
+    },
+    "height": {
+      "exclusiveMinimum": 1,
+      "title": "Height",
+      "type": "integer"
+    },
+    "timestamp_ns": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Timestamp Ns"
+    },
+    "annotator": {
+      "minLength": 1,
+      "title": "Annotator",
+      "type": "string"
+    },
+    "annotation_method": {
+      "enum": [
+        "manual_independent",
+        "synthetic_known_transform"
+      ],
+      "title": "Annotation Method",
+      "type": "string"
+    },
+    "viewed_model_prediction": {
+      "default": false,
+      "title": "Viewed Model Prediction",
+      "type": "boolean"
+    },
+    "wheel_pair_visible": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Wheel Pair Visible"
+    },
+    "left_wheel": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PointLabel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "right_wheel": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PointLabel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "terrain_surface": {
+      "const": "visible_turf_soil_boundary",
+      "default": "visible_turf_soil_boundary",
+      "title": "Terrain Surface",
+      "type": "string"
+    },
+    "terrain_points": {
+      "items": {
+        "$ref": "#/$defs/PointLabel"
+      },
+      "title": "Terrain Points",
+      "type": "array"
+    },
+    "previous_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Previous Source Sha256"
+    },
+    "terrain_translation_xy": {
+      "anyOf": [
+        {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Terrain Translation Xy"
+    },
+    "translation_uncertainty_pixels": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Translation Uncertainty Pixels"
+    },
+    "notes": {
+      "default": "",
+      "title": "Notes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "annotation_id",
+    "source_sha256",
+    "session_id",
+    "split",
+    "evidence_domain",
+    "width",
+    "height",
+    "annotator",
+    "annotation_method"
+  ],
+  "title": "FrameAnnotation",
+  "type": "object"
+}

@@ -42,6 +42,12 @@ There are **zero independent held-out images** and **no measured generalization 
 
 The playing template is a visible pedal graphic, not a validated detector of active physics. An unobserved overlay could retain that graphic. Unknown screens, animations, ads, revivals, focus loss, resizing, and stale observations still require independent evaluation before input can rely on these prototypes. The current prototypes cannot make unattended operation ready.
 
+## Subsequent fixed-template native check
+
+A later native capture, `artifacts/game-discovery/paused-native-normalized.png`, was visually labeled PAUSED before classification. Its source hash differs from all five construction images. The frozen discovery templates returned `unexpected`: the PAUSED template similarity was approximately 0.8813, below its 0.98 acceptance threshold. No playing, advertisement-close or restart evidence was emitted. Thresholds were not retuned on this image.
+
+Sealed run `bf79e106-ec25-47f2-89ab-9f91184f5f55` stores the new image, capture metadata, frozen template files/training provenance, implementation and result. Seal verification passed. This is one correctly rejected unsafe-to-classify frame but an incorrect specific state classification: zero correct state matches out of one, zero false-playing matches, and one unknown prediction. It does not establish broad generalization accuracy. The original five-image construction dataset still has no held-out members; this later test is a separately recorded observation.
+
 ## Reproduce offline construction
 
 From the repository root, with the five original PNGs already present:

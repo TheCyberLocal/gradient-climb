@@ -61,7 +61,7 @@ def main(argv=None):
     watch.add_argument("--seed", type=int, default=20000)
     watch.add_argument("--video", type=Path)
     capture = commands.add_parser("capture", help="Record or benchmark a foreground game window")
-    capture.add_argument("--backend", choices=["mss", "pillow"], default="mss")
+    capture.add_argument("--backend", choices=["mss", "pillow", "dxcam"], default="mss")
     capture.add_argument("--frames", type=int, default=120)
     capture.add_argument("--fps", type=float)
     capture.add_argument("--record", action="store_true")

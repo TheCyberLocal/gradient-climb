@@ -76,8 +76,8 @@ class WindowCapture:
         crop: tuple[float, float, float, float] = (0, 0, 1, 1),
         output_size: tuple[int, int] | None = None,
     ):
-        if backend not in {"mss", "pillow"}:
-            raise ValueError("Capture backend must be mss or pillow")
+        if backend not in {"mss", "pillow", "dxcam"}:
+            raise ValueError("Capture backend must be mss, pillow, or dxcam")
         crop_rectangle(guard.target.client_rect, crop)
         if output_size is not None and (
             len(output_size) != 2 or any(type(v) is not int or v <= 0 for v in output_size)
@@ -86,8 +86,27 @@ class WindowCapture:
         self.guard, self.backend, self.crop = guard, backend, crop
         self.output_size = output_size
         self._mss = None
+        self._dxcam = None
 
     def _read(self, rect: ClientRect) -> np.ndarray:
+        if self.backend == "dxcam":
+            if self._dxcam is None:
+                import dxcam
+
+                self._dxcam = dxcam.create(device_idx=0, output_idx=0, output_color="RGB")
+            # This first adapter supports the primary display at origin (0, 0).
+            # Do not silently capture a different monitor or clamp a moved window.
+            if (
+                rect.left < 0
+                or rect.top < 0
+                or rect.bbox[2] > self._dxcam.width
+                or rect.bbox[3] > self._dxcam.height
+            ):
+                raise WindowUnavailable("DXcam target is outside the selected primary output")
+            frame = self._dxcam.grab(region=rect.bbox, new_frame_only=False)
+            if frame is None:
+                raise WindowUnavailable("DXcam returned no available display frame")
+            return np.asarray(frame).copy()
         if self.backend == "pillow":
             return np.asarray(ImageGrab.grab(bbox=rect.bbox, all_screens=True).convert("RGB"))
         if self._mss is None:
@@ -248,6 +267,9 @@ class WindowCapture:
         return summary
 
     def close(self):
+        if self._dxcam is not None:
+            self._dxcam.release()
+            self._dxcam = None
         if self._mss is not None:
             self._mss.close()
             self._mss = None

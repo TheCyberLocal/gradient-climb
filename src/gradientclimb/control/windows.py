@@ -55,18 +55,41 @@ class INPUT(ctypes.Structure):
 
 KEYEVENTF_EXTENDEDKEY = 0x0001
 KEYEVENTF_KEYUP = 0x0002
+KEYEVENTF_SCANCODE = 0x0008
+MAPVK_VK_TO_VSC_EX = 4
 EXTENDED_KEYS = frozenset({0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x2D, 0x2E})
 
 
-def keyboard_event(virtual_key: int, pressed: bool) -> INPUT:
+def keyboard_event(virtual_key: int, pressed: bool, *, scan_code: int | None = None) -> INPUT:
     if type(virtual_key) is not int or not 1 <= virtual_key <= 254:
         raise ValueError("Virtual key must be an integer in 1..254")
+    if type(pressed) is not bool:
+        raise ValueError("Pressed must be a boolean")
     flags = 0 if pressed else KEYEVENTF_KEYUP
-    if virtual_key in EXTENDED_KEYS:
-        flags |= KEYEVENTF_EXTENDEDKEY
+    if scan_code is not None:
+        # MAPVK_VK_TO_VSC_EX includes the E0/E1 prefix in the high byte.
+        # KEYBDINPUT represents E0 through EXTENDEDKEY, not in wScan itself.
+        if (
+            type(scan_code) is not int
+            or not 0 < scan_code <= 0xFFFF
+            or scan_code >> 8 not in (0, 0xE0)
+            or scan_code & 0xFF == 0
+        ):
+            raise ValueError("Expected a mapped scan code with no prefix or E0; E1 is unsupported")
+        flags |= KEYEVENTF_SCANCODE
+        # Some observed Windows mappings return only 4B/4D for VK_LEFT/RIGHT
+        # even with MAPVK_VK_TO_VSC_EX. Preserve their known extended identity
+        # instead of accidentally sending the numeric-keypad variant.
+        if scan_code >> 8 == 0xE0 or virtual_key in EXTENDED_KEYS:
+            flags |= KEYEVENTF_EXTENDEDKEY
+        vk, scan = 0, scan_code & 0xFF
+    else:
+        if virtual_key in EXTENDED_KEYS:
+            flags |= KEYEVENTF_EXTENDEDKEY
+        vk, scan = virtual_key, 0
     event = INPUT()
     event.type = 1
-    event.ki = KEYBDINPUT(virtual_key, 0, flags, 0, 0)
+    event.ki = KEYBDINPUT(vk, scan, flags, 0, 0)
     return event
 
 
@@ -79,6 +102,11 @@ class _NativeInput:
         self.user32.SendInput.restype = ctypes.c_uint32
         self.user32.GetAsyncKeyState.argtypes = [ctypes.c_int]
         self.user32.GetAsyncKeyState.restype = ctypes.c_int16
+        self.user32.MapVirtualKeyW.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+        self.user32.MapVirtualKeyW.restype = ctypes.c_uint32
+
+    def scan_code(self, virtual_key: int) -> int:
+        return int(self.user32.MapVirtualKeyW(virtual_key, MAPVK_VK_TO_VSC_EX))
 
     def is_down(self, virtual_key: int) -> bool:
         return bool(self.user32.GetAsyncKeyState(virtual_key) & 0x8000)
@@ -101,33 +129,76 @@ class WindowsPedalBackend:
     """
 
     def __init__(
-        self, target: WindowTarget, *, gas_vk: int, brake_vk: int, guard=None, sender=None
+        self,
+        target: WindowTarget,
+        *,
+        gas_vk: int,
+        brake_vk: int,
+        guard=None,
+        sender=None,
+        input_mode: str = "vk",
     ):
         keyboard_event(gas_vk, False)
         keyboard_event(brake_vk, False)
         if gas_vk == brake_vk:
             raise ValueError("Gas and brake require distinct keys")
+        if input_mode not in ("vk", "scancode"):
+            raise ValueError("Input mode must be vk or scancode")
         self.gas_vk, self.brake_vk = gas_vk, brake_vk
         self.guard = guard if guard is not None else WindowGuard(target)
         self.sender = sender if sender is not None else _NativeInput()
+        self.input_mode = input_mode
+        self._scan_codes = {}
+        if input_mode == "scancode":
+            for key in (gas_vk, brake_vk):
+                mapped = self.sender.scan_code(key)
+                keyboard_event(key, False, scan_code=mapped)
+                self._scan_codes[key] = mapped
         self._held: set[int] = set()
         self._lock = threading.RLock()
         self._faulted = False
         self.trace: list[dict] = []
 
+    @property
+    def input_encoding(self) -> dict:
+        return {
+            "mode": self.input_mode,
+            "scan_codes": {str(key): value for key, value in self._scan_codes.items()},
+            "mapping": "MapVirtualKeyW/MAPVK_VK_TO_VSC_EX" if self._scan_codes else None,
+            "extended_key_policy": "mapped E0 prefix or known extended virtual key",
+            "delivery_semantics": "SendInput insertion count; no game acknowledgment",
+        }
+
+    def _send(self, transitions):
+        events = [
+            keyboard_event(key, down, scan_code=self._scan_codes.get(key))
+            for key, down in transitions
+        ]
+        row = {
+            "started_ns": time.perf_counter_ns(),
+            "events": transitions,
+            "input_mode": self.input_mode,
+            "encoded_events": [
+                {"wVk": int(e.ki.wVk), "wScan": int(e.ki.wScan), "dwFlags": int(e.ki.dwFlags)}
+                for e in events
+            ],
+            "delivered": None,
+        }
+        try:
+            row["delivered"] = self.sender.send(events)
+            return row["delivered"]
+        except Exception as exc:
+            self._faulted = True
+            row["error"] = f"{type(exc).__name__}: {exc}"
+            raise
+        finally:
+            row["completed_ns"] = time.perf_counter_ns()
+            self.trace.append(row)
+
     def _release(self):
         keys = sorted(self._held)
         if keys:
-            started = time.perf_counter_ns()
-            count = self.sender.send([keyboard_event(key, False) for key in keys])
-            self.trace.append(
-                {
-                    "started_ns": started,
-                    "completed_ns": time.perf_counter_ns(),
-                    "events": [(key, False) for key in keys],
-                    "delivered": count,
-                }
-            )
+            count = self._send([(key, False) for key in keys])
             if count != len(keys):
                 self._faulted = True
                 raise RuntimeError("SendInput could not release all owned keys; input is disabled")
@@ -157,16 +228,7 @@ class WindowsPedalBackend:
                     return
                 self.guard.validate(require_foreground=True)
                 self._held |= added  # Conservatively track every possibly delivered key-down.
-                started = time.perf_counter_ns()
-                count = self.sender.send([keyboard_event(*event) for event in transitions])
-                self.trace.append(
-                    {
-                        "started_ns": started,
-                        "completed_ns": time.perf_counter_ns(),
-                        "events": transitions,
-                        "delivered": count,
-                    }
-                )
+                count = self._send(transitions)
                 if count != len(transitions):
                     self._faulted = True
                     raise RuntimeError("SendInput delivered only part of the pedal transition")

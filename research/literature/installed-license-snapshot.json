@@ -2,7 +2,7 @@
   "schema_version": 1,
   "captured_at_utc": "2026-09-11T17:16:55.822239+00:00",
   "scope": "Installed Python distribution metadata and license-file hashes; not a complete binary-component legal audit.",
-  "requirements_lock_sha256": "d2d39f1055d73943636395d189d97c7906e5287e657728281da780579cef2a51",
+  "requirements_lock_sha256": "4a14564ec5cee3200d108f12ad9117ecb51d07a853025692932fe54ad74ba232",
   "packages": [
     {
       "name": "annotated-doc",
@@ -96,6 +96,47 @@
       ]
     },
     {
+      "name": "comtypes",
+      "version": "1.4.16",
+      "declared_license_expression": "MIT",
+      "legacy_license_first_line": null,
+      "license_files": [
+        {
+          "path": "comtypes-1.4.16.dist-info/licenses/LICENSE.txt",
+          "sha256": "3b1767f010980b46926b23bf0afce5d72f3359ee5e2b27baca71b9b4209ab383",
+          "bytes": 1273
+        }
+      ]
+    },
+    {
+      "name": "contourpy",
+      "version": "1.3.3",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "BSD 3-Clause License",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "contourpy-1.3.3.dist-info/LICENSE",
+          "sha256": "8553102e03001dd966278098cc027d0683c412b34ea141351b060be4330f39a9",
+          "bytes": 1563
+        }
+      ]
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "Copyright (c) 2015, matplotlib project",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "cycler-0.12.1.dist-info/LICENSE",
+          "sha256": "f1218143d766da3fea66f13396b7f15df46a83303f29bf96ba6e98eb4d42f408",
+          "bytes": 1497
+        }
+      ]
+    },
+    {
       "name": "duckdb",
       "version": "1.5.5",
       "declared_license_expression": null,
@@ -105,6 +146,19 @@
           "path": "duckdb-1.5.5.dist-info/licenses/LICENSE",
           "sha256": "c8dd1b346eacc9c7334e2b8881b2a795d6b942c71e05e25c209696e3c7483931",
           "bytes": 1079
+        }
+      ]
+    },
+    {
+      "name": "dxcam",
+      "version": "0.3.0",
+      "declared_license_expression": "MIT",
+      "legacy_license_first_line": null,
+      "license_files": [
+        {
+          "path": "dxcam-0.3.0.dist-info/licenses/LICENSE",
+          "sha256": "4fe6baee928b96d2cf0f6a238275acfd86182cdaec6e8146654f34cf08c1c9b3",
+          "bytes": 1082
         }
       ]
     },
@@ -144,6 +198,25 @@
           "path": "filelock-3.32.3.dist-info/licenses/LICENSE",
           "sha256": "608c89d5060ae9921adccf3236695bc654a9946e12323ef6c021dfa04e294d48",
           "bytes": 1088
+        }
+      ]
+    },
+    {
+      "name": "fonttools",
+      "version": "4.65.0",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "MIT",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "fonttools-4.65.0.dist-info/licenses/LICENSE",
+          "sha256": "22bef80697ecfaa17f97e62b9a26dfa12820be05583e8dd12ad169b241274c99",
+          "bytes": 1093
+        },
+        {
+          "path": "fonttools-4.65.0.dist-info/licenses/LICENSE.external",
+          "sha256": "b082a5f86775b2641f01bccb8b9c82908481de5f502bb254b1e13bfc2a9f303d",
+          "bytes": 20410
         }
       ]
     },
@@ -252,6 +325,20 @@
       ]
     },
     {
+      "name": "kiwisolver",
+      "version": "1.5.1",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "=========================",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "kiwisolver-1.5.1.dist-info/licenses/LICENSE",
+          "sha256": "b24c2bf6185f31a124ad6bacccae3071bdc7ad7882de00b00110aa62abb76a15",
+          "bytes": 3360
+        }
+      ]
+    },
+    {
       "name": "MarkupSafe",
       "version": "3.0.3",
       "declared_license_expression": "BSD-3-Clause",
@@ -261,6 +348,30 @@
           "path": "markupsafe-3.0.3.dist-info/licenses/LICENSE.txt",
           "sha256": "4631ec0db5fd90a547e336817264c6798214338146f8ac94b4a57f96ee8c9ec4",
           "bytes": 1503
+        }
+      ]
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.11.1",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "License agreement for matplotlib versions 1.3.0 and later",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "matplotlib-3.11.1.dist-info/LICENSE",
+          "sha256": "822e8e528147569a41975592aee19c11992ab667ba50451cd929031d5fc74491",
+          "bytes": 63442
+        },
+        {
+          "path": "matplotlib/mpl-data/fonts/ttf/LICENSE_DEJAVU",
+          "sha256": "d75938dec098f06f0ac3c00853065d94f020be1c3c62ef1dc2975ba15b4d9b0e",
+          "bytes": 4816
+        },
+        {
+          "path": "matplotlib/mpl-data/fonts/ttf/LICENSE_STIX",
+          "sha256": "bab3d31dfef07f483624f2f65f2711e76065b8e7273278b1c071ede1041c9959",
+          "bytes": 5476
         }
       ]
     },
@@ -647,6 +758,20 @@
       ]
     },
     {
+      "name": "pyparsing",
+      "version": "3.3.2",
+      "declared_license_expression": "MIT",
+      "legacy_license_first_line": null,
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "pyparsing-3.3.2.dist-info/licenses/LICENSE",
+          "sha256": "a5425f9dc14ac74d4c5f0b679e941f2442e32cca7452a4418d5b1a49893ebe4e",
+          "bytes": 1062
+        }
+      ]
+    },
+    {
       "name": "pytest",
       "version": "9.1.1",
       "declared_license_expression": "MIT",
@@ -656,6 +781,20 @@
           "path": "pytest-9.1.1.dist-info/licenses/LICENSE",
           "sha256": "ca836a5f9ecca3b2f350230faa20a48fb8b145653b5568d784862df864706b9b",
           "bytes": 1091
+        }
+      ]
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "Dual License",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "python_dateutil-2.9.0.post0.dist-info/LICENSE",
+          "sha256": "ba00f51a0d92823b5a1cde27d8b5b9d2321e67ed8da9bc163eff96d5e17e577e",
+          "bytes": 2889
         }
       ]
     },
@@ -789,6 +928,20 @@
       ]
     },
     {
+      "name": "six",
+      "version": "1.17.0",
+      "declared_license_expression": null,
+      "legacy_license_first_line": "MIT",
+      "observed_at_utc": "2026-09-11T18:11:56.775725+00:00",
+      "license_files": [
+        {
+          "path": "six-1.17.0.dist-info/LICENSE",
+          "sha256": "4375ba20e2b9c6c4e7cad2940a628fd90e95cc3d50ee92aae755715d8ba1fbd0",
+          "bytes": 1066
+        }
+      ]
+    },
+    {
       "name": "starlette",
       "version": "1.6.0",
       "declared_license_expression": "BSD-3-Clause",
@@ -870,6 +1023,14 @@
           "bytes": 1526
         }
       ]
+    }
+  ],
+  "supplemented_at_utc": "2026-09-11T18:11:56.775725+00:00",
+  "supplement_scope": "Added eight analysis-extra distributions and eleven license/notice files; refreshed current lock hash. Earlier records retain their original capture provenance.",
+  "supplement_history": [
+    {
+      "at_utc": "2026-09-11T17:59:14.947602+00:00",
+      "scope": "Added installed DXcam0.3.0 and comtypes1.4.16; refreshed current lock hash. Earlier package records retain original capture time."
     }
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+  "expected_size": [1034, 581],
+  "scene_roi": [0.061895551257253385, 0.27538726333907054, 1.0, 0.6970740103270223],
+  "body_hsv": [[[0, 130, 65], [8, 255, 255]], [[172, 130, 65], [179, 255, 255]]],
+  "turf_hsv": [[[30, 110, 85], [55, 255, 255]]],
+  "soil_hsv": [[[8, 50, 30], [25, 220, 170]]],
+  "exclusion_rois": [],
+  "body_area_pixels": [300, 14000],
+  "wheel_radius_pixels": [10, 25],
+  "axle_length_pixels": [55, 160],
+  "terrain_samples": 48,
+  "camera_band_depth_pixels": 100
+}

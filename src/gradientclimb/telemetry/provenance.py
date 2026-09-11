@@ -20,12 +20,16 @@ except ImportError:  # Measurements remain explicitly unavailable on minimal ins
     psutil = None
 
 
-def _command(arguments: list[str], cwd: Path | None = None) -> str | None:
+def _command(
+    arguments: list[str], cwd: Path | None = None, *, strip_output: bool = True
+) -> str | None:
     try:
         result = subprocess.run(
             arguments, cwd=cwd, capture_output=True, text=True, timeout=4, check=False
         )
-        return result.stdout.strip() if result.returncode == 0 else None
+        if result.returncode != 0:
+            return None
+        return result.stdout.strip() if strip_output else result.stdout
     except (OSError, subprocess.TimeoutExpired):
         return None
 
@@ -62,20 +66,76 @@ def resource_sample(include_gpu: bool = False) -> dict[str, Any]:
     return result
 
 
-def capture_provenance(source_root: Path | None = None) -> dict[str, Any]:
+def capture_provenance(
+    source_root: Path | None = None, *, source_state: dict[str, Any] | None = None
+) -> dict[str, Any]:
     source_root = source_root or Path.cwd()
+    source_root = source_root.resolve()
+    source_paths = (
+        "src",
+        "tests",
+        "scripts",
+        "configs",
+        "schemas",
+        "pyproject.toml",
+        "requirements-lock.txt",
+    )
     git_sha = _command(["git", "rev-parse", "HEAD"], source_root)
     status = _command(["git", "status", "--porcelain"], source_root)
-    diff = _command(["git", "diff", "HEAD", "--binary"], source_root)
+    diff = _command(
+        ["git", "diff", "HEAD", "--binary", "--", *source_paths], source_root, strip_output=False
+    )
     # Include untracked source files: a dirty SHA by itself cannot reproduce new code.
-    untracked_output = _command(["git", "ls-files", "--others", "--exclude-standard"], source_root)
+    untracked_output = _command(
+        [
+            "git",
+            "ls-files",
+            "--others",
+            "--exclude-standard",
+            "-z",
+            "--",
+            "src",
+            "tests",
+            "scripts",
+            "configs",
+        ],
+        source_root,
+    )
     untracked_hashes = {}
-    for name in (untracked_output or "").splitlines():
+    for name in (untracked_output or "").split("\0"):
         candidate = source_root / name
-        if candidate.is_file():
+        if (
+            name
+            and candidate.is_file()
+            and not candidate.is_symlink()
+            and candidate.resolve().is_relative_to(source_root)
+        ):
             from gradientclimb.artifacts import sha256_file
 
             untracked_hashes[name] = sha256_file(candidate)
+    source_hash = (
+        hashlib.sha256(
+            canonical_json({"diff": diff, "untracked": untracked_hashes}).encode()
+        ).hexdigest()
+        if git_sha and diff is not None and untracked_output is not None
+        else None
+    )
+    if source_state is not None:
+        source_state.update(
+            {
+                "schema_version": "1.0.0",
+                "git_sha": git_sha,
+                "tracked_source_paths": list(source_paths),
+                "tracked_diff": diff,
+                "untracked_source_sha256": untracked_hashes,
+                "source_diff_sha256": source_hash,
+                "untracked_contents_included": False,
+                "tracked_diff_available": diff is not None,
+                "untracked_manifest_available": untracked_output is not None,
+                "collection_is_atomic": False,
+                "reproduction_note": "Apply tracked diff to git SHA; untracked source requires matching external files or a later verified commit. Ignored files and artifact/personal directories are excluded.",
+            }
+        )
     hardware: dict[str, Any] = {
         "system": platform.system(),
         "release": platform.release(),
@@ -132,11 +192,7 @@ def capture_provenance(source_root: Path | None = None) -> dict[str, Any]:
     return {
         "git_sha": git_sha,
         "dirty_worktree": bool(status) if status is not None else None,
-        "source_diff_sha256": hashlib.sha256(
-            canonical_json({"diff": diff, "untracked": untracked_hashes}).encode()
-        ).hexdigest()
-        if git_sha
-        else None,
+        "source_diff_sha256": source_hash,
         "project_version": versions.get("gradientclimb", "0.1.0+uninstalled"),
         "machine_fingerprint": hashlib.sha256(canonical_json(hardware).encode()).hexdigest(),
         "cpu": hardware["cpu"],

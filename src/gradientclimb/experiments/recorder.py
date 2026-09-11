@@ -162,6 +162,7 @@ class RunRecorder:
         if telemetry_interval < 0:
             raise ValueError("telemetry_interval_seconds must be non-negative")
         configuration = json.loads(canonical_json(config))
+        source_state: dict[str, Any] = {}
         supplied = {
             "run_id": self.run_id,
             "experiment_id": experiment_id,
@@ -172,7 +173,7 @@ class RunRecorder:
             "seed": seed,
             "algorithm": algorithm,
             "environment": environment,
-            **capture_provenance(source_root),
+            **capture_provenance(source_root, source_state=source_state),
         }
         allowed = {
             "algorithm_version",
@@ -196,10 +197,12 @@ class RunRecorder:
         self.directory.mkdir(parents=True, exist_ok=False)
         _write_new(self.directory / "run-start.json", start)
         _write_new(self.directory / "config.json", configuration)
+        _write_new(self.directory / "source-state.json", source_state)
         self._streams = {
             name: (self.directory / f"{name}.jsonl").open("x", encoding="utf-8", newline="\n")
             for name in PARQUET_SCHEMAS
         }
+        self.register_artifact(self.directory / "source-state.json", "source_provenance")
         self.telemetry()
         if telemetry_interval:
             self._thread = threading.Thread(
