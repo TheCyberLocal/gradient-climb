@@ -251,18 +251,8 @@ def build_dataset(source: Path, artifact_root: Path) -> dict:
         run.metric("labeled_discovery_images", 5)
         run.metric("independent_heldout_images", 0)
         run.metric("template_resubstitution_fraction", correct / 5)
-        run.evaluation(
-            {
-                "protocol": "offline resubstitution construction check",
-                "results": {
-                    "source_images": 5,
-                    "correct_state_matches": correct,
-                    "independent_heldout_images": 0,
-                    "generalization_accuracy": None,
-                },
-                "metadata": {"evidence_domain": "real_game_discovery", "heldout": False},
-            }
-        )
+        # EvaluationRecord models gameplay episodes (at least one). This five-image
+        # construction check belongs in its registered report and metrics instead.
         run.finalize(
             episodes=0,
             training_steps=0,

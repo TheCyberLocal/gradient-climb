@@ -15,9 +15,9 @@ The user confirmed the game's native keyboard bindings:
 
 No custom Google Play Games mapping is required. Both keys may be held together. The current testbed is Hill Climber on CountrySide. The discovery session reported upgrade levels engine 13/13, suspension 14/14, tires 16/16, and drive 10/10; retain a labeled screen record when establishing the governed benchmark configuration. Keyboard response timing and all four action combinations still require a measured controlled session.
 
-Computer Use reported a physical Escape stop during the discovery session. Live computer interaction was stopped. The agent must not resume capture or input in that session merely because a custom Python backend exists. The remaining work below describes a future explicitly resumed experiment, not actions performed after that stop.
+Computer Use reported a physical Escape stop during the discovery session. Live computer interaction was stopped. The user subsequently asked to resume, but the helper retained its stop latch for the current turn; the next live attempt requires a fresh turn. This is a temporary tool-turn boundary, not a permanent integration blocker. A custom Python backend must not be used to bypass the latched helper. The remaining work below describes the next resumed experiment, not actions performed after that stop.
 
-The observed 26 m out-of-fuel result is discovery context. It is not a controlled baseline, a policy score, or a calibrated trajectory. No timestamped four-state control dataset, held-out real calibration set, validated pixel labels, or real capture benchmark was collected in this implementation subtask.
+The observed 26 m out-of-fuel result is discovery context. It is not a controlled baseline, a policy score, or a calibrated trajectory. Five already saved screenshots were subsequently labeled offline and used to construct five local state templates. Their five successful self-matches are a construction check, with zero independent held-out images and no measured generalization accuracy. See [discovery labeling](discovery-labeling.md) for the sealed run and provenance. No timestamped four-state control dataset, held-out real calibration set, or real capture benchmark was collected in this implementation subtask.
 
 ## Implemented interfaces
 
@@ -29,7 +29,7 @@ The observed 26 m out-of-fuel result is discovery context. It is not a controlle
 | `WindowCapture.benchmark(...)` | Bounded frames, latency and CPU metrics, optional PNGs plus JSONL timestamps and hashes | Bounded recording tested with generated pixels; no real benchmark |
 | `WindowsPedalBackend(target, gas_vk=0x27, brake_vk=0x25)` | Sends ordinary keyboard transitions; preserves the first pedal when adding the second | Mocked SendInput ordering, partial-delivery cleanup, and x64 structure layout tests |
 | `PedalController(backend, is_playing)` | Short action leases, release watchdog, action trace | Unit tests; a live emergency-stop and stale-observation loop remains to be validated |
-| `TemplateRecognizer.from_manifest(path).classify(rgb)` | Local labeled templates produce UI evidence; missing, resized, or ambiguous evidence gives `UNEXPECTED` | Synthetic template tests; no validated game templates bundled |
+| `TemplateRecognizer.from_manifest(path).classify(rgb)` | Local labeled templates produce UI evidence; missing, resized, or ambiguous evidence gives `UNEXPECTED` | Synthetic tests plus five real discovery self-matches; no held-out real accuracy and no game templates bundled |
 | `ColorGeometryEstimator(profile)` | Optional vehicle color centroid/axis and bottom-connected ground boundary | Synthetic tests; requires a map/vehicle/appearance-specific color profile |
 | `fit_calibration(train, heldout, run_id=...)` | Fits eight effective input-response coefficients and evaluates disjoint trajectories | Synthetic recovery against an independent ODE solver; no real-game calibration |
 
@@ -49,7 +49,11 @@ Record full resolution for labeling and smaller observations for inference when 
 
 Template manifests specify exact input width/height and normalized search ROIs. Thresholds are visual similarity scores, not calibrated probabilities. Label state templates separately from legitimate advertisement-close and restart controls. A positive state match cannot grant permission for an arbitrary click. No click controller is supplied by these modules.
 
+The five discovery prototypes use 1034 by 581 screenshots including Google Play Games wrapper chrome and its sidebar. Their tight search regions apply only to that inspected layout; they are not aligned to the native client capture interface. The revive offer is labeled `selection` with substate `revive_offer`, and its X is not an advertisement-close control. Every prototype has state-only scope, with advertisement-close and restart authorization false.
+
 The color vehicle estimator provides a principal axis modulo pi. It cannot distinguish front/back or reliably identify a rollover. It does not provide validated speed, fuel OCR, HUD distance, camera motion, wheel contact, or a deployable simulator observation vector. The terrain estimator expects calibrated ground colors connected to the bottom of its ROI; missing boundaries remain invalid. Validation metrics report coverage so rejecting hard frames cannot silently improve average error.
+
+Simulator training and evaluation use simulator observations. The current real-screen geometry estimator has no held-out labeled accuracy, and its output has not been validated against the policy's observation contract. A successful simulated policy therefore does not establish a working real-game actor; pixel feature construction, coordinate alignment, timing, and their errors remain separate integration work.
 
 Effective calibration fits acceleration and angular acceleration contributions of gas, brake, and simultaneous input, plus linear/angular damping. Actions at index `i` are held between timestamps `i` and `i+1`. Position must be world distance or camera-compensated pixels with stable scale, and pitch must have resolved orientation. Raw car screen-x and modulo-pi color orientation alone are inadequate.
 
