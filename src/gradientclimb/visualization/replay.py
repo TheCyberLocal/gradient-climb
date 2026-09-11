@@ -52,6 +52,8 @@ def watch(checkpoint=None, seconds=30, seed=20000, video=None):
                 "-an",
                 "-c:v",
                 "libx264",
+                "-threads",
+                "1",
                 "-pix_fmt",
                 "yuv420p",
                 str(video),

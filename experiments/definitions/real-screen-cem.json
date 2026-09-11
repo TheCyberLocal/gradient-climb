@@ -1,0 +1,94 @@
+{
+  "protocol_version": "real-screen-cem-1",
+  "status": "registered; shortened integration must precede governed-hour dispatch",
+  "algorithm": "sequential_episode_cem",
+  "benchmark_class": "cold_start",
+  "environment": "actual_hill_climb_racing",
+  "vehicle": "Hill Climber",
+  "map": "Countryside",
+  "upgrades": {
+    "engine": 13,
+    "suspension": 14,
+    "tires": 16,
+    "drivetrain": 10
+  },
+  "seed": 42,
+  "training_seconds": 3600,
+  "maximum_episode_seconds": 60,
+  "maximum_episodes": 120,
+  "population": 8,
+  "elite_count": 3,
+  "initial_std": 0.5,
+  "minimum_std": 0.08,
+  "smoothing": 0.5,
+  "initialization": "zero measurement and mask weights; gas bias +1, brake bias -1; no trained parent",
+  "features": [
+    "body_sin_2angle",
+    "body_cos_2angle",
+    "body_image_angular_rate_radians_per_second",
+    "body_to_terrain_spans",
+    "body_terrain_slope_image_right",
+    "body_terrain_y_relative_spans_at_1",
+    "body_terrain_y_relative_spans_at_2",
+    "body_terrain_y_relative_spans_at_3"
+  ],
+  "feature_scales": [
+    1,
+    1,
+    4,
+    1,
+    1,
+    2,
+    2,
+    2
+  ],
+  "required_features": [
+    "body_sin_2angle",
+    "body_cos_2angle"
+  ],
+  "history": 4,
+  "actor_history_use": "current features plus angular-rate feature; earlier vectors are logged but not direct linear-head inputs",
+  "action_space": "independent gas and brake logits; four joint states available",
+  "maximum_lease_seconds": 0.4,
+  "maximum_observation_age_seconds": 0.45,
+  "checkpoint_times": [
+    300,
+    600,
+    1200,
+    1800,
+    2700,
+    3600
+  ],
+  "clock_includes": [
+    "model initialization",
+    "screen collection",
+    "perception",
+    "policy inference",
+    "reset and advertisement waiting",
+    "data persistence",
+    "optimizer updates",
+    "checkpoint serialization"
+  ],
+  "score": "Two agreeing fresh terminal distance readings >=0.15s apart, or a valid displayed-progress read at the verified paused boundary after the full 60s collection horizon; unknown scores ineligible. Release-to-pause delay included in paused endpoint.",
+  "selection": "reevaluate incumbent and distribution mean in each generation; update only after all eight eligible candidates",
+  "partial_generation": "retain candidate state and measured costs; no distribution update",
+  "transfer_claim": "none; this policy is trained on an explicitly different observable feature schema",
+  "external_learning_overlap": "separately recorded surrogate reproduction and post-hour experiments may share the workstation",
+  "dispatch_requirements": [
+    "clean committed implementation",
+    "verified four-state inputs",
+    "demonstrated multi-episode reset",
+    "validated episodic score readout",
+    "versioned UI, glyph, measurement and feature profiles"
+  ],
+  "numeric_failure": "After twelve attempts or three seconds without agreement, retain unknown numeric score and permit only independently confirmed result dismissal. Three consecutive ineligible candidates stop the pilot/session.",
+  "episode_selection": "One first episode per candidate attempt; deterministic observed level start, no public game seed control. Learner RNG alone is seeded.",
+  "qualification_gate": "Independent real evaluation: median >=500m, >=3x random median, and >=8/10 episodes reaching250m; provisional operational gate, no human-expert claim.",
+  "engineering_evidence": {
+    "four_pedals": "06a5ab40-7201-43e5-a5a8-137325c4c38d",
+    "two_truncated_episodes": "d9955d22-5f78-4753-a66f-8b549a076093",
+    "paused_score_validation": "f06c4fdc-1941-4558-9060-e0f682cc0185",
+    "result_score_validation": "043f5529-1bdc-4e67-b984-7d8a6416a575",
+    "result_label_limitation": "203 source-disjoint but manual label not blinded to OCR; one unique frame/episode"
+  }
+}

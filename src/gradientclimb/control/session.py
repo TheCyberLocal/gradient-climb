@@ -29,7 +29,17 @@ from .pedals import PedalAction, PedalController
 class VerifiedControl:
     """A named control detected in exactly one fresh classified frame."""
 
-    name: Literal["restart", "legitimate_ad_close"]
+    name: Literal[
+        "restart",
+        "legitimate_ad_close",
+        "pause_episode",
+        "restart_paused",
+        "resume_paused",
+        "decline_revive_offer",
+        "decline_bonus_offer",
+        "continue_result",
+        "start_episode",
+    ]
     state: UIState
     frame_timestamp_ns: int
     bounds_xyxy: tuple[int, int, int, int]

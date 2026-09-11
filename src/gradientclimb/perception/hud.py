@@ -79,15 +79,54 @@ class HUDDigitReader:
         roi: tuple[float, float, float, float],
         threshold=0.84,
         ambiguity_margin=0.04,
+        alignment_pixels=0,
     ):
         if len(expected_size) != 2 or any(type(v) is not int or v < 2 for v in expected_size):
             raise ValueError("Exact analyzed frame dimensions are required")
         if not 0 < threshold <= 1 or not 0 < ambiguity_margin < 1:
             raise ValueError("Invalid glyph thresholds")
+        if type(alignment_pixels) is not int or not 0 <= alignment_pixels <= 2:
+            raise ValueError("Normalized alignment tolerance must be an integer in 0..2")
         self.expected_size, self.roi = tuple(expected_size), tuple(roi)
         _region(np.empty((expected_size[1], expected_size[0], 3), np.uint8), roi)
         self.threshold, self.ambiguity_margin = threshold, ambiguity_margin
+        self.alignment_pixels = alignment_pixels
         self.glyphs: list[dict] = []
+        self._cached_glyph_count = -1
+        self._variants = None
+
+    def glyph_scores(self, segment):
+        """Dice scores over bounded translations; no stretching or label-dependent fallback."""
+        if not self.glyphs:
+            return {}
+        if len(self.glyphs) != self._cached_glyph_count:
+            variants, labels = [], []
+            margin = self.alignment_pixels
+            for glyph in self.glyphs:
+                original = glyph["pixels"] > 0
+                padded = np.pad(original, margin)
+                for dy in range(-margin, margin + 1):
+                    for dx in range(-margin, margin + 1):
+                        variants.append(
+                            padded[
+                                margin + dy : margin + dy + 32, margin + dx : margin + dx + 20
+                            ].reshape(-1)
+                        )
+                        labels.append(glyph["digit"])
+            self._variants = np.asarray(variants, bool)
+            self._variant_labels = np.asarray(labels)
+            self._variant_sizes = self._variants.sum(axis=1)
+            self._cached_glyph_count = len(self.glyphs)
+        pixels = (segment > 0).reshape(1, -1)
+        scores = (
+            2
+            * (self._variants & pixels).sum(axis=1)
+            / np.maximum(1, self._variant_sizes + pixels.sum())
+        )
+        return {
+            digit: float(scores[self._variant_labels == digit].max())
+            for digit in set(self._variant_labels)
+        }
 
     def add_labeled_region(
         self, frame: np.ndarray, text: str, roi, *, source_sha256: str, annotation_id: str
@@ -134,12 +173,7 @@ class HUDDigitReader:
             return {**invalid, "reason": "HUD digit segmentation unavailable or cluttered"}
         digits, scores = [], []
         for segment in segments:
-            by_digit = {}
-            a = segment > 0
-            for glyph in self.glyphs:
-                b = glyph["pixels"] > 0
-                score = float(2 * (a & b).sum() / max(1, a.sum() + b.sum()))
-                by_digit[glyph["digit"]] = max(by_digit.get(glyph["digit"], 0), score)
+            by_digit = self.glyph_scores(segment)
             ranked = sorted(by_digit.items(), key=lambda item: item[1], reverse=True)
             digit, score = ranked[0]
             if score < self.threshold or score - ranked[1][1] < self.ambiguity_margin:
@@ -164,11 +198,12 @@ class HUDDigitReader:
         directory = Path(directory)
         directory.mkdir(parents=True, exist_ok=False)
         manifest = {
-            "version": 1,
+            "version": 2,
             "expected_size": self.expected_size,
             "roi": self.roi,
             "threshold": self.threshold,
             "ambiguity_margin": self.ambiguity_margin,
+            "alignment_pixels": self.alignment_pixels,
             "glyphs": [],
         }
         for i, glyph in enumerate(self.glyphs):
@@ -191,13 +226,14 @@ class HUDDigitReader:
     def from_manifest(cls, path: str | Path):
         path = Path(path).resolve()
         data = json.loads(path.read_text(encoding="utf-8"))
-        if data["version"] != 1:
+        if data["version"] not in (1, 2):
             raise ValueError("Unsupported HUD glyph manifest")
         reader = cls(
             expected_size=tuple(data["expected_size"]),
             roi=tuple(data["roi"]),
             threshold=data["threshold"],
             ambiguity_margin=data["ambiguity_margin"],
+            alignment_pixels=data.get("alignment_pixels", 0),
         )
         for row in data["glyphs"]:
             file = (path.parent / row["file"]).resolve()

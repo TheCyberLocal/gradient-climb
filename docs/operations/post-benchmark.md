@@ -1,6 +1,6 @@
 # Registered post-hour battery
 
-The execution plan is `experiments/definitions/post-hour-battery.json`, version `post-hour-battery-1.1`. It is registered and **not dispatched**. Its canonical JSON SHA-256 is `5fa2b03e363f746978730b9d5535a53b69226a98e972d43befd35466e44cde23` (sorted JSON keys using the dispatcher's serialization). Version 1.0 was revised before any job executed.
+The execution plan is `experiments/definitions/post-hour-battery.json`, version `post-hour-battery-1.1`. It was registered before dispatch. Its canonical JSON SHA-256 is `5fa2b03e363f746978730b9d5535a53b69226a98e972d43befd35466e44cde23` (sorted JSON keys using the dispatcher's serialization). Version 1.0 was revised before any job executed. The plan's original registration-status field is immutable; current execution state comes from the canonical runs and `artifacts/post-benchmark/<plan_sha256>/events.jsonl`.
 
 The governed source is run `c0a9e142-1ad6-4d88-810d-bda4ca297f40`. No job may start until that run has completed and passed artifact verification, no PPO/CEM run remains active, and the root task dispatches this sequence.
 

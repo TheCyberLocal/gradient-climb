@@ -152,6 +152,9 @@ def main():
         default=Path("artifacts/game-discovery/playing-native-normalized.png"),
     )
     parser.add_argument("--wait-seconds", type=float, default=45)
+    parser.add_argument(
+        "--seconds", type=float, default=8, help="Gas/neutral trial budget, 1..60 seconds"
+    )
     parser.add_argument("--input-mode", choices=["vk", "scancode", "touch"], default="vk")
     parser.add_argument(
         "--protocol", choices=["four-states", "gas", "neutral"], default="four-states"
@@ -159,6 +162,10 @@ def main():
     args = parser.parse_args()
     if not math.isfinite(args.wait_seconds) or not 1 <= args.wait_seconds <= 120:
         raise ValueError("Wait must be 1..120 seconds")
+    if not math.isfinite(args.seconds) or not 1 <= args.seconds <= 60:
+        raise ValueError("Gas/neutral budget must be 1..60 seconds")
+    if args.protocol == "four-states" and args.seconds != 8:
+        raise ValueError("The four-state protocol has its own fixed 7.5-second schedule")
     reference = np.asarray(Image.open(args.reference).convert("RGB"))
     playing = make_playing_classifier(reference)
     positions = make_pedal_classifier(reference) if args.input_mode == "touch" else None
@@ -195,9 +202,9 @@ def main():
         )
     sequence = [(0, 0.5), (1, 1.5), (3, 1.0), (2, 1.0), (0, 0.5), (2, 1.0), (3, 1.0), (1, 1.0)]
     if args.protocol == "gas":
-        sequence = [(1, 8.0)]
+        sequence = [(1, args.seconds)]
     elif args.protocol == "neutral":
-        sequence = [(0, 8.0)]
+        sequence = [(0, args.seconds)]
     config = {
         "protocol": args.protocol,
         "schedule": sequence,

@@ -4,7 +4,11 @@
 
 ## Abstract and research status
 
-GradientClimb measures how control quality changes with training time, experience, compute and prior knowledge. The current evidence establishes learning in an original uncalibrated simulator. Real-game qualification remains incomplete. The selected one-hour record is c0a9e142-1ad6-4d88-810d-bda4ca297f40 (running).
+GradientClimb measures how control quality changes with training time, experience, compute and prior knowledge. The current evidence establishes learning in an original uncalibrated simulator. Real-game qualification remains incomplete. The selected one-hour record is c0a9e142-1ad6-4d88-810d-bda4ca297f40 (completed).
+
+## Completed primary observation
+
+Run c0a9e142-1ad6-4d88-810d-bda4ca297f40 trained for an actual 3,600.322 seconds and collected 41,648,128.0 transitions. Its recorded final validation mean was 681.55 nominal m and median 716.12 nominal m across 20 episodes. This is one independent training seed, followed by conditional episode evaluation. Measured checkpoint means were not monotonic; a later policy did not outperform every earlier policy on this validation set.
 
 ## Provisional surrogate trainer
 
@@ -52,12 +56,12 @@ Scheduled rows require a matching declared parent run and checkpoint evaluation.
 
 | Requested min | Actual training s | Mean m | Median m | Best m | Status | Evaluation run / checkpoint SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 5 | not yet measured | not yet measured | not yet measured | not yet measured | not yet measured | — / — |
-| 10 | not yet measured | not yet measured | not yet measured | not yet measured | not yet measured | — / — |
-| 20 | not yet measured | not yet measured | not yet measured | not yet measured | not yet measured | — / — |
-| 30 | not yet measured | not yet measured | not yet measured | not yet measured | not yet measured | — / — |
-| 45 | not yet measured | not yet measured | not yet measured | not yet measured | not yet measured | — / — |
-| 60 | not yet measured | not yet measured | not yet measured | not yet measured | not yet measured | — / — |
+| 5 | 300.06 | 654.78 | 670.61 | 780.31 | measured in uncalibrated simulator | b8df5a43-deb0-4b3a-917b-2398322c327c / 43576827225322ccffbf2d73c47e40f11c6951ac50f98ba8b2d0d1607962d334 |
+| 10 | 601.03 | 676.58 | 678.06 | 807.15 | measured in uncalibrated simulator | b8df5a43-deb0-4b3a-917b-2398322c327c / f3bcc869e1f0ba8f7c5c3c097daf73c97860dd04c22a58cd1c96568312772662 |
+| 20 | 1,200.22 | 691.37 | 705.24 | 836.86 | measured in uncalibrated simulator | b8df5a43-deb0-4b3a-917b-2398322c327c / 44d6aae8de3e8fb3f0e5793850655d7db35609a1ce4c1939d87c318ac090c85b |
+| 30 | 1,801.19 | 657.34 | 709.48 | 829.80 | measured in uncalibrated simulator | b8df5a43-deb0-4b3a-917b-2398322c327c / 17566b111635e9cd73aa76bf39ff54666906a670f8a4359792fb6882e9edd02f |
+| 45 | 2,701.38 | 683.84 | 705.67 | 823.91 | measured in uncalibrated simulator | b8df5a43-deb0-4b3a-917b-2398322c327c / 6cb2ec10f0886213f0dcc93f7f3bd832eb38082c86a2e64b17af4a12803a5e1b |
+| 60 | 3,600.00 | 681.55 | 716.12 | 834.98 | measured in uncalibrated simulator | b8df5a43-deb0-4b3a-917b-2398322c327c / 94ebe80f4682e0a930f1aaec2ed85b0bc8d49ff4ea54dbc8b04c1cbd8a5e0dda |
 
 ## Learning curves
 
@@ -68,6 +72,12 @@ The plotted rolling mean covers the last 100 completed training episodes collect
 
 
 ![Training diagnostics](figures/learning-curve.svg)
+
+## Measured checkpoint quality
+
+Each point uses the saved policy at its recorded actual training time and the same 20 validation seeds. Mean and median describe episode variation for one trained policy; these six time points are not six independent training replicates. No point is interpolated from a final evaluation.
+
+![Measured checkpoint quality](figures/checkpoint-quality.svg)
 
 ## Observed efficiency frontier
 
@@ -98,11 +108,52 @@ Random and always-gas policies are explicit baselines. Discovery-only real-game 
 
 Not yet measured when no rows are present. Synthetic heavy/rough shifts do not establish generalization to commercial-game vehicles/maps.
 
-Not yet measured.
+| Condition | Profile / terrain | Mean m | Median m | Source run | Checkpoint hash |
+| --- | --- | --- | --- | --- | --- |
+| in_distribution | default / train | 700.75 | 703.66 | 3a9a0c20-e544-4efd-9c68-e2830d8e8224 | 87c469539110d3134c04ebcf11e95f9c84e595c90ba7e6b2b106917115e04ec0 |
+| new_map | default / rough | 122.30 | 97.29 | 3a9a0c20-e544-4efd-9c68-e2830d8e8224 | 87c469539110d3134c04ebcf11e95f9c84e595c90ba7e6b2b106917115e04ec0 |
+| new_vehicle | heavy / train | 681.62 | 698.89 | 3a9a0c20-e544-4efd-9c68-e2830d8e8224 | 87c469539110d3134c04ebcf11e95f9c84e595c90ba7e6b2b106917115e04ec0 |
+| new_vehicle_and_map | heavy / rough | 146.88 | 108.79 | 3a9a0c20-e544-4efd-9c68-e2830d8e8224 | 87c469539110d3134c04ebcf11e95f9c84e595c90ba7e6b2b106917115e04ec0 |
+
+## Generalization outcomes and pedal use
+
+Time-limit truncation is the fixed 60-second evaluation horizon, not proof of indefinite survival. Counts cover recorded policy decisions during the selected episodes. They establish which joint states were used in the simulator; they do not establish the causal value of each state or real-game input acknowledgement.
+
+| Evaluation run / condition | Termination fractions | Mean survival s | Joint pedal counts 00 / 10 / 01 / 11 |
+| --- | --- | --- | --- |
+| 3a9a0c20-e544-4efd-9c68-e2830d8e8224 / in_distribution | time_limit: 100.0% | 60.00 | 1386 / 14470 / 3268 / 876 |
+| 3a9a0c20-e544-4efd-9c68-e2830d8e8224 / new_map | crash: 90.0%, stalled: 5.0%, time_limit: 5.0% | 19.38 | 358 / 4299 / 1136 / 667 |
+| 3a9a0c20-e544-4efd-9c68-e2830d8e8224 / new_vehicle | time_limit: 100.0% | 60.00 | 987 / 15905 / 2426 / 682 |
+| 3a9a0c20-e544-4efd-9c68-e2830d8e8224 / new_vehicle_and_map | crash: 85.0%, time_limit: 15.0% | 24.17 | 408 / 6347 / 859 / 443 |
 
 ## Adaptation and extended training
 
 No adaptation speed or forgetting claim is made without paired parent/child evaluations on identical source conditions and seeds. Proposed 5/10/30/60-minute adaptation and two-epoch, single-frame and randomization ablations are defined in experiments/definitions/ and remain pending unless corresponding canonical records exist.
+
+Not yet measured.
+
+## Replicated short component screen
+
+The registered post-hour screen uses 60 requested seconds and training seeds101/102/103. Each named component is compared with its matched baseline training seed on validation seeds10000–10019. Paired changes remain missing until both members exist. Three training seeds are exploratory; the earlier proposed 300-second screen remains a separate unexecuted protocol.
+
+Not yet measured.
+
+## Reproduction and child checkpoint measurements
+
+Each row belongs to the named training run. For a child, the clock measures additional exposure after its declared parent. Checkpoint evaluation uses the child's training vehicle/map. Unscheduled longer child measurements remain missing: a ten-minute run cannot establish 20/30/45/60-minute adaptation. Parent training costs remain separate.
+
+| Training run | Requested min | Actual s | Mean m | Median m | Status | Evaluation run |
+| --- | --- | --- | --- | --- | --- | --- |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | 5 | not yet measured | not yet measured | not yet measured | not yet measured | — |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | 10 | not yet measured | not yet measured | not yet measured | not yet measured | — |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | 20 | not yet measured | not yet measured | not yet measured | not yet measured | — |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | 30 | not yet measured | not yet measured | not yet measured | not yet measured | — |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | 45 | not yet measured | not yet measured | not yet measured | not yet measured | — |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | 60 | not yet measured | not yet measured | not yet measured | not yet measured | — |
+
+## Paired target improvement and source retention
+
+Positive changes favor the child. The default/train (in_distribution) row measures retention on the original source condition; a negative change is observed forgetting there. Every pair requires the declared parent checkpoint and identical scenario, horizon, simulator/calibration version, deterministic setting and episode seeds. Bootstrap intervals concern paired episode variation for these fixed policies; one adaptation seed cannot establish training-seed reliability.
 
 Not yet measured.
 
@@ -123,6 +174,10 @@ These are scripted diagnostic probes, not learned-policy episodes. A completed s
 
 | Run | Status | Recorded frames | Observed s | Reason |
 | --- | --- | --- | --- | --- |
+| 09d92094-87bd-437c-a3e5-cadc8cd188d7 | failed | 129 | 28.06 | playing/freshness/operator/recording guard stopped probe |
+| 06a5ab40-7201-43e5-a5a8-137325c4c38d | completed | 35 | 7.57 | bounded schedule completed |
+| 72d935d4-122f-48c7-a22f-3879504e23b0 | completed | 38 | 8.12 | bounded schedule completed |
+| 9bba20e5-c779-4c24-a282-d72b7c7d38c3 | failed | 0 | not yet measured | capture/control failure |
 | 06de2765-9d1f-4b5c-92e7-fcd0f8b632e8 | failed | 0 | not yet measured | capture/control failure |
 | 7b8d80e5-16b3-43e6-afe2-76521c19ae9b | failed | 9 | 1.70 | playing/freshness/operator/recording guard stopped probe |
 | 55c8b960-be08-403c-b5d5-5e272da32fff | failed | 8 | 1.43 | playing/freshness/operator/recording guard stopped probe |
@@ -150,7 +205,7 @@ The CUDA256 pilot executed fewer transitions than CPU256 for this small policy a
 
 ## Reproducibility and source integrity
 
-Generated from canonical run records and journals. Evidence cutoff: 2026-09-11T18:21:34.790353+00:00. Verification: full sealed artifact check. Active records are explicitly unsealed and may have different per-file cutoffs. Every source snapshot, configuration/source identifier and checkpoint hash is retained in results-summary.json. Refresh with python scripts/analyze_research.py --root artifacts; use --verify after serious runs finish to recheck all sealed artifacts. Literature: research/literature/README.md. Governing protocol: docs/methodology/qualification.md.
+Generated from canonical run records and journals. Evidence cutoff: 2026-09-11T18:32:04.252843+00:00. Verification: inspected sealed source files verified against seals; full artifact recheck not requested. Active records are explicitly unsealed and may have different per-file cutoffs. Every source snapshot, configuration/source identifier and checkpoint hash is retained in results-summary.json. Refresh with python scripts/analyze_research.py --root artifacts; use --verify after serious runs finish to recheck all sealed artifacts. Literature: research/literature/README.md. Governing protocol: docs/methodology/qualification.md.
 
 ## Source run index
 
@@ -158,6 +213,15 @@ Generated from canonical run records and journals. Evidence cutoff: 2026-09-11T1
 
 | Run | Experiment | Status | Git SHA | Dirty | Checkpoint SHA-256 |
 | --- | --- | --- | --- | --- | --- |
+| 2464c81d-b3fe-45c4-ad08-90c68aa9c407 | real-ui-reference | completed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | True | — |
+| 48237202-ea89-4b8f-9950-76b837b7a1ed | real-ui-reference | completed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | True | — |
+| 09d92094-87bd-437c-a3e5-cadc8cd188d7 | real-control-probe | failed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | True | — |
+| 06a5ab40-7201-43e5-a5a8-137325c4c38d | real-control-probe | completed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | False | — |
+| db77b7cd-a11a-473a-8406-06d99b5de5ad | one-hour-surrogate-reproduction | running | dfb6dc722adbca6f973c3838c03cd72902f16cdf | False | — |
+| 72d935d4-122f-48c7-a22f-3879504e23b0 | real-control-probe | completed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | False | — |
+| 3a9a0c20-e544-4efd-9c68-e2830d8e8224 | surrogate-evaluation | completed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | False | — |
+| b8df5a43-deb0-4b3a-917b-2398322c327c | timed-checkpoint-evaluation | completed | dfb6dc722adbca6f973c3838c03cd72902f16cdf | False | — |
+| 9bba20e5-c779-4c24-a282-d72b7c7d38c3 | real-control-probe | failed | 267d0ac227a8392b86c6e0386147167de591c3b7 | True | — |
 | 06de2765-9d1f-4b5c-92e7-fcd0f8b632e8 | real-control-probe | failed | 267d0ac227a8392b86c6e0386147167de591c3b7 | True | — |
 | 7b8d80e5-16b3-43e6-afe2-76521c19ae9b | real-control-probe | failed | 267d0ac227a8392b86c6e0386147167de591c3b7 | True | — |
 | 55c8b960-be08-403c-b5d5-5e272da32fff | real-control-probe | failed | 267d0ac227a8392b86c6e0386147167de591c3b7 | True | — |
@@ -179,7 +243,7 @@ Generated from canonical run records and journals. Evidence cutoff: 2026-09-11T1
 | f015c7ca-d1bd-4c8a-bfa9-1a4c2c8877c5 | surrogate-evaluation | completed | 73c5ea2ec6864a90ec15c8b0b209287507da5bd7 | True | — |
 | b978c7e7-a4ff-40ae-a1bd-2577ea935010 | real-game-discovery-labels | completed | 73c5ea2ec6864a90ec15c8b0b209287507da5bd7 | True | — |
 | b5a1748c-0fb1-4787-9d05-a077fd2c5443 | real-game-discovery-labels | completed | 73c5ea2ec6864a90ec15c8b0b209287507da5bd7 | False | — |
-| c0a9e142-1ad6-4d88-810d-bda4ca297f40 | one-hour-surrogate | running | 73c5ea2ec6864a90ec15c8b0b209287507da5bd7 | False | — |
+| c0a9e142-1ad6-4d88-810d-bda4ca297f40 | one-hour-surrogate | completed | 73c5ea2ec6864a90ec15c8b0b209287507da5bd7 | False | 87c469539110d3134c04ebcf11e95f9c84e595c90ba7e6b2b106917115e04ec0 |
 | 52a9a3cd-a16e-440a-ae13-e1d04bae1997 | runtime-screen | completed | b7ca30e1d9f43e701db797f73fc27d7c96f59f98 | True | d7426ca85cb4ac34b46798113ad79849a365b27d5b4ff24286289f6c8a899bcd |
 | 1f36377e-af40-41ec-b075-25aa6612be04 | runtime-screen | completed | b7ca30e1d9f43e701db797f73fc27d7c96f59f98 | True | d38d6ce658274bc242845d105508177d9a64cf87d70b651b5898c4ef252778fd |
 | bddaf26c-ef4a-43fb-bfe6-d96e59a162f2 | runtime-screen | completed | b7ca30e1d9f43e701db797f73fc27d7c96f59f98 | True | 196a4ad92f68f4d1379ff7941e21805c3e1b79e9aceb6ad1aff9644f7bcb496e |

@@ -1,0 +1,463 @@
+{
+  "version": 1,
+  "profile_id": "hcr-wrapper-reset-construction-v1",
+  "expected_size": [
+    1034,
+    581
+  ],
+  "threshold": 0.97,
+  "margin_pixels": 4,
+  "ambiguity_margin": 0.01,
+  "evidence_scope": "Inspected HillClimber/CountrySide session; construction references only; native menu coverage incomplete",
+  "variants": [
+    {
+      "label": "playing_native",
+      "state": "playing",
+      "file": "game-discovery/playing-native-normalized.png",
+      "sha256": "e4a56b82e7ced8876b997a6f77ef76b146a9e59eae45bdb514b0124c56d66105",
+      "anchors": [
+        [
+          970,
+          44,
+          1023,
+          106
+        ],
+        [
+          70,
+          38,
+          115,
+          77
+        ]
+      ],
+      "controls": {
+        "pause_episode": [
+          978,
+          57,
+          1015,
+          95
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "paused_native",
+      "state": "paused",
+      "file": "game-discovery/paused-native-normalized.png",
+      "sha256": "131a45b97b7158db928f817a41dd8626108694b167a0e57004c32a124f7c02eb",
+      "anchors": [
+        [
+          513,
+          82,
+          591,
+          113
+        ],
+        [
+          639,
+          80,
+          676,
+          116
+        ]
+      ],
+      "controls": {
+        "restart_paused": [
+          447,
+          254,
+          654,
+          293
+        ],
+        "resume_paused": [
+          447,
+          171,
+          654,
+          211
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "paused_recent",
+      "state": "paused",
+      "file": "runs/06a5ab40-7201-43e5-a5a8-137325c4c38d/waiting-frame-0.png",
+      "sha256": "a3b748b59c6f12e92b156686d5ccb1517e691584213ebc85acce080f28aeed10",
+      "anchors": [
+        [
+          513,
+          82,
+          591,
+          113
+        ],
+        [
+          639,
+          80,
+          676,
+          116
+        ]
+      ],
+      "controls": {
+        "restart_paused": [
+          447,
+          254,
+          654,
+          293
+        ],
+        "resume_paused": [
+          447,
+          171,
+          654,
+          211
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "offer_discovery",
+      "state": "revive_offer",
+      "file": "game-discovery/second-chance.png",
+      "sha256": "0aede98faedf84db8a0bad23a092f3da108e4f668b75ac9e5d943de8668107cb",
+      "anchors": [
+        [
+          382,
+          91,
+          718,
+          140
+        ],
+        [
+          350,
+          143,
+          750,
+          174
+        ]
+      ],
+      "controls": {
+        "decline_revive_offer": [
+          738,
+          89,
+          773,
+          124
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "offer_native",
+      "state": "revive_offer",
+      "file": "runs/48237202-ea89-4b8f-9950-76b837b7a1ed/revive_offer.png",
+      "sha256": "748b4b84c825f737e01a18fbc681eb7e7c082ade7ff63ff49f1ca1df9101e03b",
+      "anchors": [
+        [
+          382,
+          91,
+          718,
+          140
+        ],
+        [
+          350,
+          143,
+          750,
+          174
+        ]
+      ],
+      "controls": {
+        "decline_revive_offer": [
+          738,
+          89,
+          773,
+          124
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "out_of_fuel_discovery",
+      "state": "result",
+      "file": "game-discovery/result-no-input.png",
+      "sha256": "54888c39376305a65b1383a6d50d8e380c5ecfc409bcd99f6f13376831dd8639",
+      "anchors": [
+        [
+          627,
+          80,
+          828,
+          124
+        ],
+        [
+          604,
+          159,
+          733,
+          192
+        ]
+      ],
+      "controls": {
+        "continue_result": [
+          589,
+          368,
+          880,
+          403
+        ]
+      },
+      "notes": "Static result header and DISTANCE label; outlined glyph-core masks exclude changing scene/background and antialias boundary. Continue requires its separately visible glyph patch; unknown/blinking patch grants no click. 229m frame was an observed failure used for development, not untouched held-out evidence.",
+      "matching": "outlined_white"
+    },
+    {
+      "label": "driver_down_native",
+      "state": "result",
+      "file": "runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/driver_down.png",
+      "sha256": "7c969cc6f4f78a771d34e96f8ef5d8891f2b730364ad208d4987bf4baf739865",
+      "anchors": [
+        [
+          616,
+          80,
+          843,
+          124
+        ],
+        [
+          604,
+          159,
+          733,
+          192
+        ]
+      ],
+      "controls": {
+        "continue_result": [
+          589,
+          368,
+          880,
+          403
+        ]
+      },
+      "notes": "Static result header and DISTANCE label; outlined glyph-core masks exclude changing scene/background and antialias boundary. Continue requires its separately visible glyph patch; unknown/blinking patch grants no click. 229m frame was an observed failure used for development, not untouched held-out evidence.",
+      "matching": "outlined_white"
+    },
+    {
+      "label": "bonus_native",
+      "state": "bonus_offer",
+      "file": "runs/e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d/bonus_offer.png",
+      "sha256": "568f76b99b37a3d010081870480400a03187e34f6e5cd364ce274056f4f8cc71",
+      "anchors": [
+        [
+          439,
+          105,
+          664,
+          145
+        ],
+        [
+          397,
+          174,
+          706,
+          196
+        ]
+      ],
+      "controls": {
+        "decline_bonus_offer": [
+          694,
+          105,
+          725,
+          133
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "tune_discovery",
+      "state": "tune",
+      "file": "game-discovery/upgrades.png",
+      "sha256": "96a261175981c25f4bfce4cbddadcd1ee098aec74247d30fe626a39c3989f4f4",
+      "anchors": [
+        [
+          240,
+          140,
+          363,
+          177
+        ],
+        [
+          405,
+          140,
+          529,
+          178
+        ]
+      ],
+      "controls": {
+        "start_episode": [
+          756,
+          383,
+          881,
+          435
+        ]
+      },
+      "notes": "Manually inspected local source; construction prototype, no held-out accuracy claim"
+    },
+    {
+      "label": "tune_native",
+      "state": "tune",
+      "file": "runs/2050df9d-f75e-40e7-a4dc-d93e58215473/tune.png",
+      "sha256": "8eb29249d348b51f7358fecfc72bc419a8a91e638a26928094496cb1746e9ebd",
+      "anchors": [
+        [
+          240,
+          140,
+          363,
+          177
+        ],
+        [
+          405,
+          140,
+          529,
+          178
+        ]
+      ],
+      "controls": {
+        "start_episode": [
+          757,
+          384,
+          883,
+          436
+        ]
+      },
+      "notes": "Source screenshot and named control independently inspected; no generic creative/X search"
+    },
+    {
+      "label": "blockblast_available_close",
+      "state": "advertisement",
+      "file": "runs/edaf47b5-b88e-471d-a373-a87341db24f4/ad_close.png",
+      "sha256": "e0277d998eaa0cfffa89cc900f730d8a4a70b9677b7b466251f85fa7ad6daa2d",
+      "anchors": [
+        [
+          78,
+          77,
+          267,
+          158
+        ],
+        [
+          110,
+          155,
+          240,
+          201
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          1008,
+          43,
+          1029,
+          63
+        ]
+      },
+      "notes": "Known brand anchors permit bounded waiting; only independently visible exact close patch permits input. No creative interaction."
+    },
+    {
+      "label": "commercial_break_available_close",
+      "state": "advertisement",
+      "file": "runs/a65038d7-5571-4f16-b306-77fd57d0e2a2/ad_close.png",
+      "sha256": "c6924b78501be070e04c8d6016d03468debbead39fbed1f6b268f653a770f9b7",
+      "anchors": [
+        [
+          444,
+          513,
+          663,
+          543
+        ],
+        [
+          218,
+          229,
+          306,
+          315
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          959,
+          54,
+          991,
+          112
+        ]
+      },
+      "notes": "Manually inspected exact close X. Left portion avoids cursor highlight at the right edge; two fixed commercial-break anchors still independently required. Development regression fa7548cc matches .97278 with unchanged .97 threshold."
+    },
+    {
+      "label": "wsop_finished_available_close",
+      "state": "advertisement",
+      "file": "runs/0e0de45b-4713-49a2-8bf0-890e7380f00a/ad_close.png",
+      "sha256": "393acacbca7df2c5cafca6f1a626950af9303fa0086643b675f6313ce758969f",
+      "anchors": [
+        [
+          575,
+          148,
+          970,
+          179
+        ],
+        [
+          576,
+          186,
+          652,
+          218
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          997,
+          57,
+          1021,
+          81
+        ]
+      },
+      "notes": "Finished native advertisement manually inspected; two static title patches and the independently visible top-right close control. No Install or creative interactions authorized."
+    },
+    {
+      "label": "foodcity_available_advance",
+      "state": "advertisement",
+      "file": "runs/992e84d6-6a66-4786-834b-63c8eb762f6a/ad_close.png",
+      "sha256": "6f05b98c7b21adc4eb11a0ab20331ca20a338c36262804e7bfb0d62f65d55174",
+      "anchors": [
+        [
+          503,
+          257,
+          599,
+          280
+        ],
+        [
+          520,
+          288,
+          582,
+          303
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          995,
+          73,
+          1023,
+          103
+        ]
+      },
+      "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game."
+    },
+    {
+      "label": "gnomon_second_ad_available_advance",
+      "state": "advertisement",
+      "file": "runs/d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b/ad_close.png",
+      "sha256": "932beaa08989de892add0ae08dd558aedab1b668ea378474af94b7f34eb76cae",
+      "anchors": [
+        [
+          780,
+          170,
+          868,
+          256
+        ],
+        [
+          706,
+          273,
+          924,
+          322
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          995,
+          73,
+          1023,
+          103
+        ]
+      },
+      "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game."
+    }
+  ]
+}

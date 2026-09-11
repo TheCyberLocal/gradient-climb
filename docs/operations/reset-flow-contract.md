@@ -1,18 +1,19 @@
 # Observed reset flow: implementation requirements
 
-The generic screen session currently permits only a separately verified restart
-button on a recognized RESULT screen. It cannot yet complete the actual observed
-Google Play Games end flow. Do not connect the live game to that generic restart
-callback or label a multi-step click sequence as one verified restart.
+The generic screen session permits a separately verified restart button on a
+recognized RESULT screen. The inspected game's multi-step flow is implemented
+separately in [the native game adapter](native-game-adapter.md), with a distinct
+state and named control for each step. Do not label a multi-step sequence as one
+verified restart or connect it to the generic RESULT-only restart callback.
 
 The operator observed the following optional route: SECOND CHANCE revive offer
 decline X → terminal result → TOUCH TO CONTINUE → Tune/selection → START → fresh
 PLAYING. The offer is a purchase/reward-video choice, not an advertisement-close
 control. Its decline X must remain separate from `legitimate_ad_close`; elapsed
 time alone must never grant any click. Starting from a paused game has a separate
-observed manual Restart route, which is outside the current RESULT-only contract.
+observed paused Restart route, which is outside the generic RESULT-only contract.
 
-Before implementing automatic reset, collect and independently verify:
+The adapter's local profile supplies construction references for these contracts:
 
 | State | Permitted named control | Required evidence and next-state check |
 | --- | --- | --- |
@@ -32,5 +33,9 @@ or exceeded click/episode/session limits stop the loop and preserve evidence.
 Tests must cover the optional absent offer, repeated frames, missed transitions,
 ambiguous X controls, a lookalike reward/ad button, purchases adjacent to Start,
 outdated bounds, focus loss, Escape, capture/click exceptions, and release failure.
-Those tests and held-out visual evidence are prerequisites for implementation.
-No reset-flow extension or new live click permission is implemented by this note.
+Mock safety tests and local reference consistency now pass. Held-out visual coverage
+and supervised integration evidence are still needed before claiming general
+unattended reset reliability. The implementation additionally supports stationary
+handoff at PAUSED or Tune, so data persistence cannot silently consume the next
+episode's initial seconds. See the adapter document for the specific optional bonus
+and advertisement routes, time limits, and remaining coverage limits.

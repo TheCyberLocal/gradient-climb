@@ -173,20 +173,36 @@ def main(argv=None):
 
         output(evaluate_checkpoints(args.root, args.run_id, args.episodes))
     elif args.command == "watch":
-        from .experiments import RunRecorder
+        from .artifacts import sha256_file
+        from .experiments import RunRecorder, list_runs
         from .visualization.replay import watch
 
+        checkpoint_hash = sha256_file(args.checkpoint) if args.checkpoint else None
+        parents = [
+            record["run_id"]
+            for record in list_runs(args.root)
+            if checkpoint_hash
+            and any(
+                artifact["kind"] == "checkpoint" and artifact["sha256"] == checkpoint_hash
+                for artifact in record.get("artifact_manifest", [])
+            )
+        ]
         with RunRecorder(
             args.root,
             "surrogate-render",
             {
                 "checkpoint": str(args.checkpoint),
+                "checkpoint_hash": checkpoint_hash,
                 "simulation_seconds": args.seconds,
                 "video": str(args.video),
             },
             args.seed,
             "policy-render",
             "uncalibrated_hill_surrogate",
+            parent_checkpoint=checkpoint_hash,
+            parent_run=parents[0] if len(parents) == 1 else None,
+            evidence_domain="simulation_render",
+            qualifies_real_game=False,
         ) as run:
             result = watch(args.checkpoint, args.seconds, args.seed, args.video)
             if args.video:

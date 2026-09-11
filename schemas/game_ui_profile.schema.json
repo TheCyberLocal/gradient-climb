@@ -1,0 +1,178 @@
+{
+  "$defs": {
+    "ReferenceVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "playing",
+            "paused",
+            "revive_offer",
+            "bonus_offer",
+            "result",
+            "tune",
+            "advertisement",
+            "unknown"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "anchors": {
+          "items": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array"
+          },
+          "minItems": 2,
+          "title": "Anchors",
+          "type": "array"
+        },
+        "controls": {
+          "additionalProperties": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Controls",
+          "type": "object"
+        },
+        "matching": {
+          "default": "rgb",
+          "enum": [
+            "rgb",
+            "outlined_white"
+          ],
+          "title": "Matching",
+          "type": "string"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "state",
+        "file",
+        "sha256",
+        "anchors"
+      ],
+      "title": "ReferenceVariant",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "default": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "expected_size": {
+      "default": [
+        1034,
+        581
+      ],
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Expected Size",
+      "type": "array"
+    },
+    "threshold": {
+      "default": 0.97,
+      "maximum": 1,
+      "minimum": 0.97,
+      "title": "Threshold",
+      "type": "number"
+    },
+    "margin_pixels": {
+      "default": 4,
+      "maximum": 8,
+      "minimum": 0,
+      "title": "Margin Pixels",
+      "type": "integer"
+    },
+    "ambiguity_margin": {
+      "default": 0.01,
+      "maximum": 0.1,
+      "minimum": 0,
+      "title": "Ambiguity Margin",
+      "type": "number"
+    },
+    "evidence_scope": {
+      "default": "local construction references; live reset unvalidated",
+      "title": "Evidence Scope",
+      "type": "string"
+    },
+    "variants": {
+      "items": {
+        "$ref": "#/$defs/ReferenceVariant"
+      },
+      "minItems": 1,
+      "title": "Variants",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_id",
+    "variants"
+  ],
+  "title": "GameUIProfile",
+  "type": "object"
+}

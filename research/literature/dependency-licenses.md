@@ -69,3 +69,44 @@ For the newly installed capture dependencies, the inspected MSS license SHA-256 
 The subsequent DXcam 0.3.0 license-file SHA-256 is `4fe6baee928b96d2cf0f6a238275acfd86182cdaec6e8146654f34cf08c1c9b3`, and comtypes 1.4.16 is `3b1767f010980b46926b23bf0afce5d72f3359ee5e2b27baca71b9b4209ab383`. Both installed metadata expressions and inspected license texts identify MIT.
 
 The analysis-extra supplement adds eight installed distributions and eleven notice files to the snapshot. Matplotlib's combined LICENSE hash is `822e8e528147569a41975592aee19c11992ab667ba50451cd929031d5fc74491`; its separate DejaVu/STIX notices and FontTools' external notices are included individually. This remains an installed-notice inventory, not a full binary-component audit or a grant over third-party fonts.
+
+## Notebook environment supplement, 2026-09-11
+
+The optional analysis extra now declares nbformat 5.11+, nbclient 0.11+,
+ipykernel 7.3+ and nbconvert 7.17+, alongside Matplotlib. The installed versions
+are nbformat 5.11.1, nbclient 0.11.0, ipykernel 7.3.0 and nbconvert 7.17.1.
+The lock captures those versions and their installed dependencies; no interpreter,
+kernel, debugger, browser library or notebook dependency is vendored here.
+NumPy and PyTorch versions were not changed by this addition.
+
+The inspected [nbconvert license](https://github.com/jupyter/nbconvert/blob/main/LICENSE)
+and [ipykernel license](https://github.com/ipython/ipykernel/blob/main/LICENSE)
+are BSD-3-Clause, matching the installed notices. The installed nbformat,
+nbclient, Jupyter client/core, IPython and traitlets notices also use BSD-3-Clause.
+`nest-asyncio2`'s installed full notice is BSD-2-Clause; its short metadata value
+"BSD" is not the complete license identification. Auxiliary Python packages
+retain their MIT/BSD/Apache/PSF notices as recorded in the snapshot.
+
+Two binary/component boundaries deserve explicit identification. The
+[PyZMQ package license](https://github.com/zeromq/pyzmq/blob/main/LICENSE.md)
+is BSD-3-Clause, while its installed wheel separately includes ZeroMQ under
+MPL-2.0, libsodium under ISC, and a Tornado notice. The installed debugpy package
+declares MIT, but `debugpy/ThirdPartyNotices.txt` identifies incorporated
+PyDev.Debugger under EPL-1.0 and additional components. Neither whole binary
+distribution should be labeled solely BSD or MIT. Preserve the complete shipped
+notices if redistributing those dependencies; this repository declares optional
+imports and does not redistribute either binary.
+
+Other incorporated notices inspected include Bleach's MIT html5lib component,
+Jedi's Apache-2.0 typeshed material and MIT Django stubs, and the JupyterLab
+Pygments extension's separate frontend third-party-license inventory. Package
+metadata can omit the expression even when an installed license file exists;
+those omissions remain null in the machine-readable snapshot.
+
+`scripts/snapshot_dependency_licenses.py --refresh-lock` reproduces the installed
+inventory without installing software. The refreshed snapshot contains 93
+distributions and 201 discovered notice files, including incorporated-component
+notices. Its current lock SHA-256 is
+`4af9e34a9541217167fa97886535cd4b958c9804a67cdbe847540c6b06dd8f8e`.
+This is a notice inventory, not a complete binary-component audit. The project
+source remains original MIT code; dependency and game-asset licenses stay separate.

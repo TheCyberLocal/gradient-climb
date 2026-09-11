@@ -19,6 +19,7 @@ import sys
 from collections import defaultdict
 from datetime import UTC, datetime
 from importlib.metadata import version
+from itertools import pairwise
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -62,7 +63,10 @@ def journal(path, sources):
 
 def distance_result(evaluation):
     result = evaluation.get("results", {})
-    values = [e["distance"] for e in result.get("episodes", []) if finite(e.get("distance"))]
+    episodes = result.get("episodes", [])
+    if any(not finite(e.get("distance")) for e in episodes):
+        raise ValueError("Episode distance is missing or nonfinite; refusing silent exclusion")
+    values = [e["distance"] for e in episodes]
     if not values:
         return None
     recorded = result.get("summary", {}).get("distance", {})
@@ -209,6 +213,140 @@ def checkpoint_rows(runs, evaluations, benchmark_id):
     return list(rows.values())
 
 
+def paired_evaluations(before, after):
+    """Pair recorded episodes only; no policy inference or training takes place."""
+    left, right = before["results"], after["results"]
+    scope = (
+        "scope",
+        "simulator_version",
+        "calibration_version",
+        "profile",
+        "terrain",
+        "max_steps",
+        "deterministic",
+    )
+    if any(left.get(key) != right.get(key) for key in scope):
+        raise ValueError("Paired results must share the complete evaluation scope")
+    left_seeds = [row["seed"] for row in left.get("episodes", [])]
+    right_seeds = [row["seed"] for row in right.get("episodes", [])]
+    if (
+        not left_seeds
+        or len(set(left_seeds)) != len(left_seeds)
+        or set(left_seeds) != set(right_seeds)
+        or len(right_seeds) != len(left_seeds)
+    ):
+        raise ValueError("Paired results require identical unique episode seeds")
+    from gradientclimb.evaluation import compare_paired
+
+    return {
+        "before_evaluation_run": before["run_id"],
+        "after_evaluation_run": after["run_id"],
+        "before_checkpoint_hash": before["checkpoint_hash"],
+        "after_checkpoint_hash": after["checkpoint_hash"],
+        "profile": left["profile"],
+        "terrain": left["terrain"],
+        "seeds": sorted(left_seeds),
+        "before_mean": distance_result(before)["mean"],
+        "after_mean": distance_result(after)["mean"],
+        "difference_after_minus_before": compare_paired(right, left),
+    }
+
+
+def adaptation_comparisons(runs, evaluations):
+    """Require declared weight lineage and matching generalization measurements."""
+    conditions = {"in_distribution", "new_map", "new_vehicle", "new_vehicle_and_map"}
+    available = [e for e in evaluations if e.get("metadata", {}).get("condition") in conditions]
+    rows = []
+    for run in runs:
+        if (
+            run["status"] != "completed"
+            or not run.get("parent_run")
+            or not run.get("parent_checkpoint")
+            or not run.get("checkpoint_hash")
+        ):
+            continue
+        for after in available:
+            if after.get("checkpoint_hash") != run["checkpoint_hash"]:
+                continue
+            candidates = [
+                e
+                for e in available
+                if e.get("checkpoint_hash") == run["parent_checkpoint"]
+                and e["metadata"]["condition"] == after["metadata"]["condition"]
+                and e["results"].get("seeds") == after["results"].get("seeds")
+            ]
+            if not candidates:
+                continue
+            before = max(candidates, key=lambda e: e.get("timestamp", ""))
+            comparison = paired_evaluations(before, after)
+            rows.append(
+                {
+                    "parent_training_run": run["parent_run"],
+                    "child_training_run": run["run_id"],
+                    "condition": after["metadata"]["condition"],
+                    **comparison,
+                }
+            )
+    return rows
+
+
+def ablation_results(training, evaluations):
+    prefix = "post-hour-ablation-"
+    runs = [
+        r
+        for r in training
+        if r["status"] == "completed" and r["experiment"].startswith(prefix) and r["distance"]
+    ]
+    groups = defaultdict(list)
+    for run in runs:
+        groups[run["experiment"][len(prefix) :]].append(run)
+    summaries = []
+    baseline = {r["seed"]: r for r in groups.get("baseline", [])}
+    for condition, members in groups.items():
+        values = [r["distance"]["mean"] for r in members]
+        pairs = []
+        for member in members:
+            reference = baseline.get(member["seed"])
+            if reference is None or condition == "baseline":
+                continue
+            before = [
+                e
+                for e in evaluations
+                if e["run_id"] == reference["run_id"]
+                and e.get("checkpoint_hash") == reference["checkpoint_hash"]
+            ]
+            after = [
+                e
+                for e in evaluations
+                if e["run_id"] == member["run_id"]
+                and e.get("checkpoint_hash") == member["checkpoint_hash"]
+            ]
+            if before and after:
+                pairs.append(
+                    {"training_seed": member["seed"], **paired_evaluations(before[-1], after[-1])}
+                )
+        differences = [p["after_mean"] - p["before_mean"] for p in pairs]
+        summaries.append(
+            {
+                "condition": condition,
+                "training_seeds": [r["seed"] for r in members],
+                "run_ids": [r["run_id"] for r in members],
+                "mean_validation_distance": statistics.mean(values),
+                "std_between_training_seeds": statistics.stdev(values) if len(values) > 1 else None,
+                "actual_training_seconds": [r["actual_training_seconds"] for r in members],
+                "paired_difference_vs_baseline_mean": statistics.mean(differences)
+                if differences
+                else None,
+                "paired_difference_vs_baseline_training_seed_sd": statistics.stdev(differences)
+                if len(differences) > 1
+                else None,
+                "paired_training_seed_count": len(pairs),
+                "paired_comparisons": pairs,
+            }
+        )
+    return summaries
+
+
 def collect(root, benchmark_id=None, verify=False):
     from gradientclimb.experiments import list_runs, verify_run
 
@@ -283,6 +421,8 @@ def collect(root, benchmark_id=None, verify=False):
                     "scope": result.get("scope"),
                     "distance": distance,
                     "failure_rates": result.get("summary", {}).get("failure_rates", {}),
+                    "survival_seconds": result.get("summary", {}).get("survival_seconds", {}),
+                    "action_counts": result.get("action_counts"),
                 }
             )
     training, groups = [], defaultdict(list)
@@ -383,6 +523,8 @@ def collect(root, benchmark_id=None, verify=False):
         "docs/methodology/qualification.md",
         "experiments/definitions/ablations.json",
         "experiments/definitions/adaptation-pending.json",
+        "experiments/definitions/post-hour-battery.json",
+        "docs/operations/post-benchmark.md",
         "scripts/analyze_research.py",
         "scripts/report_plots.py",
         "src/gradientclimb/simulation/hill.py",
@@ -411,6 +553,13 @@ def collect(root, benchmark_id=None, verify=False):
         "benchmark_run": benchmark_id,
         "benchmark_status": reference.get("status") if benchmark_id else "not started",
         "checkpoints": checkpoint_rows(runs, evaluations, benchmark_id),
+        "checkpoints_by_training_run": {
+            r["run_id"]: checkpoint_rows(runs, evaluations, r["run_id"])
+            for r in training
+            if r["requested_seconds"] >= 300
+        },
+        "paired_adaptation": adaptation_comparisons(runs, evaluations),
+        "ablations": ablation_results(training, evaluations),
         "pilots": pilots,
         "training_runs": training,
         "evaluations": measurements,
@@ -494,6 +643,22 @@ def render(summary, output_dir, root):
     text += "The current evidence establishes learning in an original uncalibrated simulator. Real-game qualification remains incomplete. "
     text += f"The selected one-hour record is {summary['benchmark_run'] or 'not yet available'} ({summary['benchmark_status']})."
     paragraph("Abstract and research status", text)
+    primary = next(
+        (r for r in summary["training_runs"] if r["run_id"] == summary["benchmark_run"]), None
+    )
+    if primary and primary["status"] == "completed" and primary["distance"]:
+        measured = [row for row in summary["checkpoints"] if row["distance"]]
+        checkpoint_note = ""
+        if len(measured) > 1 and any(
+            right["distance"]["mean"] < left["distance"]["mean"]
+            for left, right in pairwise(measured)
+        ):
+            checkpoint_note = " Measured checkpoint means were not monotonic; a later policy did not outperform every earlier policy on this validation set."
+        paragraph(
+            "Completed primary observation",
+            f"Run {primary['run_id']} trained for an actual {fmt(primary['actual_training_seconds'], 3)} seconds and collected {primary['environment_steps']:,.0f} transitions. Its recorded final validation mean was {fmt(primary['distance']['mean'])} nominal m and median {fmt(primary['distance']['median'])} nominal m across {primary['distance']['n']} episodes. This is one independent training seed, followed by conditional episode evaluation."
+            + checkpoint_note,
+        )
     replicated_ppo = next(
         (
             p
@@ -616,6 +781,26 @@ def render(summary, output_dir, root):
         "The plotted rolling mean covers the last 100 completed training episodes collected by changing stochastic policies. It is a training diagnostic, distinct from fixed-policy offline checkpoint evaluation. The source metric is mean_episode_distance, with training_elapsed_seconds from each canonical metric row.",
     )
     sections.append(("Training diagnostics", "", "learning-curve.svg"))
+    evaluated = [row for row in summary["checkpoints"] if row["distance"]]
+    figures["checkpoint-quality.svg"] = svg_plot(
+        [
+            (
+                statistic.capitalize(),
+                [[row["actual_training_seconds"], row["distance"][statistic]] for row in evaluated],
+            )
+            for statistic in ("mean", "median")
+        ],
+        "Actual training seconds",
+        "Validation distance (nominal m)",
+        "Fixed-policy checkpoint evaluation",
+    )
+    sections.append(
+        (
+            "Measured checkpoint quality",
+            "Each point uses the saved policy at its recorded actual training time and the same 20 validation seeds. Mean and median describe episode variation for one trained policy; these six time points are not six independent training replicates. No point is interpolated from a final evaluation.",
+            "checkpoint-quality.svg",
+        )
+    )
     cold = [
         r
         for r in summary["training_runs"]
@@ -627,7 +812,7 @@ def render(summary, output_dir, root):
     figures["compute-frontier.svg"] = svg_plot(
         [
             (
-                f"{r['algorithm']} {r['device']} s{r['seed']}",
+                f"{r['algorithm']} {r['device']} n{r['num_envs']} s{r['seed']} {r['run_id'][:8]}",
                 [[r["actual_training_seconds"], r["distance"]["mean"]]],
             )
             for r in cold
@@ -710,6 +895,29 @@ def render(summary, output_dir, root):
         ],
         "Not yet measured when no rows are present. Synthetic heavy/rough shifts do not establish generalization to commercial-game vehicles/maps.",
     )
+    table(
+        "Generalization outcomes and pedal use",
+        [
+            "Evaluation run / condition",
+            "Termination fractions",
+            "Mean survival s",
+            "Joint pedal counts 00 / 10 / 01 / 11",
+        ],
+        [
+            [
+                f"{row['run_id']} / {row['metadata']['condition']}",
+                ", ".join(
+                    f"{reason}: {value:.1%}" for reason, value in row["failure_rates"].items()
+                ),
+                fmt(row["survival_seconds"].get("mean")),
+                " / ".join(map(str, row["action_counts"]))
+                if row["action_counts"]
+                else "not measured",
+            ]
+            for row in generalization
+        ],
+        "Time-limit truncation is the fixed 60-second evaluation horizon, not proof of indefinite survival. Counts cover recorded policy decisions during the selected episodes. They establish which joint states were used in the simulator; they do not establish the causal value of each state or real-game input acknowledgement.",
+    )
     parented = [r for r in summary["training_runs"] if r["parent_checkpoint"]]
     table(
         "Adaptation and extended training",
@@ -725,6 +933,87 @@ def render(summary, output_dir, root):
             for r in parented
         ],
         "No adaptation speed or forgetting claim is made without paired parent/child evaluations on identical source conditions and seeds. Proposed 5/10/30/60-minute adaptation and two-epoch, single-frame and randomization ablations are defined in experiments/definitions/ and remain pending unless corresponding canonical records exist.",
+    )
+    table(
+        "Replicated short component screen",
+        [
+            "Condition",
+            "Training seeds",
+            "Mean m",
+            "Seed SD m",
+            "Mean paired change vs baseline m",
+            "Paired training seeds",
+            "Runs",
+        ],
+        [
+            [
+                row["condition"],
+                ", ".join(map(str, row["training_seeds"])),
+                fmt(row["mean_validation_distance"]),
+                fmt(row["std_between_training_seeds"]),
+                fmt(row["paired_difference_vs_baseline_mean"]),
+                row["paired_training_seed_count"],
+                ", ".join(row["run_ids"]),
+            ]
+            for row in summary["ablations"]
+        ],
+        "The registered post-hour screen uses 60 requested seconds and training seeds 101/102/103. Each named component is compared with its matched baseline training seed on validation seeds 10000–10019. Paired changes remain missing until both members exist. These short runs measure source-condition validation; they do not measure a domain-randomization generalization benefit. Three training seeds are exploratory; the earlier proposed 300-second screen remains a separate unexecuted protocol.",
+    )
+    other_scheduled = [
+        {"training_run": run_id, **row}
+        for run_id, rows in summary["checkpoints_by_training_run"].items()
+        if run_id != summary["benchmark_run"]
+        for row in rows
+    ]
+    table(
+        "Reproduction and child checkpoint measurements",
+        [
+            "Training run",
+            "Requested min",
+            "Actual s",
+            "Mean m",
+            "Median m",
+            "Status",
+            "Evaluation run",
+        ],
+        [
+            [
+                row["training_run"],
+                row["requested_minutes"],
+                fmt(row["actual_training_seconds"]),
+                fmt((row["distance"] or {}).get("mean")),
+                fmt((row["distance"] or {}).get("median")),
+                row["status"],
+                row["evaluation_run"] or "—",
+            ]
+            for row in other_scheduled
+        ],
+        "Each row belongs to the named training run. For a child, the clock measures additional exposure after its declared parent. Checkpoint evaluation uses the child's training vehicle/map. Unscheduled longer child measurements remain missing: a ten-minute run cannot establish 20/30/45/60-minute adaptation. Parent training costs remain separate.",
+    )
+    table(
+        "Paired target improvement and source retention",
+        [
+            "Child / parent",
+            "Condition",
+            "Before mean m",
+            "After mean m",
+            "Paired change m [episode CI95%]",
+            "Paired episodes",
+            "Evaluation runs",
+        ],
+        [
+            [
+                f"{row['child_training_run']} / {row['parent_training_run']}",
+                row["condition"],
+                fmt(row["before_mean"]),
+                fmt(row["after_mean"]),
+                f"{fmt(row['difference_after_minus_before']['distance_difference']['mean'])} [{fmt(row['difference_after_minus_before']['distance_difference']['ci95_low'])}, {fmt(row['difference_after_minus_before']['distance_difference']['ci95_high'])}]",
+                len(row["seeds"]),
+                f"{row['before_evaluation_run']} / {row['after_evaluation_run']}",
+            ]
+            for row in summary["paired_adaptation"]
+        ],
+        "Positive changes favor the child. The default/train (in_distribution) row measures retention on the original source condition; a negative change is observed forgetting there. Every pair requires the declared parent checkpoint and identical scenario, horizon, simulator/calibration version, deterministic setting and episode seeds. Bootstrap intervals concern paired episode variation for these fixed policies; one adaptation seed cannot establish training-seed reliability. This battery has no matched cold-start heavy/rough training baseline, so a warm-start speed advantage over training from scratch remains unmeasured.",
     )
     table(
         "Actual-window capture measurements",
