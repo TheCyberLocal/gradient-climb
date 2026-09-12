@@ -1,0 +1,911 @@
+{
+  "schema_version": "human-demonstration-timing-diagnostic-3.0",
+  "generated_at_utc": "2026-09-12T14:52:48Z",
+  "scope": "Derived numeric diagnostic only; no images, complete control journal, personal window titles, or device identifiers exported. No source recordings relabeled or modified.",
+  "source_recording_revision": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+  "source_records_modified": false,
+  "methods": {
+    "journal_reader": "gradientclimb.capture.demonstrations.read_complete_journal",
+    "pairing": "gradientclimb.capture.demonstrations.causal_action_pairs",
+    "helper_sha256": "a18b31e3f839cd85e18dc66ce4d1e6e0f76bfa171b4e63cb0697c63852c60f0e",
+    "pairing_arguments": {
+      "maximum_lag_seconds": 0.1,
+      "maximum_poll_gap_seconds": 0.05
+    },
+    "pairing_scope": "The existing helper uses the frozen template playing hypothesis plus temporal coverage. Eligible candidates still require independently reviewed playing/terminal segmentation and source partition eligibility before training.",
+    "percentiles": "numpy.quantile at 0, 0.5, 0.95, 1 with default linear interpolation; descriptive observations from each fixed session, not repeated-session uncertainty.",
+    "frame_rate": "number of recorded frames / capture wall-clock seconds",
+    "poll_rate": "(number of samples - 1) / elapsed time from first sample start to last sample start",
+    "control_state_codes": "gas then brake: 00 neither, 10 gas, 01 brake, 11 both; sample counts are not durations or intended game actions",
+    "relative_time_origin": "Each source summary's capture_session_started_ns; event times are observation brackets, not exact OS delivery or human reaction times.",
+    "resource_scope": "Copied canonical summaries retain measured coverage; capture wall time, whole recorder run wall time, recorder-process CPU, device-wide GPU activity and unknown human prior practice remain distinct.",
+    "integrity": "verify_run valid for all three sources; journal/summary hashes independently matched registered manifests; all read journals have zero trailing partial bytes."
+  },
+  "recordings": [
+    {
+      "run_id": "febf6812-0f73-495f-a8a7-34a21a1dddf9",
+      "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_dirty": false,
+      "source_partition": "development",
+      "capture_backend": "dxcam",
+      "limits": {
+        "controls_per_second": 100,
+        "frames_per_second": 10,
+        "maximum_frame_age_seconds": 0.45,
+        "maximum_frames": 10000,
+        "maximum_payload_bytes": 134217728,
+        "maximum_poll_gap_seconds": 0.05,
+        "seconds": 30
+      },
+      "source_hashes": {
+        "run.json": "97aa656b3e4548ad43d66945e269b61c5666c51c9e4de16e31c00250719cbd87",
+        "demonstration-summary.json": "9478fa2e0727a76671a5179104be2a465f5f039f2615907fc4b1d7ff38f3e2a2",
+        "demonstration/frames.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "demonstration/controls.jsonl": "521eaffcb8c479375abe490f8d8ea673b2c8cba6ca06f802fd6c872967a58d38"
+      },
+      "registered_journal_summary_hash_matches": {
+        "demonstration-summary.json": true,
+        "demonstration/frames.jsonl": true,
+        "demonstration/controls.jsonl": true
+      },
+      "trailing_partial_bytes": {
+        "frames": 0,
+        "controls": 0
+      },
+      "status": "failed",
+      "stop_reason": "capture_control_or_storage_failure",
+      "failure": "RuntimeError: Demonstration capture is stale",
+      "capture_wall_seconds": 0.5203075,
+      "run_wall_seconds": 0.9590309000050183,
+      "frames": 0,
+      "control_samples": 33,
+      "observed_control_changes": 0,
+      "latency_ms": {
+        "capture_latency_ms": {
+          "count": 0,
+          "minimum": null,
+          "median": null,
+          "p95": null,
+          "maximum": null
+        },
+        "total_latency_ms": {
+          "count": 0,
+          "minimum": null,
+          "median": null,
+          "p95": null,
+          "maximum": null
+        },
+        "state_classification_latency_ms": {
+          "count": 0,
+          "minimum": null,
+          "median": null,
+          "p95": null,
+          "maximum": null
+        }
+      },
+      "frame_intervals_ms": {
+        "count": 0,
+        "minimum": null,
+        "median": null,
+        "p95": null,
+        "maximum": null
+      },
+      "control_poll_gaps_ms": {
+        "count": 32,
+        "minimum": 14.1124,
+        "median": 15.612300000000001,
+        "p95": 16.530624999999997,
+        "maximum": 21.5439
+      },
+      "control_sample_duration_ms": {
+        "count": 33,
+        "minimum": 0.0063,
+        "median": 0.0077,
+        "p95": 0.06981999999999998,
+        "maximum": 0.3742
+      },
+      "control_gap_censored": 0,
+      "control_state_sample_counts": {
+        "10": 33
+      },
+      "causal_pairs": {
+        "eligible_candidates": 0,
+        "ineligible": 0,
+        "eligible_candidate_state_counts": {}
+      },
+      "transitions": [],
+      "template_state_counts": {},
+      "template_segments": [],
+      "identical_pixel_frames": 0,
+      "identical_pixel_frames_by_template_state": {},
+      "unique_pixel_hashes": 0,
+      "frame_payload_bytes": 0,
+      "payload_reserved_bytes_including_canonical_copies": 27626,
+      "resources": {
+        "version": "resources-3.0",
+        "scope": "recorder acquisition, key polling, encoding, registration and finalization; no training was performed",
+        "sample_count": 2,
+        "sample_span_seconds": 0.6585246000031475,
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "cpu_core_seconds": 0.46875,
+        "cpu_scope": "recorder_process_all_threads; excludes_child_processes",
+        "cpu_coverage_fraction": 0.9312578451822463,
+        "process_rss_sampled_peak_bytes": 126627840,
+        "device_gpu_utilization_equivalent_seconds": [
+          0.16519836599953122
+        ],
+        "gpu_scope": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "energy_measured": false
+      },
+      "episode_experience_count": null,
+      "gameplay_interaction_seconds": null,
+      "verified_distance_m": null,
+      "completed_segmented_episode_records": 0,
+      "integrity": {
+        "run_id": "febf6812-0f73-495f-a8a7-34a21a1dddf9",
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "run_id": "789b59ed-8c97-4cb9-9d97-9b1a4aaba277",
+      "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_dirty": false,
+      "source_partition": "development",
+      "capture_backend": "mss",
+      "limits": {
+        "controls_per_second": 100,
+        "frames_per_second": 10,
+        "maximum_frame_age_seconds": 0.45,
+        "maximum_frames": 10000,
+        "maximum_payload_bytes": 134217728,
+        "maximum_poll_gap_seconds": 0.05,
+        "seconds": 30
+      },
+      "source_hashes": {
+        "run.json": "3651f07ac3d2e5d94b1b74015946db44f2e5cf38fff9021b811b268424767d44",
+        "demonstration-summary.json": "03008a079258663641de13a2156e840d4a45a53af39e7a84ec6c25c72e1f4011",
+        "demonstration/frames.jsonl": "91876bedada8cc4ce8b5a88faeda24d8d2df0c48f8726c074c5ecb24b1bcc4e8",
+        "demonstration/controls.jsonl": "2aaff76f2dfbea5771225baf982d0097c6702381f1f78babdb130b40d8a69bf1"
+      },
+      "registered_journal_summary_hash_matches": {
+        "demonstration-summary.json": true,
+        "demonstration/frames.jsonl": true,
+        "demonstration/controls.jsonl": true
+      },
+      "trailing_partial_bytes": {
+        "frames": 0,
+        "controls": 0
+      },
+      "status": "completed",
+      "stop_reason": "session_time_limit",
+      "failure": null,
+      "capture_wall_seconds": 30.1301903,
+      "run_wall_seconds": 36.34588599999552,
+      "frames": 218,
+      "control_samples": 1939,
+      "observed_control_changes": 5,
+      "latency_ms": {
+        "capture_latency_ms": {
+          "count": 218,
+          "minimum": 57.073,
+          "median": 61.29325,
+          "p95": 67.55957499999998,
+          "maximum": 97.9106
+        },
+        "total_latency_ms": {
+          "count": 218,
+          "minimum": 78.3415,
+          "median": 83.9673,
+          "p95": 91.71980499999998,
+          "maximum": 121.0609
+        },
+        "state_classification_latency_ms": {
+          "count": 218,
+          "minimum": 15.2853,
+          "median": 16.568849999999998,
+          "p95": 18.06103,
+          "maximum": 26.1949
+        }
+      },
+      "frame_intervals_ms": {
+        "count": 217,
+        "minimum": 123.3697,
+        "median": 138.4936,
+        "p95": 147.67651999999995,
+        "maximum": 174.6058
+      },
+      "control_poll_gaps_ms": {
+        "count": 1938,
+        "minimum": 10.7292,
+        "median": 15.497150000000001,
+        "p95": 16.489495,
+        "maximum": 21.9492
+      },
+      "control_sample_duration_ms": {
+        "count": 1939,
+        "minimum": 0.0055,
+        "median": 0.0082,
+        "p95": 0.07155999999999986,
+        "maximum": 2.78
+      },
+      "control_gap_censored": 0,
+      "control_state_sample_counts": {
+        "10": 235,
+        "01": 28,
+        "00": 1676
+      },
+      "causal_pairs": {
+        "eligible_candidates": 63,
+        "ineligible": 155,
+        "eligible_candidate_state_counts": {
+          "10": 27,
+          "01": 3,
+          "00": 33
+        },
+        "start_lag_ms": {
+          "min": 0.5065,
+          "p50": 6.2987,
+          "p95": 13.96275,
+          "max": 14.5912
+        },
+        "playing_pair_exclusions": [
+          {
+            "frame_index": 192,
+            "ready_seconds": 26.7614779,
+            "candidate_sample_index": 1723,
+            "previous_sample_end_minus_ready_ms": 0.4661
+          },
+          {
+            "frame_index": 214,
+            "ready_seconds": 29.6857646,
+            "candidate_sample_index": 1911,
+            "previous_sample_end_minus_ready_ms": 0.4602
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "earliest_seconds": 0.4306755,
+          "latest_seconds": 0.4468349,
+          "changed_controls": [
+            "brake"
+          ],
+          "bracket_width_ms": 16.1594
+        },
+        {
+          "earliest_seconds": 25.405513,
+          "latest_seconds": 25.4202098,
+          "changed_controls": [
+            "gas"
+          ],
+          "bracket_width_ms": 14.6968
+        },
+        {
+          "earliest_seconds": 27.8842086,
+          "latest_seconds": 27.8995934,
+          "changed_controls": [
+            "gas"
+          ],
+          "bracket_width_ms": 15.3848
+        },
+        {
+          "earliest_seconds": 28.3960266,
+          "latest_seconds": 28.4115011,
+          "changed_controls": [
+            "gas"
+          ],
+          "bracket_width_ms": 15.4745
+        },
+        {
+          "earliest_seconds": 29.5772673,
+          "latest_seconds": 29.5924095,
+          "changed_controls": [
+            "gas"
+          ],
+          "bracket_width_ms": 15.1422
+        }
+      ],
+      "template_state_counts": {
+        "playing": 65,
+        "unknown": 18,
+        "paused": 9,
+        "tune": 126
+      },
+      "template_segments": [
+        {
+          "template_state": "playing",
+          "first_frame_index": 0,
+          "last_frame_index": 20,
+          "first_acquisition_started_seconds": 0.0004478,
+          "last_acquisition_completed_seconds": 2.8489826
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 21,
+          "last_frame_index": 23,
+          "first_acquisition_started_seconds": 2.9248906,
+          "last_acquisition_completed_seconds": 3.2682414
+        },
+        {
+          "template_state": "paused",
+          "first_frame_index": 24,
+          "last_frame_index": 29,
+          "first_acquisition_started_seconds": 3.3349992,
+          "last_acquisition_completed_seconds": 4.0397694
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 30,
+          "last_frame_index": 31,
+          "first_acquisition_started_seconds": 4.1084362,
+          "last_acquisition_completed_seconds": 4.3002558
+        },
+        {
+          "template_state": "playing",
+          "first_frame_index": 32,
+          "last_frame_index": 34,
+          "first_acquisition_started_seconds": 4.3691051,
+          "last_acquisition_completed_seconds": 4.6961902
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 35,
+          "last_frame_index": 38,
+          "first_acquisition_started_seconds": 4.7706046,
+          "last_acquisition_completed_seconds": 5.2148144
+        },
+        {
+          "template_state": "paused",
+          "first_frame_index": 39,
+          "last_frame_index": 41,
+          "first_acquisition_started_seconds": 5.2795035,
+          "last_acquisition_completed_seconds": 5.5932033
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 42,
+          "last_frame_index": 48,
+          "first_acquisition_started_seconds": 5.6574134,
+          "last_acquisition_completed_seconds": 6.4768431
+        },
+        {
+          "template_state": "tune",
+          "first_frame_index": 49,
+          "last_frame_index": 174,
+          "first_acquisition_started_seconds": 6.5403573,
+          "last_acquisition_completed_seconds": 24.2808987
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 175,
+          "last_frame_index": 176,
+          "first_acquisition_started_seconds": 24.362363,
+          "last_acquisition_completed_seconds": 24.5652742
+        },
+        {
+          "template_state": "playing",
+          "first_frame_index": 177,
+          "last_frame_index": 217,
+          "first_acquisition_started_seconds": 24.6372405,
+          "last_acquisition_completed_seconds": 30.0576953
+        }
+      ],
+      "identical_pixel_frames": 87,
+      "identical_pixel_frames_by_template_state": {
+        "paused": 2,
+        "tune": 85
+      },
+      "unique_pixel_hashes": 124,
+      "frame_payload_bytes": 61912669,
+      "payload_reserved_bytes_including_canonical_copies": 125913198,
+      "resources": {
+        "version": "resources-3.0",
+        "scope": "recorder acquisition, key polling, encoding, registration and finalization; no training was performed",
+        "sample_count": 37,
+        "sample_span_seconds": 36.066181700000016,
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "cpu_core_seconds": 24.3125,
+        "cpu_scope": "recorder_process_all_threads; excludes_child_processes",
+        "cpu_coverage_fraction": 0.9985840280950506,
+        "process_rss_sampled_peak_bytes": 153153536,
+        "device_gpu_utilization_equivalent_seconds": [
+          10.756096267999784
+        ],
+        "gpu_scope": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "energy_measured": false
+      },
+      "episode_experience_count": null,
+      "gameplay_interaction_seconds": null,
+      "verified_distance_m": null,
+      "completed_segmented_episode_records": 0,
+      "integrity": {
+        "run_id": "789b59ed-8c97-4cb9-9d97-9b1a4aaba277",
+        "valid": true,
+        "errors": []
+      },
+      "capture_fps": 7.2352679431964955,
+      "poll_hz": 64.34099062390416,
+      "observation_ready_to_recorded_ms": {
+        "min": 40.3276,
+        "p50": 54.9632,
+        "p95": 58.103579999999994,
+        "max": 71.549
+      },
+      "capture_to_recorded_ms": {
+        "min": 123.0252,
+        "p50": 138.007,
+        "p95": 147.14671499999994,
+        "max": 174.148
+      },
+      "png_mean_bytes_by_template_state": {
+        "playing": 274896.95384615386,
+        "unknown": 179894.16666666666,
+        "paused": 179930.55555555556,
+        "tune": 311007.11904761905
+      }
+    },
+    {
+      "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+      "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_dirty": false,
+      "source_partition": "imitation",
+      "capture_backend": "mss",
+      "limits": {
+        "controls_per_second": 100,
+        "frames_per_second": 6,
+        "maximum_frame_age_seconds": 0.45,
+        "maximum_frames": 10000,
+        "maximum_payload_bytes": 2147483648,
+        "maximum_poll_gap_seconds": 0.05,
+        "seconds": 600
+      },
+      "source_hashes": {
+        "run.json": "d27c4e5bbf720c5fbe8ccc88348f3c72f146dbd7d5885b65dadc975a95b2d21c",
+        "demonstration-summary.json": "1b8933139f2b1501750d6b611787dac6d80e2e753a201f9a7ddf01ab1c4ce548",
+        "demonstration/frames.jsonl": "0cdc728afa7eb780c5f7910db5b24a2d83796ce7065589fc95ceb35fdb6d5fd6",
+        "demonstration/controls.jsonl": "228ff7d62763b43893cbfaca8d7b258f56a29b9837b780c29e9c94cffa2d3613"
+      },
+      "registered_journal_summary_hash_matches": {
+        "demonstration-summary.json": true,
+        "demonstration/frames.jsonl": true,
+        "demonstration/controls.jsonl": true
+      },
+      "trailing_partial_bytes": {
+        "frames": 0,
+        "controls": 0
+      },
+      "status": "failed",
+      "stop_reason": "capture_control_or_storage_failure",
+      "failure": "WindowUnavailable: demonstration target unavailable",
+      "capture_wall_seconds": 91.1890771,
+      "run_wall_seconds": 106.13528790000419,
+      "frames": 545,
+      "control_samples": 5866,
+      "observed_control_changes": 94,
+      "latency_ms": {
+        "capture_latency_ms": {
+          "count": 545,
+          "minimum": 58.6669,
+          "median": 67.8974,
+          "p95": 72.40652,
+          "maximum": 103.1121
+        },
+        "total_latency_ms": {
+          "count": 545,
+          "minimum": 81.7887,
+          "median": 94.429,
+          "p95": 99.85507999999999,
+          "maximum": 129.2084
+        },
+        "state_classification_latency_ms": {
+          "count": 545,
+          "minimum": 15.0186,
+          "median": 16.6907,
+          "p95": 18.287319999999998,
+          "maximum": 33.0883
+        }
+      },
+      "frame_intervals_ms": {
+        "count": 544,
+        "minimum": 166.5215,
+        "median": 167.0238,
+        "p95": 167.478365,
+        "maximum": 186.3512
+      },
+      "control_poll_gaps_ms": {
+        "count": 5865,
+        "minimum": 9.4199,
+        "median": 15.4949,
+        "p95": 16.592200000000002,
+        "maximum": 20.61
+      },
+      "control_sample_duration_ms": {
+        "count": 5866,
+        "minimum": 0.0044,
+        "median": 0.0082,
+        "p95": 0.0581,
+        "maximum": 5.958
+      },
+      "control_gap_censored": 0,
+      "control_state_sample_counts": {
+        "10": 2024,
+        "00": 3405,
+        "01": 437
+      },
+      "causal_pairs": {
+        "eligible_candidates": 406,
+        "ineligible": 139,
+        "eligible_candidate_state_counts": {
+          "10": 185,
+          "00": 182,
+          "01": 39
+        },
+        "start_lag_ms": {
+          "count": 406,
+          "minimum": 0.5286,
+          "median": 6.5965,
+          "p95": 13.679525,
+          "maximum": 14.8994
+        },
+        "playing_pair_exclusions": []
+      },
+      "transition_summary": {
+        "count": 94,
+        "changes_per_pedal": {
+          "gas": 68,
+          "brake": 26
+        },
+        "bracket_width_ms": {
+          "count": 94,
+          "minimum": 13.9109,
+          "median": 15.523800000000001,
+          "p95": 16.260189999999998,
+          "maximum": 19.3211
+        },
+        "first_bracket_seconds": [
+          7.8570386,
+          7.8722064
+        ],
+        "last_bracket_seconds": [
+          68.0592688,
+          68.0743851
+        ],
+        "ambiguous_two_pedal_changes": 0
+      },
+      "template_state_counts": {
+        "tune": 34,
+        "unknown": 79,
+        "playing": 406,
+        "paused": 12,
+        "advertisement": 14
+      },
+      "template_segments": [
+        {
+          "template_state": "tune",
+          "first_frame_index": 0,
+          "last_frame_index": 33,
+          "first_acquisition_started_seconds": 0.0006294,
+          "last_acquisition_completed_seconds": 5.6056077
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 34,
+          "last_frame_index": 34,
+          "first_acquisition_started_seconds": 5.7058924,
+          "last_acquisition_completed_seconds": 5.7796046
+        },
+        {
+          "template_state": "playing",
+          "first_frame_index": 35,
+          "last_frame_index": 272,
+          "first_acquisition_started_seconds": 5.8730517,
+          "last_acquisition_completed_seconds": 45.5346182
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 273,
+          "last_frame_index": 273,
+          "first_acquisition_started_seconds": 45.6370036,
+          "last_acquisition_completed_seconds": 45.7038584
+        },
+        {
+          "template_state": "playing",
+          "first_frame_index": 274,
+          "last_frame_index": 437,
+          "first_acquisition_started_seconds": 45.8038186,
+          "last_acquisition_completed_seconds": 73.1066771
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 438,
+          "last_frame_index": 445,
+          "first_acquisition_started_seconds": 73.2032431,
+          "last_acquisition_completed_seconds": 74.4427246
+        },
+        {
+          "template_state": "paused",
+          "first_frame_index": 446,
+          "last_frame_index": 446,
+          "first_acquisition_started_seconds": 74.539169,
+          "last_acquisition_completed_seconds": 74.6035251
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 447,
+          "last_frame_index": 447,
+          "first_acquisition_started_seconds": 74.7056905,
+          "last_acquisition_completed_seconds": 74.7721789
+        },
+        {
+          "template_state": "paused",
+          "first_frame_index": 448,
+          "last_frame_index": 456,
+          "first_acquisition_started_seconds": 74.8726236,
+          "last_acquisition_completed_seconds": 76.2812723
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 457,
+          "last_frame_index": 457,
+          "first_acquisition_started_seconds": 76.3761263,
+          "last_acquisition_completed_seconds": 76.4522155
+        },
+        {
+          "template_state": "playing",
+          "first_frame_index": 458,
+          "last_frame_index": 461,
+          "first_acquisition_started_seconds": 76.5472614,
+          "last_acquisition_completed_seconds": 77.1154458
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 462,
+          "last_frame_index": 464,
+          "first_acquisition_started_seconds": 77.2155308,
+          "last_acquisition_completed_seconds": 77.6144749
+        },
+        {
+          "template_state": "paused",
+          "first_frame_index": 465,
+          "last_frame_index": 466,
+          "first_acquisition_started_seconds": 77.7168178,
+          "last_acquisition_completed_seconds": 77.9540263
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 467,
+          "last_frame_index": 472,
+          "first_acquisition_started_seconds": 78.051704,
+          "last_acquisition_completed_seconds": 78.952543
+        },
+        {
+          "template_state": "advertisement",
+          "first_frame_index": 473,
+          "last_frame_index": 486,
+          "first_acquisition_started_seconds": 79.0534348,
+          "last_acquisition_completed_seconds": 81.2932367
+        },
+        {
+          "template_state": "unknown",
+          "first_frame_index": 487,
+          "last_frame_index": 544,
+          "first_acquisition_started_seconds": 81.3936085,
+          "last_acquisition_completed_seconds": 90.9802974
+        }
+      ],
+      "identical_pixel_frames": 20,
+      "identical_pixel_frames_by_template_state": {
+        "tune": 1,
+        "paused": 5,
+        "advertisement": 13,
+        "unknown": 1
+      },
+      "unique_pixel_hashes": 525,
+      "frame_payload_bytes": 153003607,
+      "payload_reserved_bytes_including_canonical_copies": 312093472,
+      "frame_png_bytes": {
+        "count": 545,
+        "minimum": 16029,
+        "median": 295493,
+        "p95": 323918.8,
+        "maximum": 341878
+      },
+      "capture_fps": 5.976593001400164,
+      "poll_hz": 64.39207988528202,
+      "resources": {
+        "version": "resources-3.0",
+        "scope": "recorder acquisition, key polling, encoding, registration and finalization; no training was performed",
+        "sample_count": 105,
+        "sample_span_seconds": 105.78846720000001,
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "cpu_core_seconds": 63.953125,
+        "cpu_scope": "recorder_process_all_threads; excludes_child_processes",
+        "cpu_coverage_fraction": 0.9994190274079452,
+        "process_rss_sampled_peak_bytes": 154431488,
+        "device_gpu_utilization_equivalent_seconds": [
+          25.366740534500895
+        ],
+        "gpu_scope": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "energy_measured": false
+      },
+      "episode_experience_count": null,
+      "gameplay_interaction_seconds": null,
+      "verified_distance_m": null,
+      "completed_segmented_episode_records": 0,
+      "integrity": {
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+        "valid": true,
+        "errors": []
+      }
+    }
+  ],
+  "findings": [
+    "MSS produced usable synchronized recording evidence in both sessions. The DXCam attempt retained 33 key-state samples and no accepted image after the stale-frame check; exact rejected-frame latency was not journaled.",
+    "The 30-second diagnostic has 63 temporally eligible candidates out of 65 template-playing images, including 33 neutral, 27 gas and 3 brake. Frames 192 and 214 are censored because the preceding key poll overlaps observation-ready time by 0.4661 ms and 0.4602 ms.",
+    "The longer imitation recording has 406 temporally eligible candidates out of 406 template-playing images, including 182 neutral, 185 gas and 39 brake. These remain candidates, not independently qualified training pairs.",
+    "Both-pedals state 11 was not observed in either accepted-image session. The long run contains 94 observed one-pedal changes, with no ambiguous same-poll two-pedal change; between-poll events remain unknowable.",
+    "The short session's zero missed_capture_schedule_slots does not establish requested 10 Hz cadence. Every measured start interval was less than two requested periods, so the implementation's per-interval floor counter stayed zero while actual throughput was 7.2353 fps.",
+    "At target 6 fps the longer session attained 5.9766 fps, with median 167.0238 ms and p95 167.478365 ms start intervals. Keeping the same normalized 1034 x 581 resolution preserves the existing frozen UI profile.",
+    "Repeated pixels in the short run occur in Tune or paused hypotheses; none in template-playing frames. Duplicate pixels alone do not prove a stale acquisition.",
+    "The longer recording ended with target-unavailable. The operator had been instructed to switch away; the precise cause of target unavailability is not established by the journal. Its failed recorder status is not a gameplay failure classification and does not erase prior measurable gameplay.",
+    "First/last template-playing observations are timing bounds on appearances, not a continuous gameplay duration, an episode count, or a terminal outcome. Episode experience, real interaction duration and verified distance remain unknown in this numeric report."
+  ],
+  "visible_gameplay_timing_bounds": {
+    "short": {
+      "first_template_playing_acquisition_seconds": [
+        0.0004478,
+        0.0983584
+      ],
+      "last_template_playing_acquisition_seconds": [
+        29.9985615,
+        30.0576953
+      ],
+      "first_frame_index": 0,
+      "last_frame_index": 217,
+      "interpretation": "Playing at both recording boundaries; selected visual review by the coordinator identifies the tail of an old run, menus and the beginning of a new run. This is not a complete matched episode."
+    },
+    "long": {
+      "first_template_playing_frame_index": 35,
+      "first_template_playing_acquisition_start_seconds": 5.8730517,
+      "last_main_template_playing_frame_index": 437,
+      "last_main_template_playing_acquisition_complete_seconds": 73.1066771,
+      "last_template_playing_frame_index": 461,
+      "last_template_playing_acquisition_complete_seconds": 77.1154458,
+      "interpretation": "Coordinating visual review identified frame438 as gameplay740m, frames448/457 as paused745m, frame458 as a restarted0m attempt, frames465/467 as paused0m/exit confirmation, and frames475/510/544 as advertisement content. The main attempt was administratively interrupted and restarted. No natural failure or result was observed. Do not sum template spans into verified interaction time.",
+      "separate_restarted_attempt_template_frames": [
+        458,
+        459,
+        460,
+        461
+      ]
+    }
+  },
+  "coordinator_visual_review_context": {
+    "scope": "Reported by the coordinating reviewer; this numeric analysis did not copy or inspect pixels.",
+    "short_selected_frames": {
+      "0": "Tail of an existing run; HUD reported 567 m; vehicle near bridge.",
+      "100": "Tune configuration with upgrades 13/13, 14/14, 16/16, 10/10.",
+      "175": "Tune screen despite frozen template unknown label.",
+      "210": "Beginning of another run; HUD reported 52 m."
+    },
+    "qualification_effect": "These selected images identify mixed session context. They do not independently establish a complete episode, calibrated distance reader or benchmark result.",
+    "long_selected_frames": {
+      "438": "Playing,740m; vehicle upright on bridge.",
+      "448": "PAUSED,745m.",
+      "457": "Dim PAUSED,745m.",
+      "458": "New gameplay,0m.",
+      "465": "PAUSED,0m.",
+      "467": "EXIT confirmation,0m.",
+      "475": "Commercial break.",
+      "510": "Advertisement.",
+      "544": "Advertisement."
+    },
+    "main_attempt_observed_hud_progress_lower_bound_m": 745,
+    "lower_bound_scope": "At least745m displayed on the reviewed pause HUD of the main attempt. This is a selected visual observation, not a natural terminal result, independent-reader qualification, complete benchmark, or evidence of repeatable competence.",
+    "natural_terminal_result_observed": false,
+    "training_labels_promoted": false,
+    "evidence": {
+      "789b59ed-8c97-4cb9-9d97-9b1a4aaba277": {
+        "0": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration/frame-000000.png",
+          "sha256": "78dbcdc62431a6e50daeeb81b28b5430dc148726185102793aae3d1031ee4125"
+        },
+        "100": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration/frame-000100.png",
+          "sha256": "daad020fb48d317a67fa25ff63cad16500c80ab3a5dc71c2c53809756166d988"
+        },
+        "175": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration/frame-000175.png",
+          "sha256": "e41031f317d2ce782cec061930a76ba7869cc353a18ce954f51117c541e90767"
+        },
+        "210": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration/frame-000210.png",
+          "sha256": "4fecf8ba726cd3e5c981d88be488cbc5d0348896a95724f572b54e1159bfd070"
+        }
+      },
+      "fbafca5b-fd59-499a-a56d-1180528cdc21": {
+        "438": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000438.png",
+          "sha256": "f8a259683942157b9680096ed96e3abf57c0b24086a3ec8d8217929af0ea0cc3"
+        },
+        "448": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000448.png",
+          "sha256": "595bca3a8b2cbb3090444bb4365ecbee6708ba38e995089793b78a3f6a912616"
+        },
+        "457": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000457.png",
+          "sha256": "32102878be7f4658befdcdcb39a00eed2e05fa324f6dd2bbbcf679e867034f42"
+        },
+        "458": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000458.png",
+          "sha256": "ba94883148f816a30de8cb8c74fbee558418da61ebc56665b0e22c869af29c86"
+        },
+        "465": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000465.png",
+          "sha256": "afb64692619dd9f9151b0a41d05f5d961ab4a8a1fc698506b1099a8c52574378"
+        },
+        "467": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000467.png",
+          "sha256": "167afca63d3e43d97a92f57364feced208ead5311a0c815ef93247b0b6b4da2b"
+        },
+        "475": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000475.png",
+          "sha256": "4a77564eb42a20aa7949e681137feac42d9ff1356e2c11b4fca62a3943a931b3"
+        },
+        "510": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000510.png",
+          "sha256": "f443c947937774b8d971ddffa9981053869372802af920c39a58395f580bf218"
+        },
+        "544": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000544.png",
+          "sha256": "303106185a29f2ecfc318e6b8ee4894b7df3db7e0c74f0704b16149429d4ebd9"
+        }
+      }
+    }
+  },
+  "payload_planning": {
+    "accepted_resolution_pixels": [
+      1034,
+      581
+    ],
+    "first_followup_projection_at_decision_time": {
+      "basis": "600 seconds, 6 fps, 3600 frames; constant observed compression and journal byte rates; canonical copy factor2",
+      "mean_png_bytes": 284003.06880733947,
+      "observed_max_png_bytes": 336729,
+      "projected_mib_at_mean": 1988.2735040213302,
+      "projected_mib_at_observed_max_png": 2350.3137420080434,
+      "cap_mib": 2048
+    },
+    "actual_longer_session": {
+      "seconds": 91.1890771,
+      "frames": 545,
+      "png_bytes": 153003607,
+      "reserved_bytes_including_canonical_copies": 312093472
+    },
+    "next_action": "Review and segment the existing imitation session before asking for another recording.",
+    "conditional_next_recording": {
+      "dose": "No additional recording requested. A future ordinary-run horizon will be selected after dataset review to avoid truncating useful long-run behavior.",
+      "maximum_seconds": null,
+      "capture_backend": "mss",
+      "target_fps": 6,
+      "requested_control_hz": 100,
+      "expected_observed_control_hz": "Approximately 64 in these two sessions; target is not a guarantee.",
+      "normalized_resolution": [
+        1034,
+        581
+      ],
+      "maximum_payload_mib": null,
+      "planning_basis": "MSS6fps at unchanged1034x581 is supported by this session. A120-second engineering batch at720frames would use469.50MiB for double copies at the largest observed341878-byte PNG before journals;640MiB is only an illustrative batch capacity, not a complete-run budget recommendation. A600-second6fps run needs a separately chosen disk budget; the prior mean projection1988.27MiB had little margin under2048MiB and max-PNG projection2350.31MiB exceeded it.",
+      "scope": "Final horizon and disk cap remain pending review and operator coordination. A requested long demonstration should not be cut at an arbitrary short batch horizon merely to satisfy this diagnostic."
+    },
+    "no_unbounded_quota": true
+  },
+  "limitations": [
+    "UI template states were not manually relabeled in this diagnostic.",
+    "The code proves ordering of recorded samples, not that the human reacted to a particular screenshot.",
+    "No accepted image exists for the rejected DXCam acquisition; its exact latency is unavailable.",
+    "Device-wide GPU activity includes the game and other processes and cannot be attributed to the recorder or a learner.",
+    "Human practice time, episode counts, actual gameplay duration and natural outcomes require separate evidence."
+  ]
+}

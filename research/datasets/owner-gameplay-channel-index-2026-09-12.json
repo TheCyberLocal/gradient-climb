@@ -1,0 +1,436 @@
+{
+  "schema_version": "external-gameplay-discovery-3.0",
+  "observed_at_utc": "2026-09-12 15:02:14 UTC",
+  "owner_provided_channel": "https://www.youtube.com/@thecyberlocal",
+  "source_method": "Public channel and two playlist pages rendered in Chrome, visible link text and href only. Web fetch failed; browser succeeded.",
+  "scope": "Nonexhaustive metadata discovery; no full video review, download, media extraction, action labels, upgraded configuration verification, or independent benchmark.",
+  "observed_channel_video_count": 288,
+  "inspected_playlists": [
+    {
+      "title": "Hill Climb Racing Wins Volume 1",
+      "url": "https://www.youtube.com/playlist?list=PLa_WaxqJ73Lp86jnJ8udpHp3d-RFA_z3G",
+      "visible_video_count": 34
+    },
+    {
+      "title": "Hill Climb Racing Wins [PreMusic]",
+      "url": "https://www.youtube.com/playlist?list=PLa_WaxqJ73LoQx6eh8QRfNIFujfV6m-f6",
+      "visible_video_count": 6
+    }
+  ],
+  "videos": [
+    {
+      "title": "Hill Climb Racing Countryside Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=TKX_EWSm2UE",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Countryside",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Seasons Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=aVOdRrc2HXs",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Seasons",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Desert Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=BUVPmqYZt74",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Desert",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Arctic Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=GuAkrEv8sDQ",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Arctic",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Highway Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Agmv_IVfJuI",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Highway",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Cave Record with Rally Car",
+      "url": "https://www.youtube.com/watch?v=doTqdc3GbMM",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Cave",
+      "vehicle_from_title": "Rally Car",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Moon Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=ZLtsJNBBoWQ",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Moon",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Boot Camp Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Gq5olKA8R4g",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Boot Camp",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Mars Record with Rally Car",
+      "url": "https://www.youtube.com/watch?v=jScaPziK6Wk",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Mars",
+      "vehicle_from_title": "Rally Car",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Xmas Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=6IxDM0fdfoA",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Xmas",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Alien Planet Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Kq56-eCO24U",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Alien Planet",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Arctic Cave Record with Rally Car",
+      "url": "https://www.youtube.com/watch?v=vvd_Lt5FhaA",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Arctic Cave",
+      "vehicle_from_title": "Rally Car",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Forest Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=EU2HzOT3Kyk",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Forest",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Mountain Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=kLYMTaaXTKQ",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Mountain",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Ragnarok Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=HtBWuhW0Bus",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Ragnarok",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Volcano Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=tUpHEH5Q14Q",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Volcano",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Beach Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=qLLz_TIxr3w",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Beach",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Factory Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=iCAKPJdmZhs",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Factory",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Roller Coaster Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=YSP54U1WUFM",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Roller Coaster",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Night Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Vd4BefiySmA",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Night",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Rooftops Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=nJ_ruW3Tjsg",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Rooftops",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Junkyard Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=mLT1HxQmpoE",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Junkyard",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Construction Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=SE1_eppyEPA",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Construction",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Rainbow Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=lcB0yF8HGI4",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Rainbow",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Haunted Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Bqs7dxoDTCk",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Haunted",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Northpole Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Z8U-AIkXs1o",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Northpole",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Nuclear Plant Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=fUaV3Y6Wd6M",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Nuclear Plant",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Arena Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=sfp5v6Vc4FQ",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Arena",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Jungle Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=Vx4zrZGTtz0",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Jungle",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Neon Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=BSbbwbPueSI",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Neon",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Prognosis Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=y8lIHFr4PVg",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Prognosis",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Bogland Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=QkY85ptjrCk",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Bogland",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Action Hero Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=WHwzsFriZ34",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Action Hero",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing Super Countryside Record with Moonlander",
+      "url": "https://www.youtube.com/watch?v=g2Jt2PP97us",
+      "playlist": "Hill Climb Racing Wins Volume 1",
+      "map_from_title": "Super Countryside",
+      "vehicle_from_title": "Moonlander",
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing - Jungle with the Moonlander 4765m run",
+      "url": "https://www.youtube.com/watch?v=daJQWysJG_Q",
+      "playlist": "Hill Climb Racing Wins [PreMusic]",
+      "map_from_title": null,
+      "vehicle_from_title": null,
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing - Back to the Suburbs 1723m run",
+      "url": "https://www.youtube.com/watch?v=W0pIC3IYhMU",
+      "playlist": "Hill Climb Racing Wins [PreMusic]",
+      "map_from_title": null,
+      "vehicle_from_title": null,
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing - Unlocking the Fast Car",
+      "url": "https://www.youtube.com/watch?v=8x2fmF1YcEw",
+      "playlist": "Hill Climb Racing Wins [PreMusic]",
+      "map_from_title": null,
+      "vehicle_from_title": null,
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing - Unlocking the Suburbs",
+      "url": "https://www.youtube.com/watch?v=ja5F5F2VTFg",
+      "playlist": "Hill Climb Racing Wins [PreMusic]",
+      "map_from_title": null,
+      "vehicle_from_title": null,
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing - All Cars Video",
+      "url": "https://www.youtube.com/watch?v=wx_cI59vFX0",
+      "playlist": "Hill Climb Racing Wins [PreMusic]",
+      "map_from_title": null,
+      "vehicle_from_title": null,
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    },
+    {
+      "title": "Hill Climb Racing - All Stages Video",
+      "url": "https://www.youtube.com/watch?v=-qTaHCIPqZE",
+      "playlist": "Hill Climb Racing Wins [PreMusic]",
+      "map_from_title": null,
+      "vehicle_from_title": null,
+      "visually_verified_profile": false,
+      "verified_distance_m": null,
+      "synchronized_controls_available": false
+    }
+  ],
+  "future_use": {
+    "construction": "Prior visual evidence for coverage selection, terrain/bridge/camera analysis, failure taxonomies and perception development after review of timing, edits, game version and configuration.",
+    "imitation": "No invented control labels. Pedal graphics, if visible, are uncertain visual proxies requiring separate validation and cadence/delay accounting.",
+    "qualification": "Inspected material is construction knowledge, not untouched qualification. No historical human video is a frozen learned-policy real evaluation.",
+    "priors": "Record any viewing, annotation, extraction, simulator fitting or pretraining costs and data use in the consuming system/policy lineage. Unknown original gameplay, editing and human practice costs remain explicit.",
+    "next_priority": "Review reference-relevant Countryside geometry with profile/version differences declared; use Moonlander/Rally Car coverage for later profile planning after reference competence."
+  },
+  "costs": {
+    "original_gameplay_seconds": null,
+    "original_human_practice_seconds": null,
+    "original_recording_compute": null,
+    "metadata_review_wall_seconds": null,
+    "missing_reason": "These costs were not instrumented; listing/video duration is not a substitute for original gameplay or human prior practice."
+  }
+}

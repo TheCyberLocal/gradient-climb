@@ -54,17 +54,45 @@ ran beyond its finite support domain; see [F-007](../../research/findings/F-007-
 Its individual seal passed verification. The 136-run audit above remains at its
 original pre-pilot cutoff; the new failed run is additional evidence.
 
+Three owner demonstration capture attempts are also additional to that frozen
+136-run cutoff. Their individual seals passed verification, and the new
+[derived timing review](../../research/diagnostics/human-demonstrations-2026-09-12.md)
+preserves source hashes without exporting private pixels or complete control logs.
+DXCam attempt `febf6812-0f73-495f-a8a7-34a21a1dddf9` retained 33 control samples
+but no accepted image after its stale-frame guard. MSS development diagnostic
+`789b59ed-8c97-4cb9-9d97-9b1a4aaba277` retained 218 images over 30.13 seconds
+and 63 temporally eligible pair candidates across partial attempts and menus.
+MSS imitation recording `fbafca5b-fd59-499a-a56d-1180528cdc21` retained 545 images
+over 91.19 seconds and 406 candidate pairs, achieving 5.98 frames/s at a 6 frames/s
+target. The candidate labels still need reviewed segmentation before training.
+
+Selected visual review of the imitation record shows gameplay at 740 m, then
+PAUSED at 745 m, a restarted 0 m attempt, pause/exit confirmation and advertisements.
+The 745 m pause HUD is a selected progress lower bound before administrative
+interruption, not a natural result or complete human benchmark. The recorder's
+target-unavailable failure does not classify gameplay failure; its precise cause
+is not established by the numeric journal. Episode experience and real gameplay
+duration remain unknown pending segmentation. No new human recording is requested
+before reviewing this data, and the original 136-run audit is not rewritten.
+
 ## Remaining collection gates
+
+The owner also supplied an existing public gameplay channel. A
+[prospective source index](../../research/datasets/owner-gameplay-channel-index-2026-09-12.md)
+records 40 visible video links from two playlists, with vehicle/map claims from
+their titles. This is construction discovery only: full footage, upgrades,
+outcomes and synchronized controls remain unverified. Any subsequent use must
+retain its prior costs and remain separate from fresh learned-policy evaluation.
 
 No learned real-game threshold is demonstrated by this milestone. Native scored
 reliability/soak, independently validated readers, measured simulator fidelity,
-human demonstrations, selected learner comparisons, three one-hour qualified
+reviewed demonstration segments and matched human benchmarks, selected learner comparisons, three one-hour qualified
 training seeds, and additional-profile adaptation/retention remain unfinished.
 The learning-efficiency framework is preregistered but not dispatchable until its
 specific source, method, scenario, priors and evaluation manifest are resolved.
 
-Human demonstration capture requires the owner's actual play; synthetic controls
-cannot supply it. A private backup destination must be selected before archiving
+Owner play has supplied synchronized demonstration recordings; synthetic controls
+cannot replace their remaining review and benchmark requirements. A private backup destination must be selected before archiving
 real evidence, and only a successful restore test will justify a backup claim.
 The engine pilot can establish engineering feasibility only; its throughput
 cannot establish fidelity, transfer or faster learning. No stable release or

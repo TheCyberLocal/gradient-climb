@@ -21,17 +21,284 @@
     "independent_evaluation_and_inherited_costs_are_separately_reported": true
   },
   "campaigns": [
-    {"id": "foundation", "kind": "software_validation", "budget": "focused fault tests plus one full suite per coherent milestone", "gate": "source/evidence identity, truthful counters, atomic checkpoint and host safeguards", "stop": "fix a specific failing contract before dependent work"},
-    {"id": "native-instrument", "kind": "real", "max_sessions": 3, "attempts_per_session": 12, "episode_seconds": 60, "requires": ["foundation", "native-reliability-2.3 registration", "fresh game identity"], "gate": "10 consecutive scored successes, 10/12 scored, zero unintended actions/manual interventions", "stop": "any guard fault/effect, then bounded diagnosis; do not count exploratory sessions as study"},
-    {"id": "native-soak", "kind": "real", "max_sessions": 1, "attempts_per_session": 30, "session_seconds": 10800, "requires": ["native-instrument", "specific soak registration"], "gate": "30 accounted attempts, zero safety faults/intervention; report all availability and wait costs", "stop": "first safety fault or deadline; no set-and-forget claim from short gate alone"},
-    {"id": "demonstrations", "kind": "human", "initial_training_runs": 3, "initial_benchmark_runs": 3, "requires": ["validated read-only recorder", "owner play availability", "whole-session split manifest"], "gate": "synchronized controls and complete varied runs; benchmark never used for training", "stop": "request additional coverage only from measured gaps"},
-    {"id": "engine-screen", "kind": "synthetic_engineering", "max_candidates": 2, "timing_seconds_per_cell": 10, "environment_counts": [1, 8, 32], "repetitions": 3, "requires": ["pinned engine protocol/license"], "gate": "installation, articulation/contact stability, offscreen timing and unchanged solver semantics", "stop": "reject unstable or unsupported candidates; no real-fidelity claim"},
-    {"id": "fidelity", "kind": "construction_then_heldout", "max_fit_rounds": 3, "requires": ["synchronized real data", "frozen tolerances and data split", "fidelity identity and physics/render/learning cost budget", "matched real-outcome comparison protocol"], "gate": "heldout geometry/dynamics/perception plus early real transfer probes and useful real progress per total cost", "stop": "after each failure identify layer-specific bottleneck; never tune heldout labels; raw FPS cannot select fidelity"},
-    {"id": "learner-screen", "kind": "learning", "max_candidate_methods": 3, "screen_seconds_per_method": 300, "screen_seeds": [3101], "replication_seeds": [3101, 3102, 3103], "replication_seconds_per_seed": 600, "requires": ["specific matched learner protocol", "qualified observations/environment", "native gate for real training"], "gate": "independent frozen evaluation and improvement per total cost", "stop": "reject unproductive method after screen; change a specific bottleneck before repeating"},
-    {"id": "objectives", "kind": "learning", "required_arms": ["distance", "distance_score", "distance_score_time", "recovery_with_same_time"], "screen_seconds_per_arm": 300, "screen_seeds": [3201], "requires": ["validated score and recovery", "distance/pace baseline", "frozen arm parameters and noninferiority margins"], "gate": "unique score attribution and matched outcome/hacking comparisons", "stop": "do not extend arms that violate declared distance/survival/coverage constraints"},
-    {"id": "one-hour", "kind": "real_qualification", "status": "prospective_framework_not_dispatchable", "framework": "experiments/definitions/cycle-3-learning-efficiency.json", "training_seeds": [3301, 3302, 3303], "training_seconds_per_seed": 3600, "checkpoint_minutes": [5, 10, 20, 30, 45, 60], "evaluation_executions_per_unique_checkpoint": 20, "maximum_evaluation_executions": 360, "evaluation_batch_wall_seconds": 21600, "long_run_seconds": 900, "threshold_median_real_m": [500, 1000, 2000], "target_median_real_m": 2000, "requires": ["development-selected frozen method", "untouched qualification manifest", "specific policy/system-prior protocol", "native reliability and soak evidence", "qualified independent distance readers", "validated earliest-entry command-start receipt", "committed concrete arm source and full accounting manifest"], "gate": "target status per seed, sampling uncertainty/censoring, full distributions and separate command/evaluation/inherited costs", "stop": "deadline, no extra updates or outcome-selected replacements; publish measured shortfall and incomplete coverage"},
-    {"id": "profiles-and-retention", "kind": "real_adaptation", "additional_vehicle_profiles": 2, "additional_maps": 1, "adaptation_minutes": [0, 5, 10, 30, 60], "requires": ["reference competence", "legitimately accessible content", "profile-specific targets and matched total budget registration"], "gate": "zero-shot/adaptation/retention across map, vehicle, and pair", "stop": "record content blockers; no purchases; no broad training before reference competence"}
+    {
+      "id": "foundation",
+      "kind": "software_validation",
+      "budget": "focused fault tests plus one full suite per coherent milestone",
+      "gate": "source/evidence identity, truthful counters, atomic checkpoint and host safeguards",
+      "stop": "fix a specific failing contract before dependent work"
+    },
+    {
+      "id": "native-instrument",
+      "kind": "real",
+      "max_sessions": 3,
+      "attempts_per_session": 12,
+      "episode_seconds": 60,
+      "requires": [
+        "foundation",
+        "native-reliability-2.3 registration",
+        "fresh game identity"
+      ],
+      "gate": "10 consecutive scored successes, 10/12 scored, zero unintended actions/manual interventions",
+      "stop": "any guard fault/effect, then bounded diagnosis; do not count exploratory sessions as study"
+    },
+    {
+      "id": "native-soak",
+      "kind": "real",
+      "max_sessions": 1,
+      "attempts_per_session": 30,
+      "session_seconds": 10800,
+      "requires": [
+        "native-instrument",
+        "specific soak registration"
+      ],
+      "gate": "30 accounted attempts, zero safety faults/intervention; report all availability and wait costs",
+      "stop": "first safety fault or deadline; no set-and-forget claim from short gate alone"
+    },
+    {
+      "id": "demonstrations",
+      "kind": "human",
+      "initial_training_runs": 3,
+      "initial_benchmark_runs": 3,
+      "requires": [
+        "validated read-only recorder",
+        "owner play availability",
+        "whole-session split manifest"
+      ],
+      "gate": "synchronized controls and complete varied runs; benchmark never used for training",
+      "stop": "request additional coverage only from measured gaps"
+    },
+    {
+      "id": "engine-screen",
+      "kind": "synthetic_engineering",
+      "max_candidates": 2,
+      "timing_seconds_per_cell": 10,
+      "environment_counts": [
+        1,
+        8,
+        32
+      ],
+      "repetitions": 3,
+      "requires": [
+        "pinned engine protocol/license"
+      ],
+      "gate": "installation, articulation/contact stability, offscreen timing and unchanged solver semantics",
+      "stop": "reject unstable or unsupported candidates; no real-fidelity claim"
+    },
+    {
+      "id": "fidelity",
+      "kind": "construction_then_heldout",
+      "max_fit_rounds": 3,
+      "requires": [
+        "synchronized real data",
+        "frozen tolerances and data split",
+        "fidelity identity and physics/render/learning cost budget",
+        "matched real-outcome comparison protocol"
+      ],
+      "gate": "heldout geometry/dynamics/perception plus early real transfer probes and useful real progress per total cost",
+      "stop": "after each failure identify layer-specific bottleneck; never tune heldout labels; raw FPS cannot select fidelity"
+    },
+    {
+      "id": "learner-screen",
+      "kind": "learning",
+      "max_candidate_methods": 3,
+      "screen_seconds_per_method": 300,
+      "screen_seeds": [
+        3101
+      ],
+      "replication_seeds": [
+        3101,
+        3102,
+        3103
+      ],
+      "replication_seconds_per_seed": 600,
+      "requires": [
+        "specific matched learner protocol",
+        "qualified observations/environment",
+        "native gate for real training"
+      ],
+      "gate": "independent frozen evaluation and improvement per total cost",
+      "stop": "reject unproductive method after screen; change a specific bottleneck before repeating"
+    },
+    {
+      "id": "objectives",
+      "kind": "learning",
+      "required_arms": [
+        "distance",
+        "distance_score",
+        "distance_score_time",
+        "recovery_with_same_time"
+      ],
+      "screen_seconds_per_arm": 300,
+      "screen_seeds": [
+        3201
+      ],
+      "requires": [
+        "validated score and recovery",
+        "distance/pace baseline",
+        "frozen arm parameters and noninferiority margins"
+      ],
+      "gate": "unique score attribution and matched outcome/hacking comparisons",
+      "stop": "do not extend arms that violate declared distance/survival/coverage constraints"
+    },
+    {
+      "id": "one-hour",
+      "kind": "real_qualification",
+      "status": "prospective_framework_not_dispatchable",
+      "framework": "experiments/definitions/cycle-3-learning-efficiency.json",
+      "training_seeds": [
+        3301,
+        3302,
+        3303
+      ],
+      "training_seconds_per_seed": 3600,
+      "checkpoint_minutes": [
+        5,
+        10,
+        20,
+        30,
+        45,
+        60
+      ],
+      "evaluation_executions_per_unique_checkpoint": 20,
+      "maximum_evaluation_executions": 360,
+      "evaluation_batch_wall_seconds": 21600,
+      "long_run_seconds": 900,
+      "threshold_median_real_m": [
+        500,
+        1000,
+        2000
+      ],
+      "target_median_real_m": 2000,
+      "requires": [
+        "development-selected frozen method",
+        "untouched qualification manifest",
+        "specific policy/system-prior protocol",
+        "native reliability and soak evidence",
+        "qualified independent distance readers",
+        "validated earliest-entry command-start receipt",
+        "committed concrete arm source and full accounting manifest"
+      ],
+      "gate": "target status per seed, sampling uncertainty/censoring, full distributions and separate command/evaluation/inherited costs",
+      "stop": "deadline, no extra updates or outcome-selected replacements; publish measured shortfall and incomplete coverage"
+    },
+    {
+      "id": "profiles-and-retention",
+      "kind": "real_adaptation",
+      "additional_vehicle_profiles": 2,
+      "additional_maps": 1,
+      "adaptation_minutes": [
+        0,
+        5,
+        10,
+        30,
+        60
+      ],
+      "requires": [
+        "reference competence",
+        "legitimately accessible content",
+        "profile-specific targets and matched total budget registration"
+      ],
+      "gate": "zero-shot/adaptation/retention across map, vehicle, and pair",
+      "stop": "record content blockers; no purchases; no broad training before reference competence"
+    }
   ],
-  "executions": [],
+  "executions": [
+    {
+      "campaign": "native-instrument",
+      "kind": "read_only_inspection",
+      "run_id": "82bc980b-9c29-4e04-a560-dc9e13b6e9b5",
+      "source_sha": "eae208ee62280726626d7f4b5f9f9a3623934879",
+      "status": "completed",
+      "gameplay_episodes": 0,
+      "counts_as_reliability_session": false
+    },
+    {
+      "campaign": "native-instrument",
+      "kind": "registered_session",
+      "run_id": "915ac38b-ac38-45f1-bc16-7540f5aa2353",
+      "source_sha": "eae208ee62280726626d7f4b5f9f9a3623934879",
+      "status": "failed_before_first_episode",
+      "scheduled_attempts": 12,
+      "not_started": 12,
+      "gameplay_episodes": 0,
+      "counts_as_reliability_session": true,
+      "cause": "target_not_foreground_at_initial_guard"
+    },
+    {
+      "campaign": "engine-screen",
+      "kind": "synthetic_engineering",
+      "run_id": "a88aeae4-ccdf-4f84-a178-bc5e58feebd8",
+      "source_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "protocol": "articulated-engine-pilot-3.0",
+      "status": "failed",
+      "learning_seconds": 0,
+      "real_game_episodes": 0,
+      "finding": "research/findings/F-007-engine-fixture-support-domain.md"
+    },
+    {
+      "campaign": "demonstrations",
+      "kind": "read_only_human_capture",
+      "run_id": "febf6812-0f73-495f-a8a7-34a21a1dddf9",
+      "source_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_partition": "development",
+      "capture_backend": "dxcam",
+      "capture_status": "failed",
+      "capture_stop_reason": "capture_control_or_storage_failure",
+      "captured_frames": 0,
+      "control_samples": 33,
+      "temporally_eligible_pair_candidates": 0,
+      "episode_experience_count": null,
+      "verified_complete_gameplay_episodes": null,
+      "completed_segmented_outcome_records": 0,
+      "counts_as_human_benchmark": false,
+      "counts_as_reliability_session": false,
+      "individual_seal_verified": true,
+      "diagnostic": "research/diagnostics/human-demonstrations-2026-09-12.json",
+      "gameplay_scope": "No accepted image; no gameplay outcome established."
+    },
+    {
+      "campaign": "demonstrations",
+      "kind": "read_only_human_capture",
+      "run_id": "789b59ed-8c97-4cb9-9d97-9b1a4aaba277",
+      "source_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_partition": "development",
+      "capture_backend": "mss",
+      "capture_status": "completed",
+      "capture_stop_reason": "session_time_limit",
+      "captured_frames": 218,
+      "control_samples": 1939,
+      "temporally_eligible_pair_candidates": 63,
+      "episode_experience_count": null,
+      "verified_complete_gameplay_episodes": null,
+      "completed_segmented_outcome_records": 0,
+      "counts_as_human_benchmark": false,
+      "counts_as_reliability_session": false,
+      "individual_seal_verified": true,
+      "diagnostic": "research/diagnostics/human-demonstrations-2026-09-12.json",
+      "gameplay_scope": "Mixed partial attempts and menus; no complete benchmark outcome."
+    },
+    {
+      "campaign": "demonstrations",
+      "kind": "read_only_human_capture",
+      "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+      "source_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_partition": "imitation",
+      "capture_backend": "mss",
+      "capture_status": "failed",
+      "capture_stop_reason": "capture_control_or_storage_failure",
+      "captured_frames": 545,
+      "control_samples": 5866,
+      "temporally_eligible_pair_candidates": 406,
+      "episode_experience_count": null,
+      "verified_complete_gameplay_episodes": null,
+      "completed_segmented_outcome_records": 0,
+      "counts_as_human_benchmark": false,
+      "counts_as_reliability_session": false,
+      "individual_seal_verified": true,
+      "diagnostic": "research/diagnostics/human-demonstrations-2026-09-12.json",
+      "gameplay_scope": "Main attempt paused at reviewed745mHUD and restarted; subsequent0m attempt exited. No natural result observed."
+    }
+  ],
   "scientific_targets_met": false
 }
