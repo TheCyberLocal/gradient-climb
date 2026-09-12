@@ -41,6 +41,18 @@ episode because the target was not foreground. All 12 attempts remain not starte
 it contributes no scored episode or learning result. Source was pinned at
 `eae208ee62280726626d7f4b5f9f9a3623934879` for these attempts.
 
+Registered reliability session 2,
+`1c263031-ac29-4dbc-8fa5-864a2473116a`, completed all twelve natural-ending
+attempts from pinned source `1bbb542c37e5c15f61834e83c00045a102bdd9a5`.
+Its [full attempt and resource review](../../research/diagnostics/native-reliability-002.md)
+records eleven accepted scores, one unknown result and a longest scored streak of
+eight, so the required ten-cycle gate **failed**. Four advertisement recoveries
+used the registered application restart. No manual intervention or unintended
+action was recorded. All attempts parked at Tune; none exercised full-horizon
+truncation. Both pedals ended released, and all 1,953 sealed files verify.
+This uses the second of three allowed reliability sessions; the first failed
+foreground session remains counted. No learning or real competence is claimed.
+
 The integrated regression suite passed **650 tests**, with four optional-engine/
 platform skips and two dependency deprecation warnings. Focused review corrections
 were checked separately. The notebook and dashboard report **zero** qualifying

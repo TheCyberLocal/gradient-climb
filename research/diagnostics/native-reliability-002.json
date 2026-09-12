@@ -1,0 +1,1118 @@
+{
+  "schema_version": "native-reliability-session-interpretation-3.0",
+  "created_at": "2026-09-12T15:38:27.986488+00:00",
+  "run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+  "execution_status": "completed",
+  "reliability_gate": "failed",
+  "scientific_qualification": false,
+  "source": {
+    "git_sha": "1bbb542c37e5c15f61834e83c00045a102bdd9a5",
+    "dirty_worktree": false,
+    "protocol_copies_semantically_equal": true,
+    "protocol_byte_difference": "Observed main checkout CRLF bytes were normalized to exact committed HEAD LF bytes after asserting identical JSON and identical LF-normalized content; no protocol semantics or sealed run bytes changed. Registered hash matches committed and pinned bytes. Protocol was hashed in run configuration but not separately copied into its artifact manifest.",
+    "run": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/run.json",
+      "sha256": "075f934b4ce5bc9ff88df88cfee0e018c2bd5ab8e71ce3b6475a1d3531d7009e",
+      "size_bytes": 864049
+    },
+    "config": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/config.json",
+      "sha256": "88d2e931ab03167e4ffb2a2a57239cc3dc35cba40ddbac39bd4f1066fa19cf61",
+      "size_bytes": 4665
+    },
+    "seal": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/seal.json",
+      "sha256": "3a595ec725bccbf820bee9e318855586521e10886dd6e88b6b2d4eb5a7bf3beb",
+      "size_bytes": 307023
+    },
+    "sealed_file_count": 1953,
+    "verification": {
+      "run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+      "valid": true,
+      "errors": [],
+      "method": "gradientclimb.experiments.verify_run; executed during this interpretation"
+    },
+    "pinned_source_note": "Native process used isolated 1bbb542 checkout; contemporaneous implementation edits were outside that source checkout.",
+    "observed_checkout_line_endings": {
+      "sha256_before_normalization": "c4d4e44a00e91872dd3b250d22c8101a12b7bc844feeab2027b649d3291c35ca",
+      "size_bytes_before_normalization": 10076,
+      "crlf_lines": 119,
+      "record_kind": "observed historical checkout metadata; not a live artifact reference"
+    },
+    "protocol": {
+      "path": "experiments/definitions/cycle-3-native-reliability-2.3.json",
+      "sha256": "a74c9408a2e76802501c54e3ec35bcab23594b075370d18f172fc70f47545953",
+      "size_bytes": 9957
+    },
+    "executed_protocol_sha256": "a74c9408a2e76802501c54e3ec35bcab23594b075370d18f172fc70f47545953",
+    "historical_execution_checkout": "artifacts/cycle3-native-source (location at dispatch only; portable evidence uses the versioned protocol path and source git SHA)"
+  },
+  "study_accounting": {
+    "protocol_version": "native-reliability-2.3",
+    "session_index_one_based": 2,
+    "sessions_used": 2,
+    "maximum_sessions": 3,
+    "remaining_sessions": 1,
+    "previous_session": {
+      "run_id": "915ac38b-ac38-45f1-bc16-7540f5aa2353",
+      "classification": "failed_before_first_episode_target_not_foreground",
+      "scheduled_attempts": 12,
+      "not_attempted": 12,
+      "seal_verified": true
+    },
+    "scheduled_attempts_across_sessions": 24,
+    "attempted_gameplay_episodes_across_sessions": 12,
+    "scored_cycles_across_sessions": 11,
+    "not_attempted_across_sessions": 12,
+    "no_exclusions_or_replacements": true
+  },
+  "gates": {
+    "longest_consecutive_scored_cycles": {
+      "observed": 8,
+      "minimum": 10,
+      "passed": false
+    },
+    "score_coverage": {
+      "scored": 11,
+      "scheduled": 12,
+      "fraction": 0.9166666666666666,
+      "minimum_scored": 10,
+      "passed": true
+    },
+    "unintended_actions": {
+      "observed": 0,
+      "maximum": 0,
+      "passed": true,
+      "definition": "Allowlisted named controls and no latched foreground loss within five seconds after an accepted click"
+    },
+    "manual_interventions": {
+      "observed": 0,
+      "maximum": 0,
+      "passed": true,
+      "scope": "Recorded session declaration; operator left session unattended"
+    }
+  },
+  "coverage": {
+    "classifications": {
+      "success_natural_scored": 11,
+      "success_unscored": 1
+    },
+    "terminal_causes": {
+      "driver_down": 8,
+      "out_of_fuel": 4
+    },
+    "natural_terminations": 12,
+    "full_horizon_truncations": 0,
+    "requested_episode_horizon_seconds": 60,
+    "parked_at_tune": 12,
+    "not_attempted": 0,
+    "scripted_policy_attempts": {
+      "always_gas": 6,
+      "random": 6
+    },
+    "scripted_gameplay_action_dispatches": 3292,
+    "gameplay_observations": 3292,
+    "accepted_gameplay_hud_observations": 3292,
+    "learning_steps": 0,
+    "optimizer_updates": 0,
+    "learned_policy_decisions": 0,
+    "canonical_environment_steps": 0,
+    "canonical_environment_steps_scope": "Legacy session field remains zero; independently counted scripted real action dispatches above are not training steps",
+    "long_horizon_coverage": "Absent; all attempts ended naturally before 60 seconds. No pause-at-full-horizon or 900-second competence coverage."
+  },
+  "attempts": [
+    {
+      "index": 0,
+      "policy": "always_gas",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.8641012000007322,
+      "park_reset_seconds": 76.91083489999437,
+      "attempt_seconds": 94.39546720000362,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result",
+        "decline_bonus_offer"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 441,
+      "unknown_frames": 83,
+      "app_restarts": 1,
+      "restarts": [
+        {
+          "index": 1,
+          "ok": true,
+          "phase": "park",
+          "reason": "RuntimeError: Advertisement without legitimate control persisted; no click",
+          "seconds": 26.887692800002696,
+          "settled_state": "tune"
+        }
+      ],
+      "parked_via_restart": true,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 16.620403900000383,
+      "frames": 169,
+      "actions_dispatched": 169,
+      "accepted_hud_frames": 169,
+      "observed_hud_max": 236,
+      "distance": 237,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-000/summary.json",
+        "sha256": "4d5d0d51a90b2a98f34d1ff79c26687da280fa18557ec0bb22b5c2be7d456829",
+        "size_bytes": 7565
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.18637075
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 1,
+      "policy": "random",
+      "classification": "success_natural_scored",
+      "terminal_cause": "out_of_fuel",
+      "parked_state": "tune",
+      "start_reset_seconds": 2.187750099998084,
+      "park_reset_seconds": 5.052581600000849,
+      "attempt_seconds": 52.27867239999614,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 19,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 45.03793189999851,
+      "frames": 433,
+      "actions_dispatched": 433,
+      "accepted_hud_frames": 433,
+      "observed_hud_max": 5,
+      "distance": 5,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-001/summary.json",
+        "sha256": "b0d8a3252a492a44ec7f985c1f3f8c3267934627535b5c91c5972dddd0e9b745",
+        "size_bytes": 6262
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.2180881
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 2,
+      "policy": "always_gas",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.9727351000037743,
+      "park_reset_seconds": 5.486125999996148,
+      "attempt_seconds": 23.192893500003265,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result",
+        "decline_bonus_offer"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 26,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 16.73392420000164,
+      "frames": 162,
+      "actions_dispatched": 162,
+      "accepted_hud_frames": 162,
+      "observed_hud_max": 223,
+      "distance": 224,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-002/summary.json",
+        "sha256": "cd1072a96a4e61953ac79835d4e7ea1613e6b132d55dfd418c0a8a97a25974fe",
+        "size_bytes": 6478
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.4797224
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 3,
+      "policy": "random",
+      "classification": "success_natural_scored",
+      "terminal_cause": "out_of_fuel",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.9590306999962195,
+      "park_reset_seconds": 73.2486871000001,
+      "attempt_seconds": 120.59299669999746,
+      "menu_clicks": [
+        "start_episode",
+        "continue_result"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 21,
+      "unknown_frames": 491,
+      "app_restarts": 1,
+      "restarts": [
+        {
+          "index": 2,
+          "ok": true,
+          "phase": "park",
+          "reason": "RuntimeError: Unrecognized advertisement; no click",
+          "seconds": 23.634352100001706,
+          "settled_state": "tune"
+        }
+      ],
+      "parked_via_restart": true,
+      "unintended_action": null,
+      "reason": "observed_result",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 46.38508500000171,
+      "frames": 459,
+      "actions_dispatched": 459,
+      "accepted_hud_frames": 459,
+      "observed_hud_max": 1,
+      "distance": 1,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-003/summary.json",
+        "sha256": "89133e9843a9ad3ac0d8dedd4ec6a093c9a5500964b6949103f7f19241404a83",
+        "size_bytes": 7138
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.36342985
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 4,
+      "policy": "always_gas",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 2.2264949000018532,
+      "park_reset_seconds": 6.504136199997447,
+      "attempt_seconds": 25.521138700001757,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result",
+        "decline_bonus_offer"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 26,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 16.790367599998717,
+      "frames": 173,
+      "actions_dispatched": 173,
+      "accepted_hud_frames": 173,
+      "observed_hud_max": 208,
+      "distance": 208,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-004/summary.json",
+        "sha256": "007180d58803c932a5526ffec9d7031ff4243e7b69fbe03d3b62046722e9ee6a",
+        "size_bytes": 6480
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.18339225
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 5,
+      "policy": "random",
+      "classification": "success_natural_scored",
+      "terminal_cause": "out_of_fuel",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.9457578999936231,
+      "park_reset_seconds": 4.200188599999819,
+      "attempt_seconds": 50.194665499999246,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 17,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 45.04837669999688,
+      "frames": 448,
+      "actions_dispatched": 448,
+      "accepted_hud_frames": 448,
+      "observed_hud_max": 1,
+      "distance": 1,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-005/summary.json",
+        "sha256": "0bc11fb67fee2eb1811adc2f12bc96d5909a50ff5d4d9a83f4872944503504dc",
+        "size_bytes": 6204
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.41247305
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 6,
+      "policy": "always_gas",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.9547079999974812,
+      "park_reset_seconds": 76.97867000000406,
+      "attempt_seconds": 105.63661599999614,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result",
+        "decline_bonus_offer"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 16,
+      "unknown_frames": 483,
+      "app_restarts": 1,
+      "restarts": [
+        {
+          "index": 3,
+          "ok": true,
+          "phase": "park",
+          "reason": "RuntimeError: Unrecognized advertisement; no click",
+          "seconds": 24.387621499998204,
+          "settled_state": "tune"
+        }
+      ],
+      "parked_via_restart": true,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 27.702759700005117,
+      "frames": 275,
+      "actions_dispatched": 275,
+      "accepted_hud_frames": 275,
+      "observed_hud_max": 332,
+      "distance": 332,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-006/summary.json",
+        "sha256": "c3bf861a45e437f4a85556b3a0926714be61568a238414974eaf5b589fbd6c2c",
+        "size_bytes": 7492
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.3450586
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 7,
+      "policy": "random",
+      "classification": "success_natural_scored",
+      "terminal_cause": "out_of_fuel",
+      "parked_state": "tune",
+      "start_reset_seconds": 2.2540207999991253,
+      "park_reset_seconds": 5.027795000001788,
+      "attempt_seconds": 52.331316699994204,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 21,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 45.049149400001625,
+      "frames": 444,
+      "actions_dispatched": 444,
+      "accepted_hud_frames": 444,
+      "observed_hud_max": 15,
+      "distance": 15,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-007/summary.json",
+        "sha256": "7ff37d3dbf15abe9be37cf4668e79f3dbc4e2cd3fdefdda3dea8db236a97b080",
+        "size_bytes": 6401
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.18544525
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 8,
+      "policy": "always_gas",
+      "classification": "success_unscored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.9696928000048501,
+      "park_reset_seconds": 5.513628000000608,
+      "attempt_seconds": 24.06028630000219,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result",
+        "decline_bonus_offer"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 28,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 17.57682979999663,
+      "frames": 177,
+      "actions_dispatched": 177,
+      "accepted_hud_frames": 177,
+      "observed_hud_max": 269,
+      "distance": null,
+      "score_semantics": "HUD diagnostic only; qualified terminal-distance reader required",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-008/summary.json",
+        "sha256": "ded230c7c87f6fd9ad475b106f0650bdf345ecd98660272ab9e8f73a86ee0079",
+        "size_bytes": 13773
+      },
+      "terminal_read_attempts": 12,
+      "valid_terminal_readings": 0,
+      "terminal_read_failure_reasons": {
+        "Unrecognized or ambiguous HUD glyph": 12
+      },
+      "accepted_agreement_intervals_seconds": [],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 9,
+      "policy": "random",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.8836068999953568,
+      "park_reset_seconds": 74.64757799999643,
+      "attempt_seconds": 91.04223749999801,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 21,
+      "unknown_frames": 494,
+      "app_restarts": 1,
+      "restarts": [
+        {
+          "index": 4,
+          "ok": true,
+          "phase": "park",
+          "reason": "RuntimeError: Unrecognized advertisement; no click",
+          "seconds": 23.4611775999947,
+          "settled_state": "tune"
+        }
+      ],
+      "parked_via_restart": true,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 15.510915099999693,
+      "frames": 155,
+      "actions_dispatched": 155,
+      "accepted_hud_frames": 155,
+      "observed_hud_max": 4,
+      "distance": 4,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-009/summary.json",
+        "sha256": "264206a2dca0998dec8958c82aec961686b76e9d3c6651ee4f024bf5f71c0f58",
+        "size_bytes": 7217
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.17767975
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 10,
+      "policy": "always_gas",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 2.039463999994041,
+      "park_reset_seconds": 6.333934199996293,
+      "attempt_seconds": 31.635373099998105,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result",
+        "decline_bonus_offer"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 26,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 23.2617637000003,
+      "frames": 245,
+      "actions_dispatched": 245,
+      "accepted_hud_frames": 245,
+      "observed_hud_max": 292,
+      "distance": 292,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-010/summary.json",
+        "sha256": "2ff904c932df57dc44efd85bd55067a925f5d3f389cc62dbb655c1f77a6be2f1",
+        "size_bytes": 6496
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.1889182
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    },
+    {
+      "index": 11,
+      "policy": "random",
+      "classification": "success_natural_scored",
+      "terminal_cause": "driver_down",
+      "parked_state": "tune",
+      "start_reset_seconds": 0.8858695000017178,
+      "park_reset_seconds": 4.201395199997933,
+      "attempt_seconds": 20.23495090000506,
+      "menu_clicks": [
+        "start_episode",
+        "decline_revive_offer",
+        "continue_result"
+      ],
+      "advertisement_closes": 0,
+      "advertisement_frames": 0,
+      "unknown_frames": 21,
+      "app_restarts": 0,
+      "restarts": [],
+      "parked_via_restart": false,
+      "unintended_action": null,
+      "reason": "observed_revive_offer",
+      "requested_horizon_seconds": 60.0,
+      "observed_seconds": 15.147504100001242,
+      "frames": 152,
+      "actions_dispatched": 152,
+      "accepted_hud_frames": 152,
+      "observed_hud_max": 4,
+      "distance": 4,
+      "score_semantics": "two agreeing fresh right-side result-field readings at least 0.15s apart",
+      "error": null,
+      "source": {
+        "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/episode-011/summary.json",
+        "sha256": "8178ec9e5eb50deeb640166f0abcdc9b6699d3bfa9f9deadf4e9313a24fd0ced",
+        "size_bytes": 6283
+      },
+      "terminal_read_attempts": 3,
+      "valid_terminal_readings": 3,
+      "terminal_read_failure_reasons": {},
+      "accepted_agreement_intervals_seconds": [
+        0.18471025
+      ],
+      "canonical_stale_capture_counter": 1,
+      "stale_capture_counter_scope": "cumulative_session_counter_not_per_attempt"
+    }
+  ],
+  "unscored_attempt": {
+    "index": 8,
+    "distance": null,
+    "terminal_readings": 12,
+    "valid_terminal_readings": 0,
+    "reason": "Unrecognized or ambiguous HUD glyph",
+    "source_best_similarity_values": [
+      0.933115823817292
+    ],
+    "numeric_exhaustion": [
+      {
+        "timestamp_ns": 57844867623550,
+        "attempts": 12,
+        "reason": "Bounded numeric read attempts exhausted; distance remains unknown"
+      }
+    ],
+    "observed_hud_max": 269,
+    "hud_not_substituted_for_terminal_score": true,
+    "posthoc_pixel_diagnosis": {
+      "scope": "Construction-only after outcome inspection; no replacement score or heldout accuracy claim",
+      "visually_transcribed_result": 269,
+      "terminal_state": "DRIVER DOWN",
+      "frames": [
+        {
+          "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/terminal-024.png",
+          "sha256": "7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da",
+          "size_bytes": 240616
+        },
+        {
+          "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/terminal-035.png",
+          "sha256": "2ff72adc6b32ed8ca23d9f2310f7b650bde1bf89f4ef53c838e7b202ffdf18f3",
+          "size_bytes": 264941
+        }
+      ],
+      "middle_visible_glyph": "6",
+      "top_template_scores": {
+        "9": 0.933115823817292,
+        "0": 0.9205834683954619,
+        "8": 0.9181380417335474,
+        "6": 0.9168026101141925
+      },
+      "observed_class_margin": 0.012532355421830066,
+      "required_margin": 0.04,
+      "minimum_similarity": 0.84,
+      "consequence_of_lowering_margin": "Would accept the erroneous reading 299; not a valid correction",
+      "reviewer_scope": "Measurement subagent inspected both images and replayed the frozen 58-glyph bank; accepted readings in the other eleven attempts visually agree on individually inspected result frames"
+    }
+  },
+  "lifecycle": {
+    "reliability_summary_as_recorded": {
+      "advertisement_closes": 0,
+      "advertisement_encounters": 4,
+      "app_restarts": 4,
+      "attempts_completed": 12,
+      "attempts_requested": 12,
+      "classifications": {
+        "success_natural_scored": 11,
+        "success_unscored": 1
+      },
+      "longest_consecutive_scored_successes": 8,
+      "manual_interventions": 0,
+      "not_attempted": 0,
+      "restart_failures": 0,
+      "restart_recovery_enabled": true,
+      "unintended_action_evidence": "no latched foreground loss within 5 s of any accepted click; every click is an allowlisted named control (menu-transitions)",
+      "unintended_action_window_seconds": 5.0,
+      "unintended_actions": 0
+    },
+    "app_restarts": [
+      {
+        "reason": "park: RuntimeError: Advertisement without legitimate control persisted; no click",
+        "started_ns": 57331973969700,
+        "completed_ns": 57358861651300,
+        "closed": true,
+        "hidden_seconds": 0.5002227000004495,
+        "launched": true,
+        "visible_seconds": 7.0052230000001146,
+        "settled_state": "tune",
+        "settled_seconds": 19.102516599996306,
+        "error": null,
+        "wall_seconds": 26.8876816
+      },
+      {
+        "reason": "park: RuntimeError: Unrecognized advertisement; no click",
+        "started_ns": 57542541860600,
+        "completed_ns": 57566176201400,
+        "closed": true,
+        "hidden_seconds": 0.5002342000007047,
+        "launched": true,
+        "visible_seconds": 5.004685899999458,
+        "settled_state": "tune",
+        "settled_seconds": 18.099614600003406,
+        "error": null,
+        "wall_seconds": 23.6343408
+      },
+      {
+        "reason": "park: RuntimeError: Unrecognized advertisement; no click",
+        "started_ns": 57737399385400,
+        "completed_ns": 57761786994600,
+        "closed": true,
+        "hidden_seconds": 0.5003096999935224,
+        "launched": true,
+        "visible_seconds": 5.504618000006303,
+        "settled_state": "tune",
+        "settled_seconds": 18.352910800000245,
+        "error": null,
+        "wall_seconds": 24.3876092
+      },
+      {
+        "reason": "park: RuntimeError: Unrecognized advertisement; no click",
+        "started_ns": 57917949801600,
+        "completed_ns": 57941410971500,
+        "closed": true,
+        "hidden_seconds": 0.5008256999935838,
+        "launched": true,
+        "visible_seconds": 5.004013600002509,
+        "settled_state": "tune",
+        "settled_seconds": 17.922496899998805,
+        "error": null,
+        "wall_seconds": 23.4611699
+      }
+    ],
+    "restart_wall_seconds_total": 98.3708015,
+    "restart_wall_seconds_median": 24.010975000000002,
+    "restart_cost_scope": "Subset of park_reset_seconds and total recorder wall, never additive to them",
+    "advertisement_frames": 499,
+    "unknown_reset_frames": 1735,
+    "accepted_named_menu_clicks": 41,
+    "menu_names": {
+      "start_episode": 12,
+      "decline_revive_offer": 11,
+      "continue_result": 12,
+      "decline_bonus_offer": 6
+    },
+    "os_menu_event_insertions": 164,
+    "requested_pedal_leases": 3292,
+    "lease_duration_seconds_range": [
+      0.4,
+      0.4
+    ],
+    "pedal_transition_batches": 1616,
+    "pedal_requested_events": 2168,
+    "pedal_reported_inserted_events": 2168,
+    "short_pedal_insertions": 0,
+    "reconstructed_final_pedal_states": {
+      "brake": false,
+      "gas": false
+    },
+    "input_delivery_scope": "OS insertion counts and reconstructed requested key state; game interpretation is not directly measured",
+    "capture_discards": [
+      {
+        "started_ns": 57263939854500,
+        "completed_ns": 57264388955700,
+        "timestamp_ns": 57264164405100,
+        "utc_started_at": "2026-09-12T15:15:20.116734+00:00",
+        "source_rect": {
+          "left": 547,
+          "top": 292,
+          "width": 2581,
+          "height": 1449
+        },
+        "backend": "dxcam",
+        "width": 1034,
+        "height": 581,
+        "capture_latency_ms": 449.1012,
+        "total_latency_ms": 470.919,
+        "discarded": true,
+        "reason": "Capture exceeded maximum observation age"
+      }
+    ],
+    "capture_discard_count": 1,
+    "latched_guard_faults": 0,
+    "guard_reasons": [
+      {
+        "reason": "Discarded stale capture; acquiring fresh frame",
+        "latched": false,
+        "count": 1
+      },
+      {
+        "reason": "Awaiting expected transition; no input while unknown",
+        "latched": false,
+        "count": 32
+      },
+      {
+        "reason": "Fresh PLAYING observation",
+        "latched": false,
+        "count": 12
+      },
+      {
+        "reason": "Result callback requests another fresh observation",
+        "latched": false,
+        "count": 14
+      },
+      {
+        "reason": "Recognized result; Continue text unavailable; waiting",
+        "latched": false,
+        "count": 31
+      },
+      {
+        "reason": "Previously recognized result; no-input transient wait",
+        "latched": false,
+        "count": 25
+      },
+      {
+        "reason": "Known advertisement; close unavailable; waiting",
+        "latched": false,
+        "count": 5
+      },
+      {
+        "reason": "Unknown ad phase; bounded wait without input",
+        "latched": false,
+        "count": 4
+      }
+    ]
+  },
+  "costs": {
+    "recorder_wall_seconds": 746.2852949000007,
+    "observed_session_seconds": 745.3671515999959,
+    "gameplay_loop_seconds": 330.86501110000245,
+    "start_reset_seconds_total": 16.14323189998686,
+    "park_reset_seconds_total": 344.10555479998584,
+    "attempt_seconds_total": 691.1166144999952,
+    "session_seconds_outside_attempt_timers": 54.250537100000656,
+    "recorder_seconds_outside_session_timer": 0.9181433000048855,
+    "median_start_reset_seconds": 0.9643617500005348,
+    "median_park_reset_seconds": 5.92378109999845,
+    "full_command_elapsed_seconds": null,
+    "full_command_missing_reason": "No command-entry receipt in pinned runner; imports and preceding discovery/provenance/setup are not retrospectively timed",
+    "resources": {
+      "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+      "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+      "energy_measured": false,
+      "final_sample_elapsed_seconds": 746.2850675000009,
+      "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+      "gpu_query_count": 75,
+      "gpu_query_failures": 0,
+      "gpus": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+          "scope": "device_wide_all_processes; not_policy_attributed",
+          "utilization_equivalent_seconds": 181.60301039950292,
+          "utilization_percent": {
+            "coverage_fraction": 0.9999346548947137,
+            "covered_seconds": 745.9413283999966,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 51.0,
+            "time_weighted_sampled_mean": 24.34548180740052,
+            "uncovered_seconds": 0.04874680000648368,
+            "valid_samples": 75
+          },
+          "vram_bytes": {
+            "coverage_fraction": 0.9999346548947137,
+            "covered_seconds": 745.9413283999966,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 1034944512.0,
+            "time_weighted_sampled_mean": 885920037.526306,
+            "uncovered_seconds": 0.04874680000648368,
+            "valid_samples": 75
+          }
+        }
+      ],
+      "initial_sample_elapsed_seconds": 0.29499229999782983,
+      "max_interpolation_gap_seconds": 30.0,
+      "memory": {
+        "host_ram_used_bytes": {
+          "coverage_fraction": 0.9999284322918209,
+          "covered_seconds": 745.9366863999967,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 35491794944.0,
+          "time_weighted_sampled_mean": 34547294637.60412,
+          "uncovered_seconds": 0.053388800006359816,
+          "valid_samples": 735
+        },
+        "process_rss_bytes": {
+          "coverage_fraction": 0.9999284797455457,
+          "covered_seconds": 745.9367218000043,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 676347904.0,
+          "time_weighted_sampled_mean": 524442585.4199774,
+          "uncovered_seconds": 0.053353399998741224,
+          "valid_samples": 735
+        }
+      },
+      "nonmonotonic_samples_excluded": 0,
+      "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+      "process_cpu": {
+        "core_seconds": 981.765625,
+        "counter_resets": 0,
+        "coverage_fraction": 0.9999284655362404,
+        "covered_seconds": 745.9367112000036,
+        "identity_changes": 0,
+        "long_gap_intervals_bridged_by_cumulative_counters": 0,
+        "method": "measured_cumulative_user_plus_system_counter_differences",
+        "missing_samples": 0,
+        "observed_segment_delta_seconds": 981.765625,
+        "scope": "recorder_process_all_threads; excludes_child_processes",
+        "status": "observed",
+        "uncovered_seconds": 0.05336399999941932,
+        "valid_samples": 735,
+        "observed_process_identity_count": 1
+      },
+      "sample_count": 735,
+      "sample_span_seconds": 745.990075200003,
+      "samples_with_errors": 0,
+      "version": "resources-3.0"
+    },
+    "resource_scope_note": "Recorder process CPU includes all its threads, excludes game/emulator and child processes. GPU utilization and VRAM are whole-device activity including the game and other applications; no learned-policy attribution or energy measurement. Sampled peaks can miss brief peaks.",
+    "private_identifier_scope": "GPU UUID and recorder PID/create-time identifiers remain only in the private canonical source; this public interpretation retains device name and aggregate identity-change/coverage counts."
+  },
+  "configuration_scope": {
+    "expected_vehicle": "Hill Climber",
+    "expected_map": "Countryside",
+    "vehicle_and_map_names_independently_verified_in_this_session": false,
+    "upgrade_level_observation": "Owner-coordinated preflight cc063f1c observed Tune levels 13/13,14/14,16/16,10/10; vehicle/map names were not visible in Tune",
+    "capture_backend": "dxcam",
+    "random_seed": 4401,
+    "checkpoint_hash": null,
+    "implementation_inputs": {
+      "ui_profile_sha256": "c89acfc6afdb1ed0e7de53731ce051ddb99abdfc4dabea554d25d0de1c94c677",
+      "measurement_profile_sha256": "8c3a731e415d3a0b53c07b214054c848c10c42aa92fbcfa728cac9648da48b54",
+      "hud_manifest_sha256": "e6a1696dbff5df17c918138add8ad7eac915454c4970854b00545fd069d6212d",
+      "result_reader_sha256": "bbe38e7800c12d9d861e93832cd53ca6bc7aa34b6949438bc5291c19f562847e",
+      "screen_schema_id": "f144123b15edd1dad4d05879aa06e18508cd438cbbdb59837762a3dae2bf509c"
+    }
+  },
+  "prior_scope": {
+    "classes": [
+      "engineered_native_lifecycle_and_guards",
+      "frozen_UI_and_score_reader_construction"
+    ],
+    "policy_weight_prior_roots": [],
+    "prior_development_cpu_and_elapsed_seconds": null,
+    "missing_reason": "Inherited implementation, calibration/reference collection and reader-development costs are not fully measured; reliability construction is not a cold-start learning claim"
+  },
+  "interpretation_limits": [
+    "Execution completed but the registered consecutive-scored-cycle gate failed.",
+    "One serial scripted session, six alternating attempts per control; no selected learner comparison or trained policy.",
+    "Canonical pooled distance CI has a generic one-trained-policy label that does not apply here; this interpretation does not use that interval or pooled median as a learning result.",
+    "All four advertisement encounters recovered by registered application restart; zero in-game ad closes exercised.",
+    "Repeated per-attempt stale_captures values are cumulative; source trace has one discarded frame.",
+    "Unknown scores stay unknown and every scheduled attempt remains accounted for.",
+    "No full-horizon truncation, long-run soak, independent reader qualification, human benchmark or learned competence established."
+  ],
+  "evidence": {
+    "app-restarts.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/app-restarts.json",
+      "sha256": "ffb3eaded903f2455b0f178983cc498e9951c392b670dcbd045584c0ebb9d8eb",
+      "size_bytes": 2154
+    },
+    "numeric-score-exhaustions.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/numeric-score-exhaustions.json",
+      "sha256": "1357b074d41db35b19723c7f4b70d78a54e00e72e8216e346b733661957c7831",
+      "size_bytes": 157
+    },
+    "capture-diagnostics.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/capture-diagnostics.json",
+      "sha256": "4cec77eb65a72c6d6e2ae3189d705f8b9837467db1e2ecc228d9d43e82fa132c",
+      "size_bytes": 515
+    },
+    "guard-diagnostics.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/guard-diagnostics.json",
+      "sha256": "99e0353effbaf1dcf50d8a7ced931f2ce4b914d09bb59032e37c1dd28aa76daf",
+      "size_bytes": 17130
+    },
+    "menu-transitions.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/menu-transitions.json",
+      "sha256": "f9d73aa0f98353894bc7d8a33abbb98d26c1106fa936516ea8afb3ab8179f223",
+      "size_bytes": 22081
+    },
+    "os-menu-transitions.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/os-menu-transitions.json",
+      "sha256": "c3c89779fb6c3be7505d347a59c14f3672e21ddc31743c95d3cf63ed6e87b110",
+      "size_bytes": 14625
+    },
+    "requested-pedal-leases.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/requested-pedal-leases.json",
+      "sha256": "547869fa798272c6e2366b6b73394e69f4a8c8c3834c957de3ce6f161afd242f",
+      "size_bytes": 381856
+    },
+    "os-pedal-transitions.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/os-pedal-transitions.json",
+      "sha256": "c1ed47c8463fda9a011d64ea08965c864ed4c0ddc1728639d24607a2f4c80640",
+      "size_bytes": 586717
+    },
+    "host-budget.json": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/host-budget.json",
+      "sha256": "a670d412a137f1460936b9dd39d2db5d487d0dfaa8f1b637959b83cf53892ac7",
+      "size_bytes": 111459
+    },
+    "telemetry.jsonl": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/telemetry.jsonl",
+      "sha256": "820da57d5b4e947a797b3033d1d7a7682c8a426a6ebb736fd2acc73cc1a5404e",
+      "size_bytes": 782680
+    }
+  }
+}
