@@ -9,7 +9,9 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 
+from gradientclimb.dashboard.efficiency_report import compare_reports
 from gradientclimb.experiments import connect_database, load_run, query_metrics, verify_run
+from gradientclimb.experiments.efficiency import load_studies
 
 
 def _rows(connection, sql: str, parameters: list[Any] | None = None) -> list[dict]:
@@ -105,6 +107,22 @@ def create_app(root: str | Path = "artifacts") -> FastAPI:
                 **aggregates,
                 "source": "Canonical run records and Parquet, queried through DuckDB",
             }
+
+    @app.get("/api/learning-efficiency")
+    def learning_efficiency():
+        try:
+            return load_studies(artifact_root)
+        except (ValueError, OSError) as error:
+            raise HTTPException(
+                status_code=409,
+                detail="Cycle 3 efficiency evidence could not be validated; "
+                "no efficiency claims are available from this request.",
+            ) from error
+
+    @app.get("/api/learning-efficiency/snapshot")
+    def learning_efficiency_snapshot():
+        reports = learning_efficiency()
+        return {"studies": reports, "comparisons": compare_reports(reports)}
 
     @app.get("/api/analytics/{view}")
     def analytics(

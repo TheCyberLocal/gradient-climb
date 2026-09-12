@@ -1,12 +1,13 @@
 "use strict";
 
 // Every displayed observation comes from the local canonical experiment API.
-const state = {runs: [], metrics: [], evaluations: [], resources: [], controls: [], view: "overview", metric: "", axis: "elapsed_seconds", search: "", sort: "start_time", simulator: "", minimumDuration: 0, after: "", threshold: "", resourcesTruncated: false, controlsTruncated: false};
+const state = {runs: [], metrics: [], evaluations: [], resources: [], controls: [], efficiency: [], efficiencyComparisons: [], efficiencyError: "", efficiencyStudy: "", efficiencyLoaded: false, view: "overview", metric: "", axis: "elapsed_seconds", search: "", sort: "start_time", simulator: "", minimumDuration: 0, after: "", threshold: "", resourcesTruncated: false, controlsTruncated: false};
 const palette = ["#248a6b", "#7f94b8", "#cb9c57", "#a47ca4", "#6ba6aa", "#aab568", "#cc7e73", "#657d60", "#7585b9", "#b39582", "#73ac91", "#985e78"];
 const titles = {
   overview: ["Learning, measured.", "Track quality, experience and time from reproducible experiment records.", "Overview"],
   runs: ["Every result has a history.", "Inspect source, configuration, compute, checkpoints and model ancestry.", "Runs & lineage"],
   learning: ["The learning-efficiency frontier.", "Compare quality with elapsed time, experience and measured resource use.", "Learning & efficiency"],
+  "real-efficiency": ["Real competence efficiency.", "Real capability determines value. Experience, compute cost and elapsed time remain separate.", "Real competence efficiency"],
   benchmark: ["One hour. A governed test.", "Checkpoint evidence remains separate from longer training and real-game qualification.", "One-hour benchmark"],
   transfer: ["Beyond the training condition.", "Inspect held-out vehicle and map behavior, adaptation and the sim-to-real gap.", "Transfer & adaptation"],
   controls: ["Observe the dynamics.", "Inspect independent pedal channels, action order and calibration evidence.", "Controls & calibration"]
@@ -218,12 +219,70 @@ function controls(data) {
   const calibration=calibrationMetrics.length?table(["Run","Error measurement","Value","Step"],calibrationMetrics.map(row=>[byId(row.run_id)?runButton(byId(row.run_id)):esc(row.run_id),esc(metricLabel(row.name)),num(row.value,4),esc(row.step)])):empty("Simulator calibration not measured","A simulator with no held-out real trajectory error remains an uncalibrated surrogate.");
   return `<div class="grid">${panel("Recorded pedal commands","Gas and brake are independent. Hover a sample for its requested state and dispatch timestamp.",traces,state.controlsTruncated?"First 10,000 trajectory rows":"Canonical trajectories")}${panel("Observed pedal-state distribution","Counts are taken from complete evaluation records. They are not a scripted control policy.",actionTable)}${panel("Calibration and held-out trajectory error","Source trajectories, fitted parameters and validation errors must be linked through a calibration record.",calibration+ (artifacts.length?table(["Run","Artifact","Hash"],artifacts.map(({run,artifact})=>[runButton(run),esc(artifact.path),esc(artifact.sha256.slice(0,16))])):""))}</div>`;
 }
+const efficiencyCostLabels = {
+  cpu_core_seconds:"CPU core-seconds",gpu_utilization_equivalent_seconds:"GPU utilization-equivalent seconds",
+  simulator_transitions:"Simulator transitions",simulator_episodes:"Simulator episodes",simulator_seconds:"Simulated seconds",
+  physics_steps:"Physics steps",rendered_frames:"Rendered frames",policy_decisions:"Policy decisions",optimizer_updates:"Optimizer updates",
+  real_game_interaction_seconds:"Real-game interaction seconds",real_game_episodes:"Real-game episodes",
+  data_generation_cpu_core_seconds:"Data-generation CPU core-seconds",data_generation_gpu_utilization_equivalent_seconds:"Data-generation GPU utilization-equivalent seconds"
+};
+const efficiencyStatus = {reached:"Reached",right_censored:"Right censored",not_evaluable:"Not evaluable"};
+const efficiencySeconds = value => finite(value) ? `${num(value,6)} s` : "Not measured";
+function efficiencyCostTable(point) {
+  return table(["Resource or experience","Own","Prior","Combined"],Object.entries(efficiencyCostLabels).map(([key,label])=>[esc(label),...['own_cost','prior_cost','combined_cost'].map(scope=>num(point[scope]?.[key],6))]));
+}
+function efficiencySelection() { return state.efficiency.filter(report=>!state.efficiencyStudy||report.study_id===state.efficiencyStudy); }
+function realEfficiency() {
+  if(!state.efficiencyLoaded)return panel("Reading efficiency evidence","Waiting for the canonical study snapshot.",empty("Evidence loading","An empty result has not yet been established."));
+  if(state.efficiencyError)return panel("Efficiency evidence unavailable","Historical views remain independently available.",empty("Could not validate efficiency evidence",state.efficiencyError));
+  const reports=efficiencySelection();
+  const select=`<div class="local-controls"><label>Study<select id="efficiency-study"><option value="">All registered studies</option>${state.efficiency.map(report=>`<option value="${esc(report.study_id)}"${state.efficiencyStudy===report.study_id?' selected':''}>${esc(report.study_id)}</option>`).join('')}</select></label></div>`;
+  const scopeNote=`<div class="notice">This view uses each study's frozen population. The study selector changes displayed records; it does not recompute outcomes or the registered comparison cohorts. Episodes measure experience, compute measures cost, and elapsed time measures rapidity. Missing values remain unknown.</div>`;
+  if(!state.efficiency.length)return panel("Real competence efficiency is not yet measured","Validated Cycle 3 study envelopes are required.",empty("No validated efficiency studies","Historical simulation curves do not establish real-game competence. They remain available in Learning & efficiency."));
+  const errors=reports.filter(report=>report.error).map(report=>panel(`Evidence validation failed · ${report.study_id}`,"No competence or efficiency claim is available for this record.",`<div class="notice">${esc(report.error)}</div>`)).join('');
+  const studies=reports.filter(report=>!report.error);
+  const rows=studies.flatMap(report=>report.thresholds.map(point=>[
+    `${esc(report.study_id)}<span class="model-qualifier">${esc(report.profile_id)} · ${esc(report.prior_class)} · ${esc(report.protocol_id)}</span>`,
+    `${num(point.threshold_m)} m`,esc(efficiencyStatus[point.status]||point.status),efficiencySeconds(point.time_seconds),
+    efficiencySeconds(point.interval_lower_seconds),efficiencySeconds(point.censor_seconds),efficiencySeconds(point.budget_seconds),
+    esc(point.checkpoint_sha256||"Not measured")
+  ]));
+  const thresholdTable=panel("Time to real competence","The first observed passing frozen checkpoint bounds acquisition time. Censor support ends at the last eligible evaluation, which can precede the declared budget.",rows.length?table(["Study / frozen cohort","Threshold","Status","Reached at · own elapsed","Earlier evaluation","Censor support","Declared budget","Checkpoint SHA-256"],rows):empty("Thresholds not evaluable","The visible source errors must be resolved before evaluating these studies."));
+  const series=studies.slice(0,12).map((report,index)=>({name:`${report.study_id} · ${report.profile_id} · ${report.prior_class}`,color:palette[index%palette.length],points:(report.checkpoint_curve||[]).map(point=>({x:point.time_seconds,y:point.median_distance_m}))}));
+  const curve=panel("Independently evaluated checkpoints","Dots show recorded median real-game distance at each eligible frozen checkpoint. No interpolation or monotonic learning is assumed; protocol and profile define comparability.",chart(series,{scatter:true,xLabel:"Own command-start elapsed seconds",yLabel:"Median real-game distance (m)"}),studies.length>12?"First 12 studies plotted · export includes all":"Canonical checkpoint observations");
+  const detail=studies.map(report=>{
+    const warnings=(report.warnings||[]).map(warning=>`<li>${esc(warning)}</li>`).join('');
+    const identity=table(["Definition","Recorded value"],[
+      ["Prior class",esc(report.prior_class)],["Profile / protocol",`${esc(report.profile_id)} / ${esc(report.protocol_id)}`],
+      ["Real scenario SHA-256",esc(report.scenario_sha256||"Not measured")],["Comparison contract SHA-256",esc(report.comparison_contract_sha256||"Not measured")],
+      ["Evaluation split",esc(report.evaluation_split)],["Compute comparison scope",esc(report.compute_comparison_scope)],
+      ["Wall-clock boundary",esc(report.wall_clock_boundary)],["Lineage complete",report.lineage_complete?"Yes":"No"],
+      ["Provenance",esc(report.provenance_status||"Not measured")]
+    ]);
+    const clocks=table(["Checkpoint","Own elapsed","Verification elapsed","Evaluation elapsed","Evaluation run"],(report.checkpoint_curve||[]).map(point=>[esc(point.checkpoint_sha256),efficiencySeconds(point.time_seconds),efficiencySeconds(point.verification_elapsed_seconds),efficiencySeconds(point.evaluation_elapsed_seconds),esc(point.evaluation_run_id)]));
+    const costs=report.thresholds.map(point=>`<details><summary>${num(point.threshold_m)} m · ${esc(efficiencyStatus[point.status]||point.status)} · own / prior / combined costs</summary>${efficiencyCostTable(point)}</details>`).join('');
+    const prior=table(["Cost ID","Kind","Parent IDs","Separate prior elapsed","Human time"],(report.prior_ledger||[]).map(item=>[esc(item.cost_id),esc(item.kind),esc((item.parents||[]).join(', ')||"None"),efficiencySeconds(item.elapsed_seconds),efficiencySeconds(item.human_seconds)]));
+    const evaluation=table(["Resource or experience","Evaluation cost"],Object.entries(efficiencyCostLabels).map(([key,label])=>[esc(label),num(report.evaluation_cost?.[key],6)]));
+    return panel(report.study_id,"Costs are reported at the selected checkpoint or censor support. Data-generation compute is a subset of total compute. Evaluation cost is separate.",identity+(warnings?`<ul class="notice">${warnings}</ul>`:'')+`<details><summary>Checkpoint evaluation and verification clocks</summary>${clocks}</details>`+costs+`<details><summary>Prior elapsed clocks and ancestry</summary><p>Policy prior roots: ${pretty(report.policy_prior_roots||[])}. Parallel or shared prior elapsed clocks are never added to the own elapsed headline. Each listed ancestor is charged once by the canonical analysis.</p>${(report.prior_ledger||[]).length?prior:'<p>No inherited cost nodes recorded. The lineage declaration above remains authoritative.</p>'}</details><details><summary>Evaluation costs (separate)</summary>${evaluation}</details><details><summary>Complete canonical analysis and provenance</summary><pre>${pretty(report)}</pre></details>`);
+  }).join('');
+  const comparisons=state.efficiencyComparisons.map(comparison=>{
+    const included=(comparison.comparisons||[]).filter(item=>!state.efficiencyStudy||item.study_id===state.efficiencyStudy);
+    const excluded=(comparison.excluded||[]).filter(item=>!state.efficiencyStudy||item.study_id===state.efficiencyStudy);
+    const comparisonRows=included.map(item=>[esc(item.study_id),item.pareto_frontier?"Pareto frontier":"Dominated",esc(item.cohort.join(' / ')),pretty(item.values),esc(item.dominated_by.join(', ')||"None")]).concat(excluded.map(item=>[esc(item.study_id),"Excluded",esc(item.reason),"Not measured","Not measured"]));
+    return panel(`Pareto comparison · ${num(comparison.threshold_m)} m`,comparison.note,table(["Study","Comparison status","Frozen cohort / exclusion reason","Measured dimensions","Dominated by"],comparisonRows));
+  }).join('');
+  return select+scopeNote+`<div class="grid">${errors}${thresholdTable}${curve}${detail}${comparisons}</div>`;
+}
 function render() {
   const data=scope(), [title,description,crumb]=titles[state.view];
   $("#page-title").textContent=title;$("#page-description").textContent=description;$("#breadcrumb").textContent=crumb;
   document.querySelectorAll(".nav-button").forEach(button=>button.classList.toggle("active",button.dataset.view===state.view));
-  $("#content").innerHTML=({overview,runs:runsView,learning,benchmark,transfer,controls}[state.view])(data);
-  $("#scope-status").textContent=`${data.runs.length} of ${state.runs.length} runs · ${data.metrics.length.toLocaleString()} metric observations`;
+  $("#content").innerHTML=({overview,runs:runsView,learning,"real-efficiency":realEfficiency,benchmark,transfer,controls}[state.view])(data);
+  $(".filters").hidden=state.view==="real-efficiency";
+  $("#export").disabled=state.view==="real-efficiency"&&!state.efficiencyLoaded;
+  $("#source-status").textContent=state.view==="real-efficiency"?"Validated Cycle 3 study envelopes · canonical efficiency analysis":"Canonical experiment records · DuckDB / Parquet";
+  $("#scope-status").textContent=state.view==="real-efficiency"?`${efficiencySelection().length} of ${state.efficiency.length} study envelopes`:`${data.runs.length} of ${state.runs.length} runs · ${data.metrics.length.toLocaleString()} metric observations`;
+  $("#efficiency-study")?.addEventListener("change",event=>{state.efficiencyStudy=event.target.value;render();});
   $("#metric")?.addEventListener("change",event=>{state.metric=event.target.value;render();});
   $("#axis")?.addEventListener("change",event=>{state.axis=event.target.value;render();});
   $("#threshold")?.addEventListener("change",event=>{state.threshold=event.target.value;render();});
@@ -239,6 +298,10 @@ function render() {
 async function request(path) { const response=await fetch(path,{cache:"no-store"}); if(!response.ok)throw Error(`${response.status}: could not read ${path}`); return response.json(); }
 async function refresh() {
   $("#refresh").disabled=true;$("#error").classList.add("hidden");
+  const efficiencyRefresh=request("/api/learning-efficiency/snapshot").then(snapshot=>{
+    Object.assign(state,{efficiency:snapshot.studies,efficiencyComparisons:snapshot.comparisons,efficiencyError:"",efficiencyLoaded:true});
+    if(!state.efficiency.some(report=>report.study_id===state.efficiencyStudy))state.efficiencyStudy="";
+  }).catch(error=>{Object.assign(state,{efficiency:[],efficiencyComparisons:[],efficiencyError:error.message,efficiencyLoaded:true});}).then(()=>{if(state.view==="real-efficiency")render();});
   try {
     const [runs,metrics,evaluations,resources,controls]=await Promise.all([request("/api/runs"),request("/api/metrics"),request("/api/analytics/evaluations"),request("/api/analytics/resources"),request("/api/analytics/controls")]);
     Object.assign(state,{runs,metrics,evaluations:evaluations.rows,resources:resources.rows,controls:controls.rows,resourcesTruncated:resources.truncated,controlsTruncated:controls.truncated});
@@ -249,7 +312,7 @@ async function refresh() {
     }
     $("#loading").classList.add("hidden");$("#updated").textContent=`Read ${new Date().toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"})}`;render();
   }catch(error){$("#loading").classList.add("hidden");$("#error").textContent=`The experiment store could not be read. ${error.message}`;$("#error").classList.remove("hidden");}
-  finally{$("#refresh").disabled=false;}
+  finally{await efficiencyRefresh;$("#refresh").disabled=false;}
 }
 async function openDetail(id) {
   const run=byId(id);if(!run)return;
@@ -266,5 +329,5 @@ $("#close-detail").addEventListener("click",()=>$("#detail-dialog").close());
 document.querySelectorAll(".nav-button").forEach(button=>button.addEventListener("click",()=>{state.view=button.dataset.view;render();}));
 document.querySelectorAll(".filters select").forEach(select=>select.addEventListener("change",render));
 $("#reset").addEventListener("click",()=>{document.querySelectorAll(".filters select").forEach(select=>select.value="");state.search="";state.simulator="";state.minimumDuration=0;state.after="";render();});
-$("#export").addEventListener("click",()=>{const data=scope();download(`gradientclimb-${state.view}.json`,{exported_at:new Date().toISOString(),source:"Canonical run records and Parquet through DuckDB",view:state.view,selected_metric:state.metric,horizontal_axis:state.axis,filters:{algorithm:$("#algorithm").value,environment:$("#environment").value,status:$("#status").value,vehicle:$("#vehicle").value,map:$("#map").value,search:state.search,simulator:state.simulator,after:state.after,minimum_duration:state.minimumDuration},...data,metric_rows_for_selected_measurement:data.metrics.filter(row=>row.name===state.metric),resource_rows_truncated:state.resourcesTruncated,trajectory_rows_truncated:state.controlsTruncated});});
+$("#export").addEventListener("click",()=>{if(state.view==="real-efficiency"){download("gradientclimb-real-efficiency.json",{source:"Canonical Cycle 3 efficiency analysis",selected_study:state.efficiencyStudy||null,studies:efficiencySelection(),comparisons:state.efficiencyComparisons,error:state.efficiencyError||null});return;}const data=scope();download(`gradientclimb-${state.view}.json`,{exported_at:new Date().toISOString(),source:"Canonical run records and Parquet through DuckDB",view:state.view,selected_metric:state.metric,horizontal_axis:state.axis,filters:{algorithm:$("#algorithm").value,environment:$("#environment").value,status:$("#status").value,vehicle:$("#vehicle").value,map:$("#map").value,search:state.search,simulator:state.simulator,after:state.after,minimum_duration:state.minimumDuration},...data,metric_rows_for_selected_measurement:data.metrics.filter(row=>row.name===state.metric),resource_rows_truncated:state.resourcesTruncated,trajectory_rows_truncated:state.controlsTruncated});});
 refresh();

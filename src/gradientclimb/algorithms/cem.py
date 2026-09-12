@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import time
 from collections import deque
 
@@ -42,10 +43,18 @@ def train_cem(
     discarded and its real experience cost is still counted. Best-model selection
     uses fixed *training validation* seeds, separate from external evaluation.
     """
-    if seconds <= 0 or population < 4 or episodes_per_candidate < 1 or not 0 < elite_fraction < 1:
+    if (
+        not math.isfinite(seconds)
+        or seconds <= 0
+        or population < 4
+        or episodes_per_candidate < 1
+        or not 0 < elite_fraction < 1
+    ):
         raise ValueError("Invalid CEM budget/population/elite fraction")
     start = time.monotonic()
     progress = progress if progress is not None else TrainingProgress()
+    if progress.command_started is not None:
+        start = progress.command_started
     progress.started = start
     deadline = start + seconds
     rng = np.random.default_rng(seed)
@@ -85,7 +94,11 @@ def train_cem(
         "calibration_version": "uncalibrated",
         "observation_source": "idealized_simulator_state",
         "action_space": "four_joint_pedal_states",
+        "clock_contract": "command-clock-3.0"
+        if progress.command_started is not None
+        else "legacy-learner-clock",
     }
+    progress.configure_simulator(env)
     model.config = config
     metrics = []
     progress.model, progress.config, progress.metrics = model, config, metrics
@@ -157,10 +170,12 @@ def train_cem(
                 np.einsum("ni,nij->nj", observations[:, -width:], weights[:, :-1]) + weights[:, -1]
             )
             progress.phase = "environment_step"
+            progress.decisions_completed(actual_envs)
             observations, _, _terminated, _truncated, info = env.step(logits.argmax(-1))
             total_steps += actual_envs
             episodes += len(info["episodes"])
             progress.environment_steps, progress.episodes = total_steps, episodes
+            progress.simulator_step_completed(actual_envs, len(info["episodes"]))
             progress.phase = "candidate_evaluation"
             progress.publish()
             for episode in info["episodes"]:
@@ -175,6 +190,8 @@ def train_cem(
             break
         scores = distances.reshape(population, episodes_per_candidate).mean(-1)
         elite = np.argsort(scores)[-elite_count:]
+        if progress.command_started is not None and time.monotonic() >= deadline:
+            break
         progress.phase = "optimizer_step"
         progress.checkpoint_safe = False
         mean = 0.25 * mean + 0.75 * candidates[elite].mean(0)

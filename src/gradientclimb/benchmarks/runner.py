@@ -36,6 +36,7 @@ def run_training(
     benchmark_class="cold_start",
     parent_run=None,
     observer=None,
+    command_clock=None,
 ):
     """Govern one training run; ``observer`` (mapping or ObserverConfig) adds a live view.
 
@@ -43,10 +44,18 @@ def run_training(
     configuration is identical except for a separate ``observer`` block, and the
     resolved training configuration artifact is byte-identical.
     """
+    if not math.isfinite(seconds) or seconds <= 0:
+        raise ValueError("Training budget must be positive and finite")
+
     from gradientclimb.algorithms import train_cem, train_ppo
     from gradientclimb.algorithms.progress import TrainingProgress
     from gradientclimb.simulation import SIMULATOR_VERSION
     from gradientclimb.visualization.observer import ObserverConfig, TrainingObserver, build_sinks
+
+    if command_clock is not None:
+        from gradientclimb.experiments.command_clock import validate_clock
+
+        command_clock = validate_clock(command_clock)
 
     config = dict(config or {})
     if algorithm not in {"ppo", "cem"}:
@@ -83,6 +92,8 @@ def run_training(
         sinks, video_skipped_reason = build_sinks(observer)
         live = TrainingObserver(observer, observer_training_config(config, train_ppo), sinks)
         run_config["observer"] = observer.to_record(live.env.action_duration)
+    if command_clock is not None:
+        run_config["command_clock"] = command_clock
     with RunRecorder(
         Path(root),
         experiment,
@@ -100,7 +111,17 @@ def run_training(
         qualifies_real_game=False,
     ) as run:
         last_checkpoint = None
-        progress = TrainingProgress()
+        progress = TrainingProgress(
+            command_started=command_clock["started_monotonic"] if command_clock else None
+        )
+        if command_clock:
+            if command_clock.get("entry_receipt_path"):
+                entry = Path(command_clock["entry_receipt_path"])
+                run.register_artifact(entry, "command_entry")
+            receipt_path = run.directory / "command-start.json"
+            with receipt_path.open("x", encoding="utf-8") as stream:
+                json.dump(command_clock, stream, indent=2)
+            run.register_artifact(receipt_path, "command_clock")
         config_path = run.directory / "resolved-training-config.json"
         initialization_recorded = False
 
@@ -126,6 +147,28 @@ def run_training(
                     "exact_resume": False,
                 },
             )
+            if command_clock:
+                # Observe AFTER weight publication and hash registration. Requested
+                # timer labels are not substituted for the actual checkpoint time.
+                resources = run.resource_snapshot()
+                produced = time.monotonic() - command_clock["started_monotonic"]
+                cost_receipt = {
+                    "schema_version": "checkpoint-cost-3.0",
+                    "checkpoint_sha256": last_checkpoint["sha256"],
+                    "command_elapsed_seconds": produced,
+                    "within_declared_budget": produced <= seconds,
+                    "learner_reported_seconds_before_serialization": elapsed,
+                    "experience": dict(progress.experience),
+                    "optimizer_updates": progress.optimizer_updates,
+                    "resource_accounting": "see telemetry samples with their own coverage boundary",
+                    "resources": resources,
+                    "prior_costs": "separate_lineage_required",
+                    "real_competence": "requires_independent_frozen_real_evaluation",
+                }
+                receipt_path = run.directory / f"policy-{label}-cost.json"
+                with receipt_path.open("x", encoding="utf-8") as stream:
+                    json.dump(cost_receipt, stream, indent=2)
+                run.register_artifact(receipt_path, "checkpoint_cost")
             progress.phase = previous_phase
             run.annotate(
                 last_valid_checkpoint=last_checkpoint["path"],

@@ -25,6 +25,7 @@ import pyarrow.parquet as pq
 
 from gradientclimb.artifacts import canonical_json, hash_config, sha256_file
 from gradientclimb.telemetry import capture_provenance, resource_sample
+from gradientclimb.telemetry.resources import ResourceAccumulator
 
 from .schemas import (
     ArtifactRecord,
@@ -162,8 +163,19 @@ class RunRecorder:
         self._summary: dict[str, Any] = {}
         source_root = Path(metadata.pop("source_root", Path.cwd()))
         telemetry_interval = float(metadata.pop("telemetry_interval_seconds", 1.0))
-        if telemetry_interval < 0:
-            raise ValueError("telemetry_interval_seconds must be non-negative")
+        if not 0 <= telemetry_interval < float("inf"):
+            raise ValueError("telemetry_interval_seconds must be finite and non-negative")
+        self._gpu_interval = float(metadata.pop("resource_gpu_interval_seconds", 10.0))
+        if not 0 <= self._gpu_interval < float("inf"):
+            raise ValueError("resource_gpu_interval_seconds must be finite and nonnegative")
+        gap = float(metadata.pop("resource_max_gap_seconds", 30.0))
+        self._resources = ResourceAccumulator(monotonic_origin=self._clock, max_gap_seconds=gap)
+        self._last_gpu_sample: float | None = None
+        metadata["resource_sampling"] = {
+            "version": "resources-3.0",
+            "gpu_interval_seconds": self._gpu_interval,
+            "max_interpolation_gap_seconds": gap,
+        }
         configuration = json.loads(canonical_json(config))
         source_state: dict[str, Any] = {}
         supplied = {
@@ -370,16 +382,33 @@ class RunRecorder:
         )
 
     def telemetry(self, include_gpu: bool = False, **measurements: Any) -> dict[str, Any]:
-        return self._append(
-            "telemetry",
-            SystemTelemetryRecord(
-                run_id=self.run_id,
-                timestamp=_now(),
-                elapsed_seconds=self.elapsed_seconds,
-                measurements=measurements,
-                **resource_sample(include_gpu),
-            ),
-        )
+        with self._lock:
+            self._ensure_open()
+            due = self._gpu_interval > 0 and (
+                self._last_gpu_sample is None
+                or self.elapsed_seconds - self._last_gpu_sample >= self._gpu_interval
+            )
+            sample = resource_sample(include_gpu or due)
+            if include_gpu or due:
+                self._last_gpu_sample = self.elapsed_seconds
+            details = sample.pop("measurements", {})
+            row = self._append(
+                "telemetry",
+                SystemTelemetryRecord(
+                    run_id=self.run_id,
+                    timestamp=_now(),
+                    elapsed_seconds=self.elapsed_seconds,
+                    measurements={**measurements, **details},
+                    **sample,
+                ),
+            )
+            self._resources.add(row)
+            return row
+
+    def resource_snapshot(self) -> dict[str, Any]:
+        """Latest sampled resource window, without relabeling it as checkpoint cost."""
+        with self._lock:
+            return self._resources.snapshot()
 
     def _sample_loop(self, interval: float) -> None:
         while not self._stop.wait(interval):
@@ -470,7 +499,16 @@ class RunRecorder:
         if self._thread:
             self._thread.join(timeout=5)
         with self._lock:
-            self.telemetry()
+            self.telemetry(include_gpu=self._gpu_interval > 0 or self._last_gpu_sample is not None)
+            summary["resources"] = self.resource_snapshot()
+            duration = self.elapsed_seconds
+            preliminary.update(
+                duration=duration,
+                wall_clock_seconds=duration,
+                end_time=_now(),
+                environment_steps_per_second=steps / duration if duration else 0,
+                summary=summary,
+            )
             for stream in self._streams.values():
                 stream.close()
             # If a disk write fails below, leave an explicitly unsealed record.

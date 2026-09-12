@@ -1,18 +1,26 @@
 # GradientClimb
 
 GradientClimb is a research platform for rapid-learning adaptive control, using
-Hill Climb Racing as its first testbed. It measures policy quality against real
-wall-clock cost, experience, prior training, generalization and adaptation.
+Hill Climb Racing as its first testbed. Rapid learning means elapsed time to
+independently evaluated real-game competence. Compute, experience, prior training,
+evaluation latency, generalization and adaptation are measured separately.
 
-**Research Cycles 1 and 2 are both intentionally paused at stabilized boundaries.
-Version 0.1.0a2 is a research prerelease.** Cycle 1 is frozen at the tag
-`cycle-1-paused`; Cycle 2 is frozen at `cycle-2-paused`. Start with the
-[Cycle 2 boundary record](docs/operations/cycle-2-state.md) and the
-[Cycle 2 future-work queue](docs/operations/cycle-2-future-work.md); the
+> **Episodes measure experience. Compute measures cost. Wall-clock time measures rapidity. Real-game capability determines whether the learning mattered.**
+
+**Cycle 3 is active under the owner's 2026-09-12 mandate. Version 0.1.0a2 remains
+a research prerelease; the scientific program is incomplete.** Start with the
+[current mandate](docs/methodology/cycle-3-mandate.md),
+[requirements/evidence register](docs/methodology/cycle-3-evidence-register.md) and
+[bounded campaign ledger](experiments/definitions/cycle-3-campaign.json).
+The [learning-efficiency methodology](docs/methodology/learning-efficiency.md)
+governs new comparisons. Registration alone does not dispatch an experiment.
+
+Cycles 1 and 2 remain frozen historical boundaries at `cycle-1-paused` and
+`cycle-2-paused`. Their [Cycle 2 record](docs/operations/cycle-2-state.md),
+[future-work queue](docs/operations/cycle-2-future-work.md),
 [Cycle 1 checkpoint](docs/operations/resume-state.md) and
-[Cycle 1 plan](docs/operations/resumption-plan.md) remain the long-range map. The
-original scientific program is incomplete and no experiment is scheduled: five
-Cycle 2 protocols are registered and unexecuted, and registration is not a queue.
+[plan](docs/operations/resumption-plan.md) are preserved. The current register
+explicitly dispositions all five inherited, unexecuted Cycle 2 registrations.
 
 ## What the evidence establishes
 
@@ -73,6 +81,25 @@ operational frontier: making a real episode cycle repeatable. It did not get the
 
 Cycle 2 therefore added measurement, mechanism and four findings — three of them negative —
 without adding real-game competence. Reliable scored native episodes remain the gate.
+
+## Current Cycle 3 work
+
+New [measurement and provenance contracts](docs/methodology/cycle-3-measurement-contract.md)
+separate gameplay, readiness, safety, missing measurements and censoring.
+[Run recovery](docs/operations/cycle-3-run-recovery.md) documents truthful partial
+work and warm-start semantics. [Environment/profile contracts](docs/operations/environment-contracts.md)
+preserve seeded legacy behavior and reject unimplemented reference environments.
+These are software foundations; they do not qualify the readers, simulator or
+learned driver in the actual game.
+
+The [learning-efficiency framework](experiments/definitions/cycle-3-learning-efficiency.json)
+registers median 500/1,000/2,000 real-metre thresholds, 20 independent executions
+per unique frozen checkpoint, three training seeds and a 900-second gameplay
+horizon. Its concrete method, source, priors, scenario, native reliability/readers
+and entry-clock gates remain required before collection. Checkpoint production
+time and later independent verification time are reported separately. Fidelity
+comparisons include measured compute and inherited costs; simulator frames per
+second are diagnostic, not evidence of rapid real learning.
 
 ## Architecture
 
@@ -168,22 +195,22 @@ verified at this boundary. `audit_cycle_state.py` requires an explicit `--output
 new scan cannot overwrite a published inventory. Hashes detect changes but do not
 replace a backup.
 
-## Future research direction
+## Current research gates
 
-On explicit resumption, verify the release and local evidence, then execute the already
-registered `native-reliability-2.2` study before anything downstream. The operational
-frontier is repeatable scored episodes; the reliability gate precedes the reward campaign,
-real baselines, reader validation and any governed real hour. Qualification must still
-investigate versioned multi-objective fitness — distance, useful score, pace, survival and
-recovery-conditioned trick credit — because raw score can reward spectacular but fatal
-behavior. Those arms are implemented and deferred: they depend on readers that have no
-held-out accuracy yet. Existing objectives and results remain unchanged.
+Repeatable scored native episodes, a representative soak and independently
+validated readers precede governed real learning qualification. The
+[native 2.3 amendment](experiments/definitions/cycle-3-native-reliability-2.3.json)
+preserves the reliability criteria while correcting implementation semantics;
+the inherited 2.2 registration remains unexecuted. Every new study requires its
+specific committed protocol, source and entry gates before collection.
 
-The [Cycle 2 future-work queue](docs/operations/cycle-2-future-work.md) is the current
-prioritized list, with the five registered-but-unexecuted protocols, fourteen deferred
-feature rows and the constraints that survive the pause. The
-[Cycle 1 plan](docs/operations/resumption-plan.md) remains valid for the rows Cycle 2 did
-not touch. No document here authorizes execution.
+The campaign proceeds through bounded demonstration, engine/fidelity and learner
+screens before selected replications. Qualification still covers distance, useful
+score, pace, survival and recovery-conditioned skill credit with validated readers
+and controlled comparisons. Additional real profiles and retention follow
+reference competence. The evidence register distinguishes implemented contracts,
+validated measurements, unmet targets and external access blockers; historical
+objectives, findings and sealed records remain unchanged.
 
 ## License and game boundary
 

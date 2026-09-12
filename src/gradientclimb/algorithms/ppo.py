@@ -8,6 +8,7 @@ observations; it is not by itself a validated real-game perception policy.
 from __future__ import annotations
 
 import logging
+import math
 import time
 from collections import deque
 from collections.abc import Callable
@@ -170,12 +171,21 @@ def train_ppo(
     ``snapshot_callback_seconds``. A callback error is counted in
     ``snapshot_errors`` and never interrupts training.
     """
-    if seconds <= 0 or rollout_steps < 1 or num_envs < 1 or epochs < 1 or minibatch_size < 1:
+    if (
+        not math.isfinite(seconds)
+        or seconds <= 0
+        or rollout_steps < 1
+        or num_envs < 1
+        or epochs < 1
+        or minibatch_size < 1
+    ):
         raise ValueError("Budget, rollout dimensions, epochs and batch size must be positive")
     if snapshot is not None and (snapshot_interval is None or not snapshot_interval > 0):
         raise ValueError("A snapshot callback requires a positive snapshot_interval")
     start = time.monotonic()
     progress = progress if progress is not None else TrainingProgress()
+    if progress.command_started is not None:
+        start = progress.command_started
     progress.started = start
     deadline = start + seconds
     torch.set_num_threads(torch_threads)
@@ -191,6 +201,7 @@ def train_ppo(
         max_steps=max_steps,
     )
     observations, _ = env.reset(seed)
+    progress.configure_simulator(env)
     model = ActorCritic(env.observation_dim, hidden_size, device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, eps=1e-5)
     config = {
@@ -222,6 +233,9 @@ def train_ppo(
         "calibration_version": "uncalibrated",
         "observation_source": "idealized_simulator_state",
         "action_space": "two_independent_bernoulli_pedals",
+        "clock_contract": "command-clock-3.0"
+        if progress.command_started is not None
+        else "legacy-learner-clock",
     }
     if parent_checkpoint:
         from .policies import load_policy
@@ -380,6 +394,7 @@ def train_ppo(
                 bits = distribution.sample()
                 logp = distribution.log_prob(bits).sum(-1)
             actions = (bits[:, 0].long() + 2 * bits[:, 1].long()).cpu().numpy()
+            progress.decisions_completed(num_envs)
             total_inference += time.monotonic() - t
             t = time.monotonic()
             progress.phase = "environment_step"
@@ -388,6 +403,7 @@ def train_ppo(
             environment_steps += num_envs
             episodes += len(info["episodes"])
             progress.environment_steps, progress.episodes = environment_steps, episodes
+            progress.simulator_step_completed(num_envs, len(info["episodes"]))
             progress.phase = "inference"
             progress.publish()
             done = terminated | truncated
@@ -450,6 +466,8 @@ def train_ppo(
                 optimizer.zero_grad(set_to_none=True)
                 loss.backward()
                 nn.utils.clip_grad_norm_(model.parameters(), 0.5)
+                if progress.command_started is not None and time.monotonic() >= deadline:
+                    break
                 progress.phase = "optimizer_step"
                 progress.checkpoint_safe = False
                 optimizer.step()

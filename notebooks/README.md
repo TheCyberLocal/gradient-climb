@@ -20,3 +20,9 @@ The builder uses `nbformat` and `nbclient`, validates each notebook, executes ev
 Reusable statistical and storage methods remain in `src/gradientclimb/evaluation/`, `src/gradientclimb/experiments/`, and the report analysis helper. Notebook cells contain queries, validation, and presentation rather than a separate training implementation.
 
 The initial executed figures were visually inspected and their output tables checked against the sealed records. Intervals describe episode variation conditional on fixed policies, not independent training-seed uncertainty. All distances are nominal units in an uncalibrated simulator. Real-game competence, calibration, perception accuracy, and transfer are not established by these notebooks.
+
+## Cycle 3 real competence efficiency
+
+`real_competence_efficiency.ipynb` is a separate prospective companion. It loads sealed Cycle 3 efficiency study envelopes, uses the same analysis/comparison outputs as the new dashboard tab, and preserves unknown, censored and invalid evidence. Its initial executed snapshot contains zero efficiency study envelopes and therefore makes no real competence or efficiency claim. Historical notebooks above retain their earlier scope.
+
+The notebook's input root and optional display selection are explicit parameters. New outputs can be built without replacing this snapshot using `scripts/build_efficiency_notebook.py --execute --output <new.ipynb> --preview <new.html>`. See [reporting instructions](../docs/operations/learning-efficiency-reporting.md) for the full command and cost/clock definitions.

@@ -1,0 +1,705 @@
+{
+  "$defs": {
+    "CheckpointCost": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Checkpoint Sha256",
+          "type": "string"
+        },
+        "checkpoint_evidence": {
+          "$ref": "#/$defs/EvidenceRef"
+        },
+        "elapsed_seconds": {
+          "minimum": 0,
+          "title": "Elapsed Seconds",
+          "type": "number"
+        },
+        "command_clock_evidence": {
+          "$ref": "#/$defs/EvidenceRef"
+        },
+        "cost": {
+          "$ref": "#/$defs/CostVector"
+        },
+        "resource_evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "minItems": 1,
+          "title": "Resource Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "checkpoint_sha256",
+        "checkpoint_evidence",
+        "elapsed_seconds",
+        "command_clock_evidence",
+        "cost",
+        "resource_evidence"
+      ],
+      "title": "CheckpointCost",
+      "type": "object"
+    },
+    "CostVector": {
+      "additionalProperties": false,
+      "description": "Additive costs only. Unknown is null; no exchange rate between dimensions.\n\nGPU utilization-equivalent seconds must use the same device/scope for a\ncomparison. Device-wide telemetry cannot establish exclusive learner cost.\nMemory is recorded separately as peaks/means; it must never be summed here.",
+      "properties": {
+        "cpu_core_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cpu Core Seconds"
+        },
+        "gpu_utilization_equivalent_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gpu Utilization Equivalent Seconds"
+        },
+        "simulator_transitions": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Simulator Transitions"
+        },
+        "simulator_episodes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Simulator Episodes"
+        },
+        "simulator_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Simulator Seconds"
+        },
+        "physics_steps": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Physics Steps"
+        },
+        "rendered_frames": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rendered Frames"
+        },
+        "policy_decisions": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policy Decisions"
+        },
+        "optimizer_updates": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Optimizer Updates"
+        },
+        "real_game_interaction_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Real Game Interaction Seconds"
+        },
+        "real_game_episodes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Real Game Episodes"
+        },
+        "data_generation_cpu_core_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Generation Cpu Core Seconds"
+        },
+        "data_generation_gpu_utilization_equivalent_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Generation Gpu Utilization Equivalent Seconds"
+        }
+      },
+      "title": "CostVector",
+      "type": "object"
+    },
+    "EfficiencyProtocol": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "learning-efficiency-3.0",
+          "default": "learning-efficiency-3.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "protocol_id": {
+          "minLength": 1,
+          "title": "Protocol Id",
+          "type": "string"
+        },
+        "registered_at": {
+          "format": "date-time",
+          "title": "Registered At",
+          "type": "string"
+        },
+        "thresholds_m": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Thresholds M",
+          "type": "array"
+        },
+        "statistic": {
+          "const": "median_real_distance_m",
+          "default": "median_real_distance_m",
+          "title": "Statistic",
+          "type": "string"
+        },
+        "evaluation_episodes": {
+          "default": 20,
+          "minimum": 1,
+          "title": "Evaluation Episodes",
+          "type": "integer"
+        },
+        "evaluation_horizon_seconds": {
+          "default": 900,
+          "minimum": 0,
+          "title": "Evaluation Horizon Seconds",
+          "type": "number"
+        },
+        "training_budget_seconds": {
+          "minimum": 0,
+          "title": "Training Budget Seconds",
+          "type": "number"
+        },
+        "wall_clock_boundary": {
+          "const": "command_start_to_frozen_checkpoint",
+          "default": "command_start_to_frozen_checkpoint",
+          "title": "Wall Clock Boundary",
+          "type": "string"
+        },
+        "evaluation_procedure": {
+          "minLength": 1,
+          "title": "Evaluation Procedure",
+          "type": "string"
+        },
+        "resource_accounting": {
+          "minLength": 1,
+          "title": "Resource Accounting",
+          "type": "string"
+        },
+        "experience_accounting": {
+          "minLength": 1,
+          "title": "Experience Accounting",
+          "type": "string"
+        },
+        "prior_class": {
+          "enum": [
+            "cold-start",
+            "demonstration-assisted",
+            "simulator-pretrained",
+            "generalist-adaptation",
+            "fine-tuning"
+          ],
+          "title": "Prior Class",
+          "type": "string"
+        },
+        "compute_comparison_scope": {
+          "minLength": 1,
+          "title": "Compute Comparison Scope",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/EvidenceRef"
+        }
+      },
+      "required": [
+        "protocol_id",
+        "registered_at",
+        "training_budget_seconds",
+        "evaluation_procedure",
+        "resource_accounting",
+        "experience_accounting",
+        "prior_class",
+        "compute_comparison_scope",
+        "evidence"
+      ],
+      "title": "EfficiencyProtocol",
+      "type": "object"
+    },
+    "EvidenceRef": {
+      "additionalProperties": false,
+      "description": "Artifact-root-relative path; sealed loader verifies the bytes.",
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "EvidenceRef",
+      "type": "object"
+    },
+    "FrozenRealEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "evaluation_run_id": {
+          "minLength": 1,
+          "title": "Evaluation Run Id",
+          "type": "string"
+        },
+        "checkpoint_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Checkpoint Sha256",
+          "type": "string"
+        },
+        "protocol_id": {
+          "title": "Protocol Id",
+          "type": "string"
+        },
+        "profile_id": {
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "scenario_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Scenario Sha256",
+          "type": "string"
+        },
+        "policy_kind": {
+          "const": "learned",
+          "title": "Policy Kind",
+          "type": "string"
+        },
+        "domain": {
+          "const": "real-game",
+          "default": "real-game",
+          "title": "Domain",
+          "type": "string"
+        },
+        "frozen": {
+          "const": true,
+          "default": true,
+          "title": "Frozen",
+          "type": "boolean"
+        },
+        "independent": {
+          "const": true,
+          "default": true,
+          "title": "Independent",
+          "type": "boolean"
+        },
+        "learner_updates_during_evaluation": {
+          "const": 0,
+          "default": 0,
+          "title": "Learner Updates During Evaluation",
+          "type": "integer"
+        },
+        "split": {
+          "enum": [
+            "development",
+            "qualification"
+          ],
+          "title": "Split",
+          "type": "string"
+        },
+        "horizon_seconds": {
+          "minimum": 0,
+          "title": "Horizon Seconds",
+          "type": "number"
+        },
+        "verification_elapsed_seconds": {
+          "minimum": 0,
+          "title": "Verification Elapsed Seconds",
+          "type": "number"
+        },
+        "evaluation_elapsed_seconds": {
+          "minimum": 0,
+          "title": "Evaluation Elapsed Seconds",
+          "type": "number"
+        },
+        "episodes": {
+          "items": {
+            "$ref": "#/$defs/RealEpisode"
+          },
+          "title": "Episodes",
+          "type": "array"
+        },
+        "evaluation_cost": {
+          "$ref": "#/$defs/CostVector"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evaluation_run_id",
+        "checkpoint_sha256",
+        "protocol_id",
+        "profile_id",
+        "scenario_sha256",
+        "policy_kind",
+        "split",
+        "horizon_seconds",
+        "verification_elapsed_seconds",
+        "evaluation_elapsed_seconds",
+        "episodes",
+        "evaluation_cost",
+        "evidence"
+      ],
+      "title": "FrozenRealEvaluation",
+      "type": "object"
+    },
+    "PriorCost": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_id": {
+          "minLength": 1,
+          "title": "Cost Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "human-demonstration",
+            "simulator-fitting",
+            "teacher-training",
+            "distillation",
+            "hyperparameter-search",
+            "pretraining",
+            "generalist-training",
+            "fine-tuning",
+            "data-generation"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "parents": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Parents",
+          "type": "array"
+        },
+        "cost": {
+          "$ref": "#/$defs/CostVector"
+        },
+        "elapsed_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Elapsed Seconds"
+        },
+        "human_seconds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Human Seconds"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cost_id",
+        "kind",
+        "cost",
+        "evidence"
+      ],
+      "title": "PriorCost",
+      "type": "object"
+    },
+    "RealEpisode": {
+      "additionalProperties": false,
+      "properties": {
+        "episode_id": {
+          "minLength": 1,
+          "title": "Episode Id",
+          "type": "string"
+        },
+        "distance_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Distance M"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "endpoint": {
+          "enum": [
+            "natural",
+            "horizon",
+            "stall_limit",
+            "frame_limit",
+            "interrupted",
+            "instrumentation_failure"
+          ],
+          "title": "Endpoint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "episode_id",
+        "distance_m",
+        "eligible",
+        "endpoint"
+      ],
+      "title": "RealEpisode",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "learning-efficiency-study-3.0",
+      "default": "learning-efficiency-study-3.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "minLength": 1,
+      "title": "Study Id",
+      "type": "string"
+    },
+    "training_run_id": {
+      "minLength": 1,
+      "title": "Training Run Id",
+      "type": "string"
+    },
+    "training_seed": {
+      "title": "Training Seed",
+      "type": "integer"
+    },
+    "started_at": {
+      "format": "date-time",
+      "title": "Started At",
+      "type": "string"
+    },
+    "protocol": {
+      "$ref": "#/$defs/EfficiencyProtocol"
+    },
+    "profile_id": {
+      "minLength": 1,
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "real_scenario": {
+      "$ref": "#/$defs/EvidenceRef"
+    },
+    "simulator_fidelity_id": {
+      "minLength": 1,
+      "title": "Simulator Fidelity Id",
+      "type": "string"
+    },
+    "method": {
+      "minLength": 1,
+      "title": "Method",
+      "type": "string"
+    },
+    "evaluation_split": {
+      "enum": [
+        "development",
+        "qualification"
+      ],
+      "title": "Evaluation Split",
+      "type": "string"
+    },
+    "prior_roots": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Prior Roots",
+      "type": "array"
+    },
+    "policy_prior_roots": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Policy Prior Roots",
+      "type": "array"
+    },
+    "prior_costs": {
+      "items": {
+        "$ref": "#/$defs/PriorCost"
+      },
+      "title": "Prior Costs",
+      "type": "array"
+    },
+    "lineage_declared_complete": {
+      "title": "Lineage Declared Complete",
+      "type": "boolean"
+    },
+    "checkpoints": {
+      "items": {
+        "$ref": "#/$defs/CheckpointCost"
+      },
+      "title": "Checkpoints",
+      "type": "array"
+    },
+    "evaluations": {
+      "items": {
+        "$ref": "#/$defs/FrozenRealEvaluation"
+      },
+      "title": "Evaluations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "study_id",
+    "training_run_id",
+    "training_seed",
+    "started_at",
+    "protocol",
+    "profile_id",
+    "real_scenario",
+    "simulator_fidelity_id",
+    "method",
+    "evaluation_split",
+    "prior_roots",
+    "policy_prior_roots",
+    "prior_costs",
+    "lineage_declared_complete",
+    "checkpoints",
+    "evaluations"
+  ],
+  "title": "LearningEfficiencyStudy",
+  "type": "object"
+}

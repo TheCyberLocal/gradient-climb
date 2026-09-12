@@ -24,6 +24,8 @@ class TrainingProgress:
     environment_steps: int = 0
     episodes: int = 0
     optimizer_updates: int = 0
+    command_started: float | None = None
+    experience: dict = field(default_factory=dict)
     phase: str = "initialization"
     model: Any = None
     config: dict = field(default_factory=dict)
@@ -46,7 +48,37 @@ class TrainingProgress:
             if self.phase in {"environment_step", "optimizer_step"}
             else None,
             "checkpoint_safe": self.checkpoint_safe,
+            "experience": dict(self.experience),
         }
+
+    def configure_simulator(self, env) -> None:
+        """Declare known measurement scope, without assigning unknown work zero."""
+        self.experience = {
+            "schema_version": "experience-3.0",
+            "scope": "learner_environment_only_excludes_observer_and_independent_evaluation",
+            "simulator_transitions": 0,
+            "simulator_episodes": 0,
+            "simulator_seconds": 0.0,
+            "physics_steps": 0,
+            "policy_decisions": 0,
+            "actor_rendered_frames": 0,
+            "real_game_interaction_seconds": 0.0,
+            "action_duration_seconds": env.action_duration,
+            "physics_substeps_per_transition": env.substeps,
+        }
+
+    def decisions_completed(self, count: int) -> None:
+        self.experience["policy_decisions"] += count
+
+    def simulator_step_completed(self, count: int, episodes: int) -> None:
+        self.experience["simulator_transitions"] += count
+        self.experience["simulator_episodes"] += episodes
+        self.experience["physics_steps"] += (
+            count * self.experience["physics_substeps_per_transition"]
+        )
+        self.experience["simulator_seconds"] = (
+            self.experience["simulator_transitions"] * self.experience["action_duration_seconds"]
+        )
 
     def publish(self, *, force: bool = False) -> None:
         now = time.monotonic()

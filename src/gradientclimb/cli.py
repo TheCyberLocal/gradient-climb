@@ -11,7 +11,7 @@ def output(value):
     print(json.dumps(value, indent=2, default=str, allow_nan=False), flush=True)
 
 
-def main(argv=None):
+def main(argv=None, *, command_clock=None):
     parser = argparse.ArgumentParser(prog="gradientclimb")
     parser.add_argument("--root", type=Path, default=Path("artifacts"))
     commands = parser.add_subparsers(dest="command", required=True)
@@ -202,6 +202,7 @@ def main(argv=None):
                 args.benchmark_class,
                 args.parent_run,
                 observer=observer,
+                **({"command_clock": command_clock} if command_clock is not None else {}),
             )
         )
     elif args.command == "evaluate":

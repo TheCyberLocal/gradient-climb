@@ -13,6 +13,15 @@ acceptance criterion; **target not demonstrated** is an open scientific outcome;
 **externally blocked** identifies required owner/access input. A registration is
 never a result. New findings supplement historical records without changing them.
 
+The owner's subsequent 2026-09-12 clarification is implemented prospectively in
+[learning-efficiency.md](learning-efficiency.md): rapid learning is elapsed time
+to independently evaluated real competence, with compute, experience, system
+priors and evaluation costs reported separately. The
+[campaign 3.1 amendment](../../experiments/definitions/cycle-3-campaign.json) and
+[learning-efficiency framework](../../experiments/definitions/cycle-3-learning-efficiency.json)
+govern future dispatch. The framework is **not dispatchable** until a selected
+method and all collection gates are committed; it contains no collected results.
+
 ## Recovered starting evidence
 
 [New integrity cutoff](../../research/experiments/cycle-3-start-integrity.json):
@@ -126,3 +135,23 @@ serialization. Checkpoints at 5/10/20/30/45/60 minutes carry actual completion
 times; no new update starts after the deadline. Finalization overhead and evaluation
 costs are separate. Policies and system priors are both declared. Historical clocks
 and surrogate units remain unchanged.
+
+## Prospective learning-efficiency clarification
+
+This section supplements the starting requirements above. It does not reclassify
+Cycle 1/2 runs or treat their historical learner timers as command-start clocks.
+
+| Requirement | Current contract/evidence | Remaining gate and claim limit |
+| --- | --- | --- |
+| C3-01/05/19 rapid real competence | Registered 500/1,000/2,000 m median thresholds, 20 unique frozen real episode executions per checkpoint and three independently trained seeds | No real learned threshold demonstrated; native lifecycle/soak, reader qualification, frozen scenario/method and untouched final sessions required |
+| C3-05/19 observed learning time | Actual 5/10/20/30/45/60-minute checkpoint production times; first observed pass, sampling bracket, last-observation right censoring and explicit missing coverage | Entry reading must precede project/heavy imports, with interpreter startup explicitly excluded/unmeasured; existing historical clocks cannot be repaired by relabeling |
+| C3-19 prior and evaluation cost | Five policy-start classes plus system-prior inventory; hashed unique parent-cost union; independent evaluation/verification latency separate | Unmeasured inherited costs stay unknown; cold actor initialization does not erase task-trained perception or simulator construction |
+| C3-20 resource/experience separation | CPU core-seconds, measured accelerator scope and memory method separate from real/simulator episodes, transitions, simulated seconds, physics substeps, renders, decisions and updates | Raw rates are diagnostic; replay reuse does not become newly acquired experience; missing metrics cannot establish a cost advantage |
+| C3-10/14/20 fidelity choice | Versioned fidelity identity, fixed solver/cadence, registered physics/render/learning budgets and real-outcome Pareto comparison | Engine throughput/stability does not validate real fidelity or select the most efficient learner; extra realism needs measured utility |
+| C3-04 bounded qualification cost | Maximum 18 unique-checkpoint batches/360 real executions; 900 gameplay-second horizon and 21,600-second wall cap per batch | Up to 90 gameplay hours/108 batch-wall hours are separate from three training hours; dispatch is staged and conditional, never inferred from a registration |
+
+The governed stall window remains a censored operational stop. The primary
+learning-efficiency batch requires all 20 outcomes to have qualified natural or
+full-horizon endpoints; missing, unsafe or stall-truncated attempts do not get
+silently removed or replaced. Report their distances and reasons even when the
+batch cannot qualify. There are no qualified results under this new framework.

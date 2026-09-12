@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import importlib.metadata
+import math
 import os
 import platform
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -24,13 +27,14 @@ def _command(
     arguments: list[str], cwd: Path | None = None, *, strip_output: bool = True
 ) -> str | None:
     try:
-        result = subprocess.run(
-            arguments, cwd=cwd, capture_output=True, text=True, timeout=4, check=False
-        )
+        result = subprocess.run(arguments, cwd=cwd, capture_output=True, timeout=4, check=False)
         if result.returncode != 0:
             return None
-        return result.stdout.strip() if strip_output else result.stdout
-    except (OSError, subprocess.TimeoutExpired):
+        # Decode synchronously: Windows' subprocess text-reader thread otherwise
+        # loses a UTF-8 Git diff when the host's default code page is CP1252.
+        output = result.stdout.decode("utf-8", errors="strict")
+        return output.strip() if strip_output else output
+    except (OSError, subprocess.TimeoutExpired, UnicodeDecodeError):
         return None
 
 
@@ -42,35 +46,136 @@ def _nvidia_smi() -> str | None:
     return str(candidate) if candidate.is_file() else None
 
 
-def gpu_sample() -> dict[str, Any]:
+def _finite_measurement(value: Any, *, maximum: float | None = None) -> float | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return (
+        number
+        if math.isfinite(number) and number >= 0 and (maximum is None or number <= maximum)
+        else None
+    )
+
+
+def gpu_sample(*, include_identity: bool = False) -> dict[str, Any]:
     """GPU utilization and VRAM from ``nvidia-smi`` (one subprocess); empty when absent."""
     result: dict[str, Any] = {}
     executable = _nvidia_smi()
+    started = time.perf_counter()
+    devices = []
+    error = None
     if executable:
         output = _command(
-            [executable, "--query-gpu=utilization.gpu,memory.used", "--format=csv,noheader,nounits"]
+            [
+                executable,
+                "--query-gpu=uuid,index,name,utilization.gpu,memory.used",
+                "--format=csv,noheader,nounits",
+            ]
         )
         if output:
-            try:
-                first = output.splitlines()[0].split(",")
-                result["gpu_percent"] = float(first[0])
-                result["vram_used_bytes"] = int(float(first[1]) * 1024**2)
-            except (ValueError, IndexError):
-                pass
+            for parts in csv.reader(output.splitlines(), skipinitialspace=True):
+                if len(parts) != 5:
+                    error = "malformed nvidia-smi row"
+                    continue
+                uuid_value, index, name, utilization, memory = [part.strip() for part in parts]
+                percent = _finite_measurement(utilization, maximum=100)
+                used = _finite_measurement(memory)
+                devices.append(
+                    {
+                        "uuid": uuid_value if uuid_value not in {"", "N/A", "[N/A]"} else None,
+                        "index": int(index) if index.isdecimal() else None,
+                        "name": name or None,
+                        "gpu_percent": percent,
+                        "vram_used_bytes": int(used * 1024**2) if used is not None else None,
+                        "scope": "device_wide_all_processes; not_policy_attributed",
+                    }
+                )
+            if devices:
+                result.update({key: devices[0][key] for key in ("gpu_percent", "vram_used_bytes")})
+        else:
+            error = "nvidia-smi query unavailable or failed"
+    else:
+        error = "nvidia-smi unavailable"
+    if include_identity:
+        completed = time.perf_counter()
+        result["gpu_measurements"] = {
+            "requested": True,
+            "devices": devices,
+            "error": error,
+            "query_started_monotonic_seconds": started,
+            "sampled_monotonic_seconds": completed,
+            "query_seconds": completed - started,
+            "utilization_semantics": "vendor_sampled_busy_percentage; sampling_window_not_measured",
+        }
     return result
 
 
 def resource_sample(include_gpu: bool = False) -> dict[str, Any]:
     result: dict[str, Any] = {}
+    measurement: dict[str, Any] = {
+        "version": "resources-sample-3.0",
+        "sample_started_monotonic_seconds": time.perf_counter(),
+        "process": {
+            "pid": os.getpid(),
+            "create_time_unix_seconds": None,
+            "cpu_user_seconds": None,
+            "cpu_system_seconds": None,
+            "scope": "current_process_all_threads; excludes_child_processes",
+        },
+        "gpu": {"requested": include_gpu, "devices": [], "error": None},
+        "errors": {},
+    }
     if psutil is not None:
-        result.update(
-            cpu_percent=psutil.cpu_percent(interval=None),
-            per_core_cpu_percent=psutil.cpu_percent(interval=None, percpu=True),
-            ram_used_bytes=psutil.virtual_memory().used,
-            process_rss_bytes=psutil.Process().memory_info().rss,
-        )
+        try:
+            result["cpu_percent"] = _finite_measurement(
+                psutil.cpu_percent(interval=None), maximum=100
+            )
+            result["per_core_cpu_percent"] = [
+                value
+                for item in psutil.cpu_percent(interval=None, percpu=True)
+                if (value := _finite_measurement(item, maximum=100)) is not None
+            ]
+        except Exception as error:  # noqa: BLE001 - optional provider faults are missing evidence
+            measurement["errors"]["host_cpu"] = f"{type(error).__name__}: {error}"
+        try:
+            used = _finite_measurement(psutil.virtual_memory().used)
+            result["ram_used_bytes"] = int(used) if used is not None else None
+            measurement["host_sampled_monotonic_seconds"] = time.perf_counter()
+        except Exception as error:  # noqa: BLE001 - retain independent surviving resource fields
+            measurement["errors"]["host_ram"] = f"{type(error).__name__}: {error}"
+        try:
+            process = psutil.Process()
+            measurement["process"]["create_time_unix_seconds"] = _finite_measurement(
+                process.create_time()
+            )
+            cpu = process.cpu_times()
+            measurement["process"].update(
+                cpu_user_seconds=_finite_measurement(cpu.user),
+                cpu_system_seconds=_finite_measurement(cpu.system),
+                sampled_monotonic_seconds=time.perf_counter(),
+            )
+        except Exception as error:  # noqa: BLE001 - OS counters can be unavailable independently
+            measurement["errors"]["process_cpu"] = f"{type(error).__name__}: {error}"
+        try:
+            rss = _finite_measurement(psutil.Process().memory_info().rss)
+            result["process_rss_bytes"] = int(rss) if rss is not None else None
+            measurement["process_memory_sampled_monotonic_seconds"] = time.perf_counter()
+        except Exception as error:  # noqa: BLE001 - optional RSS query failure is recorded
+            measurement["errors"]["process_rss"] = f"{type(error).__name__}: {error}"
+    else:
+        measurement["errors"]["psutil"] = "psutil unavailable"
     if include_gpu:
-        result.update(gpu_sample())
+        try:
+            gpu = gpu_sample(include_identity=True)
+            measurement["gpu"] = gpu.pop("gpu_measurements")
+            result.update(gpu)
+        except Exception as error:  # noqa: BLE001 - optional GPU query failure is recorded
+            measurement["gpu"]["error"] = f"{type(error).__name__}: {error}"
+    measurement["sample_completed_monotonic_seconds"] = time.perf_counter()
+    result["measurements"] = {"resources_sample": measurement}
     return result
 
 

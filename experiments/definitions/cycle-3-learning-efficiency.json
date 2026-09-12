@@ -1,0 +1,141 @@
+{
+  "schema_version": "learning-efficiency-registration-3.0",
+  "research_principle": "Episodes measure experience. Compute measures cost. Wall-clock time measures rapidity. Real-game capability determines whether the learning mattered.",
+  "protocol_id": "cycle-3-learning-efficiency-3.0",
+  "registered_at": "2026-09-12T14:07:18Z",
+  "status": "prospective_framework_not_dispatchable",
+  "methodology": "docs/methodology/learning-efficiency.md",
+  "campaign": "experiments/definitions/cycle-3-campaign.json",
+  "question": "How much command elapsed training time, compute, experience and inherited cost does the selected learned method require to produce independently qualified real-game competence?",
+  "primary_metric": {
+    "statistic": "median_real_distance_m",
+    "thresholds_m": [500, 1000, 2000],
+    "wall_clock_boundary": "command_start_to_frozen_checkpoint",
+    "time_estimator": "first_observed_qualifying_checkpoint",
+    "verification_latency": "Separately retain calendar elapsed time from training command start to completion of its passing frozen independent evaluation; a one-hour policy-production result is not a one-hour verification result.",
+    "censoring": "Without a pass, right-censor at the last eligible observed checkpoint. Missing later evaluations retain warnings and incomplete budget coverage. With no eligible observation return not_evaluable. Never infer a failed full budget from incomplete coverage.",
+    "sampling_interval": "Previous eligible nonqualifying checkpoint through first passing checkpoint; lower boundary unknown if none. This is a sampling bracket, not proof of monotonic learning or exact first acquisition.",
+    "forbidden_claims": [
+      "episodes as a compute measure",
+      "raw simulator throughput as real learning speed",
+      "surrogate distance as actual-game metres",
+      "exact finite speedup when the comparator is censored",
+      "a post-import learner timer relabeled command elapsed time"
+    ]
+  },
+  "training": {
+    "training_seeds": [3301, 3302, 3303],
+    "training_budget_seconds_per_seed": 3600,
+    "checkpoint_minutes": [5, 10, 20, 30, 45, 60],
+    "maximum_training_runs": 3,
+    "maximum_total_command_training_seconds": 10800,
+    "clock_includes": [
+      "imports after earliest instrumented Python entry",
+      "initialization and post-entry source/config verification",
+      "acquisition and simulator rendering",
+      "real resets and advertisement waits",
+      "perception and inference",
+      "optimization",
+      "logging and atomic checkpoint publication"
+    ],
+    "deadline_rule": "No new learner update starts after the deadline. Record update start/completion and checkpoint publication times; exclude weights not validly published by the deadline. Finalization may only preserve existing policy/evidence and release resources.",
+    "entry_clock_limit": "Earliest instrumented Python entry before project/heavy imports. Interpreter startup and minimal code preceding that reading are excluded/unmeasured; never describe this as exact OS process-launch elapsed time. A future outer-launch receipt requires an explicit boundary version and matching comparisons.",
+    "checkpoint_rule": "Retain requested and actual publication times, weights hash and last update time. Deduplicate identical hashes for analysis while retaining every scheduled checkpoint receipt; unchanged weights are not new learning. No late checkpoint is backdated.",
+    "evaluation_scheduling": "Post-training frozen evaluations in this framework; no learner updates during evaluation. A future concurrent schedule requires its own committed resource-isolation amendment. Waiting and evaluation calendar latency remain visible.",
+    "retry_rule": "No replacement training seed or extended budget after results. Infrastructure failure remains a documented incomplete run; a source fix requires a new prospective registration and counts toward search costs."
+  },
+  "independent_real_evaluation": {
+    "domain": "real-game",
+    "split": "qualification",
+    "vehicle": "Hill Climber",
+    "map": "Countryside",
+    "scenario_identity": "Game build, vehicle, visible upgrade levels, map, controls and observation pipeline must be freshly observed, frozen and hashed in the dispatch manifest. Historical upgrade assumptions are invalid.",
+    "game_terrain_seed_control": "not claimed",
+    "evaluation_episodes_per_unique_checkpoint": 20,
+    "evaluation_horizon_seconds": 900,
+    "stall_window_seconds": 60,
+    "stall_rule": "No new verified forward progress for the entire observed window; missing progress readings cannot certify a stall. Stall remains a governed censoring endpoint and does not qualify the primary complete natural/horizon batch.",
+    "qualified_endpoint_classes": ["natural", "horizon"],
+    "start_rule": "Ordinary fresh game episode/reset; no simulator reset-to-challenge or route-specific launch state.",
+    "freeze_rule": "One development-selected method/configuration and immutable checkpoint bytes. Zero learner updates, demonstration correction, reader tuning, parameter selection or future-target feedback during final evaluation.",
+    "independence_rule": "Episode executions have unique IDs and complete whole-session provenance; training, demonstrations, construction labels and development selection exclude qualification sessions. Repeated execution on the same game map is not an independent controllable terrain seed.",
+    "eligibility_rule": "All 20 scheduled attempts must have independently validated distance, classified natural/horizon endpoint, matching scenario/horizon, required observation coverage and no unsafe or manual gameplay event. Missing or ineligible attempts make the primary batch not evaluable; retain every attempt without outcome-selected replacement.",
+    "unchanged_checkpoint_rule": "One independent batch per unique checkpoint hash and identical evaluation configuration. Repeated scheduled snapshots reference that evidence without duplicating episode counts or creating additional independent observations.",
+    "maximum_unique_checkpoint_batches": 18,
+    "maximum_scheduled_episode_executions": 360,
+    "maximum_gameplay_seconds_if_all_reach_horizon": 324000,
+    "batch_wall_budget_seconds": 21600,
+    "maximum_total_batch_wall_seconds": 388800,
+    "budget_interpretation": "These upper bounds are 90 gameplay hours and 108 evaluation-batch wall hours, separate from 3 training hours. Natural ends may be earlier. Batches are individually dispatched only after gates; this registration does not schedule unattended collection.",
+    "stop_rules": [
+      "Immediate safe release and session stop on unintended action, manual intervention, unknown UI, stale/latched guard or release failure.",
+      "Stop each batch at 20 scheduled attempts or 21600 wall seconds, whichever comes first; report remaining attempts not_started.",
+      "After any safety/measurement failure retain the evidence and incomplete verdict. No blind restart or post-result replacement to complete a favorable denominator.",
+      "Never lower targets, shorten horizon, change readers or extend a seed budget after seeing qualification results."
+    ]
+  },
+  "reported_outcomes": [
+    "per-training-seed checkpoint curve and threshold status",
+    "all real distance values, median, quartiles and minimum",
+    "natural causes, horizon/stall censoring and administrative/instrumentation interruptions",
+    "attempts, independent eligible executions and observation coverage",
+    "verified time-to-distance regions and pace with unknown values preserved",
+    "first observed threshold time, sampling bracket and observation gaps",
+    "actual independent evaluation and calendar verification latency",
+    "all failed/incomplete attempts and search costs"
+  ],
+  "accounting": {
+    "policy_start_classes": ["cold-start", "demonstration-assisted", "simulator-pretrained", "generalist-adaptation", "fine-tuning"],
+    "system_prior_class": "Separately declare task-naive, engineered task knowledge, task-trained components or mixed; inventory all representations, teachers, demonstration data, calibration and simulator construction.",
+    "cost_vector_fields": [
+      "cpu_core_seconds",
+      "gpu_utilization_equivalent_seconds",
+      "simulator_transitions",
+      "simulator_episodes",
+      "simulator_seconds",
+      "physics_steps",
+      "rendered_frames",
+      "policy_decisions",
+      "optimizer_updates",
+      "real_game_interaction_seconds",
+      "real_game_episodes",
+      "data_generation_cpu_core_seconds",
+      "data_generation_gpu_utilization_equivalent_seconds"
+    ],
+    "counter_semantics": "physics_steps means solver time substeps, not internal solver iterations; rendered_frames means completed observation renders; simulator_seconds aggregates across worlds. Data-generation CPU/GPU fields are subsets, not extra charges. Preserve schema units rather than silently mapping incompatible historical counters.",
+    "additional_evidence": [
+      "unique real transitions acquired and consumed, plus repeated replay/sample uses",
+      "process CPU coverage including child-process scope",
+      "device identities and accelerator sampling/utilization scope",
+      "RAM and device-memory peak or sampled-maximum method",
+      "render/sensor cadence, simulator dt/substeps and solver iterations",
+      "prior elapsed and human effort, with unknown historical costs explicit",
+      "separate finalization and independent evaluation costs"
+    ],
+    "prior_ledger_rule": "Hashed parent graph with complete available inherited costs. Sum the union once, retain missing ancestors as incomplete and do not fabricate serial elapsed time from parallel/shared prior work. Show unamortized totals before any separately justified allocation.",
+    "compute_comparison_scope": "Freeze workstation/device/runtime and measurement coverage/scope in every concrete arm; unavailable counters stay null and cannot establish dominance.",
+    "adaptation_rule": "A successor must register source model, target exclusion, zero-shot evaluation and 5/10/30/60-minute target curves with source retention; inherited training remains visible beside adaptation time."
+  },
+  "fidelity_and_selection": {
+    "required_identity": ["simulator_fidelity_id", "environment_id", "scenario_hash", "calibration_hash_or_uncalibrated", "observation_pipeline_hash", "render_asset_provenance", "solver_and_sensor_settings"],
+    "cost_budget_rule": "Every candidate arm commits a specific physics/render/learning budget and unchanged control cadence before dispatch. The campaign caps candidate count; synthetic engineering pilots do not select real-learning fidelity by frames per second.",
+    "comparison": "Descriptive Pareto comparison of independent real performance/threshold attainment, command elapsed time, compute, experience and inherited cost. Compare only compatible scope and show per-seed uncertainty; missing or censored axes cannot establish dominance.",
+    "adoption_rule": "Additional physics/rendering fidelity must address measured real failures or improve independently evaluated real performance enough to justify its full cost. Retain unsuccessful fits and searches."
+  },
+  "dispatch_gates": {
+    "collecting_command": null,
+    "collecting_source_sha": null,
+    "selected_method_and_hyperparameters": null,
+    "selected_policy_and_system_prior_manifest": null,
+    "frozen_scenario_and_observation_hashes": null,
+    "untouched_qualification_manifest": null,
+    "native_reliability_and_soak_evidence": null,
+    "heldout_reader_accuracy_and_coverage_evidence": null,
+    "validated_entry_clock_receipt_implementation": null,
+    "resource_accounting_and_fidelity_budget_manifest": null,
+    "required": "All null gates must be replaced by a separately committed concrete arm registration with hashed evidence, registered before collection. The entry clock is captured before project/heavy imports and its receipt persisted before learner work; excluded interpreter startup is declared. No historical run may be relabeled into this framework."
+  },
+  "execution_records": [],
+  "data_collected_under_this_registration": false,
+  "real_competence_demonstrated": false
+}
