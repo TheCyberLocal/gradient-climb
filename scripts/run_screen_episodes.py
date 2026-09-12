@@ -511,6 +511,12 @@ def terminal_cause(summary):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--root",
+        type=Path,
+        default=Path("artifacts"),
+        help="Canonical artifact root, independent of the pinned source checkout",
+    )
+    parser.add_argument(
         "--ui-profile", type=Path, default=Path("configs/perception/hcr-reset-ui.json")
     )
     parser.add_argument(
@@ -608,7 +614,7 @@ def main():
     protocol = json.loads(args.protocol.read_text(encoding="utf-8")) if args.protocol else None
     if protocol:
         validate_protocol(protocol, args)
-    host = HostBudgetGuard("artifacts")
+    host = HostBudgetGuard(args.root)
     host.check(force=True)
     targets = discover_windows()
     if len(targets) != 1:
@@ -643,8 +649,8 @@ def main():
     algorithm = args.baseline
     if args.policy:
         checkpoint_hash = sha256_file(args.policy)
-        parent = load_run(Path("artifacts"), args.parent_run)
-        if not verify_run(Path("artifacts"), args.parent_run)["valid"] or not any(
+        parent = load_run(args.root, args.parent_run)
+        if not verify_run(args.root, args.parent_run)["valid"] or not any(
             item["sha256"] == checkpoint_hash and item["kind"] == "checkpoint"
             for item in parent["artifact_manifest"]
         ):
@@ -683,6 +689,7 @@ def main():
             if args.max_restarts > int(recovery.get("max_restarts_per_session", args.max_restarts)):
                 raise ValueError("Restart count exceeds the registered recovery limit")
     config = {
+        "artifact_root": args.root.resolve().as_posix(),
         "baseline": args.baseline if not args.policy else None,
         "policy_kind": args.policy_kind,
         "checkpoint_hash": checkpoint_hash,
@@ -755,6 +762,7 @@ def main():
     adapter = NativeGameAdapter(
         target,
         args.ui_profile,
+        reference_root=args.root,
         release_pedals=controller.release,
         capture_backend=args.capture_backend,
         runtime_check=host.check,
@@ -767,7 +775,7 @@ def main():
     )
     attempt_outcomes = []
     with RunRecorder(
-        "artifacts",
+        args.root,
         experiment_id,
         config,
         seed=args.seed,
@@ -785,7 +793,7 @@ def main():
         ):
             run.register_artifact(path, kind)
         for variant in adapter.recognizer.profile.variants:
-            run.register_artifact(Path("artifacts") / variant.file, "ui_reference")
+            run.register_artifact(args.root / variant.file, "ui_reference")
         for glyph in bridge.hud_reader.glyphs:
             run.register_artifact(args.hud.parent / glyph["file"], "hud_glyph")
         if args.result_reader:

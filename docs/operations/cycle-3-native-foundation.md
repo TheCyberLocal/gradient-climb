@@ -34,3 +34,9 @@ guarantee delivery of a release to the game; the lease does not claim otherwise.
 `tests/test_native_foundation.py` uses synthetic captures/input callbacks; its
 Windows-only test exercises the mutex without game input. Real lifecycle and soak
 qualification are separate experiments. Passing these tests establishes neither.
+
+For a pinned experiment checkout, pass `--root D:\Projects\gradient-climb\artifacts`
+and absolute reader paths. Source provenance follows the working directory; the
+artifact store is explicit. UI references must resolve inside that artifact root.
+Linking only its `runs` subdirectory into another root correctly fails the existing
+containment check, so it is not a supported substitute for `--root`.
