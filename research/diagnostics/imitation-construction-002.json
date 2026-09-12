@@ -1,0 +1,1247 @@
+{
+  "schema_version": "imitation-construction-diagnostic-3.0",
+  "created_at": "2026-09-12T15:49:14.216453+00:00",
+  "scope": "Derived audit of already sealed construction outputs only; no assembly, geometry execution, fitting, labels, training, new capture or qualification performed by this report.",
+  "public_redactions": "No images, complete controls, executable paths, window titles, host fingerprints, process IDs/create times, GPU UUIDs or device model identities copied. Private canonical hashes retain source traceability. All measured resource values, coverage, gaps and scope are retained.",
+  "cutoff": "These three offline runs are additive to the frozen 136-run audit; that audit is not updated or reinterpreted.",
+  "inputs": [
+    {
+      "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-002.json",
+      "sha256": "c94e95dc2e03f1dcf722e194f686c1ff3dbc9869ae6e7ad6cbc61fdeca05606a"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-001.json",
+      "sha256": "65ca44ba2ebb5758e3326298f968872a60081c62358b76b380db49de8030061c"
+    },
+    {
+      "path": "research/datasets/cycle-3-demonstration-partitions-v1.json",
+      "sha256": "7e362e133b54420dc218874e416c1514932abce4568b21f3e1c5528ab5137665"
+    },
+    {
+      "path": "research/datasets/fbafca5b-reviewed-segments-v2.json",
+      "sha256": "da51ef43a53c2ad050fd52a92085f5d422d68a4d891b81b88558e3dc4bbd1b24"
+    },
+    {
+      "path": "configs/perception/hcr-discovery-wrapper.json",
+      "sha256": "8c3a731e415d3a0b53c07b214054c848c10c42aa92fbcfa728cac9648da48b54"
+    },
+    {
+      "path": "research/diagnostics/human-demonstrations-2026-09-12.json",
+      "sha256": "3c308c1a4b91aec5a0de481df73ba7c3125877e969555d70fb2be1d07d3feefa"
+    },
+    {
+      "path": "research/datasets/fbafca5b-frame-visual-review-v1.json",
+      "sha256": "8ba94c30c5ef03ebefb221aa86a64ea26333f0ae0ca9d93e25192ff6b97326dc"
+    },
+    {
+      "path": "research/datasets/fbafca5b-reviewed-segments-v1.json",
+      "sha256": "6b6d8f3065d6654b62d9206effb0a47126720da31db84545c9da8af1ad77a391"
+    },
+    {
+      "path": "research/diagnostics/imitation-window-001-hash-failure.json",
+      "sha256": "08a85bf6dc51d724cafec00b86b6c2fc9a77590c694cb56cafb4fe4a29a5280a"
+    },
+    {
+      "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/run.json",
+      "sha256": "dff658ae11bb5e75375b9e330f6a43e13722bdc0359dfaa686a0c4742eea10d1"
+    }
+  ],
+  "offline_runs": [
+    {
+      "cost_identity": {
+        "run_id": "8f5a7301-3cba-49c2-97e0-d39420526d7b",
+        "run_sha256": "dff658ae11bb5e75375b9e330f6a43e13722bdc0359dfaa686a0c4742eea10d1"
+      },
+      "status": "failed",
+      "source_git_sha": "e6489b520f7a1fb2261ab408ad52127923d515f0",
+      "source_dirty": false,
+      "run": {
+        "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/run.json",
+        "sha256": "dff658ae11bb5e75375b9e330f6a43e13722bdc0359dfaa686a0c4742eea10d1"
+      },
+      "seal": {
+        "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/seal.json",
+        "sha256": "9f179e7e8888e2a8f50cf5b4a68ffd5d6d53f97a6b9a6273399f5ff1a030a8d3"
+      },
+      "config_file": {
+        "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/config.json",
+        "sha256": "0e44f8f34caf31a32c93c0f2a3b3191dced6dc1406ae4214738d3303999ba0ef"
+      },
+      "logical_config_sha256": "e16802d3cfc028f8e72fec536da3ec80b6c40ab17611d590ab5ea105e15e7b88",
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T15:42:41.097279Z",
+      "ended_at": "2026-09-12T15:42:41.511207Z",
+      "recorder_wall_seconds": 0.4140345000050729,
+      "full_command_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 0.41380040000512963,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 2,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 0.022794275000705966,
+            "utilization_percent": {
+              "coverage_fraction": 0.6042195988599963,
+              "covered_seconds": 0.09117710000282386,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 25.0,
+              "time_weighted_sampled_mean": 25.0,
+              "uncovered_seconds": 0.059723500002291985,
+              "valid_samples": 2
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.6042195988599963,
+              "covered_seconds": 0.09117710000282386,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 877658112.0,
+              "time_weighted_sampled_mean": 877658112.0,
+              "uncovered_seconds": 0.059723500002291985,
+              "valid_samples": 2
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.2628998000000138,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.6785692038010784,
+            "covered_seconds": 0.10239649999857647,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 33496662016.0,
+            "time_weighted_sampled_mean": 33495427072.0,
+            "uncovered_seconds": 0.048504100006539375,
+            "valid_samples": 2
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.6784200990480003,
+            "covered_seconds": 0.10237400000187336,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 65925120.0,
+            "time_weighted_sampled_mean": 65847296.0,
+            "uncovered_seconds": 0.04852660000324249,
+            "valid_samples": 2
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 0.015625,
+          "counter_resets": 0,
+          "coverage_fraction": 0.6784644991370997,
+          "covered_seconds": 0.10238070000195876,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 0.015625,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.04851990000315709,
+          "valid_samples": 2
+        },
+        "sample_count": 2,
+        "sample_span_seconds": 0.15090060000511585,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "role": "failed_first_assembly",
+      "protocol_plan": {
+        "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-001.json",
+        "sha256": "65ca44ba2ebb5758e3326298f968872a60081c62358b76b380db49de8030061c"
+      },
+      "new_gameplay_episodes": 0,
+      "new_environment_transitions": 0,
+      "optimizer_updates": 0,
+      "qualification_evidence": false,
+      "windows_produced": 0,
+      "geometry_frames_measured": 0,
+      "failure": "Evidence hash mismatch: artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/config.json",
+      "failure_stage": "source_configuration_file_hash_before_frame_assembly",
+      "partition_assignments_remain_binding": true,
+      "resource_scope": "Recorder resource samples cover the failed hash check; before initial sample, after final sample, imports, plan parse and partition authority preflight are excluded. The failed summary has only the generic resources clock boundary, not a complete command receipt."
+    },
+    {
+      "cost_identity": {
+        "run_id": "fe9dabb6-16a6-47c9-90b4-edf3bbc919b3",
+        "run_sha256": "7f9f2b570eb18c458a4cfba9052cc86cd3889726b835b903858867f0ef3ef97f"
+      },
+      "status": "completed",
+      "source_git_sha": "2f654286fef58d4ce36aad7e869184799d60efd6",
+      "source_dirty": false,
+      "run": {
+        "path": "artifacts/runs/fe9dabb6-16a6-47c9-90b4-edf3bbc919b3/run.json",
+        "sha256": "7f9f2b570eb18c458a4cfba9052cc86cd3889726b835b903858867f0ef3ef97f"
+      },
+      "seal": {
+        "path": "artifacts/runs/fe9dabb6-16a6-47c9-90b4-edf3bbc919b3/seal.json",
+        "sha256": "eaf142368f84d18e789ee73353f57fb17009d2feabada909cae5d5da763badba"
+      },
+      "config_file": {
+        "path": "artifacts/runs/fe9dabb6-16a6-47c9-90b4-edf3bbc919b3/config.json",
+        "sha256": "47c89c39ed997fd90b11308fde31da329fd3171bb7d694c7db010d3354b0929d"
+      },
+      "logical_config_sha256": "662c4cc2fd421c839e8d1410e348ce28eeee011813bea53ae7f428c5e345f7c1",
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T15:45:16.366269Z",
+      "ended_at": "2026-09-12T15:45:18.812467Z",
+      "recorder_wall_seconds": 2.4463038000030792,
+      "full_command_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 2.446058300003642,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 2,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 0.5730898745017475,
+            "utilization_percent": {
+              "coverage_fraction": 0.9739449190119484,
+              "covered_seconds": 2.1626033000065945,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 27.0,
+              "time_weighted_sampled_mean": 26.5,
+              "uncovered_seconds": 0.057854199993016664,
+              "valid_samples": 2
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9739449190119484,
+              "covered_seconds": 2.1626033000065945,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 877658112.0,
+              "time_weighted_sampled_mean": 877658112.0,
+              "uncovered_seconds": 0.057854199993016664,
+              "valid_samples": 2
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.22560080000403104,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9765919861114165,
+            "covered_seconds": 2.168481000000611,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 33779871744.0,
+            "time_weighted_sampled_mean": 33650803272.919876,
+            "uncovered_seconds": 0.051976499999000225,
+            "valid_samples": 4
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.976582843850518,
+            "covered_seconds": 2.168460699998832,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 72343552.0,
+            "time_weighted_sampled_mean": 67956751.35956636,
+            "uncovered_seconds": 0.05199680000077933,
+            "valid_samples": 4
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 1.984375,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9765854559250604,
+          "covered_seconds": 2.16846649999934,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 1.984375,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.051991000000271015,
+          "valid_samples": 4
+        },
+        "sample_count": 4,
+        "sample_span_seconds": 2.220457499999611,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "role": "hash_corrected_window_assembly",
+      "protocol_plan": {
+        "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-002.json",
+        "sha256": "c94e95dc2e03f1dcf722e194f686c1ff3dbc9869ae6e7ad6cbc61fdeca05606a"
+      },
+      "new_gameplay_episodes": 0,
+      "new_environment_transitions": 0,
+      "optimizer_updates": 0,
+      "qualification_evidence": false,
+      "dataset": {
+        "path": "artifacts/runs/fe9dabb6-16a6-47c9-90b4-edf3bbc919b3/imitation-windows.json",
+        "sha256": "8c89688e29d883ec947791f39166e677623ac57b994a866bf81c63c1fc106695"
+      },
+      "dataset_sha256": "df65ddc22e94de752125399570a4fc03eb6be0ec9f06139d3d3f3a86f44eeaae",
+      "summary": {
+        "construction_only_profile_incomplete_windows": 54,
+        "excluded_target_frames": 491,
+        "exclusion_reasons": {
+          "incomplete_history_no_padding": 6,
+          "observation_outside_reviewed_time_boundary": 2,
+          "outside_reviewed_playing_segment": 483
+        },
+        "feature_extraction_performed": false,
+        "independent_sessions": 1,
+        "new_gameplay_episodes": 0,
+        "qualification_evidence": false,
+        "reviewed_complete_episode_count": null,
+        "target_state_counts": {
+          "0": 24,
+          "1": 26,
+          "2": 4
+        },
+        "training_eligible": false,
+        "training_eligible_windows": 0,
+        "training_performed": false,
+        "unique_source_frames": 60,
+        "windows": 54
+      },
+      "resource_scope": "recorder_resource_window_includes_source_verification_and_assembly; excludes_imports_initial_plan_parse_partition_authority_preflight_and_post_sample_sealing"
+    },
+    {
+      "cost_identity": {
+        "run_id": "9be884a9-efe8-44c0-ac5b-ee99187bf17e",
+        "run_sha256": "d59bc2746f1ee7d445be552d23368e8f3c3f805acd36a1a96b0abcc5a9ef522d"
+      },
+      "status": "completed",
+      "source_git_sha": "2f654286fef58d4ce36aad7e869184799d60efd6",
+      "source_dirty": false,
+      "run": {
+        "path": "artifacts/runs/9be884a9-efe8-44c0-ac5b-ee99187bf17e/run.json",
+        "sha256": "d59bc2746f1ee7d445be552d23368e8f3c3f805acd36a1a96b0abcc5a9ef522d"
+      },
+      "seal": {
+        "path": "artifacts/runs/9be884a9-efe8-44c0-ac5b-ee99187bf17e/seal.json",
+        "sha256": "8b850f3f306bcd237ac314b686c71d2041d174dc6f0be736e6c9f1a69fa28d8e"
+      },
+      "config_file": {
+        "path": "artifacts/runs/9be884a9-efe8-44c0-ac5b-ee99187bf17e/config.json",
+        "sha256": "b96843fd10260d70eae86c9debbd69ec4f120b72ebfe6dd165f0829326366640"
+      },
+      "logical_config_sha256": "99c78efb6a089da667cc7a55456c1564da83c8f772f095b26b9d4b355c5ae4b2",
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T15:45:27.698627Z",
+      "ended_at": "2026-09-12T15:45:32.541966Z",
+      "recorder_wall_seconds": 4.843425400002161,
+      "full_command_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 4.843201199997566,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 2,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 1.0500229789989681,
+            "utilization_percent": {
+              "coverage_fraction": 0.9895849789144688,
+              "covered_seconds": 4.565317299995513,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 24.0,
+              "time_weighted_sampled_mean": 23.0,
+              "uncovered_seconds": 0.04804829999920912,
+              "valid_samples": 2
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9895849789144688,
+              "covered_seconds": 4.565317299995513,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 877658112.0,
+              "time_weighted_sampled_mean": 877658112.0,
+              "uncovered_seconds": 0.04804829999920912,
+              "valid_samples": 2
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.22983560000284342,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9889731045826924,
+            "covered_seconds": 4.562494500001776,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 34164121600.0,
+            "time_weighted_sampled_mean": 33950610526.321976,
+            "uncovered_seconds": 0.050871099992946256,
+            "valid_samples": 6
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.988969506341376,
+            "covered_seconds": 4.562477899999067,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 114847744.0,
+            "time_weighted_sampled_mean": 88533946.07640783,
+            "uncovered_seconds": 0.050887699995655566,
+            "valid_samples": 6
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 11.078125,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9889711103759966,
+          "covered_seconds": 4.562485299997206,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 11.078125,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.050880299997515976,
+          "valid_samples": 6
+        },
+        "sample_count": 6,
+        "sample_span_seconds": 4.613365599994722,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "role": "fixed_geometry_diagnostic",
+      "protocol_plan": {
+        "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-002.json",
+        "sha256": "c94e95dc2e03f1dcf722e194f686c1ff3dbc9869ae6e7ad6cbc61fdeca05606a"
+      },
+      "new_gameplay_episodes": 0,
+      "new_environment_transitions": 0,
+      "optimizer_updates": 0,
+      "qualification_evidence": false,
+      "report": {
+        "path": "artifacts/runs/9be884a9-efe8-44c0-ac5b-ee99187bf17e/reviewed-geometry-diagnostic.json",
+        "sha256": "587fab2b7667d0f1baf67dd7a5c940887b07c081894e679f7d24a91bcbab6dbf"
+      },
+      "operation_journal": {
+        "path": "artifacts/runs/9be884a9-efe8-44c0-ac5b-ee99187bf17e/geometry-measurements.jsonl",
+        "sha256": "60c499233aedfbba146b1a5ef038e6e7cc7bc5bd7fb307714b106fea49e25dec"
+      },
+      "summary": {
+        "attempted_source_frames": 60,
+        "completed_source_frames": 60,
+        "detector_valid_body_frames": 60,
+        "detector_valid_terrain_frames": 50,
+        "detector_valid_wheel_frames": 44,
+        "failed_source_frames": 0,
+        "hash_and_decode_seconds_total": 0.7799710999606759,
+        "measured_geometry_accuracy": null,
+        "measurement_seconds_median": 0.021894800000154646,
+        "measurement_seconds_p95": 0.026392775002750564,
+        "measurement_seconds_total": 1.3092043000215199,
+        "new_environment_transitions": 0,
+        "new_gameplay_episodes": 0,
+        "new_real_interaction_seconds": 0,
+        "optimizer_updates": 0,
+        "policy_decisions": 0,
+        "qualifies_real_game": false,
+        "unique_source_frames": 60,
+        "window_frame_reference_uses": 216
+      },
+      "resource_scope": "recorder_resource_window_includes_source_verification_assembly_and_diagnostic; excludes_imports_initial_plan_and_profile_parse_partition_authority_preflight_and_post_sample_sealing",
+      "per_image_timing_scope": "hash_decode_and_measurement_only; excludes_assembly_provenance_journal_writes_and_artifact_publication"
+    }
+  ],
+  "inherited_capture_attempts": [
+    {
+      "cost_identity": {
+        "run_id": "febf6812-0f73-495f-a8a7-34a21a1dddf9",
+        "run_sha256": "97aa656b3e4548ad43d66945e269b61c5666c51c9e4de16e31c00250719cbd87"
+      },
+      "status": "failed",
+      "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_dirty": false,
+      "run": {
+        "path": "artifacts/runs/febf6812-0f73-495f-a8a7-34a21a1dddf9/run.json",
+        "sha256": "97aa656b3e4548ad43d66945e269b61c5666c51c9e4de16e31c00250719cbd87"
+      },
+      "seal": {
+        "path": "artifacts/runs/febf6812-0f73-495f-a8a7-34a21a1dddf9/seal.json",
+        "sha256": "cc8cf85789810f5d15ca58f337abc6a65b201e0e4d7a683a647e39467707f439"
+      },
+      "config_file": {
+        "path": "artifacts/runs/febf6812-0f73-495f-a8a7-34a21a1dddf9/config.json",
+        "sha256": "a298f1c9aa1ca3ae4b0c29d855f2c2777f0ceb44f4400b19d832cc04c58a6047"
+      },
+      "logical_config_sha256": "841058746d4c85df3f8046371cfa2bfe8e67b73bf23366d540b98be58911d881",
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T14:42:20.726267Z",
+      "ended_at": "2026-09-12T14:42:21.685167Z",
+      "recorder_wall_seconds": 0.9590309000050183,
+      "full_command_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 0.9588035000051605,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 2,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 0.16519836599953122,
+            "utilization_percent": {
+              "coverage_fraction": 0.9291160876834965,
+              "covered_seconds": 0.6118457999982638,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 27.0,
+              "time_weighted_sampled_mean": 27.0,
+              "uncovered_seconds": 0.04667880000488367,
+              "valid_samples": 2
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9291160876834965,
+              "covered_seconds": 0.6118457999982638,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 815792128.0,
+              "time_weighted_sampled_mean": 815792128.0,
+              "uncovered_seconds": 0.04667880000488367,
+              "valid_samples": 2
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.30027890000201296,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9312387114986223,
+            "covered_seconds": 0.6132435999970767,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 34334441472.0,
+            "time_weighted_sampled_mean": 34264934399.999996,
+            "uncovered_seconds": 0.045281000006070826,
+            "valid_samples": 2
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9312567822028919,
+            "covered_seconds": 0.6132555000003777,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 126627840.0,
+            "time_weighted_sampled_mean": 100558848.0,
+            "uncovered_seconds": 0.045269100002769846,
+            "valid_samples": 2
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 0.46875,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9312578451822463,
+          "covered_seconds": 0.6132561999984318,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 0.46875,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.04526840000471566,
+          "valid_samples": 2
+        },
+        "sample_count": 2,
+        "sample_span_seconds": 0.6585246000031475,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "role": "inherited_capture_construction_attempt",
+      "source_purpose": "development",
+      "capture_backend": "dxcam",
+      "capture_wall_seconds": 0.5203075,
+      "capture_failure": "RuntimeError: Demonstration capture is stale",
+      "capture_stop_reason": "capture_control_or_storage_failure",
+      "frames": 0,
+      "control_samples": 33,
+      "episode_experience_count": null,
+      "real_gameplay_interaction_seconds": null,
+      "human_practice_seconds": null,
+      "prior_declarations": {
+        "controller": "human",
+        "human_practice_seconds": null,
+        "imitation_training_source": false,
+        "policy_weights_consumed": false,
+        "system_prior": "engineered capture/guard and frozen UI construction references"
+      },
+      "source_hashes": {
+        "demonstration-summary.json": {
+          "path": "artifacts/runs/febf6812-0f73-495f-a8a7-34a21a1dddf9/demonstration-summary.json",
+          "sha256": "9478fa2e0727a76671a5179104be2a465f5f039f2615907fc4b1d7ff38f3e2a2"
+        },
+        "demonstration/frames.jsonl": {
+          "path": "artifacts/runs/febf6812-0f73-495f-a8a7-34a21a1dddf9/demonstration/frames.jsonl",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "demonstration/controls.jsonl": {
+          "path": "artifacts/runs/febf6812-0f73-495f-a8a7-34a21a1dddf9/demonstration/controls.jsonl",
+          "sha256": "521eaffcb8c479375abe490f8d8ea673b2c8cba6ca06f802fd6c872967a58d38"
+        }
+      }
+    },
+    {
+      "cost_identity": {
+        "run_id": "789b59ed-8c97-4cb9-9d97-9b1a4aaba277",
+        "run_sha256": "3651f07ac3d2e5d94b1b74015946db44f2e5cf38fff9021b811b268424767d44"
+      },
+      "status": "completed",
+      "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_dirty": false,
+      "run": {
+        "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/run.json",
+        "sha256": "3651f07ac3d2e5d94b1b74015946db44f2e5cf38fff9021b811b268424767d44"
+      },
+      "seal": {
+        "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/seal.json",
+        "sha256": "75734d58ba01140c5c2695859061c98dba4c78fc9f922cf8239303307b35bc95"
+      },
+      "config_file": {
+        "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/config.json",
+        "sha256": "06f227dee422cef9154a42a39fcb96706287b89742692dbefda04eb845df80a9"
+      },
+      "logical_config_sha256": "abee69152f68c5798da7afb9bd2f96b665c2765e99555d0724eb77ae06e8ee27",
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T14:43:03.145820Z",
+      "ended_at": "2026-09-12T14:43:39.491575Z",
+      "recorder_wall_seconds": 36.34588599999552,
+      "full_command_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 36.34566629999608,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 5,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 10.756096267999784,
+            "utilization_percent": {
+              "coverage_fraction": 0.998624689455256,
+              "covered_seconds": 36.01657949999935,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 51.0,
+              "time_weighted_sampled_mean": 29.864291438335993,
+              "uncovered_seconds": 0.04960220000066329,
+              "valid_samples": 5
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.998624689455256,
+              "covered_seconds": 36.01657949999935,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 815792128.0,
+              "time_weighted_sampled_mean": 814891153.2310237,
+              "uncovered_seconds": 0.04960220000066329,
+              "valid_samples": 5
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.2794845999960671,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9985836232838378,
+            "covered_seconds": 36.01509839999926,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 34667401216.0,
+            "time_weighted_sampled_mean": 34521930571.80675,
+            "uncovered_seconds": 0.051083300000755116,
+            "valid_samples": 37
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.998584211092149,
+            "covered_seconds": 36.01511960000062,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 153153536.0,
+            "time_weighted_sampled_mean": 121108431.74852405,
+            "uncovered_seconds": 0.051062099999398924,
+            "valid_samples": 37
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 24.3125,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9985840280950506,
+          "covered_seconds": 36.01511299999402,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 24.3125,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.051068700005998835,
+          "valid_samples": 37
+        },
+        "sample_count": 37,
+        "sample_span_seconds": 36.066181700000016,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "role": "inherited_capture_construction_attempt",
+      "source_purpose": "development",
+      "capture_backend": "mss",
+      "capture_wall_seconds": 30.1301903,
+      "capture_failure": null,
+      "capture_stop_reason": "session_time_limit",
+      "frames": 218,
+      "control_samples": 1939,
+      "episode_experience_count": null,
+      "real_gameplay_interaction_seconds": null,
+      "human_practice_seconds": null,
+      "prior_declarations": {
+        "controller": "human",
+        "human_practice_seconds": null,
+        "imitation_training_source": false,
+        "policy_weights_consumed": false,
+        "system_prior": "engineered capture/guard and frozen UI construction references"
+      },
+      "source_hashes": {
+        "demonstration-summary.json": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration-summary.json",
+          "sha256": "03008a079258663641de13a2156e840d4a45a53af39e7a84ec6c25c72e1f4011"
+        },
+        "demonstration/frames.jsonl": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration/frames.jsonl",
+          "sha256": "91876bedada8cc4ce8b5a88faeda24d8d2df0c48f8726c074c5ecb24b1bcc4e8"
+        },
+        "demonstration/controls.jsonl": {
+          "path": "artifacts/runs/789b59ed-8c97-4cb9-9d97-9b1a4aaba277/demonstration/controls.jsonl",
+          "sha256": "2aaff76f2dfbea5771225baf982d0097c6702381f1f78babdb130b40d8a69bf1"
+        }
+      }
+    },
+    {
+      "cost_identity": {
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+        "run_sha256": "d27c4e5bbf720c5fbe8ccc88348f3c72f146dbd7d5885b65dadc975a95b2d21c"
+      },
+      "status": "failed",
+      "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "source_dirty": false,
+      "run": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/run.json",
+        "sha256": "d27c4e5bbf720c5fbe8ccc88348f3c72f146dbd7d5885b65dadc975a95b2d21c"
+      },
+      "seal": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/seal.json",
+        "sha256": "cb9d5a8f446e83a3273e2f2c5bde88b3b96844dd7201468c28b3156d8c5e0221"
+      },
+      "config_file": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/config.json",
+        "sha256": "fa9d8f9972eb187b2af70fbe0e7bc6ec9e5de08dba35c10235079baa35740df9"
+      },
+      "logical_config_sha256": "0aa0af4ad757a4bddcd80847f7104d7c4060b9525cb1d59f2ae91eb5d484fcf9",
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T14:46:15.841148Z",
+      "ended_at": "2026-09-12T14:48:01.976264Z",
+      "recorder_wall_seconds": 106.13528790000419,
+      "full_command_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 106.13503130000026,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 12,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 25.366740534500895,
+            "utilization_percent": {
+              "coverage_fraction": 0.9995378437622638,
+              "covered_seconds": 105.73957640000299,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 28.0,
+              "time_weighted_sampled_mean": 23.98982613524086,
+              "uncovered_seconds": 0.04889079999702517,
+              "valid_samples": 12
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9995378437622638,
+              "covered_seconds": 105.73957640000299,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 956301312.0,
+              "time_weighted_sampled_mean": 847656541.4626838,
+              "uncovered_seconds": 0.04889079999702517,
+              "valid_samples": 12
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.3465641000002506,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9994189130287019,
+            "covered_seconds": 105.7269948999965,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 33656360960.0,
+            "time_weighted_sampled_mean": 32829253717.873623,
+            "uncovered_seconds": 0.061472300003515556,
+            "valid_samples": 105
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9994190463136041,
+            "covered_seconds": 105.727009000002,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 154431488.0,
+            "time_weighted_sampled_mean": 123168381.01292528,
+            "uncovered_seconds": 0.06145819999801461,
+            "valid_samples": 105
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 63.953125,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9994190274079452,
+          "covered_seconds": 105.72700700000132,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 63.953125,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.06146019999869168,
+          "valid_samples": 105
+        },
+        "sample_count": 105,
+        "sample_span_seconds": 105.78846720000001,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "role": "selected_imitation_source",
+      "source_purpose": "imitation",
+      "capture_backend": "mss",
+      "capture_wall_seconds": 91.1890771,
+      "capture_failure": "WindowUnavailable: demonstration target unavailable",
+      "capture_stop_reason": "capture_control_or_storage_failure",
+      "frames": 545,
+      "control_samples": 5866,
+      "episode_experience_count": null,
+      "real_gameplay_interaction_seconds": null,
+      "human_practice_seconds": null,
+      "prior_declarations": {
+        "controller": "human",
+        "human_practice_seconds": null,
+        "imitation_training_source": true,
+        "policy_weights_consumed": false,
+        "system_prior": "engineered capture/guard and frozen UI construction references"
+      },
+      "source_hashes": {
+        "demonstration-summary.json": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration-summary.json",
+          "sha256": "1b8933139f2b1501750d6b611787dac6d80e2e753a201f9a7ddf01ab1c4ce548"
+        },
+        "demonstration/frames.jsonl": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frames.jsonl",
+          "sha256": "0cdc728afa7eb780c5f7910db5b24a2d83796ce7065589fc95ceb35fdb6d5fd6"
+        },
+        "demonstration/controls.jsonl": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/controls.jsonl",
+          "sha256": "228ff7d62763b43893cbfaca8d7b258f56a29b9837b780c29e9c94cffa2d3613"
+        }
+      }
+    }
+  ],
+  "source_recording": {
+    "source": {
+      "configuration_sha256": "fa9d8f9972eb187b2af70fbe0e7bc6ec9e5de08dba35c10235079baa35740df9",
+      "controls": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/controls.jsonl",
+        "sha256": "228ff7d62763b43893cbfaca8d7b258f56a29b9837b780c29e9c94cffa2d3613"
+      },
+      "frames": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frames.jsonl",
+        "sha256": "0cdc728afa7eb780c5f7910db5b24a2d83796ce7065589fc95ceb35fdb6d5fd6"
+      },
+      "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+      "run_sha256": "d27c4e5bbf720c5fbe8ccc88348f3c72f146dbd7d5885b65dadc975a95b2d21c",
+      "session_id": "910b220f-31a4-451d-a574-d25d45c8e198"
+    },
+    "source_git_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+    "capture_status": "failed",
+    "capture_failure_review_note": "The original capture ended with WindowUnavailable: demonstration target unavailable. This review accepts only individually inspected bounded spans for construction checks. Capture failure is preserved; its precise cause is not established here. No natural gameplay failure, completed episode outcome, or full-session eligibility is inferred. Prospective v2 corrects the exact configuration-file SHA after plan001 failed before assembly; original visual review time, frames, segment boundaries, profile uncertainty and source recording are unchanged.",
+    "assignment": {
+      "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+      "session_id": "910b220f-31a4-451d-a574-d25d45c8e198",
+      "source_purpose": "imitation",
+      "split": "train"
+    },
+    "source_frames": 545,
+    "source_control_samples": 5866,
+    "trailing_partial_bytes": {
+      "controls": 0,
+      "frames": 0
+    },
+    "history_resets": {
+      "segment_boundary": 2
+    },
+    "original_configuration_independently_verified": false,
+    "original_operator_configuration_note": "Owner-authorized complete ordinary imitation run; reference Hill Climber/Countryside; Tune pixels freshly verified13/13,14/14,16/16,10/10; no benchmark/qualification use",
+    "reviewed_profile_identity_complete": false
+  },
+  "window_accounting": {
+    "dataset_file": {
+      "path": "artifacts/runs/fe9dabb6-16a6-47c9-90b4-edf3bbc919b3/imitation-windows.json",
+      "sha256": "8c89688e29d883ec947791f39166e677623ac57b994a866bf81c63c1fc106695"
+    },
+    "dataset_sha256": "df65ddc22e94de752125399570a4fc03eb6be0ec9f06139d3d3f3a86f44eeaae",
+    "summary": {
+      "construction_only_profile_incomplete_windows": 54,
+      "excluded_target_frames": 491,
+      "exclusion_reasons": {
+        "incomplete_history_no_padding": 6,
+        "observation_outside_reviewed_time_boundary": 2,
+        "outside_reviewed_playing_segment": 483
+      },
+      "feature_extraction_performed": false,
+      "independent_sessions": 1,
+      "new_gameplay_episodes": 0,
+      "qualification_evidence": false,
+      "reviewed_complete_episode_count": null,
+      "target_state_counts": {
+        "0": 24,
+        "1": 26,
+        "2": 4
+      },
+      "training_eligible": false,
+      "training_eligible_windows": 0,
+      "training_performed": false,
+      "unique_source_frames": 60,
+      "windows": 54
+    },
+    "history_frames": 4,
+    "maximum_frame_gap_seconds": 0.25,
+    "maximum_frame_age_seconds": 0.45,
+    "maximum_target_lag_seconds": 0.1,
+    "maximum_poll_gap_seconds": 0.05,
+    "segments": [
+      {
+        "segment_id": "fbafca5b-early-000035-000065",
+        "reviewed_frame_indices_half_open": [
+          35,
+          66
+        ],
+        "reviewed_time_seconds_from_capture_start_half_open": [
+          5.8730517,
+          10.947633401
+        ],
+        "reviewed_span_seconds": 5.074581701,
+        "episode_id": null,
+        "start_context": "unknown",
+        "end_context": "unknown",
+        "accepted_target_frame_indices_inclusive": [
+          38,
+          64
+        ],
+        "referenced_frame_indices_inclusive": [
+          35,
+          64
+        ],
+        "windows": 27,
+        "unique_referenced_images": 30,
+        "history_reset": "segment_boundary_or_excluded_observation",
+        "target_state_counts": {
+          "0": 14,
+          "1": 13
+        }
+      },
+      {
+        "segment_id": "fbafca5b-later-000350-000380",
+        "reviewed_frame_indices_half_open": [
+          350,
+          381
+        ],
+        "reviewed_time_seconds_from_capture_start_half_open": [
+          58.5022404,
+          63.584438901
+        ],
+        "reviewed_span_seconds": 5.082198501,
+        "episode_id": null,
+        "start_context": "unknown",
+        "end_context": "unknown",
+        "accepted_target_frame_indices_inclusive": [
+          353,
+          379
+        ],
+        "referenced_frame_indices_inclusive": [
+          350,
+          379
+        ],
+        "windows": 27,
+        "unique_referenced_images": 30,
+        "history_reset": "segment_boundary_or_excluded_observation",
+        "target_state_counts": {
+          "0": 10,
+          "1": 13,
+          "2": 4
+        }
+      }
+    ],
+    "reviewed_frames": 62,
+    "window_frame_reference_uses": 216,
+    "exclusions_inside_reviewed_index_spans": [
+      {
+        "frame_index": 35,
+        "reason": "incomplete_history_no_padding",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 36,
+        "reason": "incomplete_history_no_padding",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 37,
+        "reason": "incomplete_history_no_padding",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 65,
+        "reason": "observation_outside_reviewed_time_boundary",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 350,
+        "reason": "incomplete_history_no_padding",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 351,
+        "reason": "incomplete_history_no_padding",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 352,
+        "reason": "incomplete_history_no_padding",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      },
+      {
+        "frame_index": 380,
+        "reason": "observation_outside_reviewed_time_boundary",
+        "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21"
+      }
+    ],
+    "outside_reviewed_playing_segment_count": 483,
+    "target_semantics": "Observed focused key-state polls only: code=gas+2*brake. Counts are labels, not action duration, human intention or OS delivery. Both-pedal code3 is absent from these 54 targets.",
+    "observed_action_duration_seconds": null,
+    "complete_episode_experience": null,
+    "independent_audit_all_history_ready_before_target": true,
+    "independent_audit_all_frames_and_targets_inside_same_reviewed_time_boundary": true
+  },
+  "profile_evidence": {
+    "vehicle_name": null,
+    "map_name": null,
+    "game_build": null,
+    "upgrades": [
+      {
+        "name": "displayed_slot_1",
+        "observed_level": 13,
+        "observed_maximum": 13
+      },
+      {
+        "name": "displayed_slot_2",
+        "observed_level": 14,
+        "observed_maximum": 14
+      },
+      {
+        "name": "displayed_slot_3",
+        "observed_level": 16,
+        "observed_maximum": 16
+      },
+      {
+        "name": "displayed_slot_4",
+        "observed_level": 10,
+        "observed_maximum": 10
+      }
+    ],
+    "evidence": [
+      {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000000.png",
+        "sha256": "0dde6eb9a694f375120b0acf44f993cead8b1a9f0543f3c863c3764cb85537c7"
+      }
+    ],
+    "claim_limit": "Tune slot values are visually attested. Owner configuration note is separately retained; named vehicle/map/build identity is not independently visible. All54 windows remain construction-only and training-ineligible."
+  },
+  "geometry_accounting": {
+    "report": {
+      "path": "artifacts/runs/9be884a9-efe8-44c0-ac5b-ee99187bf17e/reviewed-geometry-diagnostic.json",
+      "sha256": "587fab2b7667d0f1baf67dd7a5c940887b07c081894e679f7d24a91bcbab6dbf"
+    },
+    "summary": {
+      "attempted_source_frames": 60,
+      "completed_source_frames": 60,
+      "detector_valid_body_frames": 60,
+      "detector_valid_terrain_frames": 50,
+      "detector_valid_wheel_frames": 44,
+      "failed_source_frames": 0,
+      "hash_and_decode_seconds_total": 0.7799710999606759,
+      "measured_geometry_accuracy": null,
+      "measurement_seconds_median": 0.021894800000154646,
+      "measurement_seconds_p95": 0.026392775002750564,
+      "measurement_seconds_total": 1.3092043000215199,
+      "new_environment_transitions": 0,
+      "new_gameplay_episodes": 0,
+      "new_real_interaction_seconds": 0,
+      "optimizer_updates": 0,
+      "policy_decisions": 0,
+      "qualifies_real_game": false,
+      "unique_source_frames": 60,
+      "window_frame_reference_uses": 216
+    },
+    "all_selected_unique_images_attempted_and_completed": true,
+    "selected_frames_match_window_references": true,
+    "detector_profile": {
+      "path": "configs/perception/hcr-discovery-wrapper.json",
+      "sha256": "8c3a731e415d3a0b53c07b214054c848c10c42aa92fbcfa728cac9648da48b54"
+    },
+    "fitting": false,
+    "new_geometry_labels": false,
+    "measured_geometry_accuracy": null,
+    "claim_limit": "Validity is the unchanged detector hypothesis flag, not independently labeled accuracy, learned control, dynamics fidelity or real competence."
+  },
+  "cost_accounting": {
+    "deduplication": "Each of the six listed run_sha256 cost identities occurs once here. The imitation capture appears in both sealed downstream outputs as inherited provenance; those copies are not additional acquisition costs.",
+    "offline_recorder_wall_seconds_sum": 7.703763700010313,
+    "offline_measured_cpu_core_seconds_sum": 13.078125,
+    "offline_aggregate_scope": "Arithmetic sum of three sequential recorder windows and observed process CPU counters only; not complete command elapsed, training cost, energy or compute-to-competence.",
+    "gpu_aggregate": null,
+    "gpu_aggregate_reason": "Device-wide utilization-equivalent intervals are reported separately with coverage; no per-policy GPU attribution or whole-command GPU total is inferred.",
+    "memory_aggregation": "Sampled peak/time-weighted means and coverage remain per run; memory is not summed as consumed work.",
+    "inherited_capture_scope": "All three acquisition attempts remain visible, including zero-image failure and mixed development capture. Their capture clocks, recorder clocks and resource windows are separate, and capture wall time includes operational states rather than proved gameplay duration.",
+    "per_image_timing_not_additive": "Hash/decode and measurement timing are components inside geometry recorder work, not extra costs to add again. Geometry reconstruction repeats source verification/assembly; its recorder captures that repeated work.",
+    "unknown_prior_costs": {
+      "human_practice_seconds": null,
+      "manual_visual_review_seconds": null,
+      "engineering_and_method_search_seconds": null,
+      "system_prior_construction_compute": null,
+      "report_authoring_seconds": null
+    },
+    "whole_system_prior_complete": false,
+    "energy_measured": false
+  },
+  "decisions": {
+    "construction_reference_pipeline_exercised": true,
+    "imitation_training_performed": false,
+    "qualification_evidence": false,
+    "real_competence_threshold_demonstrated": false,
+    "next_gate": "Resolve measured observation/profile limitations under a new construction protocol; independent labels are required before accuracy, and no fixed-detector validity rate authorizes training or qualification."
+  }
+}

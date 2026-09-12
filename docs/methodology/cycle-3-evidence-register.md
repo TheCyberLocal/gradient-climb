@@ -182,3 +182,29 @@ subsequent source-linked records; they are not implied by this registration.
 Integrated validation passed 723 tests with four optional-engine/platform skips
 and two dependency deprecation warnings. Full Ruff checks passed; two focused
 checks also passed after the final explicit-LF publication adjustment.
+
+## Addendum: executed construction plan 002
+
+C3-08/15/16 now include the [sealed three-attempt construction audit](../../research/diagnostics/imitation-construction-002.md).
+The first plan/run `8f5a7301-3cba-49c2-97e0-d39420526d7b` failed closed before
+assembly because review v1 used the logical configuration hash instead of the exact
+configuration-file hash. A committed hash-only successor preserved the original
+review, source bytes, partition, timing limits and fixed detector.
+
+Corrected window run `fe9dabb6-16a6-47c9-90b4-edf3bbc919b3` and fixed geometry
+run `9be884a9-efe8-44c0-ac5b-ee99187bf17e`, both at clean source
+`2f654286fef58d4ce36aad7e869184799d60efd6`, yielded 54 construction windows,
+60 unique images and 216 references. All 60 geometry attempts completed; detector
+body/wheel/terrain validity was 60/44/50, with independently measured accuracy
+still null. All three individual seals passed; historical aggregate cutoffs remain
+unchanged.
+
+The selected spans cover 62 individually reviewed images, with six incomplete
+history targets and two time-boundary observations excluded; 483 other source
+frames remain outside reviewed segments. All windows remain ineligible for
+training because profile identity is incomplete. No complete episode, learned
+policy, fidelity or real competence claim follows. C3-19/20 cost evidence retains
+the failed assembly, both successful offline recorder windows, all three inherited
+capture attempts and explicit unknown human/review/engineering priors, with each
+unique run cost counted once and sampled resource coverage shown. Independent
+accuracy, matched benchmark and qualified learning requirements remain open.

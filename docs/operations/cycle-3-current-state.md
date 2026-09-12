@@ -119,3 +119,35 @@ real evidence, and only a successful restore test will justify a backup claim.
 The engine pilot can establish engineering feasibility only; its throughput
 cannot establish fidelity, transfer or faster learning. No stable release or
 merge to `main` is justified by software foundations alone.
+
+## Addendum: reviewed construction plan 002
+
+The [three-attempt construction audit](../../research/diagnostics/imitation-construction-002.md)
+adds sealed offline evidence after the historical cutoff above. Plan 001/run
+`8f5a7301-3cba-49c2-97e0-d39420526d7b` failed before assembly on a logical-config
+hash substituted for the required exact-file hash. Its source, review, seal,
+bound partition and measured cost remain preserved. The prospectively corrected
+plan 002 changed only that hash identity.
+
+At clean source `2f654286fef58d4ce36aad7e869184799d60efd6`, window run
+`fe9dabb6-16a6-47c9-90b4-edf3bbc919b3` produced 54 four-image windows from two
+individually reviewed spans: 60 unique images and 216 references. Geometry run
+`9be884a9-efe8-44c0-ac5b-ee99187bf17e` completed all 60 selected images with fixed
+body/wheel/terrain validity counts of 60/44/50. All three new seals and all three
+inherited capture seals verify. This verifies these individual runs; it does not
+rewrite the earlier 136-run audit.
+
+Six incomplete histories, two observation-readiness boundary crossings and 483
+unreviewed source frames remain explicit target exclusions. Named vehicle/map/build
+identity and complete episode experience remain unknown, so all 54 windows are
+construction-only and training-ineligible. The two spans now have bounded review;
+the rest of the recording and complete matched human benchmarks remain unresolved.
+Detector validity is not labeled accuracy. No policy, geometry fitting, new capture
+or learned competence was produced. Recorder/resource windows, all failed and
+successful acquisition costs, and unmeasured human/system priors remain separately
+visible in the audit rather than being replaced by the new offline timing.
+
+The reviewed software milestone passed 723 tests with four optional-engine/platform
+skips and two dependency warnings. [Exact-revision CI for `d10fd6e8`](https://github.com/TheCyberLocal/gradient-climb/actions/runs/34702900700)
+also succeeded. This software validation is separate from the clean source revisions
+and construction observations recorded above.
