@@ -49,7 +49,7 @@
   "cli_help": "passed",
   "integrity": {
     "path": "research/experiments/cycle-3-stabilization-integrity-001.json",
-    "sha256": "25f2dbe5955a76ac072217d7cf89243fc10a89d6d94ef2fed8f7f27666d7f7ba",
+    "sha256": "0f45f7582e58c14d2ee490c780f15d1e0eb11212f267dcfb84151eccbb15f500",
     "canonical_runs": 151,
     "valid": 151,
     "unfinished": 0,
