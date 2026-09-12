@@ -175,3 +175,39 @@ overlays require explicit masking before a learning observation contract is used
 The construction-audit revision `88e2f2b2` passed
 [exact-revision CI](https://github.com/TheCyberLocal/gradient-climb/actions/runs/34703700548).
 No learned real threshold or release qualification follows from this check.
+
+The [four-pose construction screen](../../research/diagnostics/visual-pose-screen-002.md)
+completed all four source/render pairs and retained its exact actor pixels.
+Rendered wheels passed detection on four poses versus two for the original
+images: the simple circles remove real visual ambiguity. Two terrain pairs were
+measurable, with a rendered lower-edge offset requiring a separately registered
+convention check. Neither this small screen nor its throughput establishes fidelity
+or learning. Its predecessor's pre-recorder compatibility failure is retained.
+
+The [owner-video acquisition and review](../../research/diagnostics/owner-video-acquisition-001.md)
+now retains a verified 299.999-second, 1280×576 excerpt, with 18 original review
+frames at declared timestamps. The counting pass decoded 18,000 video frames;
+this is stored-media processing rather than new real interaction. Vehicle-menu
+pixels verify “Hill Climber”; the sparse excerpt also shows other vehicles and
+configuration changes. Current-reference map, upgrade and build equivalence is
+not established. All raw footage, overlays and detailed logs remain local.
+There are no synchronized action labels, complete matched benchmark outcomes or
+learned policies from this archive milestone.
+
+At source `599c2ca`, the integrated suite passed **882 tests**, with four skips
+and two dependency deprecation warnings (525.07 seconds). Ruff checks and format
+checks for `src`, `scripts` and `tests`, plus source compilation, passed. The new
+[integrity cutoff](../../research/experiments/cycle-3-archive-reader-integrity-001.json)
+verifies **149/149** canonical runs (2,105,484,992 bytes), with no unfinished or
+uncatalogued directories at 2026-09-12 16:47:17 UTC. Earlier cutoffs remain intact.
+This verifies retained bytes, not an independently restored backup.
+
+The [reader source inventory](../../research/datasets/native-reader-construction-source-inventory-001.json)
+resolves all 58 effective glyph files, 19 raw glyph-source hashes and 22 UI
+references. An exact historical label copy was recovered from its existing seal;
+the mutable external path's changed byte hash is recorded. Original session IDs
+absent from historical records remain unknown. Reader candidate construction and
+fresh heldout qualification are still pending, as is native collection support
+for immutable reader receipts. The existing endpoint rule selects the earliest
+retained `terminal_frame` callback, which can be later than result pixels retained
+by the gameplay loop. Neither population may be silently substituted for the other.

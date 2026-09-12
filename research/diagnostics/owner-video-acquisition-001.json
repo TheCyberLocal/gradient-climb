@@ -1,0 +1,698 @@
+{
+  "schema_version": "owner-video-acquisition-diagnostic-3.0",
+  "created_at": "2026-09-12T16:46:35.512430+00:00",
+  "scope": "Derived public metadata audit of two already sealed construction operations. This report performs file/hash checks only; no new acquisition, decode, image review, frame extraction, fitting, training or native interaction.",
+  "public_redactions": "Raw video, images, face-camera content, subprocess logs, full probe filenames, executable paths, hardware fingerprints, process IDs/create times and GPU identities are retained privately and not copied. Resource values, coverage, gaps, scopes and receipt hashes remain visible.",
+  "purpose": "construction_external_video",
+  "whole_source_partition": "construction",
+  "source_session_group": "youtube-wx_cI59vFX0",
+  "source_video_public_url": "https://www.youtube.com/watch?v=wx_cI59vFX0",
+  "owner_channel_url": "https://www.youtube.com/@thecyberlocal",
+  "inputs": [
+    {
+      "path": "experiments/definitions/cycle-3-owner-video-acquisition-001.json",
+      "sha256": "f3d801f97cf0a965f4151b3f3f47e5ae538ce5b987bec3b4387586c609439501"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-owner-video-review-001.json",
+      "sha256": "ed3e5b006ab4b94bd7ef1ea231643f74317fc941a1cf01a6be810c30697df6ff"
+    },
+    {
+      "path": "research/datasets/owner-gameplay-channel-index-2026-09-12.json",
+      "sha256": "9f0744519824be03a17402b4025305ec20c2a2984b5e55d136ea41a0aab24526"
+    }
+  ],
+  "runs": [
+    {
+      "operation": "acquisition",
+      "run_id": "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+      "experiment_id": "cycle-3-owner-video-acquisition-001",
+      "status": "completed",
+      "run": {
+        "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/run.json",
+        "sha256": "9e1cc9cbb64a9d002b489296e5c6636686b618ad105b578da5505797ae869323"
+      },
+      "seal": {
+        "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/seal.json",
+        "sha256": "f7df9d00870031add9de85269b808f382314c9ae548af69bb45b486a2ea64f76"
+      },
+      "config_file": {
+        "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/config.json",
+        "sha256": "fa67f905e66972bdd792939b601b0887d6817477bc06048405e54c6a07770315"
+      },
+      "logical_config_sha256": "e1bee519ae7c92e7cba29f3be760faf40066adce845d23b86c1152fe741b271e",
+      "source_state": {
+        "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/source-state.json",
+        "sha256": "86fcccd1e0f102ca9c1c50424508a54aec598dbd63636d623d0334d5ec765e9b"
+      },
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T16:31:44.658013Z",
+      "ended_at": "2026-09-12T16:34:05.752390Z",
+      "seal_created_at": "2026-09-12T16:34:25.868486+00:00",
+      "recorder_wall_seconds": 141.09452549999696,
+      "record_end_to_seal_created_seconds": 20.116096,
+      "full_command_wall_seconds": null,
+      "source_git_sha": "ea2a98b20a0319a2108bab396ac29fb416181482",
+      "source_dirty": true,
+      "source_diff_sha256": "7ca31412a3dddd68826dc6cdd31202aada515b2146a51a1c5efd359eedcbc434",
+      "source_collection_atomic": false,
+      "tracked_diff_available": true,
+      "tracked_diff_empty": true,
+      "tracked_modified_paths": [],
+      "untracked_source_sha256": {
+        "scripts/build_result_reader3.py": "ec86990b19622bfa17e2c89324fc8cadfc7a8ca1a49b8a83256afb10174352a7",
+        "scripts/declare_reader_session3.py": "bd994374d4afd37dea0d09639e37969dfc1e79699dd65d0429487d1cb79b362e",
+        "scripts/evaluate_reader_labels3.py": "c14d28928ecc50b1b98767a84fc50317219a6146a87e5c9c0957b2a63f67ff2f",
+        "scripts/freeze_result_reader3.py": "36d933a3fdb0fc19235e11a942da5ba516ed5aac0654322cddc4273e97683712",
+        "src/gradientclimb/experiments/reader_exposure3.py": "efe189959d06488b9df077af78c0faf2f0bffec0a02ce2a29acf12aff20d5392",
+        "src/gradientclimb/experiments/reader_receipts3.py": "532945d5d2cae1d731e119d9dd88cceed404b3a628ff7ccce159c4a1de7657a7",
+        "src/gradientclimb/experiments/reader_units3.py": "4a576067fcf902b07ebca8843b65a1c522b8f59699b338e0e03c0e207455b1ec",
+        "src/gradientclimb/experiments/reader_validation3.py": "1d42a47a4f3e6994cc40ebf56614b8357dc9ae989904a55eb4a76657da19f6c7",
+        "tests/test_reader_exposure3.py": "b84b40335f9a168287f22e63421eaea0c8b55dfa0e94b2323ab51c9aecc68717",
+        "tests/test_reader_receipts3.py": "0c86fde4ef7705a47f51a70f9ddccbadc152c1f47a1f929c8ea96b10b5581378",
+        "tests/test_reader_units3.py": "1d940f870b8a2861d44fefc6680a48a585a93beb72f5a224f6db4e8df7e7c8bc",
+        "tests/test_reader_validation3.py": "5169ad18953c3fb743877b32b594e68ab9ae724a4b011429953dab0a0a801a72"
+      },
+      "untracked_source_contents_included": false,
+      "directory": {
+        "file_count": 1196,
+        "total_regular_file_bytes": 94528815,
+        "includes": "All canonical run bytes including original payload, registered copies, installed local tool files, journals and seal; each file counted once."
+      },
+      "payload_directory": {
+        "file_count": 1174,
+        "total_regular_file_bytes": 54088395,
+        "includes": "All canonical run bytes including original payload, registered copies, installed local tool files, journals and seal; each file counted once."
+      },
+      "output_budget_bytes": 268435456,
+      "recorder_summary_except_resources": {
+        "acquisition_completed": true,
+        "actual_media_seconds": null,
+        "inherited_editing_seconds": null,
+        "inherited_human_play_seconds": null,
+        "inherited_human_skill_training_seconds": null,
+        "new_real_interaction_seconds": 0,
+        "policy_decisions": 0,
+        "prior_scope": "Original play, editing and skill acquisition are inherited, unknown and nonzero where applicable; excerpt duration is not new real interaction or independent episodes.",
+        "requested_media_seconds": 300,
+        "synchronized_action_labels": 0,
+        "training_eligible": false,
+        "video_sha256": "91e6ecf2ad93a574f486ad5e07e9a5e010834b39b5aa8cf472eb90f8df42db9d",
+        "whole_source_purpose": "construction"
+      },
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 141.09417969999777,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 15,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 44.10523061399759,
+            "utilization_percent": {
+              "coverage_fraction": 0.9996637287593864,
+              "covered_seconds": 140.7416813999953,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 51.0,
+              "time_weighted_sampled_mean": 31.337717565451133,
+              "uncovered_seconds": 0.047343300000648014,
+              "valid_samples": 15
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9996637287593864,
+              "covered_seconds": 140.7416813999953,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 857735168.0,
+              "time_weighted_sampled_mean": 847273680.477174,
+              "uncovered_seconds": 0.047343300000648014,
+              "valid_samples": 15
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.3051550000018324,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9995634801780279,
+            "covered_seconds": 140.72756749999826,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 31643303936.0,
+            "time_weighted_sampled_mean": 31530542009.68269,
+            "uncovered_seconds": 0.06145719999767607,
+            "valid_samples": 140
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9995635362903701,
+            "covered_seconds": 140.7275754000002,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 69648384.0,
+            "time_weighted_sampled_mean": 69493562.7988604,
+            "uncovered_seconds": 0.061449299995729234,
+            "valid_samples": 140
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 79.890625,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9995635007762261,
+          "covered_seconds": 140.7275703999985,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 79.890625,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.06145429999742191,
+          "valid_samples": 140
+        },
+        "sample_count": 140,
+        "sample_span_seconds": 140.78902469999593,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "subprocess_receipts": [
+        {
+          "phase": "local_tool_install",
+          "receipt": {
+            "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/acquisition/install.log.receipt.json",
+            "sha256": "d3d2adfa67bc360e68302f38a7aeb237af8e58dd662b6d1ed7f6315a9c0fb9c6"
+          },
+          "measurements": {
+            "elapsed_seconds": 2.774655299996084,
+            "exit_code": 0,
+            "error": null,
+            "cleanup_errors": [],
+            "terminated_owned_processes": 0,
+            "live_descendants_after_launcher_exit": 0,
+            "sampled_process_tree_cpu_core_seconds_lower_bound": 1.875,
+            "cpu_measurement_status": "sampled_lower_bound",
+            "sampled_process_identities": 3,
+            "process_sample_errors": 4,
+            "cpu_scope": "Maximum observed lifetime CPU for each launched process identity, sampled about every 0.2s; short-lived children and work after last sample may be missing. Separate from recorder-process CPU, not energy.",
+            "cleanup_scope": "Observed process identities retained across launcher exit. Descendants that start and detach entirely between samples are not discovered by this polling implementation."
+          }
+        },
+        {
+          "phase": "public_excerpt_download",
+          "receipt": {
+            "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/acquisition/download.log.receipt.json",
+            "sha256": "a6813e0bb8ed8f2136b881056ac7009438849cdc9f8f30b1d8ff3b3dd1b6593f"
+          },
+          "measurements": {
+            "elapsed_seconds": 136.83186289999867,
+            "exit_code": 0,
+            "error": null,
+            "cleanup_errors": [],
+            "terminated_owned_processes": 0,
+            "live_descendants_after_launcher_exit": 0,
+            "sampled_process_tree_cpu_core_seconds_lower_bound": 3.328125,
+            "cpu_measurement_status": "sampled_lower_bound",
+            "sampled_process_identities": 4,
+            "process_sample_errors": 5,
+            "cpu_scope": "Maximum observed lifetime CPU for each launched process identity, sampled about every 0.2s; short-lived children and work after last sample may be missing. Separate from recorder-process CPU, not energy.",
+            "cleanup_scope": "Observed process identities retained across launcher exit. Descendants that start and detach entirely between samples are not discovered by this polling implementation."
+          }
+        }
+      ]
+    },
+    {
+      "operation": "sparse_review",
+      "run_id": "4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7",
+      "experiment_id": "cycle-3-owner-video-review-001",
+      "status": "completed",
+      "run": {
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/run.json",
+        "sha256": "3f832e75e5fea69ebc6bff0f7390933a7c5ff8662bde0fd5e2c80db8a2c4cbe6"
+      },
+      "seal": {
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/seal.json",
+        "sha256": "c01f98d357000ef74a5c7fba6c0152c60fd245f3af96d12eca4228c2ac8ed32c"
+      },
+      "config_file": {
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/config.json",
+        "sha256": "7b97d9d3d748668cead3d625d4fa8f425ab534cfa0afac0936151fe189b253e1"
+      },
+      "logical_config_sha256": "3578f4fea838c515bb611eff6dbf58d9e4784d03b9f44b2269591f2490481fe4",
+      "source_state": {
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/source-state.json",
+        "sha256": "deff9a3d1b1cd420a921b701e24ee071337b8e693b1dfdefb7110f7b08d053fb"
+      },
+      "individual_seal_verified": true,
+      "started_at": "2026-09-12T16:38:52.216182Z",
+      "ended_at": "2026-09-12T16:39:29.105228Z",
+      "seal_created_at": "2026-09-12T16:39:29.350289+00:00",
+      "recorder_wall_seconds": 36.88919529999839,
+      "record_end_to_seal_created_seconds": 0.245061,
+      "full_command_wall_seconds": null,
+      "source_git_sha": "596b0e36b93565b80130099347da24ce0fdd3fff",
+      "source_dirty": true,
+      "source_diff_sha256": "f1714eb155665b79c130a0e600e12a5fbe1e6c9c3cab49664a68c642bc66ddbc",
+      "source_collection_atomic": false,
+      "tracked_diff_available": true,
+      "tracked_diff_empty": false,
+      "tracked_modified_paths": [
+        "src/gradientclimb/datasets/partitions.py",
+        "tests/test_imitation_partitions.py"
+      ],
+      "untracked_source_sha256": {
+        "scripts/build_result_reader3.py": "ec86990b19622bfa17e2c89324fc8cadfc7a8ca1a49b8a83256afb10174352a7",
+        "scripts/declare_reader_session3.py": "bd994374d4afd37dea0d09639e37969dfc1e79699dd65d0429487d1cb79b362e",
+        "scripts/evaluate_reader_labels3.py": "c14d28928ecc50b1b98767a84fc50317219a6146a87e5c9c0957b2a63f67ff2f",
+        "scripts/freeze_result_reader3.py": "36d933a3fdb0fc19235e11a942da5ba516ed5aac0654322cddc4273e97683712",
+        "src/gradientclimb/experiments/reader_exposure3.py": "efe189959d06488b9df077af78c0faf2f0bffec0a02ce2a29acf12aff20d5392",
+        "src/gradientclimb/experiments/reader_receipts3.py": "458aa14871580c204633decf6254eb4c323aa36d98dc039c4ce25d5c6c22e7c0",
+        "src/gradientclimb/experiments/reader_units3.py": "4a576067fcf902b07ebca8843b65a1c522b8f59699b338e0e03c0e207455b1ec",
+        "src/gradientclimb/experiments/reader_validation3.py": "435d02be4d6571b553145be36b94e2bf4e49190f1361cf7ea443477dd119d959",
+        "tests/test_reader_exposure3.py": "b84b40335f9a168287f22e63421eaea0c8b55dfa0e94b2323ab51c9aecc68717",
+        "tests/test_reader_receipts3.py": "3c0728862ded60e07f379d4ac9b4b75152d2a555516c560da630d9bd3e3544bc",
+        "tests/test_reader_units3.py": "1d940f870b8a2861d44fefc6680a48a585a93beb72f5a224f6db4e8df7e7c8bc",
+        "tests/test_reader_validation3.py": "634208e0be3552e672e65c6165b9601f6fe6e33f36c86d85dbc755b806e5e1e8"
+      },
+      "untracked_source_contents_included": false,
+      "directory": {
+        "file_count": 62,
+        "total_regular_file_bytes": 14742447,
+        "includes": "All canonical run bytes including original payload, registered copies, installed local tool files, journals and seal; each file counted once."
+      },
+      "payload_directory": {
+        "file_count": 23,
+        "total_regular_file_bytes": 7320002,
+        "includes": "All canonical run bytes including original payload, registered copies, installed local tool files, journals and seal; each file counted once."
+      },
+      "output_budget_bytes": 134217728,
+      "recorder_summary_except_resources": {
+        "actor_observations": 0,
+        "new_real_interaction_seconds": 0,
+        "note": "Sparse decoded archive frames for human construction review. No episode segmentation, action inference, perception fitting or policy evaluation.",
+        "policy_decisions": 0,
+        "prior_acquisition_run_id": "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+        "probe_video_frames_read": 18000,
+        "selected_archive_frames": 18,
+        "synchronized_action_labels": 0,
+        "training_eligible": false
+      },
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 36.88878780000232,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 5,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 13.660572947500476,
+            "utilization_percent": {
+              "coverage_fraction": 0.9984465174438011,
+              "covered_seconds": 36.42375080000056,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 45.0,
+              "time_weighted_sampled_mean": 37.50457502992873,
+              "uncovered_seconds": 0.05667169999651378,
+              "valid_samples": 5
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9984465174438011,
+              "covered_seconds": 36.42375080000056,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 845152256.0,
+              "time_weighted_sampled_mean": 845152256.0,
+              "uncovered_seconds": 0.05667169999651378,
+              "valid_samples": 5
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.4083653000052436,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.997697214170296,
+            "covered_seconds": 36.39641590000247,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 32555343872.0,
+            "time_weighted_sampled_mean": 32305639065.87754,
+            "uncovered_seconds": 0.08400659999460913,
+            "valid_samples": 37
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9976978775396715,
+            "covered_seconds": 36.39644009999756,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 65851392.0,
+            "time_weighted_sampled_mean": 63787579.96752237,
+            "uncovered_seconds": 0.08398239999951329,
+            "valid_samples": 37
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 5.703125,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9976975184430112,
+          "covered_seconds": 36.396426999999676,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 5.703125,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.08399549999739975,
+          "valid_samples": 37
+        },
+        "sample_count": 37,
+        "sample_span_seconds": 36.480422499997076,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "subprocess_receipts": [
+        {
+          "phase": "full_video_counted_probe",
+          "receipt": {
+            "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/probe.json.receipt.json",
+            "sha256": "699a3f5095d90860cb9731d9f28fa96ace069a72b48edca2073f41de1c32f06d"
+          },
+          "measurements": {
+            "elapsed_seconds": 25.66678310000134,
+            "exit_code": 0,
+            "error": null,
+            "cleanup_errors": [],
+            "terminated_owned_processes": 0,
+            "live_descendants_after_launcher_exit": 0,
+            "sampled_process_tree_cpu_core_seconds_lower_bound": 24.515625,
+            "cpu_measurement_status": "sampled_lower_bound",
+            "sampled_process_identities": 2,
+            "process_sample_errors": 4,
+            "cpu_scope": "Maximum observed lifetime CPU for each launched process identity, sampled about every 0.2s; short-lived children and work after last sample may be missing. Separate from recorder-process CPU, not energy.",
+            "cleanup_scope": "Observed process identities retained across launcher exit. Descendants that start and detach entirely between samples are not discovered by this polling implementation."
+          }
+        },
+        {
+          "phase": "sparse_original_frame_extraction",
+          "receipt": {
+            "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/extract.log.receipt.json",
+            "sha256": "41b282ad38d42955d4aae25f54e3a2b2118ec94ad4ff889673a25e7df04df732"
+          },
+          "measurements": {
+            "elapsed_seconds": 7.965207699999155,
+            "exit_code": 0,
+            "error": null,
+            "cleanup_errors": [],
+            "terminated_owned_processes": 0,
+            "live_descendants_after_launcher_exit": 0,
+            "sampled_process_tree_cpu_core_seconds_lower_bound": 26.78125,
+            "cpu_measurement_status": "sampled_lower_bound",
+            "sampled_process_identities": 2,
+            "process_sample_errors": 4,
+            "cpu_scope": "Maximum observed lifetime CPU for each launched process identity, sampled about every 0.2s; short-lived children and work after last sample may be missing. Separate from recorder-process CPU, not energy.",
+            "cleanup_scope": "Observed process identities retained across launcher exit. Descendants that start and detach entirely between samples are not discovered by this polling implementation."
+          }
+        }
+      ]
+    }
+  ],
+  "media": {
+    "artifact": {
+      "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/acquisition/owner-excerpt.webm",
+      "sha256": "91e6ecf2ad93a574f486ad5e07e9a5e010834b39b5aa8cf472eb90f8df42db9d"
+    },
+    "requested_start_seconds": 0,
+    "requested_end_seconds": 300,
+    "requested_span_seconds": 300,
+    "measured_container_duration_seconds": 299.999,
+    "measured_media_size_bytes": 36835187,
+    "container": "matroska,webm",
+    "stream_count": 1,
+    "video_stream_count": 1,
+    "audio_stream_count": 0,
+    "codec": "vp9",
+    "width_pixels": 1280,
+    "height_pixels": 576,
+    "display_aspect_ratio": "20:9",
+    "average_frame_rate": "60/1",
+    "nominal_frame_rate": "60/1",
+    "time_base_seconds": "1/1000",
+    "start_pts": 0,
+    "probe_frames_read": 18000,
+    "probe_frame_count_scope": "One separate ffprobe -count_frames decoding pass of the archived video; not source-game rendering or physics counts. The ffmpeg extraction decode count is unmeasured and must not be replaced with 18.",
+    "source_clock": "Media presentation timestamps, not new real interaction, simulator time or learner wall clock",
+    "probe_receipt": {
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/probe.json.receipt.json",
+      "sha256": "699a3f5095d90860cb9731d9f28fa96ace069a72b48edca2073f41de1c32f06d"
+    },
+    "probe_metadata": {
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/probe.json",
+      "sha256": "8d7de2c0d48ffeb63c74bf87700d9543f3940d9f62992f67946b02493f82d808"
+    },
+    "acquisition_actual_media_seconds_was_null": true,
+    "legacy_record_policy": "The acquisition record remains sealed with actual_media_seconds=null; measured duration is a later additive review result.",
+    "complete_pts_continuity_audited": false,
+    "frame_rate_semantics": "60/1 is encoded-stream nominal/reported metadata. 18,000 counted decoded frames do not establish distinct original captures, uniform original game timestamps, or absence of edits, duplicates or dropped frames. Only 18 selected PTS were verified; complete PTS continuity was not audited."
+  },
+  "sparse_selection": {
+    "report": {
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/review.json",
+      "sha256": "353118bf9a62c542b183c5b1a423ddf9788fa8542af9f2ed67346e8c7078b4f4"
+    },
+    "selected_frame_count": 18,
+    "unique_frame_hash_count": 18,
+    "all_requested_timestamps_exactly_matched": true,
+    "frames": [
+      {
+        "requested_seconds": 0,
+        "source_pts_seconds": 0.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-001.png",
+        "sha256": "289984d258208993a06dd4c29d8a9627913a4f400398943ddf5650c22a6c6e18"
+      },
+      {
+        "requested_seconds": 10,
+        "source_pts_seconds": 10.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-002.png",
+        "sha256": "5b380e6a6aaeba919c69641234252d8d57ad13f3ff4221cfc492bbd42244c458"
+      },
+      {
+        "requested_seconds": 15,
+        "source_pts_seconds": 15.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-003.png",
+        "sha256": "4199b8028ba75508f81f8b981c74f15280da16e5becbdfccc6aaaad053b573b2"
+      },
+      {
+        "requested_seconds": 20,
+        "source_pts_seconds": 20.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-004.png",
+        "sha256": "461b662fe0b0a9a6da3c97f5abefb55aa5ffaf73b3f46d7858fca40d6638687f"
+      },
+      {
+        "requested_seconds": 25,
+        "source_pts_seconds": 25.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-005.png",
+        "sha256": "9227dc2b236f984d75f2a7423393daca05e7d572769ddc4a11716f4ad95b7a05"
+      },
+      {
+        "requested_seconds": 30,
+        "source_pts_seconds": 30.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-006.png",
+        "sha256": "0d4ebd6b1f1ced9b4f553fb0fee9dfd1d67ca94a6ca982eed5a5395a15cb454e"
+      },
+      {
+        "requested_seconds": 35,
+        "source_pts_seconds": 35.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-007.png",
+        "sha256": "306bb609e81f1487e8faf6bf2f173354363bb60859852589129bdcea409c9319"
+      },
+      {
+        "requested_seconds": 37,
+        "source_pts_seconds": 37.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-008.png",
+        "sha256": "2cb1d392ddeded748e7d114b73c5a2d6c9e3cd50716df4296e16f16d365d3b8c"
+      },
+      {
+        "requested_seconds": 40,
+        "source_pts_seconds": 40.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-009.png",
+        "sha256": "ab6e2a8cc09fd07157b89ccd75498ca1f96d77918839f2b55c53b88b617e6d27"
+      },
+      {
+        "requested_seconds": 60,
+        "source_pts_seconds": 60.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-010.png",
+        "sha256": "f336aeada3cc036d0b10bad4d4444e77496d196662ebfa97479605d436f5d663"
+      },
+      {
+        "requested_seconds": 90,
+        "source_pts_seconds": 90.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-011.png",
+        "sha256": "2b144272261bdc7e67d9ad0ed834a4af4187ce41f13dcd43381bbdc5b2fc6a75"
+      },
+      {
+        "requested_seconds": 120,
+        "source_pts_seconds": 120.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-012.png",
+        "sha256": "6a7eeb69b7c674790862facd75b3e23808baa1d153b2fb976175f68c505b69bd"
+      },
+      {
+        "requested_seconds": 150,
+        "source_pts_seconds": 150.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-013.png",
+        "sha256": "779a62cddc2a66f8866bce436b9787f301cf2caf1f403efd3b485d13d36021b9"
+      },
+      {
+        "requested_seconds": 180,
+        "source_pts_seconds": 180.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-014.png",
+        "sha256": "ab6099ca34812d00d25a68d987ec170bb75102650b388d6b5d7d7197d305b539"
+      },
+      {
+        "requested_seconds": 210,
+        "source_pts_seconds": 210.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-015.png",
+        "sha256": "607d2a87a9845416e3c5c6d77506f71f1b0cb34d907ef2f287ba287bbb5ebe80"
+      },
+      {
+        "requested_seconds": 240,
+        "source_pts_seconds": 240.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-016.png",
+        "sha256": "00706b674c6cf580449dced66787a68940bc6243332c27ec164bc233c160542d"
+      },
+      {
+        "requested_seconds": 270,
+        "source_pts_seconds": 270.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-017.png",
+        "sha256": "6c96598953f6932aa0e883240396b5fcb6a29107b1f234ea3ea0470a8aa33b34"
+      },
+      {
+        "requested_seconds": 299,
+        "source_pts_seconds": 299.0,
+        "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-018.png",
+        "sha256": "69c3d1877d308be14cee4a4d9f2867ecea688f283cdce307462df2f079408ef0"
+      }
+    ],
+    "selected_method": "Frozen purposeful times, denser around previously browsed early menus/start then 30-second spacing and 299 seconds. First original frame crossing each requested time selected; no generated or interpolated frames.",
+    "complete_video_visual_review": false,
+    "complete_episode_count": null,
+    "intervening_gaps_reviewed": false
+  },
+  "manual_construction_interpretation": {
+    "reviews": [
+      {
+        "path": "research/diagnostics/owner-video-early-sparse-review-001.json",
+        "sha256": "a2612a82491f8994bc5dc0035bf6d5b0b48504dd4630979c5443a4ee448347fb"
+      },
+      {
+        "path": "research/diagnostics/owner-video-late-sparse-review-001.json",
+        "sha256": "881fcaaf115ea8b771d0cc8ba6e21f5094e57ca254107ba4fbf2738236295292"
+      }
+    ],
+    "reviewed_selected_frame_count": 18,
+    "review_hashes_and_pts_joined_to_selection": true,
+    "scope": "Two separate direct visual inspections of nine retained frames each; narrative construction evidence only. This report reads their notes without claiming a new independent visual review.",
+    "summary": "Early menu pixels verify Hill Climber name; selected map, its upgrades and build remain incomplete. Later selected images contain different vehicle appearances and menu/tune states, including unequal wheel sizes and face-camera/HUD occlusion. Visible pedal/touch indicators are not synchronized action truth.",
+    "limitations": "Sparse UI changes do not establish continuous episode boundaries, outcomes, exact vehicle-change times, motion, contact or control delivery. Visible progress/mission/crown fields are not independent benchmark scores. Video 1280x576 geometry and overlays are not assumed equivalent to the native capture profile.",
+    "review_labor_wall_seconds": null,
+    "review_model_and_tool_compute": null
+  },
+  "experience_and_learning": {
+    "new_real_interaction_seconds": 0,
+    "simulator_physics_steps": 0,
+    "simulator_seconds": 0,
+    "actor_observations": 0,
+    "policy_decisions": 0,
+    "synchronized_action_labels": 0,
+    "optimizer_updates": 0,
+    "independent_evaluation_episodes": 0,
+    "training_steps": 0,
+    "training_eligible": false,
+    "qualifies_real_game": false,
+    "learning_or_competence_claim": false,
+    "original_human_complete_episode_count": null,
+    "source_game_physics_steps": null,
+    "source_game_render_frames": null,
+    "source_game_action_decisions": null,
+    "counts_note": "18 retained review images and 18,000 ffprobe-decoded video frames are archive-processing experience only. Historical gameplay and editing are inherited construction priors, not new interaction."
+  },
+  "cost_accounting": {
+    "unique_canonical_run_costs": [
+      "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+      "4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7"
+    ],
+    "review_inherits_acquisition_run_id": "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+    "deduplication": "Acquisition is counted once by run ID; original payload/registered copies and review lineage are not additional acquisitions. Child process receipts are separate nonoverlapping process scopes, not additional elapsed wall time.",
+    "recorder_cpu_scope": "Measured cumulative user+system counter differences for the recorder process and its threads only; excludes child processes. Each resources-3.0 object retains exact sample boundaries, valid coverage, uncovered intervals and counter faults.",
+    "subprocess_cpu_scope": "Maximum sampled lifetime CPU per launched process identity about every 0.2 seconds; short-lived or detached descendants and work after the last sample can be missed. All four receipts have process sample errors, so lower bounds remain lower bounds.",
+    "wall_clock_scope": "Recorder clocks include setup/retention within the recorder. Imports, initial protocol parsing and prior-run lookup precede the recorder. Resource measurement excludes work before its first sample and after its final sample. Actual seal creation follows record end; those timestamp deltas are separate descriptive intervals, not complete command clocks.",
+    "acquisition_operation_deadline_seconds": 300,
+    "review_operation_deadline_seconds": 120,
+    "deadline_semantics": "Cooperative bounded subprocess/output polling can overshoot by one indivisible operation. Final retention/sealing is outside the external-operation deadline; final directory bytes are separately checked.",
+    "gpu_scope": "Sampled utilization-equivalent seconds describe device-wide activity of all processes. They are neither precise per-process active time nor learning compute attribution; no energy is estimated.",
+    "memory_scope": "Process/host RAM and device VRAM are sampled peaks and time-weighted means over covered adjacent samples. Unsampled peaks may be higher. Memory capacity/peaks are not accumulated or summed across runs.",
+    "concurrency_and_source_caveat": "The operator reported background synthetic reader tests during acquisition/review, with exact overlap and load attribution unmetered. Canonical source snapshots preserve dirty state: acquisition has no tracked diff and 12 untracked reader files; review has an unrelated partition helper/test diff and 12 untracked reader files. Governing acquisition/review scripts and their imported recorder/helper source were committed before execution; the review tool does not import the changed partition helper. No whole-checkout-clean claim is made. These are construction evidence runs, not controlled throughput, training-speed or time-to-competence measurements.",
+    "concurrency_evidence_type": "Operator execution-context report; exact overlap and host background workload were not independently instrumented in these two records.",
+    "energy_joules": null,
+    "report_generation_and_hash_verification_cost": null,
+    "source_snapshot_collection_note": "Both source-state records state collection_is_atomic=false. This describes provenance collection, not evidence that the committed governing modules changed during either operation.",
+    "unseparated_package_download_cost": "Pinned wheel retrieval runs in the recorder process before installation. Its standalone elapsed/CPU cost is not separately reported; it remains within the recorder window and must not be inserted as zero."
+  },
+  "inherited_priors": {
+    "human_play_seconds": null,
+    "human_skill_acquisition_seconds": null,
+    "human_editing_seconds": null,
+    "human_upload_and_original_encoding_compute": null,
+    "prior_browser_review_wall_seconds": null,
+    "prior_browser_review_compute": null,
+    "manual_sparse_review_work": null,
+    "engineering_and_test_work": null,
+    "meaning": "Unknown/unmetered values are not zero. Deliberate source selection and all observed developer/reviewer exposure remain construction priors; no heldout or independent evaluation status is created."
+  },
+  "next_gate": "Freeze source-specific geometry, nuisance masks, sequence selection, profile provenance and any video-only control-inference assumptions before downstream construction. These actionless recordings do not enter synchronized imitation targets or benchmark claims.",
+  "tools": {
+    "ffmpeg_version_from_frozen_installed_path": "9.0.1",
+    "ffmpeg_sha256": "57c56e369d5b4873b4d93fc1a1d833cb7cd8bc9325c14b05c34ce60b22842d8a",
+    "ffprobe_sha256": "afe05347caaabe479b3c4eae71992b6ec1e11c57266a1d665deb0f9fe9847208",
+    "yt_dlp_version": "2026.8.19",
+    "yt_dlp_wheel_sha256": "1d57897e94c6665a0a6f9bc54b34e584284e32c034ffab3a7df25d8f7b24eedf",
+    "yt_dlp_wheel_size_bytes": 3185533,
+    "installation_scope": "Pinned local wheel retained inside acquisition run and installed into that run only; no global install. Exact private executable paths remain in original protocol."
+  }
+}

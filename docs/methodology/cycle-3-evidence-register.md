@@ -208,3 +208,41 @@ the failed assembly, both successful offline recorder windows, all three inherit
 capture attempts and explicit unknown human/review/engineering priors, with each
 unique run cost counted once and sampled resource coverage shown. Independent
 accuracy, matched benchmark and qualified learning requirements remain open.
+
+## Reader and owner-archive milestone
+
+C3-07/08 now have [prospective reader qualification tools](../operations/reader-validation-3.md)
+with immutable candidate/session declarations, whole-session acquisition closure,
+first-retained `terminal_frame` callback selection, distinct canonical episode units and a durable
+known-exposure ledger. Failed prediction attempts consume exposure; replacement
+labels and aliases cannot restore blinding. A completed verified envelope is
+required for a qualification flag. The new protocol remains draft: no real bank
+has been fitted or independently qualified by these tools, and the historical
+reliability result keeps its rejected reading and failed gate.
+
+C3-08/13/14/15 now include [four source/render pose pairs](../../research/diagnostics/visual-pose-screen-002.md)
+and [an owner archive excerpt](../../research/diagnostics/owner-video-acquisition-001.md).
+The pose screen exposes wheel-appearance and terrain-edge differences rather than
+establishing fidelity. Its exact actor pixels contain no diagnostic landmarks.
+The archive adds 18 fixed timestamped review frames from a 299.999-second video;
+the separate counting pass reads 18,000 encoded frames. Source vehicle selection
+and visibly different vehicle geometries inform future scenario/profile work,
+while map/upgrades/build equivalence and synchronized actions remain unresolved.
+
+The owner's direction is to use the archive instead of new play recordings.
+Archive-inferred actions cannot be relabeled as synchronized key events, and
+construction excerpts cannot become untouched benchmarks. C3-19/20 retains the
+141-second acquisition recorder window, the separate extraction window and their
+CPU/resource coverage alongside unknown inherited human skill, play, editing and
+review costs. Stored media duration and repeated decoding are experience/data
+measurements, never learning-speed results. All real competence, matched benchmark,
+fidelity, selected-algorithm and multi-profile qualification gates remain open.
+
+The [149-run integrity cutoff](../../research/experiments/cycle-3-archive-reader-integrity-001.json)
+verifies every canonical run at 2026-09-12 16:47:17 UTC, with no unfinished or
+uncatalogued directory. It adds a new cutoff without replacing the earlier
+136-run inventory. Integrity is neither backup nor scientific qualification.
+The [reader ancestry inventory](../../research/datasets/native-reader-construction-source-inventory-001.json)
+locates all effective glyph/UI pixel sources and the exact sealed historical
+annotation bytes. Missing original session identities remain unknown; an audit
+grouping cannot create independent sessions. Candidate fitting remains pending.

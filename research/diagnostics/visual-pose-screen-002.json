@@ -1,0 +1,3586 @@
+{
+  "schema_version": "visual-pose-screen-interpretation-3.0",
+  "created_at": "2026-09-12T16:35:45.603731+00:00",
+  "experiment_id": "cycle-3-visual-pose-screen-002",
+  "run_id": "19955a1f-58aa-4e41-9371-bc2f7ee43da1",
+  "status": "completed_construction_screen",
+  "evidence_domain": "purposefully_selected_construction_pixel_agreement",
+  "independent_accuracy_measured": false,
+  "qualifies_real_game": false,
+  "source_git_sha": "982682fc2b386f299722f0408e9dec4e5f7561f4",
+  "source_state": {
+    "dirty_worktree": true,
+    "tracked_source_diff_empty": true,
+    "tracked_source_paths": [
+      "src",
+      "tests",
+      "scripts",
+      "configs",
+      "schemas",
+      "pyproject.toml",
+      "requirements-lock.txt"
+    ],
+    "source_diff_sha256": "1ac254f1e86b5ab2956a1c9cc13486fd589e8ff7e3e94ed9fcd07546d13105a5",
+    "untracked_source_files": {
+      "scripts/acquire_owner_video.py": "fe4876ecdf1fc3f0533438fcc931624aa939855234091e8246eb7f4fec43eedd",
+      "scripts/build_result_reader3.py": "ec86990b19622bfa17e2c89324fc8cadfc7a8ca1a49b8a83256afb10174352a7",
+      "scripts/declare_reader_session3.py": "bd994374d4afd37dea0d09639e37969dfc1e79699dd65d0429487d1cb79b362e",
+      "scripts/evaluate_reader_labels3.py": "c14d28928ecc50b1b98767a84fc50317219a6146a87e5c9c0957b2a63f67ff2f",
+      "scripts/freeze_result_reader3.py": "36d933a3fdb0fc19235e11a942da5ba516ed5aac0654322cddc4273e97683712",
+      "src/gradientclimb/experiments/reader_exposure3.py": "efe189959d06488b9df077af78c0faf2f0bffec0a02ce2a29acf12aff20d5392",
+      "src/gradientclimb/experiments/reader_receipts3.py": "532945d5d2cae1d731e119d9dd88cceed404b3a628ff7ccce159c4a1de7657a7",
+      "src/gradientclimb/experiments/reader_units3.py": "4a576067fcf902b07ebca8843b65a1c522b8f59699b338e0e03c0e207455b1ec",
+      "src/gradientclimb/experiments/reader_validation3.py": "1d42a47a4f3e6994cc40ebf56614b8357dc9ae989904a55eb4a76657da19f6c7",
+      "tests/test_owner_video_acquisition.py": "aa0f3d163a9242e0773d6ede0ad228a746eb350396706cb78603ba05879e7c86",
+      "tests/test_reader_exposure3.py": "b84b40335f9a168287f22e63421eaea0c8b55dfa0e94b2323ab51c9aecc68717",
+      "tests/test_reader_receipts3.py": "0c86fde4ef7705a47f51a70f9ddccbadc152c1f47a1f929c8ea96b10b5581378",
+      "tests/test_reader_units3.py": "1d940f870b8a2861d44fefc6680a48a585a93beb72f5a224f6db4e8df7e7c8bc",
+      "tests/test_reader_validation3.py": "5169ad18953c3fb743877b32b594e68ab9ae724a4b011429953dab0a0a801a72"
+    },
+    "untracked_contents_included": false,
+    "collection_is_atomic": false,
+    "scope": "Dispatched tracked CLI, renderer, shared perception and publisher code at 982682f; captured tracked source diff empty. Concurrent unrelated reader/downloader files were untracked, and a documentation edit existed at dispatch. Whole worktree was not clean; untracked bytes are identified but not embedded."
+  },
+  "inputs": [
+    {
+      "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/run.json",
+      "sha256": "d93f698b581e9bf002dd7c56e1dc3fbc212b8e6e655b5298a0232d72394731bd"
+    },
+    {
+      "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/seal.json",
+      "sha256": "d62a1e08e2986b989fbe3dd5c3d4ab348f7b6c55aa41a5e724cb83b7c5d2f52c"
+    },
+    {
+      "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/config.json",
+      "sha256": "d1672082c1295d947f562b1306fff75c044f69066282531bc400706530b8c8c0"
+    },
+    {
+      "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/source-state.json",
+      "sha256": "9d94a4655192d73322f582b31e6a68e6811a15a90f0bc65b03a56818acd46371"
+    },
+    {
+      "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/visual-pose-screen.json",
+      "sha256": "a393e136b3a1ddc3603e4eed0c9c9eb29fd0f73aeb064c2cab35f6a43684cd8f"
+    },
+    {
+      "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/visual-pose-operations.jsonl",
+      "sha256": "6edc1ff919a0ed648500485e69ab418b4988a58bcce3cfc970dd27ebb692b5c5"
+    },
+    {
+      "path": "artifacts/cycle3-visual-pose-screen-002.log",
+      "sha256": "af50dbd20abf54eaa73f6a4f9e6d08867244f4486d105459259c906a3a55d5db"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-visual-pose-screen-002.json",
+      "sha256": "77f78e76707e4a42084899b47df2a9dd73eb71ea88ce32e98a4d878f4abe8aaa"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-visual-pose-screen-001.json",
+      "sha256": "ddbbbb44c5aa359d4cb30ac1572c47daa03040f493afd6318008fd8d80c904aa"
+    },
+    {
+      "path": "research/datasets/fbafca5b-visual-pose-labels-v1.json",
+      "sha256": "875c783d255e34c921ac566fa6fe42b85343c0724610e4892022cb4ac0aa62bf"
+    },
+    {
+      "path": "research/diagnostics/visual-pose-screen-001-preflight-failure.json",
+      "sha256": "0ce9472121a0c2c7cac3c9499107aa3cb950f7fb870aee1c03ec988f38eef051"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-002.json",
+      "sha256": "c94e95dc2e03f1dcf722e194f686c1ff3dbc9869ae6e7ad6cbc61fdeca05606a"
+    },
+    {
+      "path": "configs/perception/hcr-discovery-wrapper.json",
+      "sha256": "8c3a731e415d3a0b53c07b214054c848c10c42aa92fbcfa728cac9648da48b54"
+    },
+    {
+      "path": "research/diagnostics/imitation-construction-002.json",
+      "sha256": "8c78c78dfc41bf0c518c2a1a3e56005bc6d8c3d58b954629b5d13cca88a22143"
+    }
+  ],
+  "verification": {
+    "canonical_seal_valid": true,
+    "sealed_file_count": 44,
+    "sealed_directory_bytes_including_seal": 2081886,
+    "maximum_output_bytes": 33554432,
+    "all_four_exact_actor_png_arrays_hash_match": true,
+    "input_reference_hashes_verified": 14
+  },
+  "engineering_acceptance": {
+    "four_registered_pairs_retained": true,
+    "four_decodes_four_renders": true,
+    "original_label_and_protocol_bytes_preserved": true,
+    "zero_physics_episodes_policy_and_updates": true,
+    "fidelity_or_competence_gate": null
+  },
+  "counts": {
+    "planned_poses": 4,
+    "retained_pairs": 4,
+    "source_image_decodes": 4,
+    "rendered_observations": 4,
+    "source_detector_valid": {
+      "body": 4,
+      "wheels": 2,
+      "terrain": 2
+    },
+    "rendered_detector_valid": {
+      "body": 4,
+      "wheels": 4,
+      "terrain": 2
+    },
+    "episodes": 0,
+    "physics_substeps": 0,
+    "simulator_seconds": 0,
+    "policy_decisions": 0,
+    "optimizer_updates": 0,
+    "new_real_interaction_seconds": 0
+  },
+  "costs": {
+    "shell_tool_process_seconds": 4.9749087,
+    "shell_scope": "Reported command wall including Python startup, CLI, finalization and output; not an efficiency-study entry-clock receipt",
+    "publisher_elapsed_seconds_before_report": 3.7691408000027877,
+    "publisher_scope": "Exactly four selected source RGB decodes/perception observations and four procedural renders. Mandatory integrity hashing additionally reads the whole sealed source and reviewed windows; these are not four total filesystem reads. Function-entry wall budget checked at operation boundaries, including preflight, excluding imports and final sealing; an indivisible operation can overrun before detection. Output budget covers retained run files, reserving 1 MiB for recorder finalization.",
+    "recorder_wall_seconds": 3.7303223999988404,
+    "recorder_scope": "Recorder start through final resource sample; excludes imports and initial protocol/label/plan parse plus partition preflight; sealing follows final sample",
+    "source_hash_decode_seconds": 0.07198240000434453,
+    "source_perception_seconds": 0.16257459999906132,
+    "png_publication_seconds": 0.1257932999942568,
+    "render_replay": {
+      "coordinate_system": "screen_pixels_x_right_y_down",
+      "cost_scope": "Function entry until summary clocks are read, including validation, source hashing and per-frame callbacks. Excludes imports, final replay_completed callback, post-return publication and inherited annotation/development costs. Component render/perception timers exclude callbacks and hashing. CPU covers this process's threads, excludes children. RSS sampled before loop and after each measured frame before its callback; brief peaks may be missed.",
+      "declared_contiguous_pose_interval_seconds": 0.0,
+      "elapsed_seconds": 0.3135083000015584,
+      "extracted_observations": 4,
+      "fidelity_level": "declared_screen_pixel_pose_replay",
+      "gameplay_episodes": 0,
+      "new_real_interaction_seconds": 0,
+      "optimizer_updates": 0,
+      "perception_wall_seconds": 0.09681030001229374,
+      "physics_substeps": 0,
+      "policy_decisions": 0,
+      "process_cpu_core_seconds": 1.09375,
+      "qualifies_real_game": false,
+      "render_wall_seconds": 0.014402099986909889,
+      "rendered_observations": 4,
+      "rss_sample_count": 5,
+      "sampled_peak_process_rss_bytes": 97632256,
+      "simulator_seconds": 0
+    },
+    "resources": {
+      "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+      "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+      "energy_measured": false,
+      "final_sample_elapsed_seconds": 3.7299935999981244,
+      "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+      "gpu_query_count": 2,
+      "gpu_query_failures": 0,
+      "gpus": [
+        {
+          "index": 0,
+          "scope": "device_wide_all_processes; not_policy_attributed",
+          "utilization_equivalent_seconds": 1.4855864320026013,
+          "utilization_percent": {
+            "coverage_fraction": 0.9853685155791,
+            "covered_seconds": 3.376332800005912,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 50.0,
+            "time_weighted_sampled_mean": 44.0,
+            "uncovered_seconds": 0.05013429999235086,
+            "valid_samples": 2
+          },
+          "vram_bytes": {
+            "coverage_fraction": 0.9853685155791,
+            "covered_seconds": 3.376332800005912,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 845152256.0,
+            "time_weighted_sampled_mean": 845152256.0,
+            "uncovered_seconds": 0.05013429999235086,
+            "valid_samples": 2
+          }
+        }
+      ],
+      "initial_sample_elapsed_seconds": 0.3035264999998617,
+      "max_interpolation_gap_seconds": 30.0,
+      "memory": {
+        "host_ram_used_bytes": {
+          "coverage_fraction": 0.985031637980792,
+          "covered_seconds": 3.375178499998583,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 31860011008.0,
+          "time_weighted_sampled_mean": 31692088537.443363,
+          "uncovered_seconds": 0.05128859999967972,
+          "valid_samples": 5
+        },
+        "process_rss_bytes": {
+          "coverage_fraction": 0.9850386130952146,
+          "covered_seconds": 3.3752023999986704,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 98430976.0,
+          "time_weighted_sampled_mean": 75693772.10453318,
+          "uncovered_seconds": 0.05126469999959227,
+          "valid_samples": 5
+        }
+      },
+      "nonmonotonic_samples_excluded": 0,
+      "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+      "process_cpu": {
+        "core_seconds": 4.515625,
+        "counter_resets": 0,
+        "coverage_fraction": 0.9850361907758184,
+        "covered_seconds": 3.3751941000009538,
+        "identity_changes": 0,
+        "long_gap_intervals_bridged_by_cumulative_counters": 0,
+        "method": "measured_cumulative_user_plus_system_counter_differences",
+        "missing_samples": 0,
+        "observed_segment_delta_seconds": 4.515625,
+        "scope": "recorder_process_all_threads; excludes_child_processes",
+        "status": "observed",
+        "uncovered_seconds": 0.05127299999730894,
+        "valid_samples": 5
+      },
+      "sample_count": 5,
+      "sample_span_seconds": 3.4264670999982627,
+      "samples_with_errors": 0,
+      "version": "resources-3.0"
+    },
+    "addition_rule": "Component costs are nested within publisher/recorder windows; do not add them. Source capture and prior distinct attempts retain separate identities."
+  },
+  "concurrency_limitation": {
+    "background_tests": "Other agents were permitted to run background tests during this registered construction screen; no process-isolated timing claim. Exact overlapping workload was not separately logged.",
+    "device_scope": "GPU utilization/VRAM and host RAM include other applications and processes; no renderer or policy attribution, no energy measurement.",
+    "interpretation": "Single construction-cost receipt only; no throughput selection, fastest configuration or rapid-learning claim."
+  },
+  "inherited_priors": {
+    "direct_capture": {
+      "cost_id": "human-demonstration:fbafca5b-fd59-499a-a56d-1180528cdc21",
+      "capture_wall_seconds": 91.1890771,
+      "recorder_wall_seconds": 106.13528790000419,
+      "human_practice_seconds": null,
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 106.13503130000026,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 12,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "index": 0,
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 25.366740534500895,
+            "utilization_percent": {
+              "coverage_fraction": 0.9995378437622638,
+              "covered_seconds": 105.73957640000299,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 28.0,
+              "time_weighted_sampled_mean": 23.98982613524086,
+              "uncovered_seconds": 0.04889079999702517,
+              "valid_samples": 12
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9995378437622638,
+              "covered_seconds": 105.73957640000299,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 956301312.0,
+              "time_weighted_sampled_mean": 847656541.4626838,
+              "uncovered_seconds": 0.04889079999702517,
+              "valid_samples": 12
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.3465641000002506,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9994189130287019,
+            "covered_seconds": 105.7269948999965,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 33656360960.0,
+            "time_weighted_sampled_mean": 32829253717.873623,
+            "uncovered_seconds": 0.061472300003515556,
+            "valid_samples": 105
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9994190463136041,
+            "covered_seconds": 105.727009000002,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 154431488.0,
+            "time_weighted_sampled_mean": 123168381.01292528,
+            "uncovered_seconds": 0.06145819999801461,
+            "valid_samples": 105
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 63.953125,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9994190274079452,
+          "covered_seconds": 105.72700700000132,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 63.953125,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.06146019999869168,
+          "valid_samples": 105
+        },
+        "sample_count": 105,
+        "sample_span_seconds": 105.78846720000001,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "capture_status": "failed",
+      "reviewed_profile_identity_complete": false,
+      "training_eligible": false
+    },
+    "earlier_window_and_geometry_attempts": [
+      {
+        "cost_identity": {
+          "run_id": "8f5a7301-3cba-49c2-97e0-d39420526d7b",
+          "run_sha256": "dff658ae11bb5e75375b9e330f6a43e13722bdc0359dfaa686a0c4742eea10d1"
+        },
+        "status": "failed",
+        "recorder_wall_seconds": 0.4140345000050729,
+        "cpu_core_seconds": 0.015625
+      },
+      {
+        "cost_identity": {
+          "run_id": "fe9dabb6-16a6-47c9-90b4-edf3bbc919b3",
+          "run_sha256": "7f9f2b570eb18c458a4cfba9052cc86cd3889726b835b903858867f0ef3ef97f"
+        },
+        "status": "completed",
+        "recorder_wall_seconds": 2.4463038000030792,
+        "cpu_core_seconds": 1.984375
+      },
+      {
+        "cost_identity": {
+          "run_id": "9be884a9-efe8-44c0-ac5b-ee99187bf17e",
+          "run_sha256": "d59bc2746f1ee7d445be552d23368e8f3c3f805acd36a1a96b0abcc5a9ef522d"
+        },
+        "status": "completed",
+        "recorder_wall_seconds": 4.843425400002161,
+        "cpu_core_seconds": 11.078125
+      }
+    ],
+    "prior_cost_detail": {
+      "path": "research/diagnostics/imitation-construction-002.json",
+      "sha256": "8c78c78dfc41bf0c518c2a1a3e56005bc6d8c3d58b954629b5d13cca88a22143"
+    },
+    "failed_screen001": {
+      "evidence": {
+        "path": "research/diagnostics/visual-pose-screen-001-preflight-failure.json",
+        "sha256": "0ce9472121a0c2c7cac3c9499107aa3cb950f7fb870aee1c03ec988f38eef051"
+      },
+      "shell_tool_process_seconds": 0.8718508,
+      "cpu_core_seconds": null,
+      "source_decodes": 0,
+      "renders": 0
+    },
+    "annotation_labor_seconds": null,
+    "detector_renderer_development_seconds": null,
+    "unknown_costs_are_zero": false
+  },
+  "render_replay_identity": {
+    "render_style_sha256": "8623d54d5e21975be553cc715fa853fae4ca39577fb8ce3c5431bc04421c9390",
+    "renderer_version": "procedural-screen-pose-3.0",
+    "replay_sha256": "4e691c6bba8676c90d153fc514f620c5c8d781568cc5c2dcd6be36708cb79cba",
+    "schema_version": "visual-shared-perception-replay-3.0"
+  },
+  "shared_observation_schema_id": "f144123b15edd1dad4d05879aa06e18508cd438cbbdb59837762a3dae2bf509c",
+  "rows": [
+    {
+      "pose_index": 0,
+      "source_frame_index": 39,
+      "label_id": "fbafca5b-frame-000039-manual-construction-v1",
+      "label_sha256": "5e2bbfa67c474891c571eb052f8f3c511cac9f87bad66aaa26cbad2bed515ffd",
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000039.png",
+        "sha256": "93a2a0a16bb08ddf689a907461a81d76a44be4ba849f1ff34348df5f7f2ec37c"
+      },
+      "actor_png": {
+        "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/actor-pose-000.png",
+        "sha256": "aafa926992c46169002b463c908177413f11a0bd83d921dd788a40bd211e0e38"
+      },
+      "actor_rgb_sha256": "4f097ad4370de16f4380c8e51c08ae25ccd8d0f64714c6efdfbd3f7f98115dfb",
+      "exact_retained_actor_rgb_verified": true,
+      "label_uncertainty_pixels": {
+        "body": 4.0,
+        "wheels": [
+          3.0,
+          3.0
+        ],
+        "terrain": [
+          6.0,
+          6.0,
+          6.0,
+          6.0
+        ]
+      },
+      "label_wheel_radii_pixels": [
+        17.0,
+        16.0
+      ],
+      "uncertainty_semantics": "Manual uncalibrated construction estimates, not confidence intervals or accuracy acceptance thresholds",
+      "source": {
+        "measurement": {
+          "body": {
+            "area_pixels": 4157,
+            "axis_mod_pi_radians": -0.13087330705245212,
+            "bbox": [
+              224,
+              335,
+              363,
+              391
+            ],
+            "center_xy": [
+              292.9757036324272,
+              363.0454654799134
+            ],
+            "fill_fraction": 0.534044193216855,
+            "quality": 0.534044193216855,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "quality": 0.0,
+            "reason": "No horizontally extensive turf component",
+            "valid": false
+          },
+          "wheels": {
+            "quality": 0.0,
+            "reason": "No supported wheel pair (3 circular candidates)",
+            "valid": false
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              -1.0,
+              -7.0,
+              -2.0,
+              -2.0
+            ],
+            "center_delta_xy_pixels": [
+              -0.17693597494775304,
+              -4.539426415563469
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              225.0,
+              342.0,
+              365.0,
+              393.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              293.15263960737497,
+              367.58489189547686
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": null,
+          "terrain_comparable_points": 0,
+          "wheels": null
+        },
+        "body_center_residual_norm_pixels": 4.542873377230111,
+        "terrain_comparable_points": 0,
+        "terrain_signed_mean_residual_pixels": null,
+        "terrain_median_absolute_residual_pixels": null,
+        "terrain_maximum_absolute_residual_pixels": null,
+        "perception_seconds": 0.07765829999698326,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "hash_decode_seconds": 0.03136150000500493
+      },
+      "rendered": {
+        "measurement": {
+          "body": {
+            "area_pixels": 4023,
+            "axis_mod_pi_radians": -0.14442679971901679,
+            "bbox": [
+              225,
+              342,
+              366,
+              394
+            ],
+            "center_xy": [
+              294.905791697738,
+              365.10365398956003
+            ],
+            "fill_fraction": 0.5486906710310966,
+            "quality": 0.5486906710310966,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "quality": 0.0,
+            "reason": "No horizontally extensive turf component",
+            "valid": false
+          },
+          "wheels": {
+            "axle_length_pixels": 95.63472172804185,
+            "center_xy": [
+              290.0,
+              383.0
+            ],
+            "left": {
+              "center_xy": [
+                242.5,
+                377.5
+              ],
+              "hub_support": 1.0,
+              "quality": 1.0,
+              "radius_pixels": 11.800000190734863,
+              "ring_support": 1.0
+            },
+            "orientation_resolved": false,
+            "pitch_mod_pi_radians": -0.11527612597095205,
+            "quality": 0.9152542386579636,
+            "reason": "Two image circles with hub/ring/body support; not identified front/back wheels",
+            "right": {
+              "center_xy": [
+                337.5,
+                388.5
+              ],
+              "hub_support": 1.0,
+              "quality": 1.0,
+              "radius_pixels": 10.800000190734863,
+              "ring_support": 1.0
+            },
+            "valid": true
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "center_delta_xy_pixels": [
+              1.7531520903630167,
+              -2.481237905916828
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              225.0,
+              342.0,
+              365.0,
+              393.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              293.15263960737497,
+              367.58489189547686
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": null,
+          "terrain_comparable_points": 0,
+          "wheels": [
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 0,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-0"
+            },
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 1,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-1"
+            }
+          ]
+        },
+        "body_center_residual_norm_pixels": 3.038105297336276,
+        "terrain_comparable_points": 0,
+        "terrain_signed_mean_residual_pixels": null,
+        "terrain_median_absolute_residual_pixels": null,
+        "terrain_maximum_absolute_residual_pixels": null,
+        "perception_seconds": 0.018192200004705228,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "render_seconds": 0.0034142999938922003,
+        "png_publication_seconds": 0.027307599993946496
+      }
+    },
+    {
+      "pose_index": 1,
+      "source_frame_index": 350,
+      "label_id": "fbafca5b-frame-000350-manual-construction-v1",
+      "label_sha256": "996a755261807670822a1db6b475310a8222c82921172b5402305d5509617680",
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000350.png",
+        "sha256": "0d9c560411804fcb9f738c8c0f54b34554f6c7f86b24735d6616d0f2f03a982b"
+      },
+      "actor_png": {
+        "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/actor-pose-001.png",
+        "sha256": "d4cea73e604ba7a0b88813798c8756c768bea7269bb776b1f3bb075e8928585f"
+      },
+      "actor_rgb_sha256": "92545424cd298e8ed6c04f8a0b9e7fad3cc99021edf33fad32301a2965eb74ee",
+      "exact_retained_actor_rgb_verified": true,
+      "label_uncertainty_pixels": {
+        "body": 4.0,
+        "wheels": [
+          3.0,
+          3.0
+        ],
+        "terrain": [
+          6.0
+        ]
+      },
+      "label_wheel_radii_pixels": [
+        15.0,
+        16.0
+      ],
+      "uncertainty_semantics": "Manual uncalibrated construction estimates, not confidence intervals or accuracy acceptance thresholds",
+      "source": {
+        "measurement": {
+          "body": {
+            "area_pixels": 2634,
+            "axis_mod_pi_radians": 0.3768286730720449,
+            "bbox": [
+              159,
+              209,
+              268,
+              270
+            ],
+            "center_xy": [
+              212.34700075930144,
+              240.2672741078208
+            ],
+            "fill_fraction": 0.3961497969619492,
+            "quality": 0.3961497969619492,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "coverage": 1.0,
+            "points": [
+              {
+                "support_columns": 6,
+                "valid": true,
+                "x": 64,
+                "y": 379.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 85,
+                "y": 370.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 105,
+                "y": 363.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 126,
+                "y": 355.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 146,
+                "y": 347.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 167,
+                "y": 336.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 188,
+                "y": 322.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 208,
+                "y": 309.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 229,
+                "y": 301.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 250,
+                "y": 300.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 270,
+                "y": 303.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 291,
+                "y": 307.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 311,
+                "y": 309.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 332,
+                "y": 315.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 353,
+                "y": 332.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 373,
+                "y": 355.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 394,
+                "y": 374.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 414,
+                "y": 382.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 435,
+                "y": 381.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 456,
+                "y": 377.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 476,
+                "y": 375.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 497,
+                "y": 374.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 518,
+                "y": 372.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 538,
+                "y": 365.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 559,
+                "y": 354.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 579,
+                "y": 343.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 600,
+                "y": 331.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 621,
+                "y": 322.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 641,
+                "y": 316.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 662,
+                "y": 313.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 683,
+                "y": 310.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 703,
+                "y": 308.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 724,
+                "y": 303.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 744,
+                "y": 296.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 765,
+                "y": 289.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 786,
+                "y": 285.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 806,
+                "y": 285.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 827,
+                "y": 285.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 847,
+                "y": 279.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 868,
+                "y": 264.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 889,
+                "y": 247.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 909,
+                "y": 240.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 930,
+                "y": 244.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 951,
+                "y": 253.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 971,
+                "y": 261.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 992,
+                "y": 268.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 1012,
+                "y": 275.0
+              },
+              {
+                "support_columns": 6,
+                "valid": true,
+                "x": 1033,
+                "y": 285.0
+              }
+            ],
+            "quality": 1.0,
+            "reason": "Median turf/soil boundary; offset from the game's physical collision surface is unknown",
+            "surface_kind": "visible_turf_soil_boundary",
+            "valid": true
+          },
+          "wheels": {
+            "axle_length_pixels": 76.69419795525604,
+            "center_xy": [
+              221.0,
+              265.0
+            ],
+            "left": {
+              "center_xy": [
+                185.5,
+                279.5
+              ],
+              "hub_support": 0.8795180722891566,
+              "quality": 0.8795180722891566,
+              "radius_pixels": 13.800000190734863,
+              "ring_support": 1.0
+            },
+            "orientation_resolved": false,
+            "pitch_mod_pi_radians": 0.387770171875319,
+            "quality": 0.8608049104236956,
+            "reason": "Two image circles with hub/ring/body support; not identified front/back wheels",
+            "right": {
+              "center_xy": [
+                256.5,
+                250.5
+              ],
+              "hub_support": 0.882183908045977,
+              "quality": 0.882183908045977,
+              "radius_pixels": 14.100000381469727,
+              "ring_support": 1.0
+            },
+            "valid": true
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              2.0,
+              -5.0,
+              -4.0,
+              -5.0
+            ],
+            "center_delta_xy_pixels": [
+              -0.7110810832949426,
+              -3.339034781978455
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              157.0,
+              214.0,
+              272.0,
+              275.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              213.05808184259638,
+              243.60630888979927
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": [
+            {
+              "delta_y_pixels": 2.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 377.0,
+              "x": 64
+            },
+            {
+              "delta_y_pixels": 1.0769230769230944,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 368.9230769230769,
+              "x": 85
+            },
+            {
+              "delta_y_pixels": 1.7692307692307736,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 361.2307692307692,
+              "x": 105
+            },
+            {
+              "delta_y_pixels": 2.347826086956502,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 352.6521739130435,
+              "x": 126
+            },
+            {
+              "delta_y_pixels": 3.0434782608695627,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 343.95652173913044,
+              "x": 146
+            },
+            {
+              "delta_y_pixels": 2.720930232558146,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 333.27906976744185,
+              "x": 167
+            },
+            {
+              "delta_y_pixels": 4.348837209302303,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 317.6511627906977,
+              "x": 188
+            },
+            {
+              "delta_y_pixels": 4.7777777777777715,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 304.22222222222223,
+              "x": 208
+            },
+            {
+              "delta_y_pixels": 2.2222222222222285,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 298.77777777777777,
+              "x": 229
+            },
+            {
+              "delta_y_pixels": -0.8285714285714221,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 300.8285714285714,
+              "x": 250
+            },
+            {
+              "delta_y_pixels": -0.9714285714285893,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 303.9714285714286,
+              "x": 270
+            },
+            {
+              "delta_y_pixels": -0.2714285714285438,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 307.27142857142854,
+              "x": 291
+            },
+            {
+              "delta_y_pixels": -2.3333333333333144,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 311.3333333333333,
+              "x": 311
+            },
+            {
+              "delta_y_pixels": -4.136363636363626,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 319.1363636363636,
+              "x": 332
+            },
+            {
+              "delta_y_pixels": -9.347826086956502,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 341.3478260869565,
+              "x": 353
+            },
+            {
+              "delta_y_pixels": -9.826086956521749,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 364.82608695652175,
+              "x": 373
+            },
+            {
+              "delta_y_pixels": -2.8333333333333144,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 376.8333333333333,
+              "x": 394
+            },
+            {
+              "delta_y_pixels": 2.48387096774195,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 379.51612903225805,
+              "x": 414
+            },
+            {
+              "delta_y_pixels": 1.393442622950829,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 379.60655737704917,
+              "x": 435
+            },
+            {
+              "delta_y_pixels": -1.2295081967213264,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 378.2295081967213,
+              "x": 456
+            },
+            {
+              "delta_y_pixels": -1.9180327868852487,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 376.91803278688525,
+              "x": 476
+            },
+            {
+              "delta_y_pixels": -0.19999999999998863,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 374.2,
+              "x": 497
+            },
+            {
+              "delta_y_pixels": 3.1999999999999886,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 368.8,
+              "x": 518
+            },
+            {
+              "delta_y_pixels": 4.190476190476204,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 360.8095238095238,
+              "x": 538
+            },
+            {
+              "delta_y_pixels": 3.190476190476204,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 350.8095238095238,
+              "x": 559
+            },
+            {
+              "delta_y_pixels": 1.727272727272748,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 341.27272727272725,
+              "x": 579
+            },
+            {
+              "delta_y_pixels": -0.25,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 331.25,
+              "x": 600
+            },
+            {
+              "delta_y_pixels": -2.181818181818187,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 324.1818181818182,
+              "x": 621
+            },
+            {
+              "delta_y_pixels": -4.545454545454561,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 320.54545454545456,
+              "x": 641
+            },
+            {
+              "delta_y_pixels": -3.6000000000000227,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 316.6,
+              "x": 662
+            },
+            {
+              "delta_y_pixels": -2.3999999999999773,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 312.4,
+              "x": 683
+            },
+            {
+              "delta_y_pixels": 0.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 308.0,
+              "x": 703
+            },
+            {
+              "delta_y_pixels": 2.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 301.0,
+              "x": 724
+            },
+            {
+              "delta_y_pixels": 1.536585365853682,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 294.4634146341463,
+              "x": 744
+            },
+            {
+              "delta_y_pixels": 0.17073170731708842,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 288.8292682926829,
+              "x": 765
+            },
+            {
+              "delta_y_pixels": 0.863636363636374,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 284.1363636363636,
+              "x": 786
+            },
+            {
+              "delta_y_pixels": -0.04545454545456096,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 285.04545454545456,
+              "x": 806
+            },
+            {
+              "delta_y_pixels": -1.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 286.0,
+              "x": 827
+            },
+            {
+              "delta_y_pixels": -1.838709677419331,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 280.83870967741933,
+              "x": 847
+            },
+            {
+              "delta_y_pixels": -6.631578947368439,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 270.63157894736844,
+              "x": 868
+            },
+            {
+              "delta_y_pixels": -8.15789473684211,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 255.1578947368421,
+              "x": 889
+            },
+            {
+              "delta_y_pixels": -0.42105263157895934,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 240.42105263157896,
+              "x": 909
+            },
+            {
+              "delta_y_pixels": 2.444444444444457,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 241.55555555555554,
+              "x": 930
+            },
+            {
+              "delta_y_pixels": 3.666666666666657,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 249.33333333333334,
+              "x": 951
+            },
+            {
+              "delta_y_pixels": 4.125,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 256.875,
+              "x": 971
+            },
+            {
+              "delta_y_pixels": 1.9375,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 266.0625,
+              "x": 992
+            },
+            {
+              "delta_y_pixels": 0.1875,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 274.8125,
+              "x": 1012
+            },
+            {
+              "delta_y_pixels": 1.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 284.0,
+              "x": 1033
+            }
+          ],
+          "terrain_comparable_points": 48,
+          "wheels": [
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                1.5
+              ],
+              "center_distance_pixels": 1.5811388300841898,
+              "detected_pair_slot": 0,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-0"
+            },
+            {
+              "center_delta_xy_pixels": [
+                0.5,
+                2.5
+              ],
+              "center_distance_pixels": 2.5495097567963922,
+              "detected_pair_slot": 1,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-1"
+            }
+          ]
+        },
+        "body_center_residual_norm_pixels": 3.4139111854706794,
+        "terrain_comparable_points": 48,
+        "terrain_signed_mean_residual_pixels": -0.13631348510006683,
+        "terrain_median_absolute_residual_pixels": 2.0909090909090935,
+        "terrain_maximum_absolute_residual_pixels": 9.826086956521749,
+        "perception_seconds": 0.03590690000419272,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "hash_decode_seconds": 0.013650200002302881
+      },
+      "rendered": {
+        "measurement": {
+          "body": {
+            "area_pixels": 3254,
+            "axis_mod_pi_radians": 0.36444836406956305,
+            "bbox": [
+              157,
+              214,
+              273,
+              276
+            ],
+            "center_xy": [
+              211.77105101413645,
+              242.37154271665642
+            ],
+            "fill_fraction": 0.4524471635150167,
+            "quality": 0.4524471635150167,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "coverage": 1.0,
+            "points": [
+              {
+                "support_columns": 6,
+                "valid": true,
+                "x": 64,
+                "y": 380.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 85,
+                "y": 373.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 105,
+                "y": 365.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 126,
+                "y": 357.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 146,
+                "y": 348.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 167,
+                "y": 337.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 188,
+                "y": 321.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 208,
+                "y": 308.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 229,
+                "y": 303.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 250,
+                "y": 304.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 270,
+                "y": 308.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 291,
+                "y": 311.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 311,
+                "y": 315.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 332,
+                "y": 323.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 353,
+                "y": 347.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 373,
+                "y": 370.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 394,
+                "y": 381.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 414,
+                "y": 383.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 435,
+                "y": 383.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 456,
+                "y": 382.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 476,
+                "y": 380.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 497,
+                "y": 378.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 518,
+                "y": 372.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 538,
+                "y": 365.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 559,
+                "y": 355.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 579,
+                "y": 345.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 600,
+                "y": 335.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 621,
+                "y": 328.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 641,
+                "y": 324.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 662,
+                "y": 320.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 683,
+                "y": 316.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 703,
+                "y": 312.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 724,
+                "y": 305.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 744,
+                "y": 298.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 765,
+                "y": 293.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 786,
+                "y": 288.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 806,
+                "y": 289.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 827,
+                "y": 289.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 847,
+                "y": 284.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 868,
+                "y": 274.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 889,
+                "y": 259.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 909,
+                "y": 244.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 930,
+                "y": 246.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 951,
+                "y": 253.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 971,
+                "y": 261.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 992,
+                "y": 270.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 1012,
+                "y": 279.0
+              },
+              {
+                "support_columns": 6,
+                "valid": true,
+                "x": 1033,
+                "y": 286.5
+              }
+            ],
+            "quality": 1.0,
+            "reason": "Median turf/soil boundary; offset from the game's physical collision surface is unknown",
+            "surface_kind": "visible_turf_soil_boundary",
+            "valid": true
+          },
+          "wheels": {
+            "axle_length_pixels": 76.15773105863909,
+            "center_xy": [
+              220.5,
+              262.5
+            ],
+            "left": {
+              "center_xy": [
+                185.5,
+                277.5
+              ],
+              "hub_support": 1.0,
+              "quality": 1.0,
+              "radius_pixels": 10.800000190734863,
+              "ring_support": 1.0
+            },
+            "orientation_resolved": false,
+            "pitch_mod_pi_radians": 0.40489178628508343,
+            "quality": 1.0,
+            "reason": "Two image circles with hub/ring/body support; not identified front/back wheels",
+            "right": {
+              "center_xy": [
+                255.5,
+                247.5
+              ],
+              "hub_support": 1.0,
+              "quality": 1.0,
+              "radius_pixels": 10.800000190734863,
+              "ring_support": 1.0
+            },
+            "valid": true
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "center_delta_xy_pixels": [
+              -1.2870308284599332,
+              -1.2347661731428445
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              157.0,
+              214.0,
+              272.0,
+              275.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              213.05808184259638,
+              243.60630888979927
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": [
+            {
+              "delta_y_pixels": 3.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 377.0,
+              "x": 64
+            },
+            {
+              "delta_y_pixels": 4.076923076923094,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 368.9230769230769,
+              "x": 85
+            },
+            {
+              "delta_y_pixels": 3.7692307692307736,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 361.2307692307692,
+              "x": 105
+            },
+            {
+              "delta_y_pixels": 4.347826086956502,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 352.6521739130435,
+              "x": 126
+            },
+            {
+              "delta_y_pixels": 4.043478260869563,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 343.95652173913044,
+              "x": 146
+            },
+            {
+              "delta_y_pixels": 3.720930232558146,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 333.27906976744185,
+              "x": 167
+            },
+            {
+              "delta_y_pixels": 3.348837209302303,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 317.6511627906977,
+              "x": 188
+            },
+            {
+              "delta_y_pixels": 3.7777777777777715,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 304.22222222222223,
+              "x": 208
+            },
+            {
+              "delta_y_pixels": 4.2222222222222285,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 298.77777777777777,
+              "x": 229
+            },
+            {
+              "delta_y_pixels": 3.171428571428578,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 300.8285714285714,
+              "x": 250
+            },
+            {
+              "delta_y_pixels": 4.028571428571411,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 303.9714285714286,
+              "x": 270
+            },
+            {
+              "delta_y_pixels": 3.728571428571456,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 307.27142857142854,
+              "x": 291
+            },
+            {
+              "delta_y_pixels": 3.6666666666666856,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 311.3333333333333,
+              "x": 311
+            },
+            {
+              "delta_y_pixels": 3.863636363636374,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 319.1363636363636,
+              "x": 332
+            },
+            {
+              "delta_y_pixels": 5.652173913043498,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 341.3478260869565,
+              "x": 353
+            },
+            {
+              "delta_y_pixels": 5.173913043478251,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 364.82608695652175,
+              "x": 373
+            },
+            {
+              "delta_y_pixels": 4.166666666666686,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 376.8333333333333,
+              "x": 394
+            },
+            {
+              "delta_y_pixels": 3.48387096774195,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 379.51612903225805,
+              "x": 414
+            },
+            {
+              "delta_y_pixels": 3.393442622950829,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 379.60655737704917,
+              "x": 435
+            },
+            {
+              "delta_y_pixels": 3.7704918032786736,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 378.2295081967213,
+              "x": 456
+            },
+            {
+              "delta_y_pixels": 3.0819672131147513,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 376.91803278688525,
+              "x": 476
+            },
+            {
+              "delta_y_pixels": 3.8000000000000114,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 374.2,
+              "x": 497
+            },
+            {
+              "delta_y_pixels": 3.1999999999999886,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 368.8,
+              "x": 518
+            },
+            {
+              "delta_y_pixels": 4.190476190476204,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 360.8095238095238,
+              "x": 538
+            },
+            {
+              "delta_y_pixels": 4.190476190476204,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 350.8095238095238,
+              "x": 559
+            },
+            {
+              "delta_y_pixels": 3.727272727272748,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 341.27272727272725,
+              "x": 579
+            },
+            {
+              "delta_y_pixels": 3.75,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 331.25,
+              "x": 600
+            },
+            {
+              "delta_y_pixels": 3.818181818181813,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 324.1818181818182,
+              "x": 621
+            },
+            {
+              "delta_y_pixels": 3.454545454545439,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 320.54545454545456,
+              "x": 641
+            },
+            {
+              "delta_y_pixels": 3.3999999999999773,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 316.6,
+              "x": 662
+            },
+            {
+              "delta_y_pixels": 3.6000000000000227,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 312.4,
+              "x": 683
+            },
+            {
+              "delta_y_pixels": 4.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 308.0,
+              "x": 703
+            },
+            {
+              "delta_y_pixels": 4.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 301.0,
+              "x": 724
+            },
+            {
+              "delta_y_pixels": 3.536585365853682,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 294.4634146341463,
+              "x": 744
+            },
+            {
+              "delta_y_pixels": 4.170731707317088,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 288.8292682926829,
+              "x": 765
+            },
+            {
+              "delta_y_pixels": 3.863636363636374,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 284.1363636363636,
+              "x": 786
+            },
+            {
+              "delta_y_pixels": 3.954545454545439,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 285.04545454545456,
+              "x": 806
+            },
+            {
+              "delta_y_pixels": 3.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 286.0,
+              "x": 827
+            },
+            {
+              "delta_y_pixels": 3.161290322580669,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 280.83870967741933,
+              "x": 847
+            },
+            {
+              "delta_y_pixels": 3.368421052631561,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 270.63157894736844,
+              "x": 868
+            },
+            {
+              "delta_y_pixels": 3.8421052631578902,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 255.1578947368421,
+              "x": 889
+            },
+            {
+              "delta_y_pixels": 3.5789473684210407,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 240.42105263157896,
+              "x": 909
+            },
+            {
+              "delta_y_pixels": 4.444444444444457,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 241.55555555555554,
+              "x": 930
+            },
+            {
+              "delta_y_pixels": 3.666666666666657,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 249.33333333333334,
+              "x": 951
+            },
+            {
+              "delta_y_pixels": 4.125,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 256.875,
+              "x": 971
+            },
+            {
+              "delta_y_pixels": 3.9375,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 266.0625,
+              "x": 992
+            },
+            {
+              "delta_y_pixels": 4.1875,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 274.8125,
+              "x": 1012
+            },
+            {
+              "delta_y_pixels": 2.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 284.0,
+              "x": 1033
+            }
+          ],
+          "terrain_comparable_points": 48,
+          "wheels": [
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 0,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-0"
+            },
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 1,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-1"
+            }
+          ]
+        },
+        "body_center_residual_norm_pixels": 1.7835626862390026,
+        "terrain_comparable_points": 48,
+        "terrain_signed_mean_residual_pixels": 3.7907698482332663,
+        "terrain_median_absolute_residual_pixels": 3.7741347905282225,
+        "terrain_maximum_absolute_residual_pixels": 5.652173913043498,
+        "perception_seconds": 0.03415330000279937,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "render_seconds": 0.0036811999962083064,
+        "png_publication_seconds": 0.03440940000291448
+      }
+    },
+    {
+      "pose_index": 2,
+      "source_frame_index": 358,
+      "label_id": "fbafca5b-frame-000358-manual-construction-v1",
+      "label_sha256": "9faefcb9c91b8f6bfd87b43460d0b1b67c11aff232cd4a593cd9e4a85319820d",
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000358.png",
+        "sha256": "5e3326adeb3009bd6d98b36b84a8f14cd56638305a9e4a02d7d23ecbc5fd34e8"
+      },
+      "actor_png": {
+        "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/actor-pose-002.png",
+        "sha256": "c057d2eafe2c38ece6fe4d93ebfff7209f213f4f358d490c92241b89459e5b3f"
+      },
+      "actor_rgb_sha256": "b9c2f963341be48742ba1fc3feab31ea0df59dc723e2c2a919fc046d7e706412",
+      "exact_retained_actor_rgb_verified": true,
+      "label_uncertainty_pixels": {
+        "body": 4.0,
+        "wheels": [
+          3.0,
+          3.0
+        ],
+        "terrain": [
+          6.0,
+          6.0
+        ]
+      },
+      "label_wheel_radii_pixels": [
+        13.0,
+        14.0
+      ],
+      "uncertainty_semantics": "Manual uncalibrated construction estimates, not confidence intervals or accuracy acceptance thresholds",
+      "source": {
+        "measurement": {
+          "body": {
+            "area_pixels": 2826,
+            "axis_mod_pi_radians": 0.34484894668920174,
+            "bbox": [
+              150,
+              308,
+              263,
+              369
+            ],
+            "center_xy": [
+              205.62915782024064,
+              339.7791932059448
+            ],
+            "fill_fraction": 0.4099811402872479,
+            "quality": 0.4099811402872479,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "coverage": 0.5625,
+            "points": [
+              {
+                "support_columns": 6,
+                "valid": true,
+                "x": 64,
+                "y": 405.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 85,
+                "y": 402.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 105,
+                "y": 399.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 126,
+                "y": 397.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 146,
+                "y": 395.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 167,
+                "y": 390.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 188,
+                "y": 383.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 208,
+                "y": 376.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 229,
+                "y": 371.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 250,
+                "y": 370.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 270,
+                "y": 371.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 291,
+                "y": 367.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 311,
+                "y": 354.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 332,
+                "y": 336.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 353,
+                "y": 325.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 373,
+                "y": 325.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 394,
+                "y": 333.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 414,
+                "y": 342.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 435,
+                "y": 349.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 456,
+                "y": 356.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 476,
+                "y": 365.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 497,
+                "y": 376.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 518,
+                "y": 386.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 538,
+                "y": 388.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 559,
+                "y": 382.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 579,
+                "y": 368.0
+              },
+              {
+                "support_columns": 4,
+                "valid": true,
+                "x": 600,
+                "y": 353.5
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 621,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 641,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 662,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 683,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 703,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 724,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 744,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 765,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 786,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 806,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 827,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 847,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 868,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 889,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 909,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 930,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 951,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 971,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 992,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 1012,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 1033,
+                "y": null
+              }
+            ],
+            "quality": 0.5625,
+            "reason": "Median turf/soil boundary; offset from the game's physical collision surface is unknown",
+            "surface_kind": "visible_turf_soil_boundary",
+            "valid": true
+          },
+          "wheels": {
+            "quality": 0.0,
+            "reason": "No supported wheel pair (2 circular candidates)",
+            "valid": false
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              1.0,
+              -8.0,
+              -4.0,
+              -5.0
+            ],
+            "center_delta_xy_pixels": [
+              -0.09546187735577405,
+              -3.6028096434508257
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              149.0,
+              316.0,
+              267.0,
+              374.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              205.7246196975964,
+              343.38200284939563
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": [
+            {
+              "delta_y_pixels": -3.0,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 408.0,
+              "x": 64
+            },
+            {
+              "delta_y_pixels": -0.6000000000000227,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 402.6,
+              "x": 85
+            },
+            {
+              "delta_y_pixels": 0.8235294117646959,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 398.1764705882353,
+              "x": 105
+            },
+            {
+              "delta_y_pixels": 1.7058823529411598,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 395.29411764705884,
+              "x": 126
+            },
+            {
+              "delta_y_pixels": 2.4509803921568505,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 392.54901960784315,
+              "x": 146
+            },
+            {
+              "delta_y_pixels": 3.1000000000000227,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 386.9,
+              "x": 167
+            },
+            {
+              "delta_y_pixels": 2.3999999999999773,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 380.6,
+              "x": 188
+            },
+            {
+              "delta_y_pixels": 1.2105263157894797,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 374.7894736842105,
+              "x": 208
+            },
+            {
+              "delta_y_pixels": 1.980392156862763,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 369.01960784313724,
+              "x": 229
+            },
+            {
+              "delta_y_pixels": 0.5686274509803866,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 369.4313725490196,
+              "x": 250
+            },
+            {
+              "delta_y_pixels": 1.1764705882353041,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 369.8235294117647,
+              "x": 270
+            },
+            {
+              "delta_y_pixels": 3.3999999999999773,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 363.6,
+              "x": 291
+            },
+            {
+              "delta_y_pixels": 1.6470588235293917,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 352.3529411764706,
+              "x": 311
+            },
+            {
+              "delta_y_pixels": 0.941176470588232,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 335.05882352941177,
+              "x": 332
+            },
+            {
+              "delta_y_pixels": 1.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 323.5,
+              "x": 353
+            },
+            {
+              "delta_y_pixels": -0.7368421052631788,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 325.7368421052632,
+              "x": 373
+            },
+            {
+              "delta_y_pixels": -2.6842105263157805,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 335.6842105263158,
+              "x": 394
+            },
+            {
+              "delta_y_pixels": -1.25,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 343.25,
+              "x": 414
+            },
+            {
+              "delta_y_pixels": -1.1153846153846416,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 350.11538461538464,
+              "x": 435
+            },
+            {
+              "delta_y_pixels": -1.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 357.5,
+              "x": 456
+            },
+            {
+              "delta_y_pixels": -2.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 367.5,
+              "x": 476
+            },
+            {
+              "delta_y_pixels": -1.2307692307692264,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 377.2307692307692,
+              "x": 497
+            },
+            {
+              "delta_y_pixels": 2.307692307692321,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 383.6923076923077,
+              "x": 518
+            },
+            {
+              "delta_y_pixels": 3.321428571428555,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 384.67857142857144,
+              "x": 538
+            },
+            {
+              "delta_y_pixels": 2.6000000000000227,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 379.4,
+              "x": 559
+            }
+          ],
+          "terrain_comparable_points": 25,
+          "wheels": null
+        },
+        "body_center_residual_norm_pixels": 3.604074124788578,
+        "terrain_comparable_points": 25,
+        "terrain_signed_mean_residual_pixels": 0.6606623345694516,
+        "terrain_median_absolute_residual_pixels": 1.6470588235293917,
+        "terrain_maximum_absolute_residual_pixels": 3.3999999999999773,
+        "perception_seconds": 0.02947929999936605,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "hash_decode_seconds": 0.01446629999554716
+      },
+      "rendered": {
+        "measurement": {
+          "body": {
+            "area_pixels": 2816,
+            "axis_mod_pi_radians": 0.31106617890011756,
+            "bbox": [
+              149,
+              316,
+              268,
+              374
+            ],
+            "center_xy": [
+              205.31605113636363,
+              341.06889204545456
+            ],
+            "fill_fraction": 0.4079976818313532,
+            "quality": 0.4079976818313532,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "coverage": 0.5208333333333334,
+            "points": [
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 64,
+                "y": null
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 85,
+                "y": 405.0
+              },
+              {
+                "support_columns": 8,
+                "valid": true,
+                "x": 105,
+                "y": 401.5
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 126,
+                "y": 399.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 146,
+                "y": 396.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 167,
+                "y": 391.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 188,
+                "y": 385.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 208,
+                "y": 379.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 229,
+                "y": 373.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 250,
+                "y": 373.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 270,
+                "y": 373.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 291,
+                "y": 368.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 311,
+                "y": 356.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 332,
+                "y": 339.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 353,
+                "y": 327.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 373,
+                "y": 330.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 394,
+                "y": 340.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 414,
+                "y": 347.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 435,
+                "y": 354.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 456,
+                "y": 362.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 476,
+                "y": 372.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 497,
+                "y": 381.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 518,
+                "y": 388.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 538,
+                "y": 388.0
+              },
+              {
+                "support_columns": 11,
+                "valid": true,
+                "x": 559,
+                "y": 384.0
+              },
+              {
+                "support_columns": 4,
+                "valid": true,
+                "x": 579,
+                "y": 376.0
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 600,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 621,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 641,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 662,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 683,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 703,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 724,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 744,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 765,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 786,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 806,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 827,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 847,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 868,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 889,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 909,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 930,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 951,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 971,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 992,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 1012,
+                "y": null
+              },
+              {
+                "support_columns": 0,
+                "valid": false,
+                "x": 1033,
+                "y": null
+              }
+            ],
+            "quality": 0.5208333333333334,
+            "reason": "Median turf/soil boundary; offset from the game's physical collision surface is unknown",
+            "surface_kind": "visible_turf_soil_boundary",
+            "valid": true
+          },
+          "wheels": {
+            "axle_length_pixels": 77.79460135510689,
+            "center_xy": [
+              210.5,
+              353.5
+            ],
+            "left": {
+              "center_xy": [
+                173.5,
+                365.5
+              ],
+              "hub_support": 0.8266666666666667,
+              "quality": 0.8266666666666667,
+              "radius_pixels": 12.899999618530273,
+              "ring_support": 1.0
+            },
+            "orientation_resolved": false,
+            "pitch_mod_pi_radians": 0.31362065221669827,
+            "quality": 0.7038690359375412,
+            "reason": "Two image circles with hub/ring/body support; not identified front/back wheels",
+            "right": {
+              "center_xy": [
+                247.5,
+                341.5
+              ],
+              "hub_support": 0.8020833333333334,
+              "quality": 0.8020833333333334,
+              "radius_pixels": 14.699999809265137,
+              "ring_support": 1.0
+            },
+            "valid": true
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            "center_delta_xy_pixels": [
+              -0.4085685612327836,
+              -2.313110803941072
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              149.0,
+              316.0,
+              267.0,
+              374.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              205.7246196975964,
+              343.38200284939563
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": [
+            {
+              "delta_y_pixels": 2.3999999999999773,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 402.6,
+              "x": 85
+            },
+            {
+              "delta_y_pixels": 3.323529411764696,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 398.1764705882353,
+              "x": 105
+            },
+            {
+              "delta_y_pixels": 3.7058823529411598,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 395.29411764705884,
+              "x": 126
+            },
+            {
+              "delta_y_pixels": 3.4509803921568505,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 392.54901960784315,
+              "x": 146
+            },
+            {
+              "delta_y_pixels": 4.100000000000023,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 386.9,
+              "x": 167
+            },
+            {
+              "delta_y_pixels": 4.399999999999977,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 380.6,
+              "x": 188
+            },
+            {
+              "delta_y_pixels": 4.21052631578948,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 374.7894736842105,
+              "x": 208
+            },
+            {
+              "delta_y_pixels": 3.980392156862763,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 369.01960784313724,
+              "x": 229
+            },
+            {
+              "delta_y_pixels": 3.5686274509803866,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 369.4313725490196,
+              "x": 250
+            },
+            {
+              "delta_y_pixels": 3.176470588235304,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 369.8235294117647,
+              "x": 270
+            },
+            {
+              "delta_y_pixels": 4.399999999999977,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 363.6,
+              "x": 291
+            },
+            {
+              "delta_y_pixels": 3.6470588235293917,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 352.3529411764706,
+              "x": 311
+            },
+            {
+              "delta_y_pixels": 3.941176470588232,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 335.05882352941177,
+              "x": 332
+            },
+            {
+              "delta_y_pixels": 3.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 323.5,
+              "x": 353
+            },
+            {
+              "delta_y_pixels": 4.263157894736821,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 325.7368421052632,
+              "x": 373
+            },
+            {
+              "delta_y_pixels": 4.3157894736842195,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 335.6842105263158,
+              "x": 394
+            },
+            {
+              "delta_y_pixels": 3.75,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 343.25,
+              "x": 414
+            },
+            {
+              "delta_y_pixels": 3.8846153846153584,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 350.11538461538464,
+              "x": 435
+            },
+            {
+              "delta_y_pixels": 4.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 357.5,
+              "x": 456
+            },
+            {
+              "delta_y_pixels": 4.5,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 367.5,
+              "x": 476
+            },
+            {
+              "delta_y_pixels": 3.7692307692307736,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 377.2307692307692,
+              "x": 497
+            },
+            {
+              "delta_y_pixels": 4.307692307692321,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 383.6923076923077,
+              "x": 518
+            },
+            {
+              "delta_y_pixels": 3.321428571428555,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 384.67857142857144,
+              "x": 538
+            },
+            {
+              "delta_y_pixels": 4.600000000000023,
+              "label_uncertainty_pixels": 6.0,
+              "label_y": 379.4,
+              "x": 559
+            }
+          ],
+          "terrain_comparable_points": 24,
+          "wheels": [
+            {
+              "center_delta_xy_pixels": [
+                0.5,
+                0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 0,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-0"
+            },
+            {
+              "center_delta_xy_pixels": [
+                0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 1,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-1"
+            }
+          ]
+        },
+        "body_center_residual_norm_pixels": 2.348916741933766,
+        "terrain_comparable_points": 24,
+        "terrain_signed_mean_residual_pixels": 3.8756899318431786,
+        "terrain_median_absolute_residual_pixels": 3.912895927601795,
+        "terrain_maximum_absolute_residual_pixels": 4.600000000000023,
+        "perception_seconds": 0.02801470000122208,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "render_seconds": 0.0038941999955568463,
+        "png_publication_seconds": 0.0305408999993233
+      }
+    },
+    {
+      "pose_index": 3,
+      "source_frame_index": 378,
+      "label_id": "fbafca5b-frame-000378-manual-construction-v1",
+      "label_sha256": "c418a08e9351b0a8a70905ccdbc0cb6a3550d8a4fcba4c1e10e1e14ab0efb0c8",
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000378.png",
+        "sha256": "a3347acebe410e3699d5163d582ddafb0e6044df40deb02c128ac02ac00ce3c4"
+      },
+      "actor_png": {
+        "path": "artifacts/runs/19955a1f-58aa-4e41-9371-bc2f7ee43da1/actor-pose-003.png",
+        "sha256": "e2ba97d905c65039f0751db3db46305893ecc16bb6d89839b318360b1e36d173"
+      },
+      "actor_rgb_sha256": "8a3546f6ad3d9aa2615a4905836497bfcddcc25e08d95d53a59e839f0fc3a74c",
+      "exact_retained_actor_rgb_verified": true,
+      "label_uncertainty_pixels": {
+        "body": 4.0,
+        "wheels": [
+          3.0,
+          3.0
+        ],
+        "terrain": [
+          6.0,
+          6.0,
+          6.0
+        ]
+      },
+      "label_wheel_radii_pixels": [
+        16.0,
+        15.0
+      ],
+      "uncertainty_semantics": "Manual uncalibrated construction estimates, not confidence intervals or accuracy acceptance thresholds",
+      "source": {
+        "measurement": {
+          "body": {
+            "area_pixels": 3173,
+            "axis_mod_pi_radians": -1.4735390771581365,
+            "bbox": [
+              202,
+              201,
+              256,
+              324
+            ],
+            "center_xy": [
+              224.99086038449417,
+              261.4733690513709
+            ],
+            "fill_fraction": 0.4777175549533273,
+            "quality": 0.4777175549533273,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "quality": 0.0,
+            "reason": "No horizontally extensive turf component",
+            "valid": false
+          },
+          "wheels": {
+            "axle_length_pixels": 83.48652585896721,
+            "center_xy": [
+              194.0,
+              264.0
+            ],
+            "left": {
+              "center_xy": [
+                189.5,
+                222.5
+              ],
+              "hub_support": 0.8696808510638298,
+              "quality": 0.8696808510638298,
+              "radius_pixels": 14.5,
+              "ring_support": 1.0
+            },
+            "orientation_resolved": false,
+            "pitch_mod_pi_radians": -1.4627846020948503,
+            "quality": 0.8203947471367027,
+            "reason": "Two image circles with hub/ring/body support; not identified front/back wheels",
+            "right": {
+              "center_xy": [
+                198.5,
+                305.5
+              ],
+              "hub_support": 0.86,
+              "quality": 0.86,
+              "radius_pixels": 15.199999809265137,
+              "ring_support": 1.0
+            },
+            "valid": true
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              2.0,
+              0.0,
+              11.0,
+              -1.0
+            ],
+            "center_delta_xy_pixels": [
+              4.6366024193159205,
+              -0.40589977092764684
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              200.0,
+              201.0,
+              245.0,
+              325.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              220.35425796517825,
+              261.87926882229857
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": null,
+          "terrain_comparable_points": 0,
+          "wheels": [
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 0,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-0"
+            },
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 1,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-1"
+            }
+          ]
+        },
+        "body_center_residual_norm_pixels": 4.654335249941216,
+        "terrain_comparable_points": 0,
+        "terrain_signed_mean_residual_pixels": null,
+        "terrain_median_absolute_residual_pixels": null,
+        "terrain_maximum_absolute_residual_pixels": null,
+        "perception_seconds": 0.01953009999851929,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "hash_decode_seconds": 0.012504400001489557
+      },
+      "rendered": {
+        "measurement": {
+          "body": {
+            "area_pixels": 4061,
+            "axis_mod_pi_radians": -1.5025864652146623,
+            "bbox": [
+              201,
+              201,
+              246,
+              326
+            ],
+            "center_xy": [
+              221.30386604284658,
+              260.96798818025115
+            ],
+            "fill_fraction": 0.7219555555555556,
+            "quality": 0.7219555555555556,
+            "reason": "Largest isolated body-colored component; centroid is not center of mass",
+            "valid": true
+          },
+          "coordinate_system": "screen_pixels",
+          "image_size": [
+            1034,
+            581
+          ],
+          "limitations": [
+            "Profile-specific visual quality is not measured generalization accuracy",
+            "Axle pitch is modulo pi; front/back and rollover remain unresolved",
+            "No world meters, contact state, fuel or UI authorization is inferred"
+          ],
+          "profile_id": "hcr-country-hillclimber-discovery-wrapper-prototype-1",
+          "terrain": {
+            "quality": 0.0,
+            "reason": "No horizontally extensive turf component",
+            "valid": false
+          },
+          "wheels": {
+            "axle_length_pixels": 84.48076704197234,
+            "center_xy": [
+              194.0,
+              263.5
+            ],
+            "left": {
+              "center_xy": [
+                189.5,
+                221.5
+              ],
+              "hub_support": 1.0,
+              "quality": 1.0,
+              "radius_pixels": 10.800000190734863,
+              "ring_support": 1.0
+            },
+            "orientation_resolved": false,
+            "pitch_mod_pi_radians": -1.464060654145761,
+            "quality": 1.0,
+            "reason": "Two image circles with hub/ring/body support; not identified front/back wheels",
+            "right": {
+              "center_xy": [
+                198.5,
+                305.5
+              ],
+              "hub_support": 1.0,
+              "quality": 1.0,
+              "radius_pixels": 10.800000190734863,
+              "ring_support": 1.0
+            },
+            "valid": true
+          }
+        },
+        "construction_discrepancies": {
+          "body": {
+            "bbox_delta_xyxy_pixels": [
+              1.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "center_delta_xy_pixels": [
+              0.94960807766833,
+              -0.9112806420474158
+            ],
+            "convention": "Label filled-polygon area centroid versus visible color-component pixel centroid; label continuous vertex extrema versus detector half-open pixel-edge bbox. Neither is center of mass.",
+            "label_continuous_vertex_bounds_xyxy": [
+              200.0,
+              201.0,
+              245.0,
+              325.0
+            ],
+            "label_polygon_area_centroid_xy": [
+              220.35425796517825,
+              261.87926882229857
+            ],
+            "label_uncertainty_pixels": 4.0
+          },
+          "coordinate_system": "screen_pixels_x_right_y_down",
+          "semantics": "Uncertain construction agreement only. Wheel association minimizes total center distance, without front/rear or temporal identity. Terrain compares the visible turf/soil boundary within explicit strips, excluding declared occlusion; no interpolation across gaps. Missing comparisons remain null.",
+          "terrain": null,
+          "terrain_comparable_points": 0,
+          "wheels": [
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 0,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-0"
+            },
+            {
+              "center_delta_xy_pixels": [
+                -0.5,
+                -0.5
+              ],
+              "center_distance_pixels": 0.7071067811865476,
+              "detected_pair_slot": 1,
+              "label_uncertainty_pixels": 3.0,
+              "label_wheel_id": "visible-circle-1"
+            }
+          ]
+        },
+        "body_center_residual_norm_pixels": 1.3161260994841228,
+        "terrain_comparable_points": 0,
+        "terrain_signed_mean_residual_pixels": null,
+        "terrain_median_absolute_residual_pixels": null,
+        "terrain_maximum_absolute_residual_pixels": null,
+        "perception_seconds": 0.01645010000356706,
+        "temporal_contiguous": false,
+        "input_authorized": false,
+        "render_seconds": 0.0034124000012525357,
+        "png_publication_seconds": 0.033535399998072535
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "wheel_visual_support_mismatch",
+      "observed": "Rendered wheel pairs valid 4/4; real source pairs valid 2/4, with source 39 and 358 rejected. Rendered wheel-center residuals all 0.7071 px to labels do not establish real robustness.",
+      "interpretation": "Simple procedural circles omit real wheel occlusion/appearance ambiguities. The source pair-specific rejection mechanism is not recorded."
+    },
+    {
+      "id": "wheel_radius_semantics",
+      "observed": "For 350 and 378, both rendered radii 10.8 px; source radii13.8/14.1px and 14.5/15.2 px.",
+      "interpretation": "Consistent with inner hub edges being selected in original procedural wheels; the renderer draws hub radius 0.68 of tire radius. Candidate-level causation was not independently tested."
+    },
+    {
+      "id": "terrain_edge_semantics",
+      "observed": "Valid terrain on 350/358 only, for both source and render. Rendered mean signed y residuals +3.79077 px and +3.87569 px against declared lower turf/material edges.",
+      "interpretation": "The renderer centers a 6 px turf stroke on a declared lower material edge; this convention mismatch plausibly explains the consistent downward boundary offset. Rendering contract needs separately registered correction, not label refitting."
+    },
+    {
+      "id": "clipped_terrain_coverage",
+      "observed": "Source and rendered 39/378 reject terrain as no horizontally extensive turf component.",
+      "interpretation": "Frozen ROI and connected-width requirement reproduce this missingness. Image hypotheses are not terrain absence or collision truth."
+    },
+    {
+      "id": "orientation_and_body",
+      "observed": "All body hypotheses valid; source centroid residual norms are about 3.41–4.65px, render 1.32–3.04px to coarse manual polygons. Near-vertical 378 remains modulo-pi in both actor paths.",
+      "interpretation": "Label uncertainties are uncalibrated; visual-body centroid and full polygon centroid differ. No full-direction cue was added to actor pixels or features."
+    }
+  ],
+  "next_prospective_step": "Register one bounded renderer-convention and wheel-appearance diagnosis using unchanged labels and fixed synthetic fixtures before any additional actual pose replay. Preserve this screen; qualify on broader disjoint reviewed data before any fidelity or policy-learning inference. No rerun or fitting was performed for this report.",
+  "public_redactions": "No raw source images, window titles, process IDs/create times, GPU UUID/model identity or host paths copied. Complete private canonical outputs remain hash-linked."
+}

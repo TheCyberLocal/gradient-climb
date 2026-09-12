@@ -391,7 +391,71 @@
       "individual_seal_verified": true,
       "diagnostic": "research/diagnostics/imitation-construction-002.json",
       "scope": "Construction references and fixed detector hypotheses only; failed attempt, all inherited acquisition costs and unknown priors retained."
+    },
+    {
+      "campaign": "reference-simulation",
+      "kind": "visual_pose_preflight",
+      "run_id": null,
+      "source_sha": "752a47d3506ed3ac0785b6ebbdd7ca8a6124314b",
+      "status": "failed_before_recorder",
+      "diagnostic": "research/diagnostics/visual-pose-screen-001-preflight-failure.json",
+      "selected_source_decodes": 0,
+      "rendered_frames": 0,
+      "new_real_interaction_seconds": 0,
+      "counts_as_learning_result": false
+    },
+    {
+      "campaign": "reference-simulation",
+      "kind": "fixed_visual_pose_screen",
+      "run_id": "19955a1f-58aa-4e41-9371-bc2f7ee43da1",
+      "source_sha": "982682fc2b386f299722f0408e9dec4e5f7561f4",
+      "status": "completed",
+      "diagnostic": "research/diagnostics/visual-pose-screen-002.json",
+      "selected_source_decodes": 4,
+      "rendered_frames": 4,
+      "physics_steps": 0,
+      "new_real_interaction_seconds": 0,
+      "counts_as_learning_result": false,
+      "wall_clock_seconds": 3.7303223999988404,
+      "wall_scope": "Original canonical recorder boundary, not retroactively expanded"
+    },
+    {
+      "campaign": "demonstrations",
+      "kind": "owner_public_video_acquisition",
+      "run_id": "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+      "status": "completed",
+      "diagnostic": "research/diagnostics/owner-video-acquisition-001.json",
+      "requested_media_seconds": 300,
+      "synchronized_action_labels": 0,
+      "new_real_interaction_seconds": 0,
+      "counts_as_human_benchmark": false,
+      "counts_as_learning_result": false,
+      "wall_clock_seconds": 141.09452549999696,
+      "wall_scope": "Original canonical recorder boundary, not retroactively expanded",
+      "source_sha": "ea2a98b20a0319a2108bab396ac29fb416181482"
+    },
+    {
+      "campaign": "demonstrations",
+      "kind": "owner_video_sparse_construction_review",
+      "run_id": "4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7",
+      "status": "completed",
+      "diagnostic": "research/diagnostics/owner-video-acquisition-001.json",
+      "selected_frames": 18,
+      "probe_decoded_frames": 18000,
+      "media_duration_seconds": 299.999,
+      "synchronized_action_labels": 0,
+      "new_real_interaction_seconds": 0,
+      "counts_as_human_benchmark": false,
+      "counts_as_learning_result": false,
+      "wall_clock_seconds": 36.88919529999839,
+      "wall_scope": "Original canonical recorder boundary, not retroactively expanded",
+      "source_sha": "596b0e36b93565b80130099347da24ce0fdd3fff"
     }
   ],
-  "scientific_targets_met": false
+  "scientific_targets_met": false,
+  "owner_archive_direction": {
+    "date": "2026-09-12",
+    "instruction": "Use the youtube recordings instead of new recordings",
+    "effect": "Do not request another owner play session. Use archived footage for separately partitioned construction/assisted work, with inferred video controls distinct from synchronized demonstrations and all acquisition/prior costs retained. Native policy evaluation is still separate."
+  }
 }

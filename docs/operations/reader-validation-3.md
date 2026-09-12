@@ -92,7 +92,9 @@ successor's full construction ancestry remain excluded from heldout evidence.
 Endpoint identity comes from original `terminal_frame` capture timing joined to
 the sealed `episode_summaries[].attempt.index` and `terminal_readings`, not the
 annotation's free-form `sampling_unit_id`. Qualification takes the first retained
-terminal frame of every retained endpoint; later animation frames and omission of
+`terminal_frame` callback artifact of every retained endpoint; this is not necessarily
+the first visible result or earliest result pixels retained as `real_game_frame`
+by the gameplay loop. Later callback animation frames and omission of
 hard endpoints are rejected. Attempts with no retained terminal pixels appear
 separately as unavailable source evidence. Non-result sampling uses a sealed
 `reader-source-selection-3.0` document with `non_result_units` containing

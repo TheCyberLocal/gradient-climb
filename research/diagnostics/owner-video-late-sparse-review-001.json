@@ -1,0 +1,392 @@
+{
+  "schema_version": "owner-video-late-sparse-visual-review-3.0",
+  "created_at": "2026-09-12T16:43:56.280804+00:00",
+  "reviewer": "Codex architecture_audit",
+  "source_review_run_id": "4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7",
+  "source_acquisition_run_id": "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+  "source_review_report": {
+    "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/review.json",
+    "sha256": "353118bf9a62c542b183c5b1a423ddf9788fa8542af9f2ed67346e8c7078b4f4"
+  },
+  "source_video": {
+    "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/acquisition/owner-excerpt.webm",
+    "sha256": "91e6ecf2ad93a574f486ad5e07e9a5e010834b39b5aa8cf472eb90f8df42db9d"
+  },
+  "source_clock": "Media presentation timestamps, not new real interaction, simulator time or learner wall clock",
+  "image_size": [
+    1280,
+    576
+  ],
+  "scope": "Exactly nine already retained original frames inspected via view_image; no new extraction, crop, resize, render, detector execution or pixel fitting. Whole video remains construction partition.",
+  "partition": "construction",
+  "qualifies_real_game": false,
+  "training_eligible": false,
+  "annotation_type": "Sparse descriptive visual review, not geometric ground truth or causal control labels",
+  "selected_requested_seconds": [
+    60,
+    90,
+    120,
+    150,
+    180,
+    210,
+    240,
+    270,
+    299
+  ],
+  "reviewed_frame_count": 9,
+  "image_hashes_verified": 9,
+  "source_frames_individually_inspected": true,
+  "unreviewed_gaps": "Every interval between these sparse frames remains unreviewed. No hidden result, control transition, vehicle change chronology, uninterrupted episode or map continuity is inferred. Root separately reviews 0..40 s.",
+  "complete_episode_count": null,
+  "natural_result_count_in_selected_images": 0,
+  "new_real_interaction_seconds": 0,
+  "new_extraction_operations": 0,
+  "new_render_operations": 0,
+  "human_action_truth_established": false,
+  "geometry_labels_produced": false,
+  "method_limitations": [
+    "Media PTS is video presentation time, not OS input time, source gameplay physics time or learner wall clock.",
+    "HUD progress text and mission/flag/crown values are transcriptions of visible UI, not terminal outcome scores. Fuel-icon bar text semantics are not inferred beyond visible appearance.",
+    "Moving face-camera overlay, left black border, transient text, smoke and coin sprites can occlude geometry.",
+    "Visible touch-style circles and pedal deformation can be construction evidence for a future validated visual input indicator, but are not keydown, held-duration or simultaneous-action truth.",
+    "Vehicle names are visually verified only where text appears in selected menu frames. Appearance matches to other frames are explicit inferences; map names and build/configuration identity are not established here.",
+    "The green tractor has substantially unequal wheel sizes and a different body color. Existing red-body/near-equal-wheel assumptions and native 1034x581 geometry are not calibrated for these 1280x576 video images.",
+    "Review receipt timestamps are creation times after direct inspection; per-frame viewing duration was not instrumented. No complete video or complete episode review is claimed."
+  ],
+  "frames": [
+    {
+      "requested_seconds": 60,
+      "source_pts_seconds": 60.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-010.png",
+      "sha256": "f336aeada3cc036d0b10bad4d4444e77496d196662ebfa97479605d436f5d663",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Gameplay view; no result panel visible",
+      "vehicle_evidence": {
+        "appearance": "Red open-top jeep, inverted with both wheels above the body; driver visible below it",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "Bright green turf over brown rounded terrain. Inverted roof/driver region is near or against a shallow trough before an uphill slope. A still image does not establish collision, injury, motion direction or imminent failure.",
+      "hud_visible_text": {
+        "progress_display": "306m",
+        "fuel_icon_bar_text": "54m",
+        "flag_display": "2200m",
+        "crown_display": "1021m",
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "BRAKE and GAS pedal graphics visible. No clear white touch-style circle at either pedal in this sample. This does not establish release or key state.",
+      "occlusions_boundaries": "Circular face-camera overlay above the car overlaps sky/coins; large coin sprites and HUD obscure parts of the upper scene. No natural result text or episode boundary is visible.",
+      "candidate_fixture_uses": [
+        "Inverted-pose visual orientation from wheel/body/driver geometry",
+        "Body/terrain near-contact ambiguity",
+        "Occlusion exclusion for face-camera and HUD"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 90,
+      "source_pts_seconds": 90.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-011.png",
+      "sha256": "2b144272261bdc7e67d9ad0ed834a4af4187ce41f13dcd43381bbdc5b2fc6a75",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Vehicle selection menu",
+      "vehicle_evidence": {
+        "appearance": "Centered red jeep card selected",
+        "displayed_vehicle_name": "HILL CLIMBER",
+        "adjacent_visible_labels": [
+          "GARAGE",
+          "MOTOCROSS BIKE"
+        ]
+      },
+      "terrain_pose": "Only decorative ground in vehicle cards; no gameplay terrain or physical pose trajectory.",
+      "hud_visible_text": {
+        "selected_tab": "VEHICLE",
+        "visible_buttons": [
+          "SHOP",
+          "STAGE",
+          "VEHICLE",
+          "TUNE",
+          "START"
+        ],
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "No gameplay pedal indicators shown; menu selection is not observed input truth.",
+      "occlusions_boundaries": "Circular face-camera overlay at upper-left overlaps the garage area. The change from gameplay at 60 s to menu at 90 s establishes different sampled UI states, not the cause or exact time of an intervening episode end.",
+      "candidate_fixture_uses": [
+        "Vehicle-card/profile name evidence",
+        "Negative gameplay/UI scene fixture"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 120,
+      "source_pts_seconds": 120.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-012.png",
+      "sha256": "6a7eeb69b7c674790862facd75b3e23808baa1d153b2fb976175f68c505b69bd",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Tune menu",
+      "vehicle_evidence": {
+        "appearance": "Blue motorcycle icon in VEHICLE tab; tuning card also depicts a small blue bike",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "No gameplay terrain or full vehicle pose shown.",
+      "hud_visible_text": {
+        "selected_tab": "TUNE",
+        "upgrade_levels_left_to_right": [
+          "6/12",
+          "5/14",
+          "5/16",
+          "4/10"
+        ],
+        "visible_buttons": [
+          "SHOP",
+          "STAGE",
+          "VEHICLE",
+          "TUNE",
+          "START"
+        ]
+      },
+      "control_indicator_evidence": "No gameplay pedals or recorded controls. Upgrade purchase/input events are unobserved.",
+      "occlusions_boundaries": "Circular face-camera overlay obscures the upper portion of the first upgrade card. Counters are visible but exact vehicle identity and tuning category semantics need separate profile evidence.",
+      "candidate_fixture_uses": [
+        "Tune-state exclusion and UI occlusion",
+        "Visible upgrade-counter evidence with incomplete vehicle identity"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 150,
+      "source_pts_seconds": 150.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-013.png",
+      "sha256": "779a62cddc2a66f8866bce436b9787f301cf2caf1f403efd3b485d13d36021b9",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Dimmed gameplay-like view; possible transition remains unresolved",
+      "vehicle_evidence": {
+        "appearance": "Orange open vehicle with two large treaded wheels and visible driver; name absent",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "Vehicle is almost level above a low, descending grass/soil surface with visible space below both wheels. Still-frame geometry supports separation but no velocity, launch action or contact history.",
+      "hud_visible_text": {
+        "progress_display": "0m",
+        "fuel_icon_bar": "Green with no readable numeric text",
+        "flag_display": "2200m",
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "BRAKE and GAS graphics visible under overall dimming; no unambiguous touch timing or key state.",
+      "occlusions_boundaries": "Whole game layer appears darkened, with face-camera overlay on the right. Progress 0m is start-like UI evidence, not proof of an observed episode start; no countdown, natural result or reset sequence is sampled.",
+      "candidate_fixture_uses": [
+        "Large-wheel orange vehicle appearance",
+        "Dimmed/start-like observation handling",
+        "Unsupported temporal inference from airborne-looking pose"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 180,
+      "source_pts_seconds": 180.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-014.png",
+      "sha256": "ab6099ca34812d00d25a68d987ec170bb75102650b388d6b5d7d7197d305b539",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Gameplay view",
+      "vehicle_evidence": {
+        "appearance": "Orange large-wheel open vehicle with driver, similar to 150 s",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "Nose points slightly upward over a small rounded crest. Wheels are close to the visible turf; exact contact cannot be established. A larger hill with fuel can and coins appears ahead.",
+      "hud_visible_text": {
+        "progress_display": "348m",
+        "fuel_icon_bar_text": "13m",
+        "flag_display": "2200m",
+        "transient_reward": "AIR TIME +25",
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "A white circular touch-style mark appears beside the upper-left edge of GAS, and the pedal graphic is slanted. This is visible UI evidence only; press onset, duration, actual device event and simultaneous brake state are unknown.",
+      "occlusions_boundaries": "AIR TIME text overlaps the central hill; face-camera overlay obscures the right playfield. Reward text is not a result score or a complete jump trajectory.",
+      "candidate_fixture_uses": [
+        "Transient text/coin occlusion",
+        "Possible touch-indicator appearance without action truth",
+        "Large-wheel pose near turf"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 210,
+      "source_pts_seconds": 210.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-015.png",
+      "sha256": "607d2a87a9845416e3c5c6d77506f71f1b0cb34d907ef2f287ba287bbb5ebe80",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Tune menu",
+      "vehicle_evidence": {
+        "appearance": "Orange large-wheel vehicle icon in VEHICLE tab",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "No gameplay terrain or full pose shown.",
+      "hud_visible_text": {
+        "selected_tab": "TUNE",
+        "upgrade_levels_left_to_right": [
+          "7/14",
+          "2/16",
+          "2/18",
+          "2/10"
+        ],
+        "visible_buttons": [
+          "SHOP",
+          "STAGE",
+          "VEHICLE",
+          "TUNE",
+          "START"
+        ]
+      },
+      "control_indicator_evidence": "No gameplay pedal indicators. Menu navigation and tuning actions are unobserved.",
+      "occlusions_boundaries": "Face-camera overlay at right. Gameplay at 180 s and menu at 210 s bound a UI-state change within the gap, without a sampled terminal result, restart action or episode count.",
+      "candidate_fixture_uses": [
+        "Tune-state and orange-vehicle icon evidence",
+        "Upgrade counters requiring separate profile binding"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 240,
+      "source_pts_seconds": 240.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-016.png",
+      "sha256": "00706b674c6cf580449dced66787a68940bc6243332c27ec164bc233c160542d",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Gameplay view with mission text",
+      "vehicle_evidence": {
+        "appearance": "Green tractor-like vehicle with a large rear wheel, much smaller front wheel, driver and tall exhaust; matching TRACTOR card is visible later at 299 s",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "Slight nose-down pose just above or very close to a broad green crest; gray/black smoke and particle sprites occur around the rear/exhaust. Exact contact or wheel rotation is unknown.",
+      "hud_visible_text": {
+        "progress_display": "35m",
+        "fuel_icon_bar_text": "55m",
+        "flag_display": "2200m",
+        "mission_text": "Level 11: Reach 2200m",
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "Overlapping translucent white touch-style circles near the upper-left part of GAS and a slanted pedal graphic are visible. They do not establish OS events, held duration or human intent.",
+      "occlusions_boundaries": "Large mission text spans the center; face-camera overlay is on the right, and smoke overlaps the upper-left vehicle/HUD vicinity. No terminal result shown.",
+      "candidate_fixture_uses": [
+        "Strongly unequal wheel radii",
+        "Green-body appearance outside red-only assumptions",
+        "Smoke, mission text and touch-mark occlusion"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 30
+    },
+    {
+      "requested_seconds": 270,
+      "source_pts_seconds": 270.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-017.png",
+      "sha256": "6c96598953f6932aa0e883240396b5fcb6a29107b1f234ea3ea0470a8aa33b34",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Gameplay view",
+      "vehicle_evidence": {
+        "appearance": "Green tractor-like vehicle with large rear and small front wheel, consistent with 240 s and later TRACTOR card",
+        "displayed_vehicle_name": null
+      },
+      "terrain_pose": "Nose-up pose above rolling grass/soil terrain with visible separation beneath the front wheel and apparent separation beneath the large rear wheel. A fuel can and coins float above the next rise. Single-frame geometry cannot prove jump dynamics, contact or controls.",
+      "hud_visible_text": {
+        "progress_display": "345m",
+        "fuel_icon_bar_text": "16m",
+        "flag_display": "2200m",
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "White circular touch-style mark overlaps the left edge of GAS, with slanted pedal graphic. Press start/end, sustained input and brake truth remain unknown.",
+      "occlusions_boundaries": "Exhaust smoke covers sky behind the tractor; face-camera overlay covers part of the right hill/coin region. No result screen appears.",
+      "candidate_fixture_uses": [
+        "Unequal-wheel airborne-looking pose",
+        "Green-body segmentation and exhaust exclusion",
+        "Control-indicator ambiguity"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": 29
+    },
+    {
+      "requested_seconds": 299,
+      "source_pts_seconds": 299.0,
+      "path": "artifacts/runs/4e4fae5f-d40d-4973-81a5-b3cd4c4c47a7/review/frame-018.png",
+      "sha256": "69c3d1877d308be14cee4a4d9f2867ecea688f283cdce307462df2f079408ef0",
+      "reviewer": "Codex architecture_audit; direct inspection of retained PNG only",
+      "reviewed_at": "2026-09-12T16:43:56.280804+00:00",
+      "view_state": "Vehicle selection menu",
+      "vehicle_evidence": {
+        "appearance": "Centered colorful yellow van card selected",
+        "displayed_vehicle_name": "HIPPIE VAN",
+        "adjacent_visible_labels": [
+          "TRACTOR",
+          "ONEWHEELER"
+        ]
+      },
+      "terrain_pose": "Decorative ground in vehicle cards only. The left TRACTOR card visibly matches the green large-rear-wheel appearance in 240 s/270 s; this is an appearance link, not a proved uninterrupted run.",
+      "hud_visible_text": {
+        "selected_tab": "VEHICLE",
+        "visible_buttons": [
+          "SHOP",
+          "STAGE",
+          "VEHICLE",
+          "TUNE",
+          "START"
+        ],
+        "boost_item_count": "0"
+      },
+      "control_indicator_evidence": "No gameplay pedals or action truth. Selection input and the time of vehicle change are not observed.",
+      "occlusions_boundaries": "Face-camera overlay partially covers the right ONEWHEELER card. This is the last requested sparse frame at 299 s of the retained five-minute excerpt, not an asserted natural episode or full-video endpoint.",
+      "candidate_fixture_uses": [
+        "Explicit HIPPIE VAN and adjacent TRACTOR/ONEWHEELER name evidence",
+        "Menu exclusion and face-camera masking"
+      ],
+      "natural_terminal_result_visible": false,
+      "verified_terminal_distance_m": null,
+      "actual_control_state": null,
+      "contact_state": null,
+      "map_name_visually_verified": null,
+      "gap_to_next_requested_frame_seconds": null
+    }
+  ]
+}
