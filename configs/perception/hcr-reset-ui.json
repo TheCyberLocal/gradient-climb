@@ -8,7 +8,7 @@
   "threshold": 0.97,
   "margin_pixels": 4,
   "ambiguity_margin": 0.01,
-  "evidence_scope": "Inspected HillClimber/CountrySide session; construction references only; native menu coverage incomplete. Version 2 adds creative-independent advertisement-network chrome glyphs (Meta Audience Network skip and muted-audio icons) matched by binarized shape; offline audit over stored frames precedes live use.",
+  "evidence_scope": "local construction references; advertisement controls enabled only where a sealed run shows the close followed by a recognized game state; all other advertisement variants are recognition-only and are escaped by application restart",
   "variants": [
     {
       "label": "playing_native",
@@ -333,15 +333,8 @@
           201
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          1008,
-          43,
-          1029,
-          63
-        ]
-      },
-      "notes": "Known brand anchors permit bounded waiting; only independently visible exact close patch permits input. No creative interaction."
+      "controls": {},
+      "notes": "Known brand anchors permit bounded waiting; only independently visible exact close patch permits input. No creative interaction. control disabled 2026-09-11: never verified by a subsequent recognized game state in a sealed run; recognition only, so the adapter waits out the bounded advertisement window and then escapes by restarting the application"
     },
     {
       "label": "commercial_break_available_close",
@@ -370,7 +363,7 @@
           112
         ]
       },
-      "notes": "Manually inspected exact close X. Left portion avoids cursor highlight at the right edge; two fixed commercial-break anchors still independently required. Development regression fa7548cc matches .97278 with unchanged .97 threshold."
+      "notes": "Manually inspected exact close X. Left portion avoids cursor highlight at the right edge; two fixed commercial-break anchors still independently required. Development regression fa7548cc matches .97278 with unchanged .97 threshold. Control verified: run dad65c73: close followed by a recognized Tune start and a scored episode."
     },
     {
       "label": "wsop_finished_available_close",
@@ -391,15 +384,8 @@
           218
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          997,
-          57,
-          1021,
-          81
-        ]
-      },
-      "notes": "Finished native advertisement manually inspected; two static title patches and the independently visible top-right close control. No Install or creative interactions authorized."
+      "controls": {},
+      "notes": "Finished native advertisement manually inspected; two static title patches and the independently visible top-right close control. No Install or creative interactions authorized. control disabled 2026-09-11: never verified by a subsequent recognized game state in a sealed run; recognition only, so the adapter waits out the bounded advertisement window and then escapes by restarting the application"
     },
     {
       "label": "foodcity_available_advance",
@@ -420,15 +406,8 @@
           303
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          995,
-          73,
-          1023,
-          103
-        ]
-      },
-      "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game."
+      "controls": {},
+      "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game. control disabled 2026-09-11: never verified by a subsequent recognized game state in a sealed run; recognition only, so the adapter waits out the bounded advertisement window and then escapes by restarting the application"
     },
     {
       "label": "gnomon_second_ad_available_advance",
@@ -449,15 +428,8 @@
           322
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          995,
-          73,
-          1023,
-          103
-        ]
-      },
-      "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game."
+      "controls": {},
+      "notes": "Manually inspected normal available top-right advance control in a two-ad sequence. Only visible reference control plus both identity anchors authorize advancement; no creative or destination interaction. Intermediate advance is not asserted to return directly to the game. control disabled 2026-09-11: never verified by a subsequent recognized game state in a sealed run; recognition only, so the adapter waits out the bounded advertisement window and then escapes by restarting the application"
     },
     {
       "label": "meta_chrome_skip_available",
@@ -472,16 +444,9 @@
           105
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          993,
-          71,
-          1025,
-          105
-        ]
-      },
+      "controls": {},
       "matching": "white_glyph",
-      "notes": "Meta Audience Network skip-forward glyph at the top-right of the game area; the same glyph is the evidence and the control. Observed across single-pane end cards, two-pane video layouts and different creatives (Whole Moon, Food City, Gnomon). Clicked only after two stable fresh frames. No creative pixel is evidence."
+      "notes": "Meta Audience Network skip-forward glyph at the top-right of the game area; the same glyph is the evidence and the control. Observed across single-pane end cards, two-pane video layouts and different creatives (Whole Moon, Food City, Gnomon). Clicked only after two stable fresh frames. No creative pixel is evidence. control disabled 2026-09-11: never verified by a subsequent recognized game state in a sealed run; recognition only, so the adapter waits out the bounded advertisement window and then escapes by restarting the application"
     },
     {
       "label": "meta_chrome_video_muted",
@@ -519,16 +484,9 @@
           283
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          1010,
-          42,
-          1034,
-          66
-        ]
-      },
+      "controls": {},
       "matching": "rgb",
-      "notes": "Google-served video interstitial rendered by the emulator as a small player in the top-left corner over a black letterbox, with a dim skip-forward glyph at the extreme top-right of the game area and a static marker below the player's bottom-right corner. Only the exact skip glyph patch is clickable, after two stable frames; the creative, its Install pill and the player are never controls."
+      "notes": "Google-served video interstitial rendered by the emulator as a small player in the top-left corner over a black letterbox, with a dim skip-forward glyph at the extreme top-right of the game area and a static marker below the player's bottom-right corner. Only the exact skip glyph patch is clickable, after two stable frames; the creative, its Install pill and the player are never controls. control disabled 2026-09-11: pixel-identical glyph to admob_medium_layout_skip, whose click opened a store page in run 54d58272; the session 91c3d4f4 foreground loss after clicking this glyph, attributed at the time to the operator window, is now equally consistent with the same effect. Recognition only."
     },
     {
       "label": "vehicle_select_hill_climber",
@@ -588,7 +546,7 @@
         ]
       },
       "matching": "rgb",
-      "notes": "Google-served interstitial end card rendered by the emulator as a small card in the top-left corner over a black letterbox, with a tiny Close text pill at the extreme top-right of the game area that appears several seconds after the card. Anchors are the Close pill and the static container marker at the card's bottom-right corner; the creative, its title and its Install pill are never controls. Clicked only after two stable frames."
+      "notes": "Google-served interstitial end card rendered by the emulator as a small card in the top-left corner over a black letterbox, with a tiny Close text pill at the extreme top-right of the game area that appears several seconds after the card. Anchors are the Close pill and the static container marker at the card's bottom-right corner; the creative, its title and its Install pill are never controls. Clicked only after two stable frames. Control verified: run 78d51e26: close followed by a recognized Tune start and a scored 237 m episode."
     },
     {
       "label": "out_of_fuel_native",
@@ -639,16 +597,9 @@
           180
         ]
       ],
-      "controls": {
-        "legitimate_ad_close": [
-          1010,
-          42,
-          1034,
-          66
-        ]
-      },
+      "controls": {},
       "matching": "rgb",
-      "notes": "Google-served video interstitial rendered by the emulator at a third player size with its companion install card; the dim skip-forward glyph at the extreme top-right is byte-identical to the small-layout reference and the card's static RATINGS/CATEGORY/DEVELOPER label row is the second anchor. The creative, its Install pill and the player are never controls. Clicked only after two stable frames."
+      "notes": "Google-served video interstitial rendered by the emulator at a third player size with its companion install card; the dim skip-forward glyph at the extreme top-right is byte-identical to the small-layout reference and the card's static RATINGS/CATEGORY/DEVELOPER label row is the second anchor. The creative, its Install pill and the player are never controls. Clicked only after two stable frames. control disabled 2026-09-11: in run 54d58272 clicking this glyph opened the advertised app's Play Store page in the host browser (effect-based unintended action); the glyph region is not a close control in this layout. Recognition only."
     }
   ],
   "glyph_threshold": 0.9,

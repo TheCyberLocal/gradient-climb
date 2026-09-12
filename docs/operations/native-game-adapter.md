@@ -39,9 +39,9 @@ behind the disk is never evidence. State evidence needs Dice ≥ `glyph_threshol
 as margins above each variant's own threshold so the two scales never compete.
 
 Chrome variants may carry a single anchor because the glyph shape is the evidence;
-they are restricted to the advertisement state, and the muted-speaker variant has
-no control, so it can only extend the bounded no-input wait. The skip variant's
-control is the same glyph. Before any advertisement close is clicked the control
+they are restricted to the advertisement state. Neither Meta chrome variant carries a
+control any longer (see the verified-controls rule below), so both only extend the
+bounded no-input wait. Before any advertisement close is clicked the control
 must be observed on two separate fresh frames at least 0.15 s apart at the same
 location (±2 px); a control that appears once, fades or moves restarts the
 confirmation. The offline replay audit (`scripts/audit_ui_profile.py`) classifies
@@ -50,6 +50,38 @@ zero disagreements with recorded game states, zero advertisement hits on game
 screens, and recognized 52 previously unknown advertisement frames. That is
 construction/offline evidence; live coverage of other networks remains open and
 any new chrome is added as another hash-pinned variant after the same audit.
+
+## Verified controls, effect-based unintended actions and application restart
+
+Study 2.1 (F-005) showed that recognizing chrome is not verification of what a control does:
+an allowlisted skip glyph opened the advertised application's store page in the host browser.
+Three rules follow.
+
+- **Advertisement controls are enabled only with effect evidence.** A `legitimate_ad_close`
+  control stays in the profile only where a sealed run shows the close followed by a
+  recognized game state (`commercial_break_available_close`, run `dad65c73`;
+  `admob_tiny_layout_close`, run `78d51e26`). Every other advertisement variant is
+  recognition-only: it extends the bounded no-input wait and is then reported as stuck.
+- **Unintended actions are measured by effect as well as by allowlist.** The window guard
+  records the title and process of whichever window took the foreground
+  (`foreground_note`). The native runner classifies an attempt as `unintended_action`
+  when the foreground was lost within 5 s of an accepted click, stores that evidence in
+  the attempt block and the reliability summary, and halts the session. `last_click_ns`
+  and `guard_trace` are the inputs; `FOREGROUND_LOSS_MARKER` names the guard message.
+- **Stuck screens are escaped by restarting the application, never by clicking.**
+  `restart_app(launch)` posts WM_CLOSE to the pinned game window (the emulator's own exit
+  path), waits for it to hide (bounded by `hide_seconds`, 20 s), calls the caller's
+  `launch` (the game's Start Menu shortcut), waits for the window to reappear with the
+  same identity and client geometry, brings it to the foreground, and waits without input
+  until a recognized state appears (bounded by `max_seconds`, at most 300 s). A known
+  advertisement without a control now raises "Advertisement without legitimate control
+  persisted" after `ad_transition_seconds`; that and the other `STUCK_RESET_MARKERS`
+  are the only failures a restart may follow. A latched guard fault (foreground loss,
+  geometry change, capture or operator fault) refuses the restart so the evidence of a
+  possible external effect is never hidden. Every restart is recorded in `restart_trace`
+  (`app-restarts.json` in a run). The runner enables it with `--restart-shortcut`, bounds
+  it with `--restart-seconds` and `--max-restarts`, records the policy in the run
+  configuration, and reports restarts per attempt and per session.
 
 Compose it with an already discovered `WindowTarget`, `PedalController`, and a
 required release callback. No input occurs while loading the profile or calling

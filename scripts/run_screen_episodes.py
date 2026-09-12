@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 import traceback
 from pathlib import Path
@@ -17,7 +18,11 @@ from PIL import Image
 
 from gradientclimb.artifacts import sha256_file
 from gradientclimb.capture.windows import discover_windows
-from gradientclimb.control.game_adapter import NativeGameAdapter
+from gradientclimb.control.game_adapter import (
+    FOREGROUND_LOSS_MARKER,
+    STUCK_RESET_MARKERS,
+    NativeGameAdapter,
+)
 from gradientclimb.control.pedals import PedalAction, PedalController
 from gradientclimb.control.windows import WindowsPedalBackend
 from gradientclimb.evaluation.benchmark import summarize
@@ -315,8 +320,62 @@ UNKNOWN_HALT_MARKERS = (
 )
 
 
-def classify_attempt(summary, parked, *, halted_error=None):
-    """Terminal classification registered by native-reliability-2.0; never post hoc."""
+POST_CLICK_WINDOW_SECONDS = 5.0
+
+
+def should_restart(error):
+    """Whether a failed reset left the game stuck on a screen the adapter may not touch.
+
+    Only ``STUCK_RESET_MARKERS`` qualify. A foreground loss or any other guard fault
+    never does: it can be the effect of a click that reached another application and
+    must halt the session with its evidence intact.
+    """
+    if not error or FOREGROUND_LOSS_MARKER in error or "latched" in error:
+        return False
+    return any(marker in error for marker in STUCK_RESET_MARKERS)
+
+
+def unintended_action_evidence(error, adapter, *, window_seconds=POST_CLICK_WINDOW_SECONDS):
+    """Effect-based unintended action: the game lost the foreground shortly after a click.
+
+    The allowlist bounds what is clicked; this bounds what a click did. A verified
+    control that opens a store page, a browser or any other window is an unintended
+    action even though the click itself was allowlisted.
+    """
+    if not error or FOREGROUND_LOSS_MARKER not in error:
+        return None
+    last = adapter.last_click_ns
+    if last is None:
+        return None
+    losses = [
+        event
+        for event in adapter.guard_trace
+        if FOREGROUND_LOSS_MARKER in event["reason"] and event["timestamp_ns"] >= last
+    ]
+    if not losses:
+        return None
+    elapsed = (losses[0]["timestamp_ns"] - last) / 1e9
+    if elapsed > window_seconds:
+        return None
+    click = next(row for row in reversed(adapter.trace) if row.get("accepted"))
+    return {
+        "seconds_after_click": elapsed,
+        "click": {
+            key: click.get(key)
+            for key in ("name", "state", "variant", "bounds_xyxy", "source_pixels_sha256")
+        },
+        "guard_reason": losses[0]["reason"],
+    }
+
+
+def classify_attempt(summary, parked, *, halted_error=None, unintended=None):
+    """Terminal classification registered by native-reliability-2.0; never post hoc.
+
+    ``unintended_action`` (registered by 2.2) takes precedence: an allowlisted click
+    whose effect was a foreground loss to another application.
+    """
+    if unintended:
+        return "unintended_action"
     error = summary.get("error") or summary.get("park_error") or halted_error
     if error:
         if any(marker in error for marker in UNKNOWN_HALT_MARKERS):
@@ -411,9 +470,27 @@ def main():
         default=90.0,
         help="Per-reset overall deadline (<= 120 s) covering menus and advertisements",
     )
+    parser.add_argument(
+        "--restart-shortcut",
+        type=Path,
+        help=(
+            "Shortcut that relaunches the game; enables application-restart recovery after "
+            "a stuck reset (unknown screen, or an advertisement without a verified control "
+            "past its bounded wait). Never used after a foreground loss."
+        ),
+    )
+    parser.add_argument("--restart-seconds", type=float, default=150.0)
+    parser.add_argument("--max-restarts", type=int, default=6)
     args = parser.parse_args()
     if not 1 <= args.reset_seconds <= 120:
         raise ValueError("Reset deadline must be within 1..120 seconds")
+    if not 30 <= args.restart_seconds <= 300 or not 0 <= args.max_restarts <= 12:
+        raise ValueError("Restart recovery limits are out of bounds")
+    launch = None
+    if args.restart_shortcut is not None:
+        if not args.restart_shortcut.is_file():
+            raise FileNotFoundError(f"Restart shortcut not found: {args.restart_shortcut}")
+        launch = lambda: os.startfile(str(args.restart_shortcut))
     if any((args.policy, args.policy_kind, args.parent_run)) and not all(
         (args.policy, args.policy_kind, args.parent_run)
     ):
@@ -516,6 +593,23 @@ def main():
         "attempt_policy_schedule": [attempt_policy_name(i) for i in range(args.episodes)]
         if not args.policy
         else None,
+        "restart_recovery": {
+            "enabled": launch is not None,
+            "shortcut": str(args.restart_shortcut) if args.restart_shortcut else None,
+            "shortcut_sha256": sha256_file(args.restart_shortcut)
+            if args.restart_shortcut
+            else None,
+            "max_seconds": args.restart_seconds,
+            "max_restarts": args.max_restarts,
+            "policy": (
+                "WM_CLOSE to the pinned game window plus the shortcut, only after a stuck "
+                "reset; never after a foreground loss; never a click inside the game"
+            ),
+        },
+        "unintended_action_definition": (
+            f"foreground loss to another window within {POST_CLICK_WINDOW_SECONDS:g} s of an "
+            "accepted click (effect-based), in addition to the click allowlist"
+        ),
     }
     if protocol and protocol.get("cycle2_versions") and not args.exploratory:
         from gradientclimb.experiments.objectives import ExperimentVersions, stamp_versions
@@ -577,6 +671,32 @@ def main():
         start = time.perf_counter()
         deadline = start + args.max_seconds
         attempt_states = {}
+        restarts_used = 0
+
+        def try_restart(phase, error_text, rows):
+            """Restart the game after a stuck reset; True when it settled on a known state."""
+            nonlocal restarts_used
+            if launch is None or not should_restart(error_text):
+                return False
+            if restarts_used >= args.max_restarts or deadline - time.perf_counter() < 30:
+                return False
+            restarts_used += 1
+            started = time.perf_counter()
+            row = {"phase": phase, "index": restarts_used, "ok": False, "seconds": None}
+            rows.append(row)
+            try:
+                settled = adapter.restart_app(
+                    launch,
+                    max_seconds=min(args.restart_seconds, deadline - time.perf_counter()),
+                    reason=f"{phase}: {error_text.strip().splitlines()[-1][:160]}",
+                    on_observation=reset_observation,
+                )
+                row["ok"], row["settled_state"] = True, settled.state
+            except Exception:  # noqa: BLE001 - a failed restart halts the session with evidence
+                row["error"] = traceback.format_exc()
+            finally:
+                row["seconds"] = time.perf_counter() - started
+            return row["ok"]
 
         def reset_observation(observation):
             attempt_states[observation.state] = attempt_states.get(observation.state, 0) + 1
@@ -635,6 +755,7 @@ def main():
                         terminal.reset()
                         halted_error = None
                         summary, rows, images, parked, first = None, [], [], None, None
+                        restart_rows = []
                         try:
                             first = adapter.reset(
                                 allow_initial_start=True,
@@ -644,6 +765,20 @@ def main():
                             )
                         except Exception:  # noqa: BLE001 - classify, persist, then stop safely
                             halted_error = traceback.format_exc()
+                            remaining = deadline - time.perf_counter()
+                            if try_restart("start", halted_error, restart_rows) and remaining >= 1:
+                                try:
+                                    first = adapter.reset(
+                                        allow_initial_start=True,
+                                        max_seconds=min(
+                                            args.reset_seconds, deadline - time.perf_counter()
+                                        ),
+                                        on_terminal=terminal,
+                                        on_observation=reset_observation,
+                                    )
+                                    halted_error = None
+                                except Exception:  # noqa: BLE001 - a second failure halts
+                                    halted_error = traceback.format_exc()
                         start_reset_seconds = time.perf_counter() - attempt_started
                         terminal.reset()
                         terminal_start = len(terminal.readings)
@@ -693,7 +828,14 @@ def main():
                                 )
                         except Exception:  # noqa: BLE001 - retain the halt with the attempt
                             summary["park_error"] = traceback.format_exc()
-                            halted_error = halted_error or summary["park_error"]
+                            if halted_error is None and try_restart(
+                                "park", summary["park_error"], restart_rows
+                            ):
+                                # The relaunched game is the parked state for the next attempt.
+                                parked = adapter.latest
+                                summary["parked_via_restart"] = True
+                            else:
+                                halted_error = halted_error or summary["park_error"]
                         finally:
                             annotate_parked_score(summary, parked, paused_reader)
                             summary["terminal_readings"] = terminal.readings[terminal_start:]
@@ -709,13 +851,22 @@ def main():
                                     "two agreeing fresh right-side result-field readings at least 0.15s apart"
                                 )
                             menu_rows = adapter.trace[menu_rows_before:]
+                            unintended = unintended_action_evidence(
+                                halted_error or summary.get("park_error") or summary.get("error"),
+                                adapter,
+                            )
+                            if unintended and not halted_error:
+                                halted_error = unintended["guard_reason"]
                             summary["attempt"] = {
                                 "index": index,
                                 "policy": attempt_policy_name(index)
                                 if not args.policy
                                 else args.policy_kind,
                                 "classification": classify_attempt(
-                                    summary, parked, halted_error=halted_error
+                                    summary,
+                                    parked,
+                                    halted_error=halted_error,
+                                    unintended=unintended,
                                 ),
                                 "terminal_cause": terminal_cause(summary),
                                 "parked_state": parked.state if parked is not None else None,
@@ -730,6 +881,10 @@ def main():
                                 "unknown_frames": attempt_states.get("unknown", 0),
                                 "reset_state_counts": dict(attempt_states),
                                 "stale_captures": len(adapter.capture_trace),
+                                "app_restarts": len(restart_rows),
+                                "restarts": restart_rows,
+                                "parked_via_restart": bool(summary.get("parked_via_restart")),
+                                "unintended_action": unintended,
                             }
                             attempt_outcomes.append(summary["attempt"])
                             save_episode(run, index, summary, rows, images)
@@ -765,6 +920,7 @@ def main():
             ("os-menu-transitions", adapter.sender.trace),
             ("capture-diagnostics", adapter.capture_trace),
             ("guard-diagnostics", adapter.guard_trace),
+            ("app-restarts", adapter.restart_trace),
             ("numeric-score-exhaustions", terminal.exhausted),
         ):
             path = run.directory / f"{name}.json"
@@ -802,8 +958,19 @@ def main():
                 1 for o in attempt_outcomes if o["advertisement_frames"]
             ),
             "manual_interventions": 0,
-            "unintended_actions": 0,
-            "unintended_action_evidence": "every click is an allowlisted named control; see menu-transitions",
+            "unintended_actions": sum(1 for o in attempt_outcomes if o.get("unintended_action")),
+            "unintended_action_evidence": [
+                o["unintended_action"] for o in attempt_outcomes if o.get("unintended_action")
+            ]
+            or (
+                f"no foreground loss within {POST_CLICK_WINDOW_SECONDS:g} s of an accepted click; "
+                "every click is an allowlisted named control (menu-transitions)"
+            ),
+            "app_restarts": sum(o.get("app_restarts", 0) for o in attempt_outcomes),
+            "restart_failures": sum(
+                1 for o in attempt_outcomes for r in o.get("restarts", []) if not r["ok"]
+            ),
+            "restart_recovery_enabled": launch is not None,
         }
         if summaries:
             run.evaluation(

@@ -61,6 +61,21 @@ NEXT_STATES = {
     "start_episode": {"playing", "advertisement"},
     "legitimate_ad_close": {"tune", "result", "bonus_offer", "playing", "advertisement"},
 }
+# Guard message emitted when another window took the foreground; a loss within a
+# few seconds of an accepted click is effect-based evidence of an unintended action.
+FOREGROUND_LOSS_MARKER = "Target is not the foreground window"
+# Reset failures that mean the game is stuck on a screen the adapter may not touch.
+# They may be escaped by restarting the application; guard faults never are.
+STUCK_RESET_MARKERS = (
+    "Unrecognized advertisement; no click",
+    "Advertisement without legitimate control",
+    "Unrecognized/unauthorized reset state",
+    "did not recover within transition limit",
+    "Unexpected or timed-out reset transition",
+    "Reset time limit",
+    "Reset click limit",
+    "Reset capture limit",
+)
 
 
 class ReferenceVariant(BaseModel):
@@ -436,6 +451,8 @@ class NativeGameAdapter:
         self.trace = []
         self.guard_trace = []
         self.capture_trace = []
+        self.restart_trace = []
+        self._latched = False
         self._stopped = threading.Event()
         self._clicked = set()
         self._last_frame_ns = -1
@@ -467,8 +484,17 @@ class NativeGameAdapter:
                 raise RuntimeError("Game geometry changed; explicit profile reselection required")
         except Exception as exc:
             self._stopped.set()
+            self._latched = True
             self._guard_event(f"{type(exc).__name__}: {exc}", latched=True)
             raise
+
+    @property
+    def last_click_ns(self):
+        """Clock timestamp of the most recent accepted click, or None."""
+        for row in reversed(self.trace):
+            if row.get("accepted"):
+                return row.get("completed_ns")
+        return None
 
     def _guard_event(self, reason, *, latched=False):
         if self.guard_trace and (
@@ -656,6 +682,7 @@ class NativeGameAdapter:
         known_ad_until = None
         known_result_until = None
         ad_close_seen = None
+        ad_no_control_since = None
         try:
             self.release_pedals()
             for _ in range(2000):
@@ -682,6 +709,7 @@ class NativeGameAdapter:
                 state = observation.state
                 if state != "advertisement":
                     ad_close_seen = None
+                    ad_no_control_since = None
                 if state == "result":
                     known_result_until = min(deadline, self.clock() + transition_seconds)
                 elif state == "unknown" and known_result_until is not None:
@@ -719,9 +747,16 @@ class NativeGameAdapter:
                     closes = [c for c in observation.controls if c.name == "legitimate_ad_close"]
                     if not closes:
                         ad_close_seen = None
+                        if ad_no_control_since is None:
+                            ad_no_control_since = self.clock()
+                        elif self.clock() - ad_no_control_since >= ad_transition_seconds:
+                            raise RuntimeError(
+                                "Advertisement without legitimate control persisted; no click"
+                            )
                         self._guard_event("Known advertisement; close unavailable; waiting")
                         self.sleep(0.03)
                         continue
+                    ad_no_control_since = None
                     stamp, bounds = closes[0].frame_timestamp_ns, closes[0].bounds_xyxy
                     if ad_close_seen is None or any(
                         abs(a - b) > 2 for a, b in zip(ad_close_seen[1], bounds, strict=True)
@@ -784,3 +819,117 @@ class NativeGameAdapter:
             self._stopped.set()
             self.release_pedals()
             raise
+
+    def restart_app(
+        self,
+        launch,
+        *,
+        max_seconds=180.0,
+        hide_seconds=20.0,
+        poll_seconds=0.5,
+        settle_states=("tune",),
+        reason="stuck reset",
+        on_observation=None,
+    ):
+        """Escape a stuck screen by restarting the game application; never by clicking.
+
+        The only actions are a WM_CLOSE message to the pinned game window (the
+        emulator's own exit path) and the caller's ``launch`` callable (the game's
+        shortcut). Nothing inside the game is clicked, so an advertisement's
+        creative, a store page or a purchase dialog cannot be activated. The window
+        must hide within ``hide_seconds``, reappear with an unchanged identity and
+        client geometry, take the foreground, and show a recognized state within
+        ``max_seconds``; unknown boot frames are waited out without input.
+
+        Refused after a latched guard fault (foreground loss, geometry change,
+        capture or operator faults): those can indicate an external effect that
+        needs an operator, and hiding the evidence behind a restart is not allowed.
+        A stuck reset (``STUCK_RESET_MARKERS``) is not latched and may be recovered.
+        """
+        if not callable(launch):
+            raise TypeError("A launch callable is required to restart the game")
+        if (
+            not math.isfinite(max_seconds)
+            or not 0 < max_seconds <= 300
+            or not math.isfinite(hide_seconds)
+            or not 0 < hide_seconds <= 60
+            or not math.isfinite(poll_seconds)
+            or not 0 < poll_seconds <= 5
+        ):
+            raise ValueError("Restart requires finite bounded time limits")
+        if self._latched:
+            self._stopped.set()
+            self.release_pedals()
+            raise RuntimeError("Restart refused after a latched guard fault")
+        row = {
+            "reason": reason,
+            "started_ns": int(self.clock() * 1e9),
+            "closed": False,
+            "hidden_seconds": None,
+            "launched": False,
+            "visible_seconds": None,
+            "settled_state": None,
+            "settled_seconds": None,
+            "error": None,
+        }
+        self.restart_trace.append(row)
+        api = self.guard.api
+        hwnd = self.target.hwnd
+        deadline = self.clock() + max_seconds
+        try:
+            self.release_pedals()
+            self.guard.validate(require_foreground=False)
+            if not api.request_close(hwnd):
+                raise RuntimeError("WM_CLOSE could not be posted to the game window")
+            row["closed"] = True
+            started = self.clock()
+            while api.visible(hwnd):
+                if self.clock() - started >= hide_seconds:
+                    raise TimeoutError("Game window did not hide after WM_CLOSE")
+                self.sleep(poll_seconds)
+            row["hidden_seconds"] = self.clock() - started
+            self.release_pedals()
+            launch()
+            row["launched"] = True
+            started = self.clock()
+            while not api.visible(hwnd):
+                if self.clock() >= deadline:
+                    raise TimeoutError("Game window did not reappear after relaunch")
+                self.sleep(poll_seconds)
+            row["visible_seconds"] = self.clock() - started
+            current = self.guard.validate(require_foreground=False)
+            if current.client_rect != self.target.client_rect:
+                raise RuntimeError(
+                    "Game geometry changed across restart; explicit profile reselection required"
+                )
+            if not api.bring_to_foreground(hwnd):
+                raise RuntimeError("Game window could not take the foreground after relaunch")
+            # The stuck fault is the only latch a restart may clear.
+            self._stopped.clear()
+            started = self.clock()
+            while True:
+                if self.clock() >= deadline:
+                    raise TimeoutError("Game did not reach a recognized state after relaunch")
+                try:
+                    observation = self.observe()
+                except StaleObservation:
+                    self.sleep(poll_seconds)
+                    continue
+                if on_observation is not None:
+                    on_observation(observation)
+                if observation.state != "unknown":
+                    row["settled_state"] = observation.state
+                    row["settled_seconds"] = self.clock() - started
+                    if observation.state not in settle_states:
+                        self._guard_event(
+                            f"Relaunch settled on {observation.state}; the caller's reset continues"
+                        )
+                    return observation
+                self.sleep(poll_seconds)
+        except BaseException as exc:
+            row["error"] = f"{type(exc).__name__}: {exc}"
+            self._stopped.set()
+            self.release_pedals()
+            raise
+        finally:
+            row["completed_ns"] = int(self.clock() * 1e9)

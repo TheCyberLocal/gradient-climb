@@ -1,7 +1,11 @@
-"""Read-only Windows window identity and physical client geometry.
+"""Windows window identity, physical client geometry and the game's restart path.
 
 Only public window APIs and process metadata are used. No process memory is read.
-Discovery never changes focus, starts a process, or sends an input event.
+Discovery never changes focus, starts a process, or sends an input event. The only
+state-changing calls in this module are ``request_close`` (a WM_CLOSE window
+message, the emulator's own exit path) and ``bring_to_foreground``; both exist for
+the adapter's application-restart recovery and neither sends a click or a key to
+the game's content.
 """
 
 from __future__ import annotations
@@ -77,10 +81,21 @@ class WindowsAPI:
             "ClientToScreen": ([ctypes.c_void_p, ctypes.POINTER(_Point)], ctypes.c_int),
             "GetForegroundWindow": ([], ctypes.c_void_p),
             "SetThreadDpiAwarenessContext": ([ctypes.c_void_p], ctypes.c_void_p),
+            "PostMessageW": (
+                [ctypes.c_void_p, ctypes.c_uint, ctypes.c_size_t, ctypes.c_ssize_t],
+                ctypes.c_int,
+            ),
+            "ShowWindow": ([ctypes.c_void_p, ctypes.c_int], ctypes.c_int),
+            "SetForegroundWindow": ([ctypes.c_void_p], ctypes.c_int),
+            "BringWindowToTop": ([ctypes.c_void_p], ctypes.c_int),
+            "AttachThreadInput": ([ctypes.c_uint32, ctypes.c_uint32, ctypes.c_int], ctypes.c_int),
         }
         for name, (args, result) in signatures.items():
             function = getattr(self.user32, name)
             function.argtypes, function.restype = args, result
+        self.kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        self.kernel32.GetCurrentThreadId.argtypes = []
+        self.kernel32.GetCurrentThreadId.restype = ctypes.c_uint32
 
     @contextmanager
     def physical_pixels(self):
@@ -95,6 +110,60 @@ class WindowsAPI:
 
     def foreground(self) -> int:
         return int(self.user32.GetForegroundWindow() or 0)
+
+    def foreground_summary(self) -> dict:
+        """Best-effort title and process image of the current foreground window.
+
+        Recorded as evidence whenever the game loses the foreground, so a click that
+        opened another application (a store page in a browser) is attributable.
+        """
+        hwnd = self.foreground()
+        summary: dict = {"hwnd": hwnd, "title": None, "executable": None}
+        if not hwnd:
+            return summary
+        try:
+            summary["title"] = self.title(hwnd)
+        except (OSError, ValueError):
+            pass
+        pid = ctypes.c_uint32()
+        if self.user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid)) and pid.value:
+            try:
+                summary["executable"] = PureWindowsPath(psutil.Process(pid.value).exe()).name
+            except (psutil.Error, OSError):
+                pass
+        return summary
+
+    def visible(self, hwnd: int) -> bool:
+        return bool(
+            self.user32.IsWindow(hwnd)
+            and self.user32.IsWindowVisible(hwnd)
+            and not self.user32.IsIconic(hwnd)
+        )
+
+    def request_close(self, hwnd: int) -> bool:
+        """Post WM_CLOSE to a top-level window; no input event reaches its content."""
+        return bool(self.user32.PostMessageW(hwnd, 0x0010, 0, 0))
+
+    def bring_to_foreground(self, hwnd: int) -> bool:
+        """Restore and activate a window (the manual step an operator performs by hand)."""
+        foreground = self.foreground()
+        if foreground == hwnd:
+            return True
+        current = self.kernel32.GetCurrentThreadId()
+        other = self.user32.GetWindowThreadProcessId(foreground, None) if foreground else 0
+        attached = (
+            bool(other)
+            and other != current
+            and bool(self.user32.AttachThreadInput(current, other, 1))
+        )
+        try:
+            self.user32.ShowWindow(hwnd, 9)  # SW_RESTORE
+            self.user32.SetForegroundWindow(hwnd)
+            self.user32.BringWindowToTop(hwnd)
+        finally:
+            if attached:
+                self.user32.AttachThreadInput(current, other, 0)
+        return self.foreground() == hwnd
 
     def title(self, hwnd: int) -> str:
         length = self.user32.GetWindowTextLengthW(hwnd)
@@ -180,5 +249,18 @@ class WindowGuard:
         ):
             raise WindowUnavailable("Target identity changed; explicit rediscovery is required")
         if require_foreground and self.api.foreground() != expected.hwnd:
-            raise WindowUnavailable("Target is not the foreground window")
+            raise WindowUnavailable(
+                f"Target is not the foreground window; {foreground_note(self.api)}"
+            )
         return current
+
+
+def foreground_note(api) -> str:
+    """Describe the foreground window for guard evidence; never raises."""
+    try:
+        summary = api.foreground_summary()
+    except Exception:  # noqa: BLE001 - evidence is best effort, the fault itself is not
+        return "foreground unknown"
+    return (
+        f"foreground is {summary.get('title')!r} ({summary.get('executable') or 'unknown process'})"
+    )

@@ -5,6 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
+import pytest
 
 from gradientclimb.capture.screen import CapturedFrame
 from gradientclimb.capture.windows import ClientRect
@@ -260,3 +261,51 @@ def test_stabilizing_baseline_gases_only_when_level_and_grounded():
     assert act(screen(pitch=0.5, pitch_valid=False)) == 1
     assert act(screen(pitch=0.5), pitch_threshold=0.6) == 1
     assert module.STABILIZING_PITCH_THRESHOLD_RADIANS == 0.35
+
+
+def test_unintended_action_is_effect_based_and_takes_precedence():
+    module = episode_module()
+    marker = module.FOREGROUND_LOSS_MARKER
+    reason = f"WindowUnavailable: {marker}; foreground is 'Store page' (chrome.exe)"
+    click = {
+        "name": "legitimate_ad_close",
+        "state": "advertisement",
+        "variant": "layout",
+        "bounds_xyxy": [1, 2, 3, 4],
+        "source_pixels_sha256": "ab",
+        "accepted": True,
+        "completed_ns": 10_000_000_000,
+    }
+    loss = {"timestamp_ns": 10_800_000_000, "reason": reason, "latched": True}
+    adapter = SimpleNamespace(trace=[click], last_click_ns=10_000_000_000, guard_trace=[loss])
+    evidence = module.unintended_action_evidence(reason, adapter)
+    assert evidence["click"]["name"] == "legitimate_ad_close"
+    assert evidence["seconds_after_click"] == pytest.approx(0.8)
+    assert evidence["guard_reason"] == reason
+    natural = {"reason": "start_failure", "error": reason, "distance": None}
+    assert module.classify_attempt(natural, None, unintended=evidence) == "unintended_action"
+    assert module.classify_attempt(natural, None) == "recoverable_failure"
+    late = SimpleNamespace(
+        trace=[click],
+        last_click_ns=10_000_000_000,
+        guard_trace=[{**loss, "timestamp_ns": 20_000_000_000}],
+    )
+    assert module.unintended_action_evidence(reason, late) is None
+    no_click = SimpleNamespace(trace=[], last_click_ns=None, guard_trace=[loss])
+    assert module.unintended_action_evidence(reason, no_click) is None
+    assert module.unintended_action_evidence("TimeoutError: Reset time limit", adapter) is None
+
+
+def test_restart_recovery_applies_only_to_stuck_resets():
+    module = episode_module()
+    assert module.should_restart("RuntimeError: Unrecognized advertisement; no click")
+    assert module.should_restart(
+        "RuntimeError: Advertisement without legitimate control persisted; no click"
+    )
+    assert module.should_restart("TimeoutError: Reset time limit")
+    assert module.should_restart("RuntimeError: Unrecognized/unauthorized reset state; no click")
+    loss = f"WindowUnavailable: {module.FOREGROUND_LOSS_MARKER}; foreground is 'Store' (x.exe)"
+    assert not module.should_restart(loss)
+    assert not module.should_restart("RuntimeError: Adapter stopped by operator or previous fault")
+    assert not module.should_restart("OSError: mock capture failure")
+    assert not module.should_restart(None)

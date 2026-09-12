@@ -17,5 +17,12 @@
   rejected; the protocol record is labelled `headed-overhead-protocol` with a seed-level
   paired-bootstrap CI label, validates that the on arm's observer ran, and writes a fresh
   state directory per execution. `telemetry/provenance.py` gained `gpu_sample()`.
+- Native reliability hardening after studies 2.0 and 2.1 (F-004, F-005): hash-pinned
+  variants for three Google interstitial player sizes and the current out-of-fuel result;
+  advertisement controls enabled only with sealed effect evidence; effect-based unintended
+  action detection (foreground loss within 5 s of a click, with the foreground window as
+  evidence); bounded stuck detection for advertisements without a control; application
+  restart recovery (`NativeGameAdapter.restart_app`, `--restart-shortcut`) that posts
+  WM_CLOSE and relaunches the game's shortcut instead of clicking anything.
 
 This development version does not imply completion of real-game qualification.

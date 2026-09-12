@@ -459,7 +459,9 @@ def test_single_frame_or_moving_ad_close_is_never_clicked(dataset):
     adapter, _, _, _, clicks = adapter_fixture(
         dataset, ["advertisement", *(["ad_wait"] * 3), "advertisement", *(["ad_wait"] * 400)]
     )
-    with pytest.raises(TimeoutError):
+    # A known advertisement whose control never stabilizes is bounded by the
+    # advertisement wait and then reported as stuck (restart recovery), never clicked.
+    with pytest.raises(RuntimeError, match="without legitimate control"):
         adapter.reset(max_seconds=3.0, transition_seconds=0.5, ad_transition_seconds=1.0)
     assert not clicks
     # A control that moves between consecutive frames restarts the confirmation.
@@ -467,7 +469,7 @@ def test_single_frame_or_moving_ad_close_is_never_clicked(dataset):
     frames["shifted_ad"] = shifted
     sequence = ["advertisement", "shifted_ad", "advertisement", "shifted_ad", "advertisement"]
     adapter, _, _, _, clicks = adapter_fixture(dataset, sequence + ["ad_wait"] * 300)
-    with pytest.raises(TimeoutError):
+    with pytest.raises(RuntimeError, match="without legitimate control"):
         adapter.reset(max_seconds=2.0, transition_seconds=0.5, ad_transition_seconds=1.0)
     assert not clicks
 
@@ -804,3 +806,103 @@ def test_result_outlined_glyphs_ignore_background_but_require_ink_and_outline(da
             altered[top:bottom, left:right] = fill
         checked = adapter.recognizer.observe(replace(observed.frame, rgb=altered))
         assert checked.state == "unknown" and not checked.controls
+
+
+def test_known_advertisement_without_control_is_bounded_then_stuck(dataset):
+    _, path, _, _ = dataset
+    stripped = json.loads(path.read_text())
+    for variant in stripped["variants"]:
+        if variant["state"] == "advertisement":
+            variant["controls"] = {}
+    path.write_text(json.dumps(stripped))
+    adapter, _, _, released, clicks = adapter_fixture(dataset, ["advertisement"])
+    with pytest.raises(RuntimeError, match="without legitimate control"):
+        adapter.reset(ad_transition_seconds=1.0)
+    assert not clicks and released
+    assert adapter._stopped.is_set() and not adapter._latched
+
+
+def test_last_click_ns_tracks_only_accepted_clicks(dataset):
+    adapter, _, _, _, _ = adapter_fixture(dataset, ["paused"])
+    assert adapter.last_click_ns is None
+    adapter.click_verified("restart_paused", adapter.observe())
+    assert adapter.last_click_ns == adapter.trace[-1]["completed_ns"]
+
+
+def restart_fixture(dataset, sequence, *, hide_after=0.4, reappear_after=2.0):
+    adapter, clock, current, released, clicks = adapter_fixture(dataset, sequence)
+    state = {"hidden_at": None, "shown_at": None, "launches": 0, "foreground": 0}
+
+    def visible(hwnd):
+        assert hwnd == TARGET.hwnd
+        if state["hidden_at"] is None or clock.now < state["hidden_at"]:
+            return True
+        return state["shown_at"] is not None and clock.now >= state["shown_at"]
+
+    def request_close(hwnd):
+        assert hwnd == TARGET.hwnd
+        state["hidden_at"] = clock.now + hide_after if hide_after is not None else None
+        return True
+
+    def launch():
+        state["launches"] += 1
+        if reappear_after is not None:
+            state["shown_at"] = clock.now + reappear_after
+
+    def bring_to_foreground(hwnd):
+        state["foreground"] += 1
+        return True
+
+    adapter.guard.api = SimpleNamespace(
+        visible=visible, request_close=request_close, bring_to_foreground=bring_to_foreground
+    )
+    return adapter, clock, current, released, clicks, state, launch
+
+
+def test_restart_app_closes_relaunches_and_settles_without_clicks(dataset):
+    adapter, _, _, released, clicks, state, launch = restart_fixture(
+        dataset, ["unknown", "unknown", "tune"]
+    )
+    adapter._stopped.set()  # a stuck reset stops the adapter without latching it
+    seen = []
+    outcome = adapter.restart_app(
+        launch, max_seconds=30, poll_seconds=0.1, on_observation=seen.append
+    )
+    assert outcome.state == "tune"
+    assert state["launches"] == 1 and state["foreground"] == 1
+    assert not clicks and released and not adapter._stopped.is_set()
+    row = adapter.restart_trace[-1]
+    assert row["closed"] and row["launched"] and row["error"] is None
+    assert row["settled_state"] == "tune"
+    assert 0.4 <= row["hidden_seconds"] < 0.7 and 2.0 <= row["visible_seconds"] < 2.3
+    assert [observation.state for observation in seen] == ["unknown", "unknown", "tune"]
+
+
+@pytest.mark.parametrize(
+    "failure", ["latched", "geometry", "never_hides", "never_reappears", "never_settles"]
+)
+def test_restart_app_refuses_or_times_out_and_stays_stopped(dataset, failure):
+    kwargs = {}
+    if failure == "never_hides":
+        kwargs["hide_after"] = None
+    if failure == "never_reappears":
+        kwargs["reappear_after"] = None
+    sequence = ["unknown"] if failure == "never_settles" else ["tune"]
+    adapter, _, current, released, clicks, state, launch = restart_fixture(
+        dataset, sequence, **kwargs
+    )
+    if failure == "latched":
+        adapter._latched = True
+    if failure == "geometry":
+        current[0] = replace(TARGET, client_rect=ClientRect(101, 200, 800, 600))
+    with pytest.raises((RuntimeError, TimeoutError)):
+        adapter.restart_app(launch, max_seconds=10, hide_seconds=2, poll_seconds=0.5)
+    assert adapter._stopped.is_set() and not clicks and released
+    if failure == "latched":
+        assert adapter.restart_trace == [] and state["launches"] == 0
+    else:
+        assert adapter.restart_trace[-1]["error"]
+    with pytest.raises(ValueError):
+        adapter.restart_app(launch, max_seconds=0)
+    with pytest.raises(TypeError):
+        adapter.restart_app(None)
