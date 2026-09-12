@@ -350,3 +350,103 @@ def test_prior_partition_assignment_cannot_be_rewritten(tmp_path, monkeypatch):
     )
     with pytest.raises(ValueError, match="reassignment"):
         publish(root)
+
+
+def test_legacy_string_protocol_in_canonical_history_does_not_break_screen(tmp_path):
+    root, *_ = fixture(tmp_path)
+    with screen.RunRecorder(
+        root / "artifacts",
+        "legacy-fixture",
+        {"protocol": "cycle-1-legacy-string"},
+        source_root=root,
+        telemetry_interval_seconds=0,
+    ) as legacy:
+        legacy.finalize(status="completed", episodes=0)
+    original = (legacy.directory / "seal.json").read_bytes()
+    result = publish(root)
+    assert result["verification"]["valid"]
+    assert (legacy.directory / "seal.json").read_bytes() == original
+    assert verify_run(root / "artifacts", legacy.run_id)["valid"]
+
+
+def operational_successor(root, original):
+    write_json(
+        root / "research/failed-dispatch.json",
+        {
+            "stage": "pre-recorder",
+            "renders": 0,
+            "source_decodes": 0,
+            "reason": "Synthetic operational failure receipt",
+        },
+    )
+    successor = json.loads(json.dumps(original))
+    successor.update(
+        experiment_id="synthetic-visual-operational-successor",
+        status="Registered operational correction, original labels frozen",
+        created_at="2026-09-12T21:00:00Z",
+        construction_protocol=reference(root, root / "research/protocol.json"),
+        operational_successor={
+            "frozen_replay": reference(root, root / "research/labels.json"),
+            "failure_evidence": reference(root, root / "research/failed-dispatch.json"),
+            "reason": "Retry only the diagnosed pre-recorder failure with identical construction inputs",
+        },
+    )
+    write_json(root / "research/successor.json", successor)
+    return successor
+
+
+def test_operational_successor_uses_original_label_bytes_and_original_review_cutoff(tmp_path):
+    root, original, *_ = fixture(tmp_path)
+    old_protocol = (root / "research/protocol.json").read_bytes()
+    old_labels = (root / "research/labels.json").read_bytes()
+    successor = operational_successor(root, original)
+    result = screen.publish_visual_pose_screen(
+        root, "research/successor.json", "research/labels.json"
+    )
+    assert result["verification"]["valid"]
+    report = json.loads(Path(result["report"]).read_bytes())
+    assert report["summary"]["retained_paired_poses"] == 4
+    assert report["input_contract"]["construction_protocol"] == successor["construction_protocol"]
+    assert all(
+        row["label"]["label_protocol"] == successor["construction_protocol"]
+        for row in report["rows"]
+    )
+    record = json.loads((Path(result["report"]).parent / "run.json").read_bytes())
+    assert {"original_construction_protocol", "prior_operational_failure"} <= {
+        a["kind"] for a in record["artifact_manifest"]
+    }
+    assert (root / "research/protocol.json").read_bytes() == old_protocol
+    assert (root / "research/labels.json").read_bytes() == old_labels
+
+
+@pytest.mark.parametrize(
+    "field", ["selected_frames", "budgets", "annotation", "renderer", "perception_profile"]
+)
+def test_operational_successor_cannot_change_substantive_inputs(tmp_path, monkeypatch, field):
+    root, original, *_ = fixture(tmp_path)
+    successor = operational_successor(root, original)
+    if field == "selected_frames":
+        successor[field].reverse()
+    elif field == "budgets":
+        successor[field]["maximum_wall_seconds"] = 119
+    elif field == "annotation":
+        successor[field]["image_size"][0] += 1
+    elif field == "renderer":
+        successor[field]["assets"] = "Different original art"
+    else:
+        successor[field]["sha256"] = "a" * 64
+    write_json(root / "research/successor.json", successor)
+    monkeypatch.setattr(
+        replay_module, "render_pose", lambda *_: pytest.fail("Changed successor rendered pixels")
+    )
+    with pytest.raises(ValueError, match="substantive construction inputs or budgets"):
+        screen.publish_visual_pose_screen(root, "research/successor.json", "research/labels.json")
+
+
+def test_operational_successor_cannot_substitute_changed_label_bytes(tmp_path):
+    root, original, labels, *_ = fixture(tmp_path)
+    operational_successor(root, original)
+    labels["note"] = "Changed after frozen operational receipt"
+    write_json(root / "research/labels.json", labels)
+    with pytest.raises(ValueError, match="exact frozen original replay bytes"):
+        screen.publish_visual_pose_screen(root, "research/successor.json", "research/labels.json")

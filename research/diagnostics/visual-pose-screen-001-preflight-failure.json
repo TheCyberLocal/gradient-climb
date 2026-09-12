@@ -1,0 +1,24 @@
+{
+  "schema_version": "visual-screen-preflight-diagnostic-3.0",
+  "created_at": "2026-09-12T16:27:56.843376+00:00",
+  "experiment_id": "cycle-3-visual-pose-screen-001",
+  "source_commit": "752a47d3506ed3ac0785b6ebbdd7ca8a6124314b",
+  "canonical_run_id": null,
+  "status": "failed_before_canonical_recorder",
+  "exception": "AttributeError: str object has no attribute get",
+  "cause": "Existing canonical run-start configuration.protocol is a string; new duplicate guard assumed every historical value is a mapping with sha256. Historical records are valid and unchanged.",
+  "source_rgb_decodes": 0,
+  "rendered_frames": 0,
+  "policy_decisions": 0,
+  "optimizer_updates": 0,
+  "new_real_interaction_seconds": 0,
+  "wall_seconds_tool_process": 0.8718508,
+  "cpu_core_seconds": null,
+  "wall_scope": "Shell tool reports elapsed command wall, including Python startup; no canonical recorder/resource sample began. CPU/GPU/memory cost unmeasured, not zero.",
+  "source_state": "Governing implementation/protocol/labels committed752a47d; unrelated reader3/downloader development files untracked, no shared imported source edits.",
+  "console": {
+    "path": "artifacts/cycle3-visual-pose-screen-001.log",
+    "sha256": "9e68e5a9e8f5d18cde4b9d91a2dd18d6c50d4a95294427c87b8590ec9e89042c"
+  },
+  "next": "Fix historical-value type guard, preserve all original protocol/label bytes; separately register operational successor without changing selected images, annotations, budgets or detector."
+}

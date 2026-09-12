@@ -140,6 +140,50 @@ def _protocol(root, protocol_path, replay_path):
     created = datetime.fromisoformat(protocol["created_at"])
     if created.utcoffset() is None or protocol["protocol_version"] != VERSION:
         raise ValueError("Unsupported protocol or registration timestamp")
+    construction_reference, annotation_cutoff = reference, created
+    if "construction_protocol" in protocol or "operational_successor" in protocol:
+        construction_reference = EvidenceRef.model_validate(protocol.get("construction_protocol"))
+        parent = json.loads(_read_ref(root, construction_reference).read_bytes())
+        allowed = {
+            "experiment_id",
+            "status",
+            "created_at",
+            "construction_protocol",
+            "operational_successor",
+        }
+        if "construction_protocol" in parent or "operational_successor" in parent:
+            raise ValueError("Operational successor must pin the original construction protocol")
+        if canonical_json(
+            {k: v for k, v in protocol.items() if k not in allowed}
+        ) != canonical_json({k: v for k, v in parent.items() if k not in allowed}):
+            raise ValueError(
+                "Operational successor changed substantive construction inputs or budgets"
+            )
+        annotation_cutoff = datetime.fromisoformat(parent["created_at"])
+        if (
+            annotation_cutoff.utcoffset() is None
+            or created <= annotation_cutoff
+            or protocol["experiment_id"] == parent["experiment_id"]
+        ):
+            raise ValueError(
+                "Operational successor requires a later registration and new experiment identity"
+            )
+        successor = protocol.get("operational_successor")
+        if (
+            not isinstance(successor, dict)
+            or set(successor) != {"frozen_replay", "failure_evidence", "reason"}
+            or not isinstance(successor["reason"], str)
+            or not successor["reason"].strip()
+        ):
+            raise ValueError(
+                "Operational successor requires frozen labels and explicit failure evidence"
+            )
+        frozen_replay = EvidenceRef.model_validate(successor["frozen_replay"])
+        if frozen_replay != EvidenceRef(path=replay_path, sha256=sha256_file(replay_file)):
+            raise ValueError(
+                "Operational successor must consume its exact frozen original replay bytes"
+            )
+        _read_ref(root, EvidenceRef.model_validate(successor["failure_evidence"]))
     budgets = protocol["budgets"]
     if (
         any(
@@ -179,9 +223,9 @@ def _protocol(root, protocol_path, replay_path):
         g = frame.geometry
         if (
             g.source_image != EvidenceRef.model_validate(source["source_image"])
-            or g.label_protocol != reference
+            or g.label_protocol != construction_reference
             or g.reviewed_at is None
-            or g.reviewed_at <= created
+            or g.reviewed_at <= annotation_cutoff
         ):
             raise ValueError(
                 "Label source order, protocol hash or post-registration review receipt mismatch"
@@ -303,15 +347,15 @@ def publish_visual_pose_screen(project_root, protocol_path, replay_path):
         "accounting_scope": "Exactly four selected source RGB decodes/perception observations and four procedural renders. Mandatory integrity hashing additionally reads the whole sealed source and reviewed windows; these are not four total filesystem reads. Function-entry wall budget checked at operation boundaries, including preflight, excluding imports and final sealing; an indivisible operation can overrun before detection. Output budget covers retained run files, reserving 1 MiB for recorder finalization.",
         "prior_class": "human-demonstration, manual-construction-label and engineered-renderer/perception system priors; no policy prior or learning arm",
     }
+    if "construction_protocol" in protocol:
+        config.update(
+            construction_protocol=protocol["construction_protocol"],
+            operational_successor=protocol["operational_successor"],
+        )
     with partition_publication(root, plan) as binding:
         for record in binding.artifact_root.glob("runs/*/run-start.json"):
-            if (
-                json.loads(record.read_bytes())
-                .get("configuration", {})
-                .get("protocol", {})
-                .get("sha256")
-                == protocol_ref.sha256
-            ):
+            previous = json.loads(record.read_bytes()).get("configuration", {}).get("protocol")
+            if isinstance(previous, dict) and previous.get("sha256") == protocol_ref.sha256:
                 raise ValueError(
                     "This registered screen already has a canonical attempt; a successor protocol is required"
                 )
@@ -362,6 +406,16 @@ def publish_visual_pose_screen(project_root, protocol_path, replay_path):
                         for f in replay.frames
                     ),
                 ]
+                if "construction_protocol" in protocol:
+                    refs.extend(
+                        [
+                            (protocol["construction_protocol"], "original_construction_protocol"),
+                            (
+                                protocol["operational_successor"]["failure_evidence"],
+                                "prior_operational_failure",
+                            ),
+                        ]
+                    )
                 for ref, kind in refs:
                     expected = EvidenceRef.model_validate(ref)
                     artifact = run.register_artifact(_read_ref(root, expected), kind)
