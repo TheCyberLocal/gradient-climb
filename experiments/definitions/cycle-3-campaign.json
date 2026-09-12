@@ -298,6 +298,17 @@
       "individual_seal_verified": true,
       "diagnostic": "research/diagnostics/human-demonstrations-2026-09-12.json",
       "gameplay_scope": "Main attempt paused at reviewed745mHUD and restarted; subsequent0m attempt exited. No natural result observed."
+    },
+    {
+      "campaign": "engine-screen",
+      "kind": "synthetic_engineering",
+      "run_id": "a6df4449-f62f-42f8-995d-3d592819b049",
+      "source_sha": "1bbb542c37e5c15f61834e83c00045a102bdd9a5",
+      "protocol": "articulated-engine-pilot-3.1",
+      "status": "completed_engineering_gate_passed",
+      "learning_seconds": 0,
+      "real_game_episodes": 0,
+      "finding": "research/findings/F-008-articulated-engine-feasibility.md"
     }
   ],
   "scientific_targets_met": false

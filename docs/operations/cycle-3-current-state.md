@@ -54,6 +54,16 @@ ran beyond its finite support domain; see [F-007](../../research/findings/F-007-
 Its individual seal passed verification. The 136-run audit above remains at its
 original pre-pilot cutoff; the new failed run is additional evidence.
 
+The separately registered 3.1 successor
+`a6df4449-f62f-42f8-995d-3d592819b049`, at source
+`1bbb542c37e5c15f61834e83c00045a102bdd9a5`, passed all three synthetic diagnostic
+gates and completed all twelve sequential-world/rendering arms. See
+[F-008](../../research/findings/F-008-articulated-engine-feasibility.md) for every
+arm and its accounting scope. It consumed 21.17 pilot seconds, 102,000 scripted
+decisions, 204,000 physics substeps and 12,300 debug renders. This permits measured
+fixture development; it supplies no learned policy, real transfer, optimal
+parallelism or qualified reference simulator. Its individual seal passed.
+
 Three owner demonstration capture attempts are also additional to that frozen
 136-run cutoff. Their individual seals passed verification, and the new
 [derived timing review](../../research/diagnostics/human-demonstrations-2026-09-12.md)

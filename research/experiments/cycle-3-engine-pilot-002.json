@@ -1,0 +1,2474 @@
+{
+  "schema_version": "engine-pilot-interpretation-3.1",
+  "run_id": "a6df4449-f62f-42f8-995d-3d592819b049",
+  "source_sha": "1bbb542c37e5c15f61834e83c00045a102bdd9a5",
+  "source_clean_at_capture": true,
+  "status": "completed",
+  "protocol": "articulated-engine-pilot-3.1",
+  "fixture_version": "articulated-engine-fixtures-3.1",
+  "source_files": {
+    "run.json": "e2c28b0e7d60e9b65d74c82f2248c5593164cd2219e8a091b3c9ce327c1106eb",
+    "seal.json": "406f0247cfda7675e979d8c04725c820c62695e4d8c48e7754e0c389f881cd19",
+    "engine-pilot-results.json": "d87302ef1c3d5480bd5dd35a4ebf01caeb58f62d02662e7f6a7046644b3e87f4",
+    "engine-install-report.json": "972c44ec340d33b9fc7705c165141f30b89bf990f06eb88316eb6bf6085ceed2"
+  },
+  "observation_artifacts": [
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/bf15b7f465cacce8fc0fabe61d6284bb9e3f8fd9d6214d984ef9e6d57907c22b_engine-diagnostic-flat-repeat-0.json",
+      "sha256": "bf15b7f465cacce8fc0fabe61d6284bb9e3f8fd9d6214d984ef9e6d57907c22b",
+      "measurement_kind": "diagnostic_repeat"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/bf15b7f465cacce8fc0fabe61d6284bb9e3f8fd9d6214d984ef9e6d57907c22b_engine-diagnostic-flat-repeat-1.json",
+      "sha256": "bf15b7f465cacce8fc0fabe61d6284bb9e3f8fd9d6214d984ef9e6d57907c22b",
+      "measurement_kind": "diagnostic_repeat"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/90823d793feba6194b7a311e06853d1e026fa70876fa208da9e764734b91e7f3_engine-diagnostic-flat.json",
+      "sha256": "90823d793feba6194b7a311e06853d1e026fa70876fa208da9e764734b91e7f3",
+      "measurement_kind": "diagnostic_gate"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/a3e9b93d0568abda6f138beca167ccf7dab0256648e8aa30683d86f52196546b_engine-diagnostic-bridge_load-repeat-0.json",
+      "sha256": "a3e9b93d0568abda6f138beca167ccf7dab0256648e8aa30683d86f52196546b",
+      "measurement_kind": "diagnostic_repeat"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/a3e9b93d0568abda6f138beca167ccf7dab0256648e8aa30683d86f52196546b_engine-diagnostic-bridge_load-repeat-1.json",
+      "sha256": "a3e9b93d0568abda6f138beca167ccf7dab0256648e8aa30683d86f52196546b",
+      "measurement_kind": "diagnostic_repeat"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/0ba474b03962898dab30b326b30011956c1235954c2b4ac8524cf47f9046ac14_engine-diagnostic-bridge_load.json",
+      "sha256": "0ba474b03962898dab30b326b30011956c1235954c2b4ac8524cf47f9046ac14",
+      "measurement_kind": "diagnostic_gate"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/7b7b892c949c397cf777c0f7c15d35611464e31f8d92c783b2a79bbbfdfce642_engine-diagnostic-bridge_traverse-repeat-0.json",
+      "sha256": "7b7b892c949c397cf777c0f7c15d35611464e31f8d92c783b2a79bbbfdfce642",
+      "measurement_kind": "diagnostic_repeat"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/7b7b892c949c397cf777c0f7c15d35611464e31f8d92c783b2a79bbbfdfce642_engine-diagnostic-bridge_traverse-repeat-1.json",
+      "sha256": "7b7b892c949c397cf777c0f7c15d35611464e31f8d92c783b2a79bbbfdfce642",
+      "measurement_kind": "diagnostic_repeat"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/b10b2d09e8eabfc26de5f13d140b3e2c9c373b635e3cce18380dd7baa6c32705_engine-diagnostic-bridge_traverse.json",
+      "sha256": "b10b2d09e8eabfc26de5f13d140b3e2c9c373b635e3cce18380dd7baa6c32705",
+      "measurement_kind": "diagnostic_gate"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/8d7cb2bb784d56d69230e2977a96e9b7a3014113c22dd3725475bad1e2b9f5d9_engine-arm-flat-1-render-0.json",
+      "sha256": "8d7cb2bb784d56d69230e2977a96e9b7a3014113c22dd3725475bad1e2b9f5d9",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/db439d92165d482b5c18b5c716665b13357f6d3d4738734e6628d0ae6b0f37f0_engine-arm-flat-1-render-1.json",
+      "sha256": "db439d92165d482b5c18b5c716665b13357f6d3d4738734e6628d0ae6b0f37f0",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/ca65b6022bb0af24c46f66df33b8dc2348d4818ecd8a45b78549e720c93fdeb4_engine-arm-flat-8-render-0.json",
+      "sha256": "ca65b6022bb0af24c46f66df33b8dc2348d4818ecd8a45b78549e720c93fdeb4",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/39f1ab4c94e7e50f5936720aa552f34e344143735bb94e2795830c90aa5898bd_engine-arm-flat-8-render-1.json",
+      "sha256": "39f1ab4c94e7e50f5936720aa552f34e344143735bb94e2795830c90aa5898bd",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/7d317c946cf7f4e15d7835372d2a3fa2db79d7352b01c3386706bda0b27dd95c_engine-arm-flat-32-render-0.json",
+      "sha256": "7d317c946cf7f4e15d7835372d2a3fa2db79d7352b01c3386706bda0b27dd95c",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/ad55d8e1a3ca89e366b225323e2be393035e3d90f9c1aeaaf91af86d377eb931_engine-arm-flat-32-render-1.json",
+      "sha256": "ad55d8e1a3ca89e366b225323e2be393035e3d90f9c1aeaaf91af86d377eb931",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/6d610da3139f304e78c3bb0eca1b86b99bb1dad356bce9d99b879cc5d7a9ee9a_engine-arm-bridge_traverse-1-render-0.json",
+      "sha256": "6d610da3139f304e78c3bb0eca1b86b99bb1dad356bce9d99b879cc5d7a9ee9a",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/3835333f2908c0f1882c958ba57ed65e2439437c622496e37a81bc46bd7cf441_engine-arm-bridge_traverse-1-render-1.json",
+      "sha256": "3835333f2908c0f1882c958ba57ed65e2439437c622496e37a81bc46bd7cf441",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/197e324ea8a4c37f9d359da7d478278aa2ebf50ef79033379478187e239251a3_engine-arm-bridge_traverse-8-render-0.json",
+      "sha256": "197e324ea8a4c37f9d359da7d478278aa2ebf50ef79033379478187e239251a3",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/672ceff81ab72666dc228a1dc6097408d63a7f3822122a21f278be130ad5b744_engine-arm-bridge_traverse-8-render-1.json",
+      "sha256": "672ceff81ab72666dc228a1dc6097408d63a7f3822122a21f278be130ad5b744",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/d33190bc417f7bf7c40ae98aa298bd39144736363c57fcc50c9a8bf6891abf2f_engine-arm-bridge_traverse-32-render-0.json",
+      "sha256": "d33190bc417f7bf7c40ae98aa298bd39144736363c57fcc50c9a8bf6891abf2f",
+      "measurement_kind": "throughput_arm"
+    },
+    {
+      "path": "runs/a6df4449-f62f-42f8-995d-3d592819b049/files/45ca01909b7e4073cbacc1201ac8429cd7f6a455509b76b6317c055a2fa34e18_engine-arm-bridge_traverse-32-render-1.json",
+      "sha256": "45ca01909b7e4073cbacc1201ac8429cd7f6a455509b76b6317c055a2fa34e18",
+      "measurement_kind": "throughput_arm"
+    }
+  ],
+  "console_discovery_receipt": {
+    "path": "artifacts/cycle3-engine-pilot-002.log",
+    "sha256": "6ed6614237ee3d3c8cc5585486304361448b9822d02f5e81d111f666cd608612",
+    "canonical_results_authority": "run.json and sealed engine-pilot-results.json"
+  },
+  "seal_verification": {
+    "current": {
+      "run_id": "a6df4449-f62f-42f8-995d-3d592819b049",
+      "valid": true,
+      "errors": []
+    },
+    "predecessor": {
+      "run_id": "a88aeae4-ccdf-4f84-a178-bc5e58feebd8",
+      "valid": true,
+      "errors": []
+    }
+  },
+  "scope": "synthetic engineering only; no training environment, actual-game calibration, learned driving, competence or transfer qualification",
+  "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+  "engine": {
+    "distribution": "Box2D",
+    "version": "2.3.10",
+    "engine_family": "Box2D 2.3 (SWIG binding; not the Box2D 3.x API)",
+    "license_metadata": "zlib",
+    "installed_files": [
+      {
+        "path": "Box2D-2.3.10.dist-info/LICENSE",
+        "sha256": "6e54bb5601f9d66bbea11902b9d0d7d3859fe253ea1926a0ff4d7f4cde048323",
+        "bytes": 1102
+      },
+      {
+        "path": "Box2D/_Box2D.cp313-win_amd64.pyd",
+        "sha256": "d9ba1c7b5097fd5113446491864b5ddb4990bfcfa47a2e1413af9b553653253e",
+        "bytes": 1668608
+      }
+    ]
+  },
+  "hardware": {
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "gpus": [
+      {
+        "driver": "616.56",
+        "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+        "vram_bytes": 17171480576
+      }
+    ],
+    "logical_cores": 32,
+    "machine": "AMD64",
+    "machine_fingerprint_basis": "hardware-observation-v2",
+    "physical_cores": 24,
+    "ram_bytes": 68408958976,
+    "release": "11",
+    "system": "Windows"
+  },
+  "framework_versions": {
+    "duckdb": "1.5.5",
+    "gradientclimb": "0.1.0a2",
+    "gymnasium": "1.3.0",
+    "numpy": "2.5.3",
+    "psutil": "7.2.2",
+    "pyarrow": "25.0.1",
+    "pydantic": "2.13.5",
+    "torch": "2.11.0+cu128"
+  },
+  "start_time": "2026-09-12T14:58:36.683771Z",
+  "end_time": "2026-09-12T14:58:57.962923Z",
+  "diagnostics": [
+    {
+      "kind": "flat",
+      "gate": {
+        "passed": true,
+        "checks": {
+          "deterministic_repeat": true,
+          "wheel_lateral_constraint": true,
+          "bridge_joint_constraint": true,
+          "bounded_speed": true,
+          "bounded_angular_speed": true,
+          "ground_domain_contained": true,
+          "flat_penetration": true
+        }
+      },
+      "repeats": [
+        {
+          "kind": "flat",
+          "seed": 31000,
+          "decisions": 600,
+          "simulated_seconds": 10.0,
+          "state_sha256": "cc2c879b48b7f2644b9c87ae67de6d17caaa1ad07f7dcc1bde758aa1382dc277",
+          "peak_bridge_joint_anchor_error": 0.0,
+          "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+          "ground_domain_x": [
+            -1020.0,
+            1020.0
+          ],
+          "static_ground_segments": [
+            [
+              [
+                -1020.0,
+                0
+              ],
+              [
+                1020.0,
+                0
+              ]
+            ]
+          ],
+          "ground_envelope": {
+            "speed_bound": 100.0,
+            "horizon_seconds": 10.0,
+            "margin": 20.0
+          },
+          "support_observation_cadence": "every_physics_substep",
+          "checked_physics_substeps": 1200,
+          "outside_ground_domain_substeps": 0,
+          "ground_domain_contained": true,
+          "first_ground_domain_exit": null,
+          "minimum_wheel_bottom_y": -0.001095283031463612,
+          "minimum_wheel_bottom_evidence": {
+            "decision": 497,
+            "physics_substep": 993,
+            "simulated_seconds": 8.275,
+            "wheel_index": 0,
+            "wheel_center": [
+              98.35012817382812,
+              0.2989047169685364
+            ],
+            "wheel_bottom_y": -0.001095283031463612
+          },
+          "minimum_wheel_bottom_over_static_floor_y": -0.001095283031463612,
+          "minimum_wheel_bottom_over_static_floor_evidence": {
+            "decision": 497,
+            "physics_substep": 993,
+            "simulated_seconds": 8.275,
+            "wheel_index": 0,
+            "wheel_center": [
+              98.35012817382812,
+              0.2989047169685364
+            ],
+            "wheel_bottom_y": -0.001095283031463612
+          },
+          "bridge_gap_substeps": 0,
+          "first_bridge_gap_entry": null,
+          "minimum_wheel_bottom_in_bridge_gap_y": null,
+          "minimum_wheel_bottom_in_bridge_gap_evidence": null,
+          "bridge_contact_steps": 0,
+          "minimum_bridge_body_y": null,
+          "max_body_speed": 17.135335927502844,
+          "max_abs_angular_speed": 57.504974365234375,
+          "body_count": 4,
+          "joint_count": 2,
+          "final_chassis_state": [
+            104.38983917236328,
+            0.3233935832977295,
+            -9.509578704833984,
+            -0.18721547722816467,
+            -0.4138832986354828,
+            0.6122995018959045
+          ]
+        },
+        {
+          "kind": "flat",
+          "seed": 31000,
+          "decisions": 600,
+          "simulated_seconds": 10.0,
+          "state_sha256": "cc2c879b48b7f2644b9c87ae67de6d17caaa1ad07f7dcc1bde758aa1382dc277",
+          "peak_bridge_joint_anchor_error": 0.0,
+          "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+          "ground_domain_x": [
+            -1020.0,
+            1020.0
+          ],
+          "static_ground_segments": [
+            [
+              [
+                -1020.0,
+                0
+              ],
+              [
+                1020.0,
+                0
+              ]
+            ]
+          ],
+          "ground_envelope": {
+            "speed_bound": 100.0,
+            "horizon_seconds": 10.0,
+            "margin": 20.0
+          },
+          "support_observation_cadence": "every_physics_substep",
+          "checked_physics_substeps": 1200,
+          "outside_ground_domain_substeps": 0,
+          "ground_domain_contained": true,
+          "first_ground_domain_exit": null,
+          "minimum_wheel_bottom_y": -0.001095283031463612,
+          "minimum_wheel_bottom_evidence": {
+            "decision": 497,
+            "physics_substep": 993,
+            "simulated_seconds": 8.275,
+            "wheel_index": 0,
+            "wheel_center": [
+              98.35012817382812,
+              0.2989047169685364
+            ],
+            "wheel_bottom_y": -0.001095283031463612
+          },
+          "minimum_wheel_bottom_over_static_floor_y": -0.001095283031463612,
+          "minimum_wheel_bottom_over_static_floor_evidence": {
+            "decision": 497,
+            "physics_substep": 993,
+            "simulated_seconds": 8.275,
+            "wheel_index": 0,
+            "wheel_center": [
+              98.35012817382812,
+              0.2989047169685364
+            ],
+            "wheel_bottom_y": -0.001095283031463612
+          },
+          "bridge_gap_substeps": 0,
+          "first_bridge_gap_entry": null,
+          "minimum_wheel_bottom_in_bridge_gap_y": null,
+          "minimum_wheel_bottom_in_bridge_gap_evidence": null,
+          "bridge_contact_steps": 0,
+          "minimum_bridge_body_y": null,
+          "max_body_speed": 17.135335927502844,
+          "max_abs_angular_speed": 57.504974365234375,
+          "body_count": 4,
+          "joint_count": 2,
+          "final_chassis_state": [
+            104.38983917236328,
+            0.3233935832977295,
+            -9.509578704833984,
+            -0.18721547722816467,
+            -0.4138832986354828,
+            0.6122995018959045
+          ]
+        }
+      ],
+      "repeat_aggregate": {
+        "fixture_instances": 2,
+        "seeds": [
+          31000,
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 2400,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38983917236328,
+        "final_chassis_x_max": 104.38983917236328,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.001095283031463612,
+        "minimum_wheel_bottom_y_available_fixtures": 2,
+        "minimum_wheel_bottom_over_static_floor_y": -0.001095283031463612,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 2,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135335927502844,
+        "max_abs_angular_speed": 57.504974365234375,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "kind": "bridge_load",
+      "gate": {
+        "passed": true,
+        "checks": {
+          "deterministic_repeat": true,
+          "wheel_lateral_constraint": true,
+          "bridge_joint_constraint": true,
+          "bounded_speed": true,
+          "bounded_angular_speed": true,
+          "moving_bridge_contact": true
+        }
+      },
+      "repeats": [
+        {
+          "kind": "bridge_load",
+          "seed": 31000,
+          "decisions": 600,
+          "simulated_seconds": 10.0,
+          "state_sha256": "7b2067cf556b38834ddf8f522f7b170c216df28f2eda4fa57f1921f1f15396d1",
+          "peak_bridge_joint_anchor_error": 0.021220778284666744,
+          "peak_wheel_lateral_constraint_error": 0.0005665330222978584,
+          "ground_domain_x": [
+            -1020.0,
+            1020.0
+          ],
+          "static_ground_segments": [
+            [
+              [
+                -1020.0,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            [
+              [
+                14,
+                0
+              ],
+              [
+                1020.0,
+                0
+              ]
+            ]
+          ],
+          "ground_envelope": {
+            "speed_bound": 100.0,
+            "horizon_seconds": 10.0,
+            "margin": 20.0
+          },
+          "support_observation_cadence": "every_physics_substep",
+          "checked_physics_substeps": 1200,
+          "outside_ground_domain_substeps": 0,
+          "ground_domain_contained": true,
+          "first_ground_domain_exit": null,
+          "minimum_wheel_bottom_y": -0.6969108164310456,
+          "minimum_wheel_bottom_evidence": {
+            "decision": 30,
+            "physics_substep": 59,
+            "simulated_seconds": 0.49166666666666664,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.28123950958252,
+              -0.39691081643104553
+            ],
+            "wheel_bottom_y": -0.6969108164310456
+          },
+          "minimum_wheel_bottom_over_static_floor_y": null,
+          "minimum_wheel_bottom_over_static_floor_evidence": null,
+          "bridge_gap_substeps": 1200,
+          "first_bridge_gap_entry": {
+            "decision": 1,
+            "physics_substep": 1,
+            "simulated_seconds": 0.008333333333333333,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.279999732971191,
+              0.14931875467300415
+            ],
+            "wheel_bottom_y": -0.15068124532699584
+          },
+          "minimum_wheel_bottom_in_bridge_gap_y": -0.6969108164310456,
+          "minimum_wheel_bottom_in_bridge_gap_evidence": {
+            "decision": 30,
+            "physics_substep": 59,
+            "simulated_seconds": 0.49166666666666664,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.28123950958252,
+              -0.39691081643104553
+            ],
+            "wheel_bottom_y": -0.6969108164310456
+          },
+          "bridge_contact_steps": 584,
+          "minimum_bridge_body_y": -0.7631562948226929,
+          "max_body_speed": 2.647911645764311,
+          "max_abs_angular_speed": 4.439713478088379,
+          "body_count": 16,
+          "joint_count": 15,
+          "final_chassis_state": [
+            10.041352272033691,
+            0.5862918496131897,
+            0.007115221582353115,
+            0.0020586047321558,
+            0.012201610021293163,
+            0.0003358414687681943
+          ]
+        },
+        {
+          "kind": "bridge_load",
+          "seed": 31000,
+          "decisions": 600,
+          "simulated_seconds": 10.0,
+          "state_sha256": "7b2067cf556b38834ddf8f522f7b170c216df28f2eda4fa57f1921f1f15396d1",
+          "peak_bridge_joint_anchor_error": 0.021220778284666744,
+          "peak_wheel_lateral_constraint_error": 0.0005665330222978584,
+          "ground_domain_x": [
+            -1020.0,
+            1020.0
+          ],
+          "static_ground_segments": [
+            [
+              [
+                -1020.0,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            [
+              [
+                14,
+                0
+              ],
+              [
+                1020.0,
+                0
+              ]
+            ]
+          ],
+          "ground_envelope": {
+            "speed_bound": 100.0,
+            "horizon_seconds": 10.0,
+            "margin": 20.0
+          },
+          "support_observation_cadence": "every_physics_substep",
+          "checked_physics_substeps": 1200,
+          "outside_ground_domain_substeps": 0,
+          "ground_domain_contained": true,
+          "first_ground_domain_exit": null,
+          "minimum_wheel_bottom_y": -0.6969108164310456,
+          "minimum_wheel_bottom_evidence": {
+            "decision": 30,
+            "physics_substep": 59,
+            "simulated_seconds": 0.49166666666666664,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.28123950958252,
+              -0.39691081643104553
+            ],
+            "wheel_bottom_y": -0.6969108164310456
+          },
+          "minimum_wheel_bottom_over_static_floor_y": null,
+          "minimum_wheel_bottom_over_static_floor_evidence": null,
+          "bridge_gap_substeps": 1200,
+          "first_bridge_gap_entry": {
+            "decision": 1,
+            "physics_substep": 1,
+            "simulated_seconds": 0.008333333333333333,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.279999732971191,
+              0.14931875467300415
+            ],
+            "wheel_bottom_y": -0.15068124532699584
+          },
+          "minimum_wheel_bottom_in_bridge_gap_y": -0.6969108164310456,
+          "minimum_wheel_bottom_in_bridge_gap_evidence": {
+            "decision": 30,
+            "physics_substep": 59,
+            "simulated_seconds": 0.49166666666666664,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.28123950958252,
+              -0.39691081643104553
+            ],
+            "wheel_bottom_y": -0.6969108164310456
+          },
+          "bridge_contact_steps": 584,
+          "minimum_bridge_body_y": -0.7631562948226929,
+          "max_body_speed": 2.647911645764311,
+          "max_abs_angular_speed": 4.439713478088379,
+          "body_count": 16,
+          "joint_count": 15,
+          "final_chassis_state": [
+            10.041352272033691,
+            0.5862918496131897,
+            0.007115221582353115,
+            0.0020586047321558,
+            0.012201610021293163,
+            0.0003358414687681943
+          ]
+        }
+      ],
+      "repeat_aggregate": {
+        "fixture_instances": 2,
+        "seeds": [
+          31000,
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 2400,
+        "bridge_gap_substeps": 2400,
+        "bridge_contact_decision_steps_sum": 1168,
+        "bridge_contact_decision_steps_per_fixture_min": 584,
+        "bridge_contact_decision_steps_per_fixture_max": 584,
+        "final_chassis_x_min": 10.041352272033691,
+        "final_chassis_x_max": 10.041352272033691,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.6969108164310456,
+        "minimum_wheel_bottom_y_available_fixtures": 2,
+        "minimum_wheel_bottom_over_static_floor_y": null,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 0,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.6969108164310456,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 2,
+        "minimum_bridge_body_y": -0.7631562948226929,
+        "minimum_bridge_body_y_available_fixtures": 2,
+        "peak_wheel_lateral_constraint_error": 0.0005665330222978584,
+        "peak_bridge_joint_anchor_error": 0.021220778284666744,
+        "max_body_speed": 2.647911645764311,
+        "max_abs_angular_speed": 4.439713478088379,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": null
+        }
+      }
+    },
+    {
+      "kind": "bridge_traverse",
+      "gate": {
+        "passed": true,
+        "checks": {
+          "deterministic_repeat": true,
+          "wheel_lateral_constraint": true,
+          "bridge_joint_constraint": true,
+          "bounded_speed": true,
+          "bounded_angular_speed": true
+        }
+      },
+      "repeats": [
+        {
+          "kind": "bridge_traverse",
+          "seed": 31000,
+          "decisions": 600,
+          "simulated_seconds": 10.0,
+          "state_sha256": "76d915a296e4c79aefba4d7508a7e74d9c976f7ee9c2cab871a93366564a9b7c",
+          "peak_bridge_joint_anchor_error": 0.026872585991662246,
+          "peak_wheel_lateral_constraint_error": 0.04696273580566964,
+          "ground_domain_x": [
+            -1020.0,
+            1020.0
+          ],
+          "static_ground_segments": [
+            [
+              [
+                -1020.0,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            [
+              [
+                14,
+                0
+              ],
+              [
+                1020.0,
+                0
+              ]
+            ]
+          ],
+          "ground_envelope": {
+            "speed_bound": 100.0,
+            "horizon_seconds": 10.0,
+            "margin": 20.0
+          },
+          "support_observation_cadence": "every_physics_substep",
+          "checked_physics_substeps": 1200,
+          "outside_ground_domain_substeps": 0,
+          "ground_domain_contained": true,
+          "first_ground_domain_exit": null,
+          "minimum_wheel_bottom_y": -0.7474338591098786,
+          "minimum_wheel_bottom_evidence": {
+            "decision": 128,
+            "physics_substep": 255,
+            "simulated_seconds": 2.125,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.685761451721191,
+              -0.44743385910987854
+            ],
+            "wheel_bottom_y": -0.7474338591098786
+          },
+          "minimum_wheel_bottom_over_static_floor_y": -0.004475194215774525,
+          "minimum_wheel_bottom_over_static_floor_evidence": {
+            "decision": 193,
+            "physics_substep": 385,
+            "simulated_seconds": 3.2083333333333335,
+            "wheel_index": 1,
+            "wheel_center": [
+              21.207910537719727,
+              0.29552480578422546
+            ],
+            "wheel_bottom_y": -0.004475194215774525
+          },
+          "bridge_gap_substeps": 129,
+          "first_bridge_gap_entry": {
+            "decision": 90,
+            "physics_substep": 180,
+            "simulated_seconds": 1.5,
+            "wheel_index": 1,
+            "wheel_center": [
+              6.028519153594971,
+              0.306360125541687
+            ],
+            "wheel_bottom_y": 0.006360125541687023
+          },
+          "minimum_wheel_bottom_in_bridge_gap_y": -0.7474338591098786,
+          "minimum_wheel_bottom_in_bridge_gap_evidence": {
+            "decision": 128,
+            "physics_substep": 255,
+            "simulated_seconds": 2.125,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.685761451721191,
+              -0.44743385910987854
+            ],
+            "wheel_bottom_y": -0.7474338591098786
+          },
+          "bridge_contact_steps": 41,
+          "minimum_bridge_body_y": -0.8048086166381836,
+          "max_body_speed": 16.665348066741128,
+          "max_abs_angular_speed": 58.900264739990234,
+          "body_count": 16,
+          "joint_count": 15,
+          "final_chassis_state": [
+            95.77435302734375,
+            0.3830866813659668,
+            -9.599825859069824,
+            -0.12643946707248688,
+            -0.2247600108385086,
+            0.34732893109321594
+          ]
+        },
+        {
+          "kind": "bridge_traverse",
+          "seed": 31000,
+          "decisions": 600,
+          "simulated_seconds": 10.0,
+          "state_sha256": "76d915a296e4c79aefba4d7508a7e74d9c976f7ee9c2cab871a93366564a9b7c",
+          "peak_bridge_joint_anchor_error": 0.026872585991662246,
+          "peak_wheel_lateral_constraint_error": 0.04696273580566964,
+          "ground_domain_x": [
+            -1020.0,
+            1020.0
+          ],
+          "static_ground_segments": [
+            [
+              [
+                -1020.0,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            [
+              [
+                14,
+                0
+              ],
+              [
+                1020.0,
+                0
+              ]
+            ]
+          ],
+          "ground_envelope": {
+            "speed_bound": 100.0,
+            "horizon_seconds": 10.0,
+            "margin": 20.0
+          },
+          "support_observation_cadence": "every_physics_substep",
+          "checked_physics_substeps": 1200,
+          "outside_ground_domain_substeps": 0,
+          "ground_domain_contained": true,
+          "first_ground_domain_exit": null,
+          "minimum_wheel_bottom_y": -0.7474338591098786,
+          "minimum_wheel_bottom_evidence": {
+            "decision": 128,
+            "physics_substep": 255,
+            "simulated_seconds": 2.125,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.685761451721191,
+              -0.44743385910987854
+            ],
+            "wheel_bottom_y": -0.7474338591098786
+          },
+          "minimum_wheel_bottom_over_static_floor_y": -0.004475194215774525,
+          "minimum_wheel_bottom_over_static_floor_evidence": {
+            "decision": 193,
+            "physics_substep": 385,
+            "simulated_seconds": 3.2083333333333335,
+            "wheel_index": 1,
+            "wheel_center": [
+              21.207910537719727,
+              0.29552480578422546
+            ],
+            "wheel_bottom_y": -0.004475194215774525
+          },
+          "bridge_gap_substeps": 129,
+          "first_bridge_gap_entry": {
+            "decision": 90,
+            "physics_substep": 180,
+            "simulated_seconds": 1.5,
+            "wheel_index": 1,
+            "wheel_center": [
+              6.028519153594971,
+              0.306360125541687
+            ],
+            "wheel_bottom_y": 0.006360125541687023
+          },
+          "minimum_wheel_bottom_in_bridge_gap_y": -0.7474338591098786,
+          "minimum_wheel_bottom_in_bridge_gap_evidence": {
+            "decision": 128,
+            "physics_substep": 255,
+            "simulated_seconds": 2.125,
+            "wheel_index": 0,
+            "wheel_center": [
+              9.685761451721191,
+              -0.44743385910987854
+            ],
+            "wheel_bottom_y": -0.7474338591098786
+          },
+          "bridge_contact_steps": 41,
+          "minimum_bridge_body_y": -0.8048086166381836,
+          "max_body_speed": 16.665348066741128,
+          "max_abs_angular_speed": 58.900264739990234,
+          "body_count": 16,
+          "joint_count": 15,
+          "final_chassis_state": [
+            95.77435302734375,
+            0.3830866813659668,
+            -9.599825859069824,
+            -0.12643946707248688,
+            -0.2247600108385086,
+            0.34732893109321594
+          ]
+        }
+      ],
+      "repeat_aggregate": {
+        "fixture_instances": 2,
+        "seeds": [
+          31000,
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 2400,
+        "bridge_gap_substeps": 258,
+        "bridge_contact_decision_steps_sum": 82,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.77435302734375,
+        "final_chassis_x_max": 95.77435302734375,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.7474338591098786,
+        "minimum_wheel_bottom_y_available_fixtures": 2,
+        "minimum_wheel_bottom_over_static_floor_y": -0.004475194215774525,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 2,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.7474338591098786,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 2,
+        "minimum_bridge_body_y": -0.8048086166381836,
+        "minimum_bridge_body_y_available_fixtures": 2,
+        "peak_wheel_lateral_constraint_error": 0.04696273580566964,
+        "peak_bridge_joint_anchor_error": 0.026872585991662246,
+        "max_body_speed": 16.665348066741128,
+        "max_abs_angular_speed": 58.900264739990234,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    }
+  ],
+  "arms": [
+    {
+      "execution_index": 0,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "flat",
+      "worlds": 1,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.0318431000050623,
+      "initialization_seconds": 0.0007035000016912818,
+      "physics_and_diagnostics_seconds": 0.02459720007755095,
+      "render_seconds": 0.0,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 600,
+      "simulated_seconds_total": 10.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 1200,
+      "rendered_observations": 0,
+      "physics_substeps_per_wall_second": 37684.77314737662,
+      "scripted_decisions_per_wall_second": 18842.38657368831,
+      "rendered_observations_per_wall_second": 0.0,
+      "render": false,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.03125,
+      "max_sampled_process_rss_bytes": 66306048,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 1,
+        "seeds": [
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 1200,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38983917236328,
+        "final_chassis_x_max": 104.38983917236328,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.001095283031463612,
+        "minimum_wheel_bottom_y_available_fixtures": 1,
+        "minimum_wheel_bottom_over_static_floor_y": -0.001095283031463612,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 1,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135335927502844,
+        "max_abs_angular_speed": 57.504974365234375,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 1,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "flat",
+      "worlds": 1,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.13404279999667779,
+      "initialization_seconds": 0.0006929000010131858,
+      "physics_and_diagnostics_seconds": 0.032652399968355894,
+      "render_seconds": 0.09279090000200085,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 600,
+      "simulated_seconds_total": 10.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 1200,
+      "rendered_observations": 150,
+      "physics_substeps_per_wall_second": 8952.36446888413,
+      "scripted_decisions_per_wall_second": 4476.182234442065,
+      "rendered_observations_per_wall_second": 1119.0455586105163,
+      "render": true,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.140625,
+      "max_sampled_process_rss_bytes": 68866048,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 1,
+        "seeds": [
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 1200,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38983917236328,
+        "final_chassis_x_max": 104.38983917236328,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.001095283031463612,
+        "minimum_wheel_bottom_y_available_fixtures": 1,
+        "minimum_wheel_bottom_over_static_floor_y": -0.001095283031463612,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 1,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135335927502844,
+        "max_abs_angular_speed": 57.504974365234375,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 2,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "flat",
+      "worlds": 8,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.19261109999933979,
+      "initialization_seconds": 0.0038640999991912395,
+      "physics_and_diagnostics_seconds": 0.18054220002522925,
+      "render_seconds": 0.0,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 4800,
+      "simulated_seconds_total": 80.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 9600,
+      "rendered_observations": 0,
+      "physics_substeps_per_wall_second": 49841.36428291467,
+      "scripted_decisions_per_wall_second": 24920.682141457335,
+      "rendered_observations_per_wall_second": 0.0,
+      "render": false,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.1875,
+      "max_sampled_process_rss_bytes": 69644288,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 8,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 9600,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38318634033203,
+        "final_chassis_x_max": 104.52184295654297,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.004620391130447377,
+        "minimum_wheel_bottom_y_available_fixtures": 8,
+        "minimum_wheel_bottom_over_static_floor_y": -0.004620391130447377,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 8,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135747915050512,
+        "max_abs_angular_speed": 57.5052604675293,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 3,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "flat",
+      "worlds": 8,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.7120150999980979,
+      "initialization_seconds": 0.0034691999971983023,
+      "physics_and_diagnostics_seconds": 0.2148568999255076,
+      "render_seconds": 0.48543429997516796,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 4800,
+      "simulated_seconds_total": 80.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 9600,
+      "rendered_observations": 1200,
+      "physics_substeps_per_wall_second": 13482.860124772138,
+      "scripted_decisions_per_wall_second": 6741.430062386069,
+      "rendered_observations_per_wall_second": 1685.3575155965173,
+      "render": true,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.6875,
+      "max_sampled_process_rss_bytes": 69689344,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 8,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 9600,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38318634033203,
+        "final_chassis_x_max": 104.52184295654297,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.004620391130447377,
+        "minimum_wheel_bottom_y_available_fixtures": 8,
+        "minimum_wheel_bottom_over_static_floor_y": -0.004620391130447377,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 8,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.030861816423449175,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135747915050512,
+        "max_abs_angular_speed": 57.5052604675293,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 4,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "flat",
+      "worlds": 32,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.8051379000025918,
+      "initialization_seconds": 0.014480999998340849,
+      "physics_and_diagnostics_seconds": 0.7825515999720665,
+      "render_seconds": 0.0,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 19200,
+      "simulated_seconds_total": 320.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 38400,
+      "rendered_observations": 0,
+      "physics_substeps_per_wall_second": 47693.693216871776,
+      "scripted_decisions_per_wall_second": 23846.846608435888,
+      "rendered_observations_per_wall_second": 0.0,
+      "render": false,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.78125,
+      "max_sampled_process_rss_bytes": 72212480,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 32,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007,
+          31008,
+          31009,
+          31010,
+          31011,
+          31012,
+          31013,
+          31014,
+          31015,
+          31016,
+          31017,
+          31018,
+          31019,
+          31020,
+          31021,
+          31022,
+          31023,
+          31024,
+          31025,
+          31026,
+          31027,
+          31028,
+          31029,
+          31030,
+          31031
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 38400,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38147735595703,
+        "final_chassis_x_max": 104.55314636230469,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.005843389034271229,
+        "minimum_wheel_bottom_y_available_fixtures": 32,
+        "minimum_wheel_bottom_over_static_floor_y": -0.005843389034271229,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 32,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.03204320435904987,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135747915050512,
+        "max_abs_angular_speed": 57.5052604675293,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 5,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "flat",
+      "worlds": 32,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 2.760531300002185,
+      "initialization_seconds": 0.013812800003506709,
+      "physics_and_diagnostics_seconds": 0.8275340000545839,
+      "render_seconds": 1.9104225999981281,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 19200,
+      "simulated_seconds_total": 320.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 38400,
+      "rendered_observations": 4800,
+      "physics_substeps_per_wall_second": 13910.365732846283,
+      "scripted_decisions_per_wall_second": 6955.182866423142,
+      "rendered_observations_per_wall_second": 1738.7957166057854,
+      "render": true,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 2.75,
+      "max_sampled_process_rss_bytes": 72986624,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 32,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007,
+          31008,
+          31009,
+          31010,
+          31011,
+          31012,
+          31013,
+          31014,
+          31015,
+          31016,
+          31017,
+          31018,
+          31019,
+          31020,
+          31021,
+          31022,
+          31023,
+          31024,
+          31025,
+          31026,
+          31027,
+          31028,
+          31029,
+          31030,
+          31031
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 38400,
+        "bridge_gap_substeps": 0,
+        "bridge_contact_decision_steps_sum": 0,
+        "bridge_contact_decision_steps_per_fixture_min": 0,
+        "bridge_contact_decision_steps_per_fixture_max": 0,
+        "final_chassis_x_min": 104.38147735595703,
+        "final_chassis_x_max": 104.55314636230469,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.005843389034271229,
+        "minimum_wheel_bottom_y_available_fixtures": 32,
+        "minimum_wheel_bottom_over_static_floor_y": -0.005843389034271229,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 32,
+        "minimum_wheel_bottom_in_bridge_gap_y": null,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 0,
+        "minimum_bridge_body_y": null,
+        "minimum_bridge_body_y_available_fixtures": 0,
+        "peak_wheel_lateral_constraint_error": 0.03204320435904987,
+        "peak_bridge_joint_anchor_error": 0.0,
+        "max_body_speed": 17.135747915050512,
+        "max_abs_angular_speed": 57.5052604675293,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 6,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "bridge_traverse",
+      "worlds": 1,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.07495790000393754,
+      "initialization_seconds": 0.0009795000005397014,
+      "physics_and_diagnostics_seconds": 0.06609119990025647,
+      "render_seconds": 0.0,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 600,
+      "simulated_seconds_total": 10.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 1200,
+      "rendered_observations": 0,
+      "physics_substeps_per_wall_second": 16008.986376845723,
+      "scripted_decisions_per_wall_second": 8004.493188422862,
+      "rendered_observations_per_wall_second": 0.0,
+      "render": false,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.0625,
+      "max_sampled_process_rss_bytes": 69447680,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 1,
+        "seeds": [
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 1200,
+        "bridge_gap_substeps": 129,
+        "bridge_contact_decision_steps_sum": 41,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.77435302734375,
+        "final_chassis_x_max": 95.77435302734375,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.7474338591098786,
+        "minimum_wheel_bottom_y_available_fixtures": 1,
+        "minimum_wheel_bottom_over_static_floor_y": -0.004475194215774525,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 1,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.7474338591098786,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 1,
+        "minimum_bridge_body_y": -0.8048086166381836,
+        "minimum_bridge_body_y_available_fixtures": 1,
+        "peak_wheel_lateral_constraint_error": 0.04696273580566964,
+        "peak_bridge_joint_anchor_error": 0.026872585991662246,
+        "max_body_speed": 16.665348066741128,
+        "max_abs_angular_speed": 58.900264739990234,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 7,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "bridge_traverse",
+      "worlds": 1,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.15564780000568135,
+      "initialization_seconds": 0.0010073000012198463,
+      "physics_and_diagnostics_seconds": 0.07151430006342707,
+      "render_seconds": 0.07532510001328774,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 600,
+      "simulated_seconds_total": 10.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 1200,
+      "rendered_observations": 150,
+      "physics_substeps_per_wall_second": 7709.713853688895,
+      "scripted_decisions_per_wall_second": 3854.8569268444476,
+      "rendered_observations_per_wall_second": 963.7142317111119,
+      "render": true,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.140625,
+      "max_sampled_process_rss_bytes": 69685248,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 1,
+        "seeds": [
+          31000
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 1200,
+        "bridge_gap_substeps": 129,
+        "bridge_contact_decision_steps_sum": 41,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.77435302734375,
+        "final_chassis_x_max": 95.77435302734375,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.7474338591098786,
+        "minimum_wheel_bottom_y_available_fixtures": 1,
+        "minimum_wheel_bottom_over_static_floor_y": -0.004475194215774525,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 1,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.7474338591098786,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 1,
+        "minimum_bridge_body_y": -0.8048086166381836,
+        "minimum_bridge_body_y_available_fixtures": 1,
+        "peak_wheel_lateral_constraint_error": 0.04696273580566964,
+        "peak_bridge_joint_anchor_error": 0.026872585991662246,
+        "max_body_speed": 16.665348066741128,
+        "max_abs_angular_speed": 58.900264739990234,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 8,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "bridge_traverse",
+      "worlds": 8,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 0.547254700002668,
+      "initialization_seconds": 0.0067162000050302595,
+      "physics_and_diagnostics_seconds": 0.5323016999318497,
+      "render_seconds": 0.0,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 4800,
+      "simulated_seconds_total": 80.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 9600,
+      "rendered_observations": 0,
+      "physics_substeps_per_wall_second": 17542.106079588168,
+      "scripted_decisions_per_wall_second": 8771.053039794084,
+      "rendered_observations_per_wall_second": 0.0,
+      "render": false,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 0.53125,
+      "max_sampled_process_rss_bytes": 70262784,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 8,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 9600,
+        "bridge_gap_substeps": 1032,
+        "bridge_contact_decision_steps_sum": 328,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.73433685302734,
+        "final_chassis_x_max": 95.99201202392578,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.747523832321167,
+        "minimum_wheel_bottom_y_available_fixtures": 8,
+        "minimum_wheel_bottom_over_static_floor_y": -0.00481431484222411,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 8,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.747523832321167,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 8,
+        "minimum_bridge_body_y": -0.8048893809318542,
+        "minimum_bridge_body_y_available_fixtures": 8,
+        "peak_wheel_lateral_constraint_error": 0.04927187609131639,
+        "peak_bridge_joint_anchor_error": 0.026935449148125512,
+        "max_body_speed": 16.71062088397441,
+        "max_abs_angular_speed": 58.90047836303711,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 9,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "bridge_traverse",
+      "worlds": 8,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 1.1972071999989566,
+      "initialization_seconds": 0.005887299994355999,
+      "physics_and_diagnostics_seconds": 0.5733884999208385,
+      "render_seconds": 0.6084839999966789,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 4800,
+      "simulated_seconds_total": 80.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 9600,
+      "rendered_observations": 1200,
+      "physics_substeps_per_wall_second": 8018.662099600108,
+      "scripted_decisions_per_wall_second": 4009.331049800054,
+      "rendered_observations_per_wall_second": 1002.3327624500135,
+      "render": true,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 1.203125,
+      "max_sampled_process_rss_bytes": 70369280,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 8,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 9600,
+        "bridge_gap_substeps": 1032,
+        "bridge_contact_decision_steps_sum": 328,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.73433685302734,
+        "final_chassis_x_max": 95.99201202392578,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.747523832321167,
+        "minimum_wheel_bottom_y_available_fixtures": 8,
+        "minimum_wheel_bottom_over_static_floor_y": -0.00481431484222411,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 8,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.747523832321167,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 8,
+        "minimum_bridge_body_y": -0.8048893809318542,
+        "minimum_bridge_body_y_available_fixtures": 8,
+        "peak_wheel_lateral_constraint_error": 0.04927187609131639,
+        "peak_bridge_joint_anchor_error": 0.026935449148125512,
+        "max_body_speed": 16.71062088397441,
+        "max_abs_angular_speed": 58.90047836303711,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 10,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "bridge_traverse",
+      "worlds": 32,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 2.878493599993817,
+      "initialization_seconds": 0.025033699996129144,
+      "physics_and_diagnostics_seconds": 2.8422823998553213,
+      "render_seconds": 0.0,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 19200,
+      "simulated_seconds_total": 320.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 38400,
+      "rendered_observations": 0,
+      "physics_substeps_per_wall_second": 13340.311057173267,
+      "scripted_decisions_per_wall_second": 6670.155528586633,
+      "rendered_observations_per_wall_second": 0.0,
+      "render": false,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 2.796875,
+      "max_sampled_process_rss_bytes": 73318400,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 32,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007,
+          31008,
+          31009,
+          31010,
+          31011,
+          31012,
+          31013,
+          31014,
+          31015,
+          31016,
+          31017,
+          31018,
+          31019,
+          31020,
+          31021,
+          31022,
+          31023,
+          31024,
+          31025,
+          31026,
+          31027,
+          31028,
+          31029,
+          31030,
+          31031
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 38400,
+        "bridge_gap_substeps": 4128,
+        "bridge_contact_decision_steps_sum": 1312,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.73433685302734,
+        "final_chassis_x_max": 96.02468872070312,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.7475262761116028,
+        "minimum_wheel_bottom_y_available_fixtures": 32,
+        "minimum_wheel_bottom_over_static_floor_y": -0.006187188625335682,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 32,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.7475262761116028,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 32,
+        "minimum_bridge_body_y": -0.80489182472229,
+        "minimum_bridge_body_y_available_fixtures": 32,
+        "peak_wheel_lateral_constraint_error": 0.0493009901988668,
+        "peak_bridge_joint_anchor_error": 0.026936943286005422,
+        "max_body_speed": 16.71062088397441,
+        "max_abs_angular_speed": 58.90048599243164,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    },
+    {
+      "execution_index": 11,
+      "fixture_version": "articulated-engine-fixtures-3.1",
+      "kind": "bridge_traverse",
+      "worlds": 32,
+      "seed": 31000,
+      "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+      "real_fidelity_validated": false,
+      "shared_perception_pipeline": false,
+      "requested_decisions_per_world": 600,
+      "completed_decisions_per_world": 600,
+      "completed": true,
+      "wall_limit_seconds": 30,
+      "wall_clock_seconds": 4.359936900000321,
+      "initialization_seconds": 0.02425039999798173,
+      "physics_and_diagnostics_seconds": 2.126147100003436,
+      "render_seconds": 2.200741900021967,
+      "policy_decisions": 0,
+      "optimizer_updates": 0,
+      "scripted_decisions": 19200,
+      "simulated_seconds_total": 320.0,
+      "simulated_seconds_per_world": 10.0,
+      "physics_substeps": 38400,
+      "rendered_observations": 4800,
+      "physics_substeps_per_wall_second": 8807.466915403564,
+      "scripted_decisions_per_wall_second": 4403.733457701782,
+      "rendered_observations_per_wall_second": 1100.9333644254455,
+      "render": true,
+      "render_every": 4,
+      "render_size": [
+        320,
+        180
+      ],
+      "settings": {
+        "decision_seconds": 0.016666666666666666,
+        "substeps": 2,
+        "velocity_iterations": 8,
+        "position_iterations": 3
+      },
+      "process_cpu_core_seconds": 4.375,
+      "max_sampled_process_rss_bytes": 74493952,
+      "process_memory_samples": 12,
+      "memory_sampling": "start, every 60 completed decisions per world, end; not a true peak",
+      "rates_are_diagnostics_only": true,
+      "qualifies_game_fidelity": false,
+      "scope": "synthetic_articulated_engine_pilot",
+      "fixture_aggregate": {
+        "fixture_instances": 32,
+        "seeds": [
+          31000,
+          31001,
+          31002,
+          31003,
+          31004,
+          31005,
+          31006,
+          31007,
+          31008,
+          31009,
+          31010,
+          31011,
+          31012,
+          31013,
+          31014,
+          31015,
+          31016,
+          31017,
+          31018,
+          31019,
+          31020,
+          31021,
+          31022,
+          31023,
+          31024,
+          31025,
+          31026,
+          31027,
+          31028,
+          31029,
+          31030,
+          31031
+        ],
+        "all_ground_domains_contained": true,
+        "outside_ground_domain_substeps": 0,
+        "checked_physics_substeps": 38400,
+        "bridge_gap_substeps": 4128,
+        "bridge_contact_decision_steps_sum": 1312,
+        "bridge_contact_decision_steps_per_fixture_min": 41,
+        "bridge_contact_decision_steps_per_fixture_max": 41,
+        "final_chassis_x_min": 95.73433685302734,
+        "final_chassis_x_max": 96.02468872070312,
+        "first_domain_exit_events": [],
+        "minimum_wheel_bottom_y": -0.7475262761116028,
+        "minimum_wheel_bottom_y_available_fixtures": 32,
+        "minimum_wheel_bottom_over_static_floor_y": -0.006187188625335682,
+        "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 32,
+        "minimum_wheel_bottom_in_bridge_gap_y": -0.7475262761116028,
+        "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 32,
+        "minimum_bridge_body_y": -0.80489182472229,
+        "minimum_bridge_body_y_available_fixtures": 32,
+        "peak_wheel_lateral_constraint_error": 0.0493009901988668,
+        "peak_bridge_joint_anchor_error": 0.026936943286005422,
+        "max_body_speed": 16.71062088397441,
+        "max_abs_angular_speed": 58.90048599243164,
+        "descriptive_limit_checks_not_additional_qualification": {
+          "wheel_lateral_le_0_1": true,
+          "bridge_anchor_le_0_15": true,
+          "body_speed_le_100": true,
+          "angular_speed_le_300": true,
+          "available_static_floor_min_ge_minus_0_05": true
+        }
+      }
+    }
+  ],
+  "render_state_parity": [
+    {
+      "fixture": "flat",
+      "worlds": 1,
+      "state_digests_match_with_without_rendering": true,
+      "timing_replications": 1,
+      "counterbalanced_order": false
+    },
+    {
+      "fixture": "flat",
+      "worlds": 8,
+      "state_digests_match_with_without_rendering": true,
+      "timing_replications": 1,
+      "counterbalanced_order": false
+    },
+    {
+      "fixture": "flat",
+      "worlds": 32,
+      "state_digests_match_with_without_rendering": true,
+      "timing_replications": 1,
+      "counterbalanced_order": false
+    },
+    {
+      "fixture": "bridge_traverse",
+      "worlds": 1,
+      "state_digests_match_with_without_rendering": true,
+      "timing_replications": 1,
+      "counterbalanced_order": false
+    },
+    {
+      "fixture": "bridge_traverse",
+      "worlds": 8,
+      "state_digests_match_with_without_rendering": true,
+      "timing_replications": 1,
+      "counterbalanced_order": false
+    },
+    {
+      "fixture": "bridge_traverse",
+      "worlds": 32,
+      "state_digests_match_with_without_rendering": true,
+      "timing_replications": 1,
+      "counterbalanced_order": false
+    }
+  ],
+  "aggregate_numerical_observations": {
+    "fixture_instances": 170,
+    "seeds": [
+      31000,
+      31000,
+      31000,
+      31000,
+      31000,
+      31000,
+      31000,
+      31000,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31008,
+      31009,
+      31010,
+      31011,
+      31012,
+      31013,
+      31014,
+      31015,
+      31016,
+      31017,
+      31018,
+      31019,
+      31020,
+      31021,
+      31022,
+      31023,
+      31024,
+      31025,
+      31026,
+      31027,
+      31028,
+      31029,
+      31030,
+      31031,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31008,
+      31009,
+      31010,
+      31011,
+      31012,
+      31013,
+      31014,
+      31015,
+      31016,
+      31017,
+      31018,
+      31019,
+      31020,
+      31021,
+      31022,
+      31023,
+      31024,
+      31025,
+      31026,
+      31027,
+      31028,
+      31029,
+      31030,
+      31031,
+      31000,
+      31000,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31008,
+      31009,
+      31010,
+      31011,
+      31012,
+      31013,
+      31014,
+      31015,
+      31016,
+      31017,
+      31018,
+      31019,
+      31020,
+      31021,
+      31022,
+      31023,
+      31024,
+      31025,
+      31026,
+      31027,
+      31028,
+      31029,
+      31030,
+      31031,
+      31000,
+      31001,
+      31002,
+      31003,
+      31004,
+      31005,
+      31006,
+      31007,
+      31008,
+      31009,
+      31010,
+      31011,
+      31012,
+      31013,
+      31014,
+      31015,
+      31016,
+      31017,
+      31018,
+      31019,
+      31020,
+      31021,
+      31022,
+      31023,
+      31024,
+      31025,
+      31026,
+      31027,
+      31028,
+      31029,
+      31030,
+      31031
+    ],
+    "all_ground_domains_contained": true,
+    "outside_ground_domain_substeps": 0,
+    "checked_physics_substeps": 204000,
+    "bridge_gap_substeps": 13236,
+    "bridge_contact_decision_steps_sum": 4612,
+    "bridge_contact_decision_steps_per_fixture_min": 0,
+    "bridge_contact_decision_steps_per_fixture_max": 584,
+    "final_chassis_x_min": 10.041352272033691,
+    "final_chassis_x_max": 104.55314636230469,
+    "first_domain_exit_events": [],
+    "minimum_wheel_bottom_y": -0.7475262761116028,
+    "minimum_wheel_bottom_y_available_fixtures": 170,
+    "minimum_wheel_bottom_over_static_floor_y": -0.006187188625335682,
+    "minimum_wheel_bottom_over_static_floor_y_available_fixtures": 168,
+    "minimum_wheel_bottom_in_bridge_gap_y": -0.7475262761116028,
+    "minimum_wheel_bottom_in_bridge_gap_y_available_fixtures": 86,
+    "minimum_bridge_body_y": -0.80489182472229,
+    "minimum_bridge_body_y_available_fixtures": 86,
+    "peak_wheel_lateral_constraint_error": 0.0493009901988668,
+    "peak_bridge_joint_anchor_error": 0.026936943286005422,
+    "max_body_speed": 17.135747915050512,
+    "max_abs_angular_speed": 58.90048599243164,
+    "descriptive_limit_checks_not_additional_qualification": {
+      "wheel_lateral_le_0_1": true,
+      "bridge_anchor_le_0_15": true,
+      "body_speed_le_100": true,
+      "angular_speed_le_300": true,
+      "available_static_floor_min_ge_minus_0_05": true
+    }
+  },
+  "timing": {
+    "recorder_wall_seconds": 21.279367099996307,
+    "pilot_elapsed_seconds": 21.17016579999472,
+    "pilot_clock_definition": "After protocol/source verification through the last measured arm; caller imports and final result serialization/sealing are separate overhead",
+    "installation_wall_seconds": 4.278166100004455,
+    "summed_arm_wall_seconds": 13.849679400009336,
+    "summed_arm_process_cpu_core_seconds": 13.6875,
+    "budget_seconds": 600,
+    "maximum_arm_wall_seconds": 4.359936900000321,
+    "arm_budget_seconds": 30,
+    "boundary_notes": [
+      "Recorder wall/resource counters end before remaining parquet/seal writes; caller imports and subsequent report work are not fully covered.",
+      "Arm wall includes initialization, physics/support diagnostics, rendering, progress callbacks and final memory sampling. Its elapsed sample precedes final fixture-summary materialization; process CPU endpoint follows that materialization.",
+      "Arm CPU is process-wide including all recorder threads; telemetry work may overlap. Summed arm CPU is a subset-like diagnostic window, not an additional charge to whole-run CPU.",
+      "Per-arm timing has one fixed-order measurement; Windows process CPU readings have visible timer quantization. No confidence interval or optimal world-count claim is supported."
+    ]
+  },
+  "resource_window": {
+    "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+    "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+    "energy_measured": false,
+    "final_sample_elapsed_seconds": 21.279159999998228,
+    "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+    "gpu_query_count": 4,
+    "gpu_query_failures": 0,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+        "scope": "device_wide_all_processes; not_policy_attributed",
+        "utilization_equivalent_seconds": 5.127670599999947,
+        "utilization_percent": {
+          "coverage_fraction": 0.9974895532269875,
+          "covered_seconds": 20.908110399999714,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 26.0,
+          "time_weighted_sampled_mean": 24.524792063466514,
+          "uncovered_seconds": 0.05262080000102287,
+          "valid_samples": 4
+        },
+        "uuid": "GPU-0ba50d3a-2292-0c94-2edc-9a151a8a651f",
+        "vram_bytes": {
+          "coverage_fraction": 0.9974895532269875,
+          "covered_seconds": 20.908110399999714,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 873463808.0,
+          "time_weighted_sampled_mean": 873463808.0,
+          "uncovered_seconds": 0.05262080000102287,
+          "valid_samples": 4
+        }
+      }
+    ],
+    "initial_sample_elapsed_seconds": 0.3184287999974913,
+    "max_interpolation_gap_seconds": 30.0,
+    "memory": {
+      "host_ram_used_bytes": {
+        "coverage_fraction": 0.9974512291820269,
+        "covered_seconds": 20.907307099994796,
+        "identity_change_intervals_excluded": 0,
+        "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+        "long_gap_intervals_excluded": 0,
+        "missing_samples": 0,
+        "nonmonotonic_intervals_excluded": 0,
+        "sampled_peak": 35139416064.0,
+        "time_weighted_sampled_mean": 34357903392.50352,
+        "uncovered_seconds": 0.053424100005941,
+        "valid_samples": 22
+      },
+      "process_rss_bytes": {
+        "coverage_fraction": 0.9974495641639413,
+        "covered_seconds": 20.90727219999826,
+        "identity_change_intervals_excluded": 0,
+        "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+        "long_gap_intervals_excluded": 0,
+        "missing_samples": 0,
+        "nonmonotonic_intervals_excluded": 0,
+        "sampled_peak": 74268672.0,
+        "time_weighted_sampled_mean": 68895592.23623164,
+        "uncovered_seconds": 0.05345900000247639,
+        "valid_samples": 22
+      }
+    },
+    "nonmonotonic_samples_excluded": 0,
+    "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+    "process_cpu": {
+      "core_seconds": 14.828125,
+      "counter_resets": 0,
+      "coverage_fraction": 0.9974501318923849,
+      "covered_seconds": 20.90728410000156,
+      "identity_changes": 0,
+      "long_gap_intervals_bridged_by_cumulative_counters": 0,
+      "method": "measured_cumulative_user_plus_system_counter_differences",
+      "missing_samples": 0,
+      "observed_segment_delta_seconds": 14.828125,
+      "process_identities": [
+        {
+          "create_time_unix_seconds": 1789225116.192808,
+          "pid": 43272
+        }
+      ],
+      "scope": "recorder_process_all_threads; excludes_child_processes",
+      "status": "observed",
+      "uncovered_seconds": 0.05344709999917541,
+      "valid_samples": 22
+    },
+    "sample_count": 22,
+    "sample_span_seconds": 20.960731200000737,
+    "samples_with_errors": 0,
+    "version": "resources-3.0"
+  },
+  "experience": {
+    "diagnostic_fixture_instances": 6,
+    "throughput_fixture_instances": 164,
+    "total_fixture_instances": 170,
+    "unique_fixture_kind_seed_pairs": 65,
+    "diagnostic_scripted_decisions": 3600,
+    "arm_scripted_decisions": 98400,
+    "scripted_fixture_decisions": 102000,
+    "physics_substeps": 204000,
+    "summed_simulator_seconds": 1700.0,
+    "rendered_observations": 12300,
+    "episodes": 0,
+    "learned_policy_decisions": 0,
+    "optimizer_updates": 0,
+    "real_game_interaction_seconds": 0,
+    "real_evaluation_episodes": 0,
+    "counting_note": "Fixture instances execute fixed diagnostic horizons, not episode outcome lifecycles. Seed prefixes are reused across world-count/render arms; instance count is not independent scenario count."
+  },
+  "system_prior_cost": {
+    "classification": "engine installation and synthetic simulator-construction prior; not policy pretraining",
+    "parent_failed_run": {
+      "run_id": "a88aeae4-ccdf-4f84-a178-bc5e58feebd8",
+      "source_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+      "run_json_sha256": "fe04d387f2982ac7b7d1250a6a7d03895752444af98b258c3d7f62eb58abfcb5",
+      "finding": "research/findings/F-007-engine-fixture-support-domain.md",
+      "status": "failed_unchanged"
+    },
+    "unique_run_ids": [
+      "a88aeae4-ccdf-4f84-a178-bc5e58feebd8",
+      "a6df4449-f62f-42f8-995d-3d592819b049"
+    ],
+    "sum_recorder_wall_seconds": 32.628883399993356,
+    "sum_observed_recorder_process_cpu_core_seconds": 16.046875,
+    "sum_installation_wall_seconds_included_in_run_walls": 11.000007800001185,
+    "sum_scripted_fixture_decisions": 103200,
+    "sum_derived_physics_substeps": 206400,
+    "sum_derived_simulator_seconds": 1720.0,
+    "installation_child_process_cpu": null,
+    "source_development_and_correctness_test_costs": null,
+    "full_system_prior_cost_complete": false,
+    "cost_note": "Each run counted once. Installation wall is already included in run wall, and arm costs are not added again. Missing setup/development/child CPU stays unknown. Separate run intervals do not establish an end-to-end calendar learning clock."
+  },
+  "operator_context": {
+    "source_isolation": "Root reports execution from committed pinned worktree; canonical provenance records exact SHA and clean source at capture.",
+    "concurrency": "Operator reports no local research training, test suite or native capture during this pilot; report editing occurred outside the pinned source. Other game/application processes remained present.",
+    "verification_limit": "No exclusive host or device attribution is established by those operational reports. Recorded GPU activity is device-wide across processes."
+  },
+  "interpretation": {
+    "engineering_gate_passed": true,
+    "permits_measured_fixture_construction": true,
+    "all_12_arms_completed": true,
+    "sequential_world_execution": true,
+    "parallel_scaling_demonstrated": false,
+    "optimal_world_count_selected": false,
+    "real_fidelity_validated": false,
+    "shared_deployable_perception_validated": false,
+    "real_learning_speed_measured": false,
+    "learned_driving_qualified": false,
+    "prior_failure_superseded_as_success": false,
+    "numerical_scope": "Three synthetic fixture kinds, seed31000 repeated identically for diagnosis; arm worlds use seed31000+index. No multi-run timing replication. End chassis rotation near-9.5rad in driven fixtures is not a survival/vehicle-control success criterion."
+  },
+  "next_step": "Use this engine as a candidate for a bounded measured-geometry/dynamics fixture and shared observation prototype. Freeze calibration/construction/heldout splits and real-outcome cost comparison before new studies. Do not select batching or add realism based solely on these raw rates."
+}
