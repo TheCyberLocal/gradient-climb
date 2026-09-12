@@ -1,0 +1,453 @@
+{
+  "schema_version": "reader3-legacy-exposure-pool-draft-1",
+  "status": "draft_audit_group_not_original_session_identity",
+  "pool_id": "legacy-reader-ui-exposure-audit-pool-001",
+  "purpose": "Conservative whole-source exclusion for every legacy reader/UI ancestor; no independent sample or session count is assigned.",
+  "inventory": {
+    "path": "research/datasets/native-reader-construction-source-inventory-001.json",
+    "sha256": "51c13f9a20c789c326c7869a74f95e89ed01968a4dc7f8e05c6e250249dbb635"
+  },
+  "source_graph": {
+    "path": "experiments/drafts/reader3/source-graph.draft.json",
+    "sha256": "9442a438f50ea4d7cdd07757a608f2c92082add51af01ff6c0d567e74b035b99"
+  },
+  "known_pixel_origin_run_ids": [
+    "06a5ab40-7201-43e5-a5a8-137325c4c38d",
+    "0e0de45b-4713-49a2-8bf0-890e7380f00a",
+    "2050df9d-f75e-40e7-a4dc-d93e58215473",
+    "2464c81d-b3fe-45c4-ad08-90c68aa9c407",
+    "28a9d5be-c0c3-4884-99a6-8988417d9858",
+    "48237202-ea89-4b8f-9950-76b837b7a1ed",
+    "51d2527e-9274-40ec-a04d-309117de107d",
+    "55b84b0f-2da7-4d7c-ad20-224b3fa00542",
+    "56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5",
+    "72d935d4-122f-48c7-a22f-3879504e23b0",
+    "992e84d6-6a66-4786-834b-63c8eb762f6a",
+    "9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99",
+    "a65038d7-5571-4f16-b306-77fd57d0e2a2",
+    "b8e15581-6cac-4e27-be0d-8eaf926b02cc",
+    "d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b",
+    "e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d",
+    "ed3475b6-f753-4f62-9e07-1b223ff7c8d5",
+    "edaf47b5-b88e-471d-a373-a87341db24f4",
+    "fa103b59-4406-4f3d-8eb3-8158ee6e12c5"
+  ],
+  "known_construction_run_ids": [
+    "78a29b33-8cf4-4bb4-be7a-f408acde1fcc",
+    "834be62a-555f-4cca-be9d-ff2e38197fa4",
+    "66ce7f08-ef45-466c-ac77-33bacd0f0a41",
+    "ca73a234-86be-4498-bcc0-ec40ca0f99c2"
+  ],
+  "original_session_ids_complete": false,
+  "sources": [
+    {
+      "reference": {
+        "path": "artifacts/game-discovery/user-demonstration-driver-down-243m.jpg",
+        "sha256": "51f6e21b8154a5b261cfa66238a6fe14761c24de703cdb3b4fe944f6ce38920c"
+      },
+      "original_run_id": null,
+      "original_session_id": null,
+      "session_identity_status": "noncanonical_local_source; acquisition session not recorded in named source"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/driver_down.png",
+        "sha256": "7c969cc6f4f78a771d34e96f8ef5d8891f2b730364ad208d4987bf4baf739865"
+      },
+      "original_run_id": "2464c81d-b3fe-45c4-ad08-90c68aa9c407",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000013.png",
+        "sha256": "fe1bc264c90119867c7b54bc8ef73efd4cf15502d6d09fe7b8ff53266ce4226d"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000017.png",
+        "sha256": "7a529dc6988e6e7462e8677695ec72c552506570aae4a8529ca16106557fef1b"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000021.png",
+        "sha256": "5af88545a342b8f60ef14dfe71e82eb8017ce055db5acc21d10b9c908bf22948"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000023.png",
+        "sha256": "887fb3535a70a4b5bffc89baf4650b58b5b8528d1e4cd808ee5692d52b498b1a"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000026.png",
+        "sha256": "f6e39b7207d7f7e9d055a19bc167d7975a25f57e066baaae5fcf81eb88c2e555"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000027.png",
+        "sha256": "0db21c3cdc3dca1a7ef2be9a61697d2384aa7447cc2e3f2e96d205efbb5467d6"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000028.png",
+        "sha256": "5a75273d5ac61909d63d4fc3db8037dc51fb964d8aebdec1cc732ad78994a839"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000029.png",
+        "sha256": "e40f9045a8a9121c093347f42625202e3d55565551a81c9e072b28b4fa80aa41"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000030.png",
+        "sha256": "eed5c840f35f7270708aecbc1a0577f4b5b7b18cd75ad86e2b83f858906cd002"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000031.png",
+        "sha256": "005987e7d768b2a3d0f38d09306cd2ff1f1d3d798132c96a965a6b95afa470a2"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000033.png",
+        "sha256": "1ef89ca37c3592f3481283d944c52c61bde1bc80018b0bb4c93e606c975fee33"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000034.png",
+        "sha256": "97585dc5f39b051e61a08a2dc1f29f0044db0c17f95b38dcfca01928e62d0ed7"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000035.png",
+        "sha256": "ad1adb72c8568aa23eb1950794a5a5dc1e91a9fd384b2bc3715a85d77b97ba4f"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000036.png",
+        "sha256": "d1de7915ce994df0a9fd67a30bd4a5af085d5619fc957b032218192d3cb783cc"
+      },
+      "original_run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99/driver_down.png",
+        "sha256": "777bb8d9cb064d80028a6d83f40cfd531e30a60d2f210cc09c15d9125be34365"
+      },
+      "original_run_id": "9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/b8e15581-6cac-4e27-be0d-8eaf926b02cc/terminal-000.png",
+        "sha256": "9e3993c9a03f673de02c0188f7d07ce992d1a31ac51b8aa4ec574ad7f66968c2"
+      },
+      "original_run_id": "b8e15581-6cac-4e27-be0d-8eaf926b02cc",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/terminal-000.png",
+        "sha256": "ecf12fcbec4cd8d2d647161c6ed6f1b232a1fe3e1f070c99aa652c42758f077e"
+      },
+      "original_run_id": "fa103b59-4406-4f3d-8eb3-8158ee6e12c5",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/game-discovery/playing-native-normalized.png",
+        "sha256": "e4a56b82e7ced8876b997a6f77ef76b146a9e59eae45bdb514b0124c56d66105"
+      },
+      "original_run_id": null,
+      "original_session_id": null,
+      "session_identity_status": "noncanonical_local_source; acquisition session not recorded in named source"
+    },
+    {
+      "reference": {
+        "path": "artifacts/game-discovery/paused-native-normalized.png",
+        "sha256": "131a45b97b7158db928f817a41dd8626108694b167a0e57004c32a124f7c02eb"
+      },
+      "original_run_id": null,
+      "original_session_id": null,
+      "session_identity_status": "noncanonical_local_source; acquisition session not recorded in named source"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/06a5ab40-7201-43e5-a5a8-137325c4c38d/waiting-frame-0.png",
+        "sha256": "a3b748b59c6f12e92b156686d5ccb1517e691584213ebc85acce080f28aeed10"
+      },
+      "original_run_id": "06a5ab40-7201-43e5-a5a8-137325c4c38d",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/game-discovery/second-chance.png",
+        "sha256": "0aede98faedf84db8a0bad23a092f3da108e4f668b75ac9e5d943de8668107cb"
+      },
+      "original_run_id": null,
+      "original_session_id": null,
+      "session_identity_status": "noncanonical_local_source; acquisition session not recorded in named source"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/48237202-ea89-4b8f-9950-76b837b7a1ed/revive_offer.png",
+        "sha256": "748b4b84c825f737e01a18fbc681eb7e7c082ade7ff63ff49f1ca1df9101e03b"
+      },
+      "original_run_id": "48237202-ea89-4b8f-9950-76b837b7a1ed",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/game-discovery/result-no-input.png",
+        "sha256": "54888c39376305a65b1383a6d50d8e380c5ecfc409bcd99f6f13376831dd8639"
+      },
+      "original_run_id": null,
+      "original_session_id": null,
+      "session_identity_status": "noncanonical_local_source; acquisition session not recorded in named source"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/driver_down.png",
+        "sha256": "7c969cc6f4f78a771d34e96f8ef5d8891f2b730364ad208d4987bf4baf739865"
+      },
+      "original_run_id": "2464c81d-b3fe-45c4-ad08-90c68aa9c407",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d/bonus_offer.png",
+        "sha256": "568f76b99b37a3d010081870480400a03187e34f6e5cd364ce274056f4f8cc71"
+      },
+      "original_run_id": "e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/game-discovery/upgrades.png",
+        "sha256": "96a261175981c25f4bfce4cbddadcd1ee098aec74247d30fe626a39c3989f4f4"
+      },
+      "original_run_id": null,
+      "original_session_id": null,
+      "session_identity_status": "noncanonical_local_source; acquisition session not recorded in named source"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/2050df9d-f75e-40e7-a4dc-d93e58215473/tune.png",
+        "sha256": "8eb29249d348b51f7358fecfc72bc419a8a91e638a26928094496cb1746e9ebd"
+      },
+      "original_run_id": "2050df9d-f75e-40e7-a4dc-d93e58215473",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/edaf47b5-b88e-471d-a373-a87341db24f4/ad_close.png",
+        "sha256": "e0277d998eaa0cfffa89cc900f730d8a4a70b9677b7b466251f85fa7ad6daa2d"
+      },
+      "original_run_id": "edaf47b5-b88e-471d-a373-a87341db24f4",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/a65038d7-5571-4f16-b306-77fd57d0e2a2/ad_close.png",
+        "sha256": "c6924b78501be070e04c8d6016d03468debbead39fbed1f6b268f653a770f9b7"
+      },
+      "original_run_id": "a65038d7-5571-4f16-b306-77fd57d0e2a2",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/0e0de45b-4713-49a2-8bf0-890e7380f00a/ad_close.png",
+        "sha256": "393acacbca7df2c5cafca6f1a626950af9303fa0086643b675f6313ce758969f"
+      },
+      "original_run_id": "0e0de45b-4713-49a2-8bf0-890e7380f00a",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/992e84d6-6a66-4786-834b-63c8eb762f6a/ad_close.png",
+        "sha256": "6f05b98c7b21adc4eb11a0ab20331ca20a338c36262804e7bfb0d62f65d55174"
+      },
+      "original_run_id": "992e84d6-6a66-4786-834b-63c8eb762f6a",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b/ad_close.png",
+        "sha256": "932beaa08989de892add0ae08dd558aedab1b668ea378474af94b7f34eb76cae"
+      },
+      "original_run_id": "d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/51d2527e-9274-40ec-a04d-309117de107d/reset-0046.png",
+        "sha256": "d32b724e60e6ad7c60594aaff999cef04e3d01f50319535149ffcfefec468e24"
+      },
+      "original_run_id": "51d2527e-9274-40ec-a04d-309117de107d",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/51d2527e-9274-40ec-a04d-309117de107d/reset-0026.png",
+        "sha256": "a10a42ee874c7390f81636b65cdbb22af606c1b79bdd1e2a19a6960ec204ff39"
+      },
+      "original_run_id": "51d2527e-9274-40ec-a04d-309117de107d",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/reset-030.png",
+        "sha256": "204bf7d7c801b33a964fcc9bb9d0a63c4cfb3870682edeba5581b66dce8caf0e"
+      },
+      "original_run_id": "fa103b59-4406-4f3d-8eb3-8158ee6e12c5",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5/reset-000.png",
+        "sha256": "8b166def4258479d5f162928586b0818db787f67fe29b7a5158708e8adfcd392"
+      },
+      "original_run_id": "56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/28a9d5be-c0c3-4884-99a6-8988417d9858/reset-035.png",
+        "sha256": "f4baa44b38dd9a203744e9bc8cd80be8b0300a0cf67da275c2df278f716b72e1"
+      },
+      "original_run_id": "28a9d5be-c0c3-4884-99a6-8988417d9858",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/ed3475b6-f753-4f62-9e07-1b223ff7c8d5/out_of_fuel.png",
+        "sha256": "3a07a7eb768280ec103a8e99c33b764f3686ba3a5a86e9d085fd9b733eef8223"
+      },
+      "original_run_id": "ed3475b6-f753-4f62-9e07-1b223ff7c8d5",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    },
+    {
+      "reference": {
+        "path": "artifacts/runs/55b84b0f-2da7-4d7c-ad20-224b3fa00542/reset-025.png",
+        "sha256": "c968f18b9dded62bf96a9eee7a02eaa1597b55511e5a3c99c8b306c17a3166c9"
+      },
+      "original_run_id": "55b84b0f-2da7-4d7c-ad20-224b3fa00542",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session"
+    }
+  ],
+  "binding_rule": "All graph nodes carry this one exclusion-pool ID. It is an auditor-assigned grouping only; no original run is renamed, and absent original session IDs stay null. This pool does not become a ReaderSession in the one-run construction plan.",
+  "whole_source_exclusion_rule": "Exclude every named raw-origin run, every known larger acquisition session containing one of them, and all noncanonical discovery/user source bytes and derivatives from future heldout use. Resolve unknown larger-session membership conservatively before claiming independent heldout sessions.",
+  "noninherited_context": {
+    "manifest": {
+      "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/files/001ebf622c93b15cdba52017ee2fe77c20a94fff9618bd7d9bdd9952ae10bb1d_hud-glyphs.json",
+      "sha256": "001ebf622c93b15cdba52017ee2fe77c20a94fff9618bd7d9bdd9952ae10bb1d"
+    },
+    "raw_source_refs": [
+      {
+        "path": "artifacts/game-discovery/paused.png",
+        "sha256": "2781be48b53bf80d7dce5c9198a921a4a8c7884684326052779233b76afd32c5"
+      },
+      {
+        "path": "artifacts/game-discovery/playing.png",
+        "sha256": "2d55ec5a8bc6bc9ba13a94bb011f57b53d9e0cb70b4d59d321612381ddcd384d"
+      },
+      {
+        "path": "artifacts/game-discovery/user-demonstration-19-gems.jpg",
+        "sha256": "d76134aa6fc645416437b59edbbf760912af0a514bb5863b1d1c839b362b41da"
+      },
+      {
+        "path": "artifacts/game-discovery/playing-native-normalized.png",
+        "sha256": "e4a56b82e7ced8876b997a6f77ef76b146a9e59eae45bdb514b0124c56d66105"
+      }
+    ],
+    "glyph_count": 23,
+    "relationship": "Recorded parent pointer of 78a29b33 but explicitly replaced; its configuration says no original bootstrap glyphs. These 23 templates are not present as source-attributed glyphs in the effective 32/38/52/58 banks. Full original bootstrap template-file location recovery was not required or attempted here.",
+    "original_session_ids": null
+  },
+  "historical_metadata_path_mismatch": {
+    "current_named_path": "artifacts/hud-independent-labels/cycle-2-result-construction-labels.json",
+    "current_sha256": "bbada5f9b7ffe8b4d676ba539e67dc60b1654c17ae43c0b94ec0118c63cb8df4",
+    "expected_sha256": "ed02e0f14181f3ba5912311787b5f53edc76b1382e54a4eee353427471d01d25",
+    "exact_original_retained_copy": {
+      "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/files/ed02e0f14181f3ba5912311787b5f53edc76b1382e54a4eee353427471d01d25_cycle-2-result-construction-labels.json",
+      "sha256": "ed02e0f14181f3ba5912311787b5f53edc76b1382e54a4eee353427471d01d25"
+    },
+    "parsed_json_content_equal": true,
+    "resolution": "Inventory ancestry uses the original hash-matching sealed private copy; the mutable historical source path is not changed."
+  }
+}

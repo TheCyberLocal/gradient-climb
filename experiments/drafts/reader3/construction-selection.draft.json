@@ -1,0 +1,5 @@
+{
+  "schema_version": "reader-source-selection-3.0",
+  "result_endpoint_rule": "first_retained_terminal_per_attempt",
+  "non_result_units": []
+}

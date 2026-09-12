@@ -1,0 +1,25 @@
+{
+  "schema_version": "reader-validation-3.0",
+  "protocol_id": "reader-validation-3.0",
+  "status": "draft",
+  "registered_at": null,
+  "environment": "actual_hill_climb_racing",
+  "base_result_reader_sha256": "bbe38e7800c12d9d861e93832cd53ca6bc7aa34b6949438bc5291c19f562847e",
+  "construction_session_ids": [
+    "1c263031-ac29-4dbc-8fa5-864a2473116a"
+  ],
+  "development_session_ids": [
+    "54d58272-d75e-4db8-8552-a7002e4a2d90",
+    "legacy-reader-ui-exposure-audit-pool-001"
+  ],
+  "minimum_positive_endpoints": 20,
+  "minimum_accepted_positive_endpoints": 20,
+  "minimum_availability": 0.9,
+  "minimum_heldout_sessions": 3,
+  "minimum_non_result_frames": 10,
+  "minimum_unreadable_result_frames": 5,
+  "required_positive_digits": "0123456789",
+  "maximum_labels": 200,
+  "maximum_source_bytes": 536870912,
+  "qualification_note": "DRAFT ONLY: this file authorizes no fitting or collection. Register and commit before any successor construction or qualification acquisition. The inspected native session 2 and every reader/anchor/UI ancestor session are excluded from heldout use. Minimal proposed construction uses terminal-024, visibly 269m, adding the declared full three-digit region to a new bank while preserving base thresholds 0.84/0.04, one-pixel alignment, numeric ROI and DISTANCE anchor. Session 2's canonical unknown score remains unknown. Before any new independent capture, declare each complete acquisition session's identity and heldout purpose. Freeze and seal the successor before these sessions. Use the first retained terminal frame of every canonical attempt that has terminal pixels, with no selection based on reader output; separately report attempts lacking retained terminal pixels; include non-result scenes and naturally unreadable result scenes. Seal all annotations from a session before anyone views its predictions, including logs and automatic summaries. New crops and alternate animation frames cannot evade ancestry or sampling-unit exclusions. At least 20 distinct readable result endpoints from three new sessions, complete positive digit coverage, 10 non-result negatives and five unreadable-result negatives are required; negatives must span three sessions. Require at least 20 accepted positives, at least 90% positive availability, accepted positives spanning three sessions, and all ten digits represented among correctly accepted positives; report every labeled and accepted denominator separately. Zero observed wrong accepts over this finite set is a gate, not a claim of zero population error. Missing required scenes or digits leaves qualification incomplete, without fitting on or relabeling heldout samples. The next acquisition dose and operator coordination remain to be registered separately; this draft does not launch native sessions. Immutable purpose/selection receipts must be sealed before heldout acquisition and embedded in original source configuration. Non-result selectors must be preregistered and match native source sampling metadata. Actual seal.created_at determines chronology. Source seals, safe root-relative paths, full reader/anchor/UI ancestry, immutable label bytes and explicit exposure audits are mandatory. A store publication lease and monotonic prior-operation exposure audit prevent new qualification retries on already consumed sources; failures preserve fsynced operation starts, completed rows and measured costs. Historical reader-validation-2.0 tools and records remain unchanged. This draft preparation explicitly groups all legacy reader and UI source ancestry in legacy-reader-ui-exposure-audit-pool-001 as a conservative exclusion pool, not an original acquisition session or an independent unit. Original absent session IDs remain unknown in the linked pool inventory. The first known post-output native session2 diagnostic remains construction-only. No fresh data, labels or fitting is authorized by this draft."
+}

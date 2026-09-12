@@ -1,0 +1,139 @@
+{
+  "schema_version": "reader3-construction-registration-supplement-1",
+  "status": "registered",
+  "registered_at": "2026-09-12T17:29:56.228648+00:00",
+  "prepared_at": "2026-09-12T17:24:59.246573+00:00",
+  "not_an_executable_plan": true,
+  "registration_binding_rule": "The registered ReaderProtocol3 pins this supplement hash. Commit both before the one offline construction dose. The draft reference is preparation context, not execution authority. Native collection remains separately gated.",
+  "protocol_draft": {
+    "path": "experiments/drafts/reader3/protocol.draft.json",
+    "sha256": "5ed70b406e79902017d9998500cc60af0b082d22e4bcb6f93d2bca94c2fee08f"
+  },
+  "source_inventory": {
+    "path": "research/datasets/native-reader-construction-source-inventory-001.json",
+    "sha256": "51c13f9a20c789c326c7869a74f95e89ed01968a4dc7f8e05c6e250249dbb635"
+  },
+  "source_graph": {
+    "path": "research/datasets/reader3-construction-source-graph-001.json",
+    "sha256": "9442a438f50ea4d7cdd07757a608f2c92082add51af01ff6c0d567e74b035b99"
+  },
+  "legacy_exclusion_pool": {
+    "path": "research/datasets/reader3-legacy-source-exclusion-pool-001.json",
+    "sha256": "070a6c6f9ff009bceb441da0a77ad57a480274d44a1624d7044daa6ab3b053cb"
+  },
+  "source_implementation": {
+    "committed_source_required_before_publication": true,
+    "commit": "fe35e99942f3eba6269d1d9792d4bf959567c203",
+    "reviewed_core": {
+      "path": "src/gradientclimb/experiments/reader_validation3.py",
+      "sha256": "475537bcfa919d035bd9405b5b638aab2e2f09dcf6b9a8cf85aec5a534813c39"
+    },
+    "reviewed_session_contract": {
+      "path": "src/gradientclimb/experiments/reader_provenance.py",
+      "sha256": "70e2b4170e02d3b2408fae745a72c890f78542e98260ad7ca39d12dd9db8cb37"
+    }
+  },
+  "construction_source": {
+    "frame": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/files/7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da_terminal-024.png",
+      "sha256": "7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da"
+    },
+    "source_run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+    "original_session_id": null,
+    "construction_audit_group_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+    "group_semantics": "Known continuous native reliability session2 audit grouping using its run ID; not a recovered original session_id or a heldout session.",
+    "attempt_index": 8,
+    "capture_timing": {
+      "started_ns": 57843629863900,
+      "timestamp_ns": 57843640888650,
+      "completed_ns": 57843651913400
+    },
+    "selection_rule": "first_retained_terminal_frame_callback_per_attempt; not earliest real_game_frame result pixels",
+    "prediction_exposure_status": "known",
+    "first_prediction_exposure_at": null,
+    "prior_diagnostic_context": "Previously inspected post-output result showed 269 m. This planned target is construction context only; no new ResultAnnotation bytes are created in this supplement."
+  },
+  "frozen_inputs": {
+    "base_result_reader": {
+      "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/result-reader.json",
+      "sha256": "bbe38e7800c12d9d861e93832cd53ca6bc7aa34b6949438bc5291c19f562847e"
+    },
+    "ui_profile": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/files/c89acfc6afdb1ed0e7de53731ce051ddb99abdfc4dabea554d25d0de1c94c677_hcr-reset-ui.json",
+      "sha256": "c89acfc6afdb1ed0e7de53731ce051ddb99abdfc4dabea554d25d0de1c94c677"
+    },
+    "ui_reference_root": "artifacts",
+    "preserved_parameters": {
+      "threshold": 0.84,
+      "ambiguity_margin": 0.04,
+      "alignment_pixels": 1,
+      "numeric_roi": [
+        0.7137330754352031,
+        0.25989672977624784,
+        0.8858800773694391,
+        0.33562822719449226
+      ],
+      "anchor_roi": [
+        0.5822050290135397,
+        0.26161790017211706,
+        0.7117988394584139,
+        0.3373493975903614
+      ],
+      "anchor_threshold": 0.9,
+      "expected_size": [
+        1034,
+        581
+      ]
+    }
+  },
+  "construction_dose": {
+    "maximum_new_annotations": 1,
+    "annotation_field": "result_distance",
+    "region": "entire inherited numeric ROI; no isolated middle-glyph crop or source substitution",
+    "maximum_builder_invocations": 1,
+    "maximum_add_labeled_region_calls": 1,
+    "base_glyph_count": 58,
+    "expected_appended_glyphs": 3,
+    "expected_candidate_glyph_count": 61,
+    "maximum_construction_selfchecks": 1,
+    "new_capture_sessions": 0,
+    "new_real_interaction_seconds": 0,
+    "new_policy_episodes": 0,
+    "source_byte_bound": 536870912,
+    "bound_semantics": "One added source region and one fitting call; inherited reader/UI dependency images are still loaded by preflight. The generic protocol maximum_labels=200 remains the future qualification bound and does not replace this one-annotation construction dose.",
+    "distinct_new_source_images": 1,
+    "expected_selected_image_decodes": 3,
+    "decode_semantics": "The same selected source image is decoded once for UI/segmentation preflight, once for fitting, and once for construction selfcheck; inherited glyph/UI image loading is additional and not silently counted as zero."
+  },
+  "publication_sequence": [
+    "Review and register the construction/qualification protocol and exact construction supplement, including conservative exclusion-pool semantics; commit before new labels or fitting.",
+    "Verify all original source seals and publish the construction purpose/selection receipt against the registered protocol.",
+    "Perform the one explicit new annotation review after registration. Then finalize the actual reviewer and truthful known-exposure audit cutoff covering source seals and those completed label times; retain unknown first-view time as null.",
+    "Publish and seal that reviewed annotation with its finalized audit; bind the exact completed canonical annotation bytes, declaration and source session.",
+    "Run the pinned builder once using the full graph and sealed inputs, retaining failures/costs. No historical record changes or adaptive retries are authorized by this registration.",
+    "Freeze only a successful sealed candidate and unchanged UI. Future heldout acquisition dose/selection and each fresh session declaration remain separate before capture."
+  ],
+  "construction_and_freeze_rule": "Append the reviewed full three-digit region once to a new bank while preserving inherited thresholds, alignment, ROI, anchor, UI and full ancestry. Run only the declared construction selfcheck. Freeze only the exact completed, sealed candidate whose selfcheck is valid and equals the explicitly reviewed construction annotation, with the expected 58+3 glyph count and unchanged inputs verified. Bind its actual manifest hash, canonical construction run ID and actual freeze seal time after they exist. A fault or nonmatching selfcheck ends this attempt with retained work/costs; no parameter change, alternate image, repeated fitting or freeze is authorized by this registration.",
+  "resource_accounting": "Retain canonical operation journal, partial rows, status and measured wall/CPU costs for every attempted publication/build; unknown review duration or GPU cost stays unknown. Overlapping recorder and operation clocks are not added. This supplement creates no measured work record. These are construction operation windows, not full-command training clocks or learning-speed results. Prior human review/engineering and any unmeasured external exposure remain explicit unknowns.",
+  "historical_invariant": {
+    "run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+    "attempt_index": 8,
+    "qualified_distance_m": null,
+    "classification": "success_unscored",
+    "retrofill_forbidden": true
+  },
+  "qualification_scope": "Construction and its selfcheck cannot establish accuracy, availability, gameplay success or independent competence. Native session2 and complete legacy ancestry remain excluded; fresh heldout collection and prediction-hidden collector readiness require separate registration after successful candidate freeze.",
+  "execution_authorized": true,
+  "new_annotations_created": false,
+  "reader_execution_performed": false,
+  "glyph_fitting_performed": false,
+  "capture_performed": false,
+  "construction_selection": {
+    "path": "experiments/definitions/cycle-3-reader-construction-selection-001.json",
+    "sha256": "56f9a455a4414b234c26627418e80d05a4fc1a2b88f0feb578e55c6916145254"
+  },
+  "inherited_costs": {
+    "path": "research/diagnostics/reader3-construction-prior-costs-001.json",
+    "sha256": "dfab242f53c8f767ec13459bca775cd8a7420aef9e1e5a38e0bcb85b3d021eec"
+  }
+}

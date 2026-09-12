@@ -1,8 +1,11 @@
 # Prospective result-reader workflow
 
-The additive tools implement `reader-validation-3.0`. The definition in
+The additive tools implement `reader-validation-3.0`. The original definition in
 `experiments/definitions/cycle-3-reader-validation.json` remains a **draft** and
-both tools reject it. No new reader has been fitted by adding this workflow.
+the tools reject it. The separately [registered definition](../../experiments/definitions/cycle-3-reader-validation-3.0.json)
+pins the [one-image construction dose](../../experiments/definitions/cycle-3-reader-construction-001.json),
+its exact source graph and inherited costs. No new reader has been fitted by
+adding or registering this workflow. Native collection remains separately gated.
 
 Native session `1c263031-ac29-4dbc-8fa5-864a2473116a` supplied development evidence:
 the right-side result in retained terminal frames 024 and 035 visibly reads

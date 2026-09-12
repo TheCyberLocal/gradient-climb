@@ -211,3 +211,19 @@ fresh heldout qualification are still pending, as is native collection support
 for immutable reader receipts. The existing endpoint rule selects the earliest
 retained `terminal_frame` callback, which can be later than result pixels retained
 by the gameplay loop. Neither population may be silently substituted for the other.
+
+The archive/evidence revision `24536f7` passed
+[exact-revision CI](https://github.com/TheCyberLocal/gradient-climb/actions/runs/34707013437).
+The subsequent reader core passed 83 synthetic regressions, followed by four
+exact-input/exposure-retry checks. Annotation/exposure publication passed 49
+focused checks plus three later failure/input-swap regressions; native collection
+hooks passed 40 focused checks. These overlapping suites are not summed.
+
+The [registered reader construction](../../experiments/definitions/cycle-3-reader-construction-001.json)
+permits one annotation and one full-region glyph extension, preserving thresholds,
+ROI, alignment, anchor and UI bytes. Its [prior-cost ledger](../../research/diagnostics/reader3-construction-prior-costs-001.json)
+keeps 26 distinct source/build/design-feedback run rows plus unresolved
+noncanonical and human costs. No aggregate or independent-session count is
+invented. The opt-in native acquisition amendment remains draft, preserving the
+two used reliability sessions and the single remaining session. No native input,
+new annotation, candidate fit or qualification result was produced by registration.

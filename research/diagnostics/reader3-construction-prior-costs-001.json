@@ -1,0 +1,2011 @@
+{
+  "schema_version": "reader3-construction-prior-cost-preparation-3.0",
+  "report_id": "reader3-construction-prior-costs-001",
+  "prepared_at": "2026-09-12T17:25:30.835560+00:00",
+  "reviewer": "Codex architecture audit",
+  "status": "preparatory_only_not_a_candidate_construction_or_qualification_result",
+  "source_inventory": {
+    "path": "research/datasets/native-reader-construction-source-inventory-001.json",
+    "sha256": "51c13f9a20c789c326c7869a74f95e89ed01968a4dc7f8e05c6e250249dbb635"
+  },
+  "scope": "Read-only metadata analysis of the inventory and its exact 24 named run.json/seal.json pairs, extended only to the two exact canonical feedback run/seal pairs explicitly named by bank configuration. No directory scan, pixels, decoding, source-image rehashing, inference, new labels, fitting, collection or historical mutations.",
+  "prior_class": "system_construction_with_human_and_visual_priors; no policy-weight inheritance established by this inventory",
+  "proposed_construction_input": {
+    "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/files/7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da_terminal-024.png",
+    "sha256": "7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da"
+  },
+  "historical_distance_m_remains": null,
+  "roots": [
+    {
+      "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/result-reader.json",
+      "sha256": "bbe38e7800c12d9d861e93832cd53ca6bc7aa34b6949438bc5291c19f562847e"
+    },
+    {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/files/c89acfc6afdb1ed0e7de53731ce051ddb99abdfc4dabea554d25d0de1c94c677_hcr-reset-ui.json",
+      "sha256": "c89acfc6afdb1ed0e7de53731ce051ddb99abdfc4dabea554d25d0de1c94c677"
+    },
+    {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/files/7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da_terminal-024.png",
+      "sha256": "7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da"
+    }
+  ],
+  "inclusion_method": "Deduplicate by canonical run_id. Include only explicit result_bank_lineage construction runs and original_run_id mappings of effective_raw_sources, frozen ui_reference_sources and the proposed new frame. Inherited artifact hashes/edges are attributed to the preparatory inventory; only named run/seal JSON hashes are rechecked here. Separately include exact prior-failure design-feedback run IDs explicitly named by the canonical bank configurations; do not call them pixel origins or expand to unrelated runs.",
+  "named_record_and_seal_references_verified": 48,
+  "bank_and_anchor_construction_runs": 4,
+  "pixel_origin_runs": 20,
+  "rows": [
+    {
+      "run_id": "06a5ab40-7201-43e5-a5a8-137325c4c38d",
+      "experiment_id": "real-control-probe",
+      "status": "completed",
+      "algorithm": "scripted-probe",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/06a5ab40-7201-43e5-a5a8-137325c4c38d/waiting-frame-0.png",
+            "sha256": "a3b748b59c6f12e92b156686d5ccb1517e691584213ebc85acce080f28aeed10"
+          },
+          "inventory_pointer": "/ui_reference_sources/2",
+          "ui_reference_label": "paused_recent"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/06a5ab40-7201-43e5-a5a8-137325c4c38d/run.json",
+          "sha256": "ce6df24826b737c1cff92b6fdefc3d8d71407e77a525eb36ded195275d73458d"
+        },
+        "seal": {
+          "path": "artifacts/runs/06a5ab40-7201-43e5-a5a8-137325c4c38d/seal.json",
+          "sha256": "93b7503451bbbf9456879364ab996a6ab6c105c574f4e99f1852a6f55a404ddc"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:26:37.617821Z",
+        "end_time": "2026-09-11T18:27:07.027384Z",
+        "seal_created_at": "2026-09-11T18:27:07.506209+00:00",
+        "wall_clock_seconds": 29.409647499996936,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_seconds": 7.565374999976484,
+        "schedule_seconds": 7.5,
+        "frames": 35
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "0e0de45b-4713-49a2-8bf0-890e7380f00a",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/0e0de45b-4713-49a2-8bf0-890e7380f00a/ad_close.png",
+            "sha256": "393acacbca7df2c5cafca6f1a626950af9303fa0086643b675f6313ce758969f"
+          },
+          "inventory_pointer": "/ui_reference_sources/12",
+          "ui_reference_label": "wsop_finished_available_close"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/0e0de45b-4713-49a2-8bf0-890e7380f00a/run.json",
+          "sha256": "b54740ea310b5aa83af5c278777488ddabe39c18b8a18970d4dcebcadcaf67f9"
+        },
+        "seal": {
+          "path": "artifacts/runs/0e0de45b-4713-49a2-8bf0-890e7380f00a/seal.json",
+          "sha256": "d617f4f383a2a38d15c78f4aef5748697f518877c2391bdaaee4a23d189490a9"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T19:07:37.039019Z",
+        "end_time": "2026-09-11T19:07:38.897976Z",
+        "seal_created_at": "2026-09-11T19:07:39.043747+00:00",
+        "wall_clock_seconds": 1.859033199987607,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+      "experiment_id": "cycle-3-native-reliability-2.3",
+      "status": "completed",
+      "algorithm": "alternating_gas_random",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "proposed_new_construction_frame_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/files/7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da_terminal-024.png",
+            "sha256": "7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da"
+          },
+          "inventory_pointer": "/candidate_proposal/source_frame",
+          "canonical_attempt_index": 8
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/run.json",
+          "sha256": "075f934b4ce5bc9ff88df88cfee0e018c2bd5ab8e71ce3b6475a1d3531d7009e"
+        },
+        "seal": {
+          "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/seal.json",
+          "sha256": "3a595ec725bccbf820bee9e318855586521e10886dd6e88b6b2d4eb5a7bf3beb"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-12T15:15:19.253888Z",
+        "end_time": "2026-09-12T15:27:45.539026Z",
+        "seal_created_at": "2026-09-12T15:27:48.231838+00:00",
+        "wall_clock_seconds": 746.2852949000007,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 12,
+        "summary_episode_count": 12
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_session_seconds": 745.3671515999959
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 746.2850675000009,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 75,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 181.60301039950292,
+            "utilization_percent": {
+              "coverage_fraction": 0.9999346548947137,
+              "covered_seconds": 745.9413283999966,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 51.0,
+              "time_weighted_sampled_mean": 24.34548180740052,
+              "uncovered_seconds": 0.04874680000648368,
+              "valid_samples": 75
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9999346548947137,
+              "covered_seconds": 745.9413283999966,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 1034944512.0,
+              "time_weighted_sampled_mean": 885920037.526306,
+              "uncovered_seconds": 0.04874680000648368,
+              "valid_samples": 75
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.29499229999782983,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9999284322918209,
+            "covered_seconds": 745.9366863999967,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 35491794944.0,
+            "time_weighted_sampled_mean": 34547294637.60412,
+            "uncovered_seconds": 0.053388800006359816,
+            "valid_samples": 735
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9999284797455457,
+            "covered_seconds": 745.9367218000043,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 676347904.0,
+            "time_weighted_sampled_mean": 524442585.4199774,
+            "uncovered_seconds": 0.053353399998741224,
+            "valid_samples": 735
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 981.765625,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9999284655362404,
+          "covered_seconds": 745.9367112000036,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 981.765625,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.05336399999941932,
+          "valid_samples": 735
+        },
+        "sample_count": 735,
+        "sample_span_seconds": 745.990075200003,
+        "samples_with_errors": 0,
+        "version": "resources-3.0",
+        "public_redactions": "Process IDs/create times and GPU UUID/index omitted; full private identities remain only in canonical source."
+      },
+      "resource_availability": "Measured resources-3.0 fields retained with their original boundaries and coverage.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "2050df9d-f75e-40e7-a4dc-d93e58215473",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/2050df9d-f75e-40e7-a4dc-d93e58215473/tune.png",
+            "sha256": "8eb29249d348b51f7358fecfc72bc419a8a91e638a26928094496cb1746e9ebd"
+          },
+          "inventory_pointer": "/ui_reference_sources/9",
+          "ui_reference_label": "tune_native"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/2050df9d-f75e-40e7-a4dc-d93e58215473/run.json",
+          "sha256": "4873d1534789aa6d871f2333f04723d9f947f99223e2e5b332538d533157ff14"
+        },
+        "seal": {
+          "path": "artifacts/runs/2050df9d-f75e-40e7-a4dc-d93e58215473/seal.json",
+          "sha256": "74a92dfbf82b34910b4286c1a385c70d6fd5d38d424809d5b124a69dae33536c"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:37:30.993614Z",
+        "end_time": "2026-09-11T18:37:32.764518Z",
+        "seal_created_at": "2026-09-11T18:37:32.903881+00:00",
+        "wall_clock_seconds": 1.7709734999807552,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "2464c81d-b3fe-45c4-ad08-90c68aa9c407",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/driver_down.png",
+            "sha256": "7c969cc6f4f78a771d34e96f8ef5d8891f2b730364ad208d4987bf4baf739865"
+          },
+          "inventory_pointer": "/effective_raw_sources/1"
+        },
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/driver_down.png",
+            "sha256": "7c969cc6f4f78a771d34e96f8ef5d8891f2b730364ad208d4987bf4baf739865"
+          },
+          "inventory_pointer": "/ui_reference_sources/6",
+          "ui_reference_label": "driver_down_native"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/run.json",
+          "sha256": "b82e2363bf87e6d93272247bd36e29c60997616c9562c21dbb2e5d5f8dd321bc"
+        },
+        "seal": {
+          "path": "artifacts/runs/2464c81d-b3fe-45c4-ad08-90c68aa9c407/seal.json",
+          "sha256": "eccb967a0e6950ccf2cf8f8b690b773c9543e28aade68a66ea78ec6ecc1b8730"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:31:40.628664Z",
+        "end_time": "2026-09-11T18:31:42.335462Z",
+        "seal_created_at": "2026-09-11T18:31:42.470900+00:00",
+        "wall_clock_seconds": 1.706894300004933,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "28a9d5be-c0c3-4884-99a6-8988417d9858",
+      "experiment_id": "native-reliability-study",
+      "status": "failed",
+      "algorithm": "alternating_gas_random",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/28a9d5be-c0c3-4884-99a6-8988417d9858/reset-035.png",
+            "sha256": "f4baa44b38dd9a203744e9bc8cd80be8b0300a0cf67da275c2df278f716b72e1"
+          },
+          "inventory_pointer": "/ui_reference_sources/19",
+          "ui_reference_label": "admob_tiny_layout_close"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/28a9d5be-c0c3-4884-99a6-8988417d9858/run.json",
+          "sha256": "858a473f51b9b689c2646771ad3b4259f26ce5144c8b15fdcb6c710dfda631f4"
+        },
+        "seal": {
+          "path": "artifacts/runs/28a9d5be-c0c3-4884-99a6-8988417d9858/seal.json",
+          "sha256": "c2341509ed69575c05ff699549a829cde50847ef929099c1ba17235eea8d16c9"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-12T00:52:32.042107Z",
+        "end_time": "2026-09-12T00:53:52.614836Z",
+        "seal_created_at": "2026-09-12T00:53:53.489363+00:00",
+        "wall_clock_seconds": 80.57289029999993,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 1,
+        "summary_episode_count": 1
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_session_seconds": 78.71636660000058
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "48237202-ea89-4b8f-9950-76b837b7a1ed",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/48237202-ea89-4b8f-9950-76b837b7a1ed/revive_offer.png",
+            "sha256": "748b4b84c825f737e01a18fbc681eb7e7c082ade7ff63ff49f1ca1df9101e03b"
+          },
+          "inventory_pointer": "/ui_reference_sources/4",
+          "ui_reference_label": "offer_native"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/48237202-ea89-4b8f-9950-76b837b7a1ed/run.json",
+          "sha256": "ae1d3560095847e00b9fb3525b1105e435e515e230ec5e2b2186b2286bd0f472"
+        },
+        "seal": {
+          "path": "artifacts/runs/48237202-ea89-4b8f-9950-76b837b7a1ed/seal.json",
+          "sha256": "22f5a0ca7f8ec2a672ff97fe487da41c172607b4a6ecac9d75e66cf31d4bd5a5"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:31:10.271611Z",
+        "end_time": "2026-09-11T18:31:12.089514Z",
+        "seal_created_at": "2026-09-11T18:31:12.228520+00:00",
+        "wall_clock_seconds": 1.817997500009369,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "51d2527e-9274-40ec-a04d-309117de107d",
+      "experiment_id": "real-screen-cem",
+      "status": "failed",
+      "algorithm": "sequential_episode_cem",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/51d2527e-9274-40ec-a04d-309117de107d/reset-0046.png",
+            "sha256": "d32b724e60e6ad7c60594aaff999cef04e3d01f50319535149ffcfefec468e24"
+          },
+          "inventory_pointer": "/ui_reference_sources/15",
+          "ui_reference_label": "meta_chrome_skip_available"
+        },
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/51d2527e-9274-40ec-a04d-309117de107d/reset-0026.png",
+            "sha256": "a10a42ee874c7390f81636b65cdbb22af606c1b79bdd1e2a19a6960ec204ff39"
+          },
+          "inventory_pointer": "/ui_reference_sources/16",
+          "ui_reference_label": "meta_chrome_video_muted"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/51d2527e-9274-40ec-a04d-309117de107d/run.json",
+          "sha256": "f8d2994278348ec42d640ccd1bb4549eec7560629187aac081fb541a39ca338d"
+        },
+        "seal": {
+          "path": "artifacts/runs/51d2527e-9274-40ec-a04d-309117de107d/seal.json",
+          "sha256": "6484d9a8fd016f0351f881666052b317ea02eba3529a3930cacc7e59690d138a"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T19:38:06.547991Z",
+        "end_time": "2026-09-11T19:39:53.152507Z",
+        "seal_created_at": "2026-09-11T19:39:54.285100+00:00",
+        "wall_clock_seconds": 106.60485070000868,
+        "environment_steps": 131,
+        "training_steps": 0,
+        "episodes": 1,
+        "summary_episode_count": null
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "requested_training_seconds": 600.0,
+        "governed_elapsed_at_stop": 102.09902670001611,
+        "actual_elapsed_before_finalize": 107.73806950001745,
+        "post_budget_persistence_seconds": 0.0
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "Two frozen UI reference images originate in this historically training-named run. No learned policy/checkpoint edge is inherited by this reader inventory; retain its original 131 environment steps, zero training steps and one episode without turning it into a new learning result."
+    },
+    {
+      "run_id": "55b84b0f-2da7-4d7c-ad20-224b3fa00542",
+      "experiment_id": "native-reliability-study",
+      "status": "failed",
+      "algorithm": "alternating_gas_random",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/55b84b0f-2da7-4d7c-ad20-224b3fa00542/reset-025.png",
+            "sha256": "c968f18b9dded62bf96a9eee7a02eaa1597b55511e5a3c99c8b306c17a3166c9"
+          },
+          "inventory_pointer": "/ui_reference_sources/21",
+          "ui_reference_label": "admob_medium_layout_skip"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/55b84b0f-2da7-4d7c-ad20-224b3fa00542/run.json",
+          "sha256": "974bcf0bc8e686c4460adab28e79cda82966ccefcece998518192d877e91fed2"
+        },
+        "seal": {
+          "path": "artifacts/runs/55b84b0f-2da7-4d7c-ad20-224b3fa00542/seal.json",
+          "sha256": "1222c1ae243052446cfb932e6a5914cc5457c92407da12b1a838078535f86782"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-12T01:04:47.519938Z",
+        "end_time": "2026-09-12T01:05:42.170617Z",
+        "seal_created_at": "2026-09-12T01:05:43.062650+00:00",
+        "wall_clock_seconds": 54.650716699999975,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 1,
+        "summary_episode_count": 1
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_session_seconds": 53.02871190000042
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5",
+      "experiment_id": "real-screen-episode-pilot",
+      "status": "completed",
+      "algorithm": "always_gas",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5/reset-000.png",
+            "sha256": "8b166def4258479d5f162928586b0818db787f67fe29b7a5158708e8adfcd392"
+          },
+          "inventory_pointer": "/ui_reference_sources/18",
+          "ui_reference_label": "vehicle_select_hill_climber"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5/run.json",
+          "sha256": "2e3eb9fe99ab2613a623be1f09135be0fd61e888c7c0a07b29bed90c534b0335"
+        },
+        "seal": {
+          "path": "artifacts/runs/56d3eeb3-5d71-42dc-aef7-2bbbfdf1f8d5/seal.json",
+          "sha256": "8642d0dd46b1c73d68a1b420dc280a3423d03a8439f13276af8d98977bd98686"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T23:11:07.083583Z",
+        "end_time": "2026-09-11T23:11:10.513519Z",
+        "seal_created_at": "2026-09-11T23:11:10.991156+00:00",
+        "wall_clock_seconds": 3.430079799989471,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_session_seconds": 1.5761390999832656
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "66ce7f08-ef45-466c-ac77-33bacd0f0a41",
+      "experiment_id": "native-result-glyph-construction",
+      "status": "completed",
+      "algorithm": "native-result-local-glyphs",
+      "environment": "saved-hcr-pixels",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "historical_numeric_or_anchor_bank_construction",
+          "inherited_artifact": {
+            "path": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-reader.json",
+            "sha256": "ae7038634027a847158a693a1cfadfab7fedaaa28331ff95c56469c79db3fff5"
+          },
+          "inventory_pointer": "/result_bank_lineage/2",
+          "numeric_manifest": {
+            "path": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-glyphs/hud-glyphs.json",
+            "sha256": "443b7e269c926b86ab5535508e4875185561240b26562424fc1a55cb9b4d5c0a"
+          },
+          "anchor": {
+            "path": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/distance-label-anchor.png",
+            "sha256": "a2d202e76198d1d0ed0b14c23af3f915a681e7657a2fee6788c66a54effa2f74"
+          }
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/run.json",
+          "sha256": "15acee2e86fb3312b8152518d57b9febc5978704508dd2fff1b57cba091fb6ce"
+        },
+        "seal": {
+          "path": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/seal.json",
+          "sha256": "34e2b23780e80375f7ab87e086a3f393904d2ce2c7d3c5c96f8c78f66e54502d"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T19:00:39.126224Z",
+        "end_time": "2026-09-11T19:00:40.829822Z",
+        "seal_created_at": "2026-09-11T19:00:41.178663+00:00",
+        "wall_clock_seconds": 1.7036367999971844,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": null
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "The recorder covers a historical bank/anchor construction stage. No code-boundary receipt establishes that every prior crop/fit/inspection was inside this short recorder interval; original zero training_steps is not a zero-compute claim."
+    },
+    {
+      "run_id": "72d935d4-122f-48c7-a22f-3879504e23b0",
+      "experiment_id": "real-control-probe",
+      "status": "completed",
+      "algorithm": "scripted-probe",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000013.png",
+            "sha256": "fe1bc264c90119867c7b54bc8ef73efd4cf15502d6d09fe7b8ff53266ce4226d"
+          },
+          "inventory_pointer": "/effective_raw_sources/2"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000017.png",
+            "sha256": "7a529dc6988e6e7462e8677695ec72c552506570aae4a8529ca16106557fef1b"
+          },
+          "inventory_pointer": "/effective_raw_sources/3"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000021.png",
+            "sha256": "5af88545a342b8f60ef14dfe71e82eb8017ce055db5acc21d10b9c908bf22948"
+          },
+          "inventory_pointer": "/effective_raw_sources/4"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000023.png",
+            "sha256": "887fb3535a70a4b5bffc89baf4650b58b5b8528d1e4cd808ee5692d52b498b1a"
+          },
+          "inventory_pointer": "/effective_raw_sources/5"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000026.png",
+            "sha256": "f6e39b7207d7f7e9d055a19bc167d7975a25f57e066baaae5fcf81eb88c2e555"
+          },
+          "inventory_pointer": "/effective_raw_sources/6"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000027.png",
+            "sha256": "0db21c3cdc3dca1a7ef2be9a61697d2384aa7447cc2e3f2e96d205efbb5467d6"
+          },
+          "inventory_pointer": "/effective_raw_sources/7"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000028.png",
+            "sha256": "5a75273d5ac61909d63d4fc3db8037dc51fb964d8aebdec1cc732ad78994a839"
+          },
+          "inventory_pointer": "/effective_raw_sources/8"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000029.png",
+            "sha256": "e40f9045a8a9121c093347f42625202e3d55565551a81c9e072b28b4fa80aa41"
+          },
+          "inventory_pointer": "/effective_raw_sources/9"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000030.png",
+            "sha256": "eed5c840f35f7270708aecbc1a0577f4b5b7b18cd75ad86e2b83f858906cd002"
+          },
+          "inventory_pointer": "/effective_raw_sources/10"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000031.png",
+            "sha256": "005987e7d768b2a3d0f38d09306cd2ff1f1d3d798132c96a965a6b95afa470a2"
+          },
+          "inventory_pointer": "/effective_raw_sources/11"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000033.png",
+            "sha256": "1ef89ca37c3592f3481283d944c52c61bde1bc80018b0bb4c93e606c975fee33"
+          },
+          "inventory_pointer": "/effective_raw_sources/12"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000034.png",
+            "sha256": "97585dc5f39b051e61a08a2dc1f29f0044db0c17f95b38dcfca01928e62d0ed7"
+          },
+          "inventory_pointer": "/effective_raw_sources/13"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000035.png",
+            "sha256": "ad1adb72c8568aa23eb1950794a5a5dc1e91a9fd384b2bc3715a85d77b97ba4f"
+          },
+          "inventory_pointer": "/effective_raw_sources/14"
+        },
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/frames/frame-000036.png",
+            "sha256": "d1de7915ce994df0a9fd67a30bd4a5af085d5619fc957b032218192d3cb783cc"
+          },
+          "inventory_pointer": "/effective_raw_sources/15"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/run.json",
+          "sha256": "97df4820d0c249b761beaa50f1e654d49ad5d576778a1393adf13d02c6eb1812"
+        },
+        "seal": {
+          "path": "artifacts/runs/72d935d4-122f-48c7-a22f-3879504e23b0/seal.json",
+          "sha256": "65733a7b227cf4beb25654b9884d94c166fd8c29cdd0e2cca0491b96a865666a"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:24:51.595984Z",
+        "end_time": "2026-09-11T18:25:42.736743Z",
+        "seal_created_at": "2026-09-11T18:25:43.215490+00:00",
+        "wall_clock_seconds": 51.140855700010434,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_seconds": 8.123406199971214,
+        "schedule_seconds": 8.0,
+        "frames": 38
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "78a29b33-8cf4-4bb4-be7a-f408acde1fcc",
+      "experiment_id": "native-scoring-glyph-construction",
+      "status": "completed",
+      "algorithm": "local-glyph-dice-alignment1",
+      "environment": "saved-hcr-pixels",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "historical_numeric_or_anchor_bank_construction",
+          "inherited_artifact": {
+            "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/result-reader.json",
+            "sha256": "22acbee768afa749267c6cb5cbfc76d9b8d29dc9fd2de86866bc271abf455dcf"
+          },
+          "inventory_pointer": "/result_bank_lineage/0",
+          "numeric_manifest": {
+            "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/result-glyphs/hud-glyphs.json",
+            "sha256": "e47434cd78c564a0c9d3377b31315595b15ada869069e5a373ffff10a6b2d694"
+          },
+          "anchor": {
+            "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/distance-label-anchor.png",
+            "sha256": "a14c7b8387456e9e61b826185ed416bb31ca85fafa906ed8f3d26c38b3f553bd"
+          }
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/run.json",
+          "sha256": "c5a422b6496d5b5f6a1d7e694c83f39be605e11e138c685cbc0de5dc480d3010"
+        },
+        "seal": {
+          "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/seal.json",
+          "sha256": "f48590da56525e2c058fb9a80b2360460d92346c47c4fddc135985f76204349a"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:49:04.943202Z",
+        "end_time": "2026-09-11T18:49:06.794023Z",
+        "seal_created_at": "2026-09-11T18:49:07.345759+00:00",
+        "wall_clock_seconds": 1.8510061000124551,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": null
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "The recorder covers a historical bank/anchor construction stage. No code-boundary receipt establishes that every prior crop/fit/inspection was inside this short recorder interval; original zero training_steps is not a zero-compute claim."
+    },
+    {
+      "run_id": "834be62a-555f-4cca-be9d-ff2e38197fa4",
+      "experiment_id": "native-result-anchor-construction",
+      "status": "completed",
+      "algorithm": "native-label-anchor-existing-glyphs",
+      "environment": "saved-hcr-pixels",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "historical_numeric_or_anchor_bank_construction",
+          "inherited_artifact": {
+            "path": "artifacts/runs/834be62a-555f-4cca-be9d-ff2e38197fa4/result-reader.json",
+            "sha256": "144e584e274434b5fe2ca02183a5af57b61dbc6aaf54703aac7653ed32334426"
+          },
+          "inventory_pointer": "/result_bank_lineage/1",
+          "numeric_manifest": {
+            "path": "artifacts/runs/834be62a-555f-4cca-be9d-ff2e38197fa4/result-glyphs/hud-glyphs.json",
+            "sha256": "e47434cd78c564a0c9d3377b31315595b15ada869069e5a373ffff10a6b2d694"
+          },
+          "anchor": {
+            "path": "artifacts/runs/834be62a-555f-4cca-be9d-ff2e38197fa4/distance-label-anchor.png",
+            "sha256": "a2d202e76198d1d0ed0b14c23af3f915a681e7657a2fee6788c66a54effa2f74"
+          }
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/834be62a-555f-4cca-be9d-ff2e38197fa4/run.json",
+          "sha256": "7a446d2b099098b1262ec6d79ca393c296c178fc2db0d28de13fa7f4bc71c884"
+        },
+        "seal": {
+          "path": "artifacts/runs/834be62a-555f-4cca-be9d-ff2e38197fa4/seal.json",
+          "sha256": "b41dff9d07a5330354c0004c699d2e96795379943e7d73941cb49e3bf5356960"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:52:05.069490Z",
+        "end_time": "2026-09-11T18:52:06.416473Z",
+        "seal_created_at": "2026-09-11T18:52:06.705263+00:00",
+        "wall_clock_seconds": 1.347100999992108,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": null
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "The recorder covers a historical bank/anchor construction stage. No code-boundary receipt establishes that every prior crop/fit/inspection was inside this short recorder interval; original zero training_steps is not a zero-compute claim."
+    },
+    {
+      "run_id": "992e84d6-6a66-4786-834b-63c8eb762f6a",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/992e84d6-6a66-4786-834b-63c8eb762f6a/ad_close.png",
+            "sha256": "6f05b98c7b21adc4eb11a0ab20331ca20a338c36262804e7bfb0d62f65d55174"
+          },
+          "inventory_pointer": "/ui_reference_sources/13",
+          "ui_reference_label": "foodcity_available_advance"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/992e84d6-6a66-4786-834b-63c8eb762f6a/run.json",
+          "sha256": "e387e5470293f677ff7e5638d41c0de6e37fd2cc7f382521c373d2f0e7e5843c"
+        },
+        "seal": {
+          "path": "artifacts/runs/992e84d6-6a66-4786-834b-63c8eb762f6a/seal.json",
+          "sha256": "59840c545f8bf5e995ccf2e3a714b3200a9559027c41793d9ab004c4d6758605"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T19:19:23.348885Z",
+        "end_time": "2026-09-11T19:19:25.079590Z",
+        "seal_created_at": "2026-09-11T19:19:25.202442+00:00",
+        "wall_clock_seconds": 1.730804499995429,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99/driver_down.png",
+            "sha256": "777bb8d9cb064d80028a6d83f40cfd531e30a60d2f210cc09c15d9125be34365"
+          },
+          "inventory_pointer": "/effective_raw_sources/16"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99/run.json",
+          "sha256": "e131538db390b3d306408e073683d5b5c8a01f0faf4092ee939f7709cd8597d3"
+        },
+        "seal": {
+          "path": "artifacts/runs/9ba8d77d-b284-4fb0-b3c6-7b6057ce6f99/seal.json",
+          "sha256": "f1c51fb5ddb01e05e21c29c96d4d5be55b1ac59a2b460f4abe11a2c42dab0983"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:56:49.379808Z",
+        "end_time": "2026-09-11T18:56:51.202037Z",
+        "seal_created_at": "2026-09-11T18:56:51.325919+00:00",
+        "wall_clock_seconds": 1.8223142999922857,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "a65038d7-5571-4f16-b306-77fd57d0e2a2",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/a65038d7-5571-4f16-b306-77fd57d0e2a2/ad_close.png",
+            "sha256": "c6924b78501be070e04c8d6016d03468debbead39fbed1f6b268f653a770f9b7"
+          },
+          "inventory_pointer": "/ui_reference_sources/11",
+          "ui_reference_label": "commercial_break_available_close"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/a65038d7-5571-4f16-b306-77fd57d0e2a2/run.json",
+          "sha256": "2b6518e63f099fdef3f5c75e5e1068771e5ed5aba01d63044ea47addd16b1417"
+        },
+        "seal": {
+          "path": "artifacts/runs/a65038d7-5571-4f16-b306-77fd57d0e2a2/seal.json",
+          "sha256": "4a928b0b6b122a0f0527906e3312eadc0e9744bea52b0e076ad1de9474115606"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:37:06.281382Z",
+        "end_time": "2026-09-11T18:37:08.206663Z",
+        "seal_created_at": "2026-09-11T18:37:08.337320+00:00",
+        "wall_clock_seconds": 1.9253679999965243,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "b8e15581-6cac-4e27-be0d-8eaf926b02cc",
+      "experiment_id": "real-screen-episode-pilot",
+      "status": "failed",
+      "algorithm": "alternating_gas_random",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/b8e15581-6cac-4e27-be0d-8eaf926b02cc/terminal-000.png",
+            "sha256": "9e3993c9a03f673de02c0188f7d07ce992d1a31ac51b8aa4ec574ad7f66968c2"
+          },
+          "inventory_pointer": "/effective_raw_sources/17"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/b8e15581-6cac-4e27-be0d-8eaf926b02cc/run.json",
+          "sha256": "f361f73a6c5e59343433fc95612b704712be1f92af31d6a493c9f6679dba9b4a"
+        },
+        "seal": {
+          "path": "artifacts/runs/b8e15581-6cac-4e27-be0d-8eaf926b02cc/seal.json",
+          "sha256": "b973b6c0703eca54d56938449cf6f8e1ff0fb796034e294132f4070f42054c8b"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T22:45:36.265994Z",
+        "end_time": "2026-09-11T22:46:42.304069Z",
+        "seal_created_at": "2026-09-11T22:46:43.209915+00:00",
+        "wall_clock_seconds": 66.03822539999965,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 2,
+        "summary_episode_count": 2
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_session_seconds": 64.34376280001015
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    },
+    {
+      "run_id": "ca73a234-86be-4498-bcc0-ec40ca0f99c2",
+      "experiment_id": "result-reader-construction",
+      "status": "completed",
+      "algorithm": "labeled-glyph-extension",
+      "environment": "stored_real_frames",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "historical_numeric_or_anchor_bank_construction",
+          "inherited_artifact": {
+            "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/result-reader.json",
+            "sha256": "bbe38e7800c12d9d861e93832cd53ca6bc7aa34b6949438bc5291c19f562847e"
+          },
+          "inventory_pointer": "/result_bank_lineage/3",
+          "numeric_manifest": {
+            "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/result-glyphs/hud-glyphs.json",
+            "sha256": "a2b6f9d6c08c7fdb1b1424fd89f472c359b7f91894cc26877855fb0c0629b8c4"
+          },
+          "anchor": {
+            "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/distance-label-anchor.png",
+            "sha256": "a2d202e76198d1d0ed0b14c23af3f915a681e7657a2fee6788c66a54effa2f74"
+          }
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/run.json",
+          "sha256": "97cf0eaf29ca01efbadacb9d2ec69e98c602fea9aa1a8fba68f9a7b832f311fc"
+        },
+        "seal": {
+          "path": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/seal.json",
+          "sha256": "cb649fdf5e7e6e9672040717305917ea17739a697d35b8a01ba54ba8be99eb1a"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-12T00:03:54.076658Z",
+        "end_time": "2026-09-12T00:03:55.496914Z",
+        "seal_created_at": "2026-09-12T00:03:55.890197+00:00",
+        "wall_clock_seconds": 1.4203215999996246,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "The recorder covers a historical bank/anchor construction stage. No code-boundary receipt establishes that every prior crop/fit/inspection was inside this short recorder interval; original zero training_steps is not a zero-compute claim."
+    },
+    {
+      "run_id": "d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b/ad_close.png",
+            "sha256": "932beaa08989de892add0ae08dd558aedab1b668ea378474af94b7f34eb76cae"
+          },
+          "inventory_pointer": "/ui_reference_sources/14",
+          "ui_reference_label": "gnomon_second_ad_available_advance"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b/run.json",
+          "sha256": "b6ed44350a9630574b3b17fb4b584b9e68a82304796368f50c089f9ab5f015f9"
+        },
+        "seal": {
+          "path": "artifacts/runs/d9045ddf-1fbc-4b4b-82d5-85c1516b0d9b/seal.json",
+          "sha256": "b4450296bc378c5626232938519a92efa5697cbcad1a937bc66e6b51d9f02634"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T19:21:33.750192Z",
+        "end_time": "2026-09-11T19:21:35.605233Z",
+        "seal_created_at": "2026-09-11T19:21:35.729670+00:00",
+        "wall_clock_seconds": 1.8552484000101686,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d/bonus_offer.png",
+            "sha256": "568f76b99b37a3d010081870480400a03187e34f6e5cd364ce274056f4f8cc71"
+          },
+          "inventory_pointer": "/ui_reference_sources/7",
+          "ui_reference_label": "bonus_native"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d/run.json",
+          "sha256": "5424bbeeac1937d103b810eab802893fe1017dca68ed896368bc4ff3279ddd00"
+        },
+        "seal": {
+          "path": "artifacts/runs/e30fcb4e-7e0a-4285-a77f-fb4ba9a1181d/seal.json",
+          "sha256": "6368da408df12d3dbb0a60998670bf66dbc451a1bd2cb56553069ab685d9e765"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:32:23.142638Z",
+        "end_time": "2026-09-11T18:32:24.939209Z",
+        "seal_created_at": "2026-09-11T18:32:25.089080+00:00",
+        "wall_clock_seconds": 1.7966676999931224,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "ed3475b6-f753-4f62-9e07-1b223ff7c8d5",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/ed3475b6-f753-4f62-9e07-1b223ff7c8d5/out_of_fuel.png",
+            "sha256": "3a07a7eb768280ec103a8e99c33b764f3686ba3a5a86e9d085fd9b733eef8223"
+          },
+          "inventory_pointer": "/ui_reference_sources/20",
+          "ui_reference_label": "out_of_fuel_native"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/ed3475b6-f753-4f62-9e07-1b223ff7c8d5/run.json",
+          "sha256": "f63dec57e05bd1d6c16a8cc8413c4c46acbc784224bfb4824d958df03f01b43a"
+        },
+        "seal": {
+          "path": "artifacts/runs/ed3475b6-f753-4f62-9e07-1b223ff7c8d5/seal.json",
+          "sha256": "9bffcea89e94f3d6617cfb83b2afc10b9733a5c958c0078b953fe281f35ae3a1"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-12T01:01:05.629433Z",
+        "end_time": "2026-09-12T01:01:06.992523Z",
+        "seal_created_at": "2026-09-12T01:01:07.120925+00:00",
+        "wall_clock_seconds": 1.3630582999994658,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "edaf47b5-b88e-471d-a373-a87341db24f4",
+      "experiment_id": "real-ui-reference",
+      "status": "completed",
+      "algorithm": "supervised-reference-capture",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/edaf47b5-b88e-471d-a373-a87341db24f4/ad_close.png",
+            "sha256": "e0277d998eaa0cfffa89cc900f730d8a4a70b9677b7b466251f85fa7ad6daa2d"
+          },
+          "inventory_pointer": "/ui_reference_sources/10",
+          "ui_reference_label": "blockblast_available_close"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/edaf47b5-b88e-471d-a373-a87341db24f4/run.json",
+          "sha256": "925185ef787e3569bf6d0a89d14e2890cf68f4c43be48e0afa5f3a371cd109f8"
+        },
+        "seal": {
+          "path": "artifacts/runs/edaf47b5-b88e-471d-a373-a87341db24f4/seal.json",
+          "sha256": "ce29d28c10ca20314efb92e16ec67c4cb5f85d4be07852f7331ac3d266b554b1"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:34:32.702983Z",
+        "end_time": "2026-09-11T18:34:34.617312Z",
+        "seal_created_at": "2026-09-11T18:34:34.769196+00:00",
+        "wall_clock_seconds": 1.9144433999899775,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": 0
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {},
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "role_limitation": "This records reference capture/publication, not the unknown time needed to navigate or play until that UI state, select a crop, design controls or assemble the complete UI profile."
+    },
+    {
+      "run_id": "fa103b59-4406-4f3d-8eb3-8158ee6e12c5",
+      "experiment_id": "real-screen-episode-pilot",
+      "status": "failed",
+      "algorithm": "alternating_gas_random",
+      "environment": "actual_hill_climb_racing",
+      "original_session_id": null,
+      "session_identity_status": "not_recorded_do_not_equate_run_with_independent_session",
+      "inherited_roles": [
+        {
+          "role": "effective_glyph_or_anchor_raw_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/terminal-000.png",
+            "sha256": "ecf12fcbec4cd8d2d647161c6ed6f1b232a1fe3e1f070c99aa652c42758f077e"
+          },
+          "inventory_pointer": "/effective_raw_sources/18"
+        },
+        {
+          "role": "frozen_ui_reference_pixel_acquisition",
+          "inherited_artifact": {
+            "path": "artifacts/runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/reset-030.png",
+            "sha256": "204bf7d7c801b33a964fcc9bb9d0a63c4cfb3870682edeba5581b66dce8caf0e"
+          },
+          "inventory_pointer": "/ui_reference_sources/17",
+          "ui_reference_label": "admob_small_layout_skip"
+        }
+      ],
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/run.json",
+          "sha256": "af6de75badb99352ad8c497757d26d8f4c028aa5c3f461a323098a90700cc196"
+        },
+        "seal": {
+          "path": "artifacts/runs/fa103b59-4406-4f3d-8eb3-8158ee6e12c5/seal.json",
+          "sha256": "af213467a08656b5eb4db02a8048adff1f1c070e858f8adf8a6118a9895687b2"
+        },
+        "named_json_hashes_verified": true,
+        "run_json_bound_by_seal": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T22:32:33.681996Z",
+        "end_time": "2026-09-11T22:34:14.393891Z",
+        "seal_created_at": "2026-09-11T22:34:15.477423+00:00",
+        "wall_clock_seconds": 100.71211620001122,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 1,
+        "summary_episode_count": 1
+      },
+      "wall_time_scope": "Original canonical recorder window, copied unchanged. It is not command-entry-to-independent-competence time or a complete acquisition/construction cost. Pre-recorder work, source navigation, manual labeling/engineering and final seal work may lie outside; historical code boundary was not re-audited here.",
+      "experience_scope": "Original recorded counters only; zeros do not establish that no frames, controls, manual gameplay or glyph fitting occurred. No retrospective counter repair and no new candidate experience inferred.",
+      "other_original_summary_measurements": {
+        "observed_session_seconds": 99.09898469998734
+      },
+      "other_interval_scope": "Named original summary fields retain their historical meanings; requested durations are budgets, observed intervals can overlap recorder time, and none are summed.",
+      "resources": null,
+      "resource_availability": "No integrated process CPU or memory summary in this named run.json. Raw telemetry outside this bounded inventory read was not reduced; missing costs remain unknown. The top-level cpu field describes hardware, not measured CPU time.",
+      "attributable_cost_to_inherited_artifacts": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "Whole-run measurements are context, not an allocation to the selected pixels, bank changes or forthcoming one-image construction. No per-edge cost attribution receipt."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null
+    }
+  ],
+  "noncanonical_inherited_sources_with_unknown_cost": [
+    {
+      "role": "effective_numeric_or_anchor_pixels",
+      "reference": {
+        "path": "artifacts/game-discovery/user-demonstration-driver-down-243m.jpg",
+        "sha256": "51f6e21b8154a5b261cfa66238a6fe14761c24de703cdb3b4fe944f6ce38920c"
+      },
+      "inventory_pointer": "/effective_raw_sources/0",
+      "original_run_id": null,
+      "original_session_id": null,
+      "recorder_wall_clock_seconds": null,
+      "cpu_core_seconds": null,
+      "memory_bytes": null,
+      "reason": "Noncanonical source in the inventory; acquisition timing and original session were not recorded."
+    },
+    {
+      "role": "frozen_ui_reference_pixels",
+      "reference": {
+        "path": "artifacts/game-discovery/playing-native-normalized.png",
+        "sha256": "e4a56b82e7ced8876b997a6f77ef76b146a9e59eae45bdb514b0124c56d66105"
+      },
+      "inventory_pointer": "/ui_reference_sources/0",
+      "original_run_id": null,
+      "original_session_id": null,
+      "recorder_wall_clock_seconds": null,
+      "cpu_core_seconds": null,
+      "memory_bytes": null,
+      "reason": "Noncanonical source in the inventory; acquisition timing and original session were not recorded."
+    },
+    {
+      "role": "frozen_ui_reference_pixels",
+      "reference": {
+        "path": "artifacts/game-discovery/paused-native-normalized.png",
+        "sha256": "131a45b97b7158db928f817a41dd8626108694b167a0e57004c32a124f7c02eb"
+      },
+      "inventory_pointer": "/ui_reference_sources/1",
+      "original_run_id": null,
+      "original_session_id": null,
+      "recorder_wall_clock_seconds": null,
+      "cpu_core_seconds": null,
+      "memory_bytes": null,
+      "reason": "Noncanonical source in the inventory; acquisition timing and original session were not recorded."
+    },
+    {
+      "role": "frozen_ui_reference_pixels",
+      "reference": {
+        "path": "artifacts/game-discovery/second-chance.png",
+        "sha256": "0aede98faedf84db8a0bad23a092f3da108e4f668b75ac9e5d943de8668107cb"
+      },
+      "inventory_pointer": "/ui_reference_sources/3",
+      "original_run_id": null,
+      "original_session_id": null,
+      "recorder_wall_clock_seconds": null,
+      "cpu_core_seconds": null,
+      "memory_bytes": null,
+      "reason": "Noncanonical source in the inventory; acquisition timing and original session were not recorded."
+    },
+    {
+      "role": "frozen_ui_reference_pixels",
+      "reference": {
+        "path": "artifacts/game-discovery/result-no-input.png",
+        "sha256": "54888c39376305a65b1383a6d50d8e380c5ecfc409bcd99f6f13376831dd8639"
+      },
+      "inventory_pointer": "/ui_reference_sources/5",
+      "original_run_id": null,
+      "original_session_id": null,
+      "recorder_wall_clock_seconds": null,
+      "cpu_core_seconds": null,
+      "memory_bytes": null,
+      "reason": "Noncanonical source in the inventory; acquisition timing and original session were not recorded."
+    },
+    {
+      "role": "frozen_ui_reference_pixels",
+      "reference": {
+        "path": "artifacts/game-discovery/upgrades.png",
+        "sha256": "96a261175981c25f4bfce4cbddadcd1ee098aec74247d30fe626a39c3989f4f4"
+      },
+      "inventory_pointer": "/ui_reference_sources/8",
+      "original_run_id": null,
+      "original_session_id": null,
+      "recorder_wall_clock_seconds": null,
+      "cpu_core_seconds": null,
+      "memory_bytes": null,
+      "reason": "Noncanonical source in the inventory; acquisition timing and original session were not recorded."
+    }
+  ],
+  "complete_ui_profile_construction_cost": {
+    "run_id": null,
+    "wall_clock_seconds": null,
+    "cpu_core_seconds": null,
+    "reason": "Inventory identifies frozen UI profile bytes and reference acquisitions, but no single canonical complete profile-construction/engineering receipt. Acquisition run cost cannot substitute for that missing work."
+  },
+  "excluded_inventory_runs_without_inherited_role": [],
+  "excluded_noninherited_bootstrap_bank": {
+    "reference": {
+      "path": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/files/001ebf622c93b15cdba52017ee2fe77c20a94fff9618bd7d9bdd9952ae10bb1d_hud-glyphs.json",
+      "sha256": "001ebf622c93b15cdba52017ee2fe77c20a94fff9618bd7d9bdd9952ae10bb1d"
+    },
+    "reason": "Recorded parent pointer of 78a29b33 but explicitly replaced; its configuration says no original bootstrap glyphs. These 23 templates are not present as source-attributed glyphs in the effective 32/38/52/58 banks. Full original bootstrap template-file location recovery was not required or attempted here.",
+    "overlap_caveat": "Excluding the replaced bootstrap templates does not exclude playing-native-normalized.png, whose pixels are separately inherited by the current UI profile and appear above as an unknown-cost noncanonical source."
+  },
+  "unresolved_design_feedback_costs": [],
+  "causal_prior_closure_complete": false,
+  "causal_closure_limitations": [
+    "File lineage plus two explicit bank configuration feedback pointers identify inherited pixels and known diagnostic dependencies. They still do not identify every decision or engineering dependency: selection, additional failed experiments, manual inspection, annotation, thresholds, UI controls and software implementation can have further unmeasured costs.",
+    "The named source records generally omit original session IDs. Separate run IDs are not proof of independent acquisition sessions.",
+    "Historical predecessor edges are retained as construction history. Replaced anchors or noninherited bootstrap templates do not imply every intermediate artifact survives in the final reader.",
+    "The inventory notes ca73a234 extended_from.run_id names the child; the predecessor is established by the parent manifest path/hash and canonical configuration. No historical record is rewritten.",
+    "The inventory found a changed mutable legacy annotation path and a recoverable exact sealed copy. This preparation does not revalidate or reseal labels and does not interpret that path as fresh truth.",
+    "The earlier native session failure, engine studies, simulator studies and owner-video acquisition are not included merely because they are adjacent in the campaign. No source pixel/bank edge to those runs is established here.",
+    "No command-entry receipt, first-view time, manual engineering duration or per-edge allocation was recovered from these named records. Their absence is unknown, not zero."
+  ],
+  "aggregate_cost": {
+    "wall_clock_seconds": null,
+    "cpu_core_seconds": null,
+    "memory_bytes": null,
+    "episodes": null,
+    "reason": "No aggregate is asserted: causal prior closure and per-edge attribution remain incomplete, recorder scopes overlap other summary intervals, and CPU/memory coverage is mostly absent. The 24 source/bank rows and two separately identified design-feedback rows preserve unique whole-run context only."
+  },
+  "new_candidate_result": null,
+  "new_candidate_compute": null,
+  "new_candidate_updates": null,
+  "qualification_evidence": false,
+  "privacy": "Omit raw window titles, host/account identifiers, PID/process create times and GPU UUID/index. Full original identities remain in private canonical sources.",
+  "design_feedback_prior_cost_rows": [
+    {
+      "run_id": "b2dcac01-ff92-4768-958d-aeedb791d9cc",
+      "experiment_id": "independent-scoring-reader-evaluation",
+      "status": "completed",
+      "algorithm": "frozen-glyph-readers",
+      "environment": "saved-hcr-pixels",
+      "prior_role": "explicit_historical_design_feedback",
+      "pixel_origin_run": false,
+      "original_session_id": null,
+      "session_identity_status": "Original session identity not recorded; no independent-session inference.",
+      "causal_edge": {
+        "child_construction_run_id": "834be62a-555f-4cca-be9d-ff2e38197fa4",
+        "parent_feedback_run_id": "b2dcac01-ff92-4768-958d-aeedb791d9cc",
+        "relation": "construction_configuration_explicitly_names_prior_failure_feedback",
+        "declaring_bank_run": {
+          "path": "artifacts/runs/834be62a-555f-4cca-be9d-ff2e38197fa4/run.json",
+          "sha256": "7a446d2b099098b1262ec6d79ca393c296c178fc2db0d28de13fa7f4bc71c884"
+        },
+        "json_pointer": "/configuration/previous_holdout_failure_run",
+        "exact_recorded_value": "b2dcac01-ff92-4768-958d-aeedb791d9cc",
+        "basis": "Exact canonical construction metadata names this feedback run; this is an inherited design-feedback dependency, not an adjacent-run assumption.",
+        "feedback_reader_manifest_sha256": "22acbee768afa749267c6cb5cbfc76d9b8d29dc9fd2de86866bc271abf455dcf"
+      },
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/b2dcac01-ff92-4768-958d-aeedb791d9cc/run.json",
+          "sha256": "f3c1f8b26991d9c632268c470e07449dccfde4fc5a5c7c8daf201e51b3d3084e"
+        },
+        "seal": {
+          "path": "artifacts/runs/b2dcac01-ff92-4768-958d-aeedb791d9cc/seal.json",
+          "sha256": "32ed21ff6ab77ab850b37b9729683e8e27d9a80ab1b050be8666214bf673497b"
+        },
+        "canonical_run_identity_matches": true,
+        "run_json_bound_by_seal": true,
+        "run_and_seal_hashes_computed_in_this_preparation": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false,
+        "integrity_scope": "Read only these exact canonical run/seal JSON files and the already referenced declaring bank metadata. The bank pointer supplies canonical identity; the seal binds the run.json hash. No payload rescan or new source traversal."
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:50:21.524226Z",
+        "end_time": "2026-09-11T18:50:29.644858Z",
+        "seal_created_at": "2026-09-11T18:50:30.499265+00:00",
+        "wall_clock_seconds": 8.12066980000236,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": null
+      },
+      "wall_time_scope": "Original canonical recorder interval, unchanged; full command startup, earlier/manual image review, label work and design deliberation are not established by this interval.",
+      "experience_scope": "Original zero environment_steps/training_steps/episodes are copied unchanged. These stored-pixel diagnostic runs are design feedback, not new gameplay or new candidate training.",
+      "other_original_summary_measurements": {
+        "processing_ms_median": 2.8261000115890056,
+        "trajectory_frames": 129,
+        "labeled_frames": 5
+      },
+      "other_interval_scope": "Historical named fields only; old heldout field names do not establish reader3 independent qualification. Processing median, if present, is not total compute or wall time.",
+      "resources": null,
+      "resource_availability": "No integrated CPU or memory summary in this run.json; raw telemetry was not reduced. Hardware descriptors are not compute measurements.",
+      "attributable_cost_to_later_design_change": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "The feedback dependency is explicit, but the fraction of this whole diagnostic run needed for the later construction decision is not measured."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "status_interpretation": "The canonical execution status is completed. The child bank names a prior failure finding; this does not rewrite the diagnostic execution as a failed run or claim present-day independent accuracy."
+    },
+    {
+      "run_id": "b3b99b45-b82b-488d-93b8-b1e39c0324b7",
+      "experiment_id": "independent-native-result-readout",
+      "status": "completed",
+      "algorithm": "frozen-native-result-reader",
+      "environment": "saved-hcr-pixels",
+      "prior_role": "explicit_historical_design_feedback",
+      "pixel_origin_run": false,
+      "original_session_id": null,
+      "session_identity_status": "Original session identity not recorded; no independent-session inference.",
+      "causal_edge": {
+        "child_construction_run_id": "66ce7f08-ef45-466c-ac77-33bacd0f0a41",
+        "parent_feedback_run_id": "b3b99b45-b82b-488d-93b8-b1e39c0324b7",
+        "relation": "construction_configuration_explicitly_names_prior_failure_feedback",
+        "declaring_bank_run": {
+          "path": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/run.json",
+          "sha256": "15acee2e86fb3312b8152518d57b9febc5978704508dd2fff1b57cba091fb6ce"
+        },
+        "json_pointer": "/configuration/prior_independent_failure",
+        "exact_recorded_value": "b3b99b45-b82b-488d-93b8-b1e39c0324b7",
+        "basis": "Exact canonical construction metadata names this feedback run; this is an inherited design-feedback dependency, not an adjacent-run assumption.",
+        "feedback_reader_manifest_sha256": "144e584e274434b5fe2ca02183a5af57b61dbc6aaf54703aac7653ed32334426"
+      },
+      "evidence": {
+        "run": {
+          "path": "artifacts/runs/b3b99b45-b82b-488d-93b8-b1e39c0324b7/run.json",
+          "sha256": "cd4351ae92b9455afd7d541dc1cd5772a17c4fc058e41e86acb175688236cf1f"
+        },
+        "seal": {
+          "path": "artifacts/runs/b3b99b45-b82b-488d-93b8-b1e39c0324b7/seal.json",
+          "sha256": "96c10d35fe63e67a883504f410219d8d775de91fcf97cd3bb4e2de17a434743a"
+        },
+        "canonical_run_identity_matches": true,
+        "run_json_bound_by_seal": true,
+        "run_and_seal_hashes_computed_in_this_preparation": true,
+        "full_payload_seal_reverified": false,
+        "pixel_bytes_read_or_rehashed": false,
+        "integrity_scope": "Read only these exact canonical run/seal JSON files and the already referenced declaring bank metadata. The bank pointer supplies canonical identity; the seal binds the run.json hash. No payload rescan or new source traversal."
+      },
+      "original_recorder_values": {
+        "start_time": "2026-09-11T18:58:21.215434Z",
+        "end_time": "2026-09-11T18:58:22.036778Z",
+        "seal_created_at": "2026-09-11T18:58:22.186084+00:00",
+        "wall_clock_seconds": 0.8213951000070665,
+        "environment_steps": 0,
+        "training_steps": 0,
+        "episodes": 0,
+        "summary_episode_count": null
+      },
+      "wall_time_scope": "Original canonical recorder interval, unchanged; full command startup, earlier/manual image review, label work and design deliberation are not established by this interval.",
+      "experience_scope": "Original zero environment_steps/training_steps/episodes are copied unchanged. These stored-pixel diagnostic runs are design feedback, not new gameplay or new candidate training.",
+      "other_original_summary_measurements": {
+        "heldout_frames": 1
+      },
+      "other_interval_scope": "Historical named fields only; old heldout field names do not establish reader3 independent qualification. Processing median, if present, is not total compute or wall time.",
+      "resources": null,
+      "resource_availability": "No integrated CPU or memory summary in this run.json; raw telemetry was not reduced. Hardware descriptors are not compute measurements.",
+      "attributable_cost_to_later_design_change": {
+        "wall_clock_seconds": null,
+        "cpu_core_seconds": null,
+        "allocation_fraction": null,
+        "reason": "The feedback dependency is explicit, but the fraction of this whole diagnostic run needed for the later construction decision is not measured."
+      },
+      "first_pixel_view_elapsed_seconds": null,
+      "manual_labeling_elapsed_seconds": null,
+      "manual_engineering_elapsed_seconds": null,
+      "status_interpretation": "The canonical execution status is completed. The child bank names a prior failure finding; this does not rewrite the diagnostic execution as a failed run or claim present-day independent accuracy."
+    }
+  ],
+  "updated_at": "2026-09-12T17:28:14.276309+00:00",
+  "additional_feedback_record_and_seal_references_hashed": 4,
+  "unique_canonical_cost_rows_including_design_feedback": 26,
+  "design_feedback_cost_rows": 2,
+  "unique_pixel_origin_or_bank_construction_runs": 24
+}

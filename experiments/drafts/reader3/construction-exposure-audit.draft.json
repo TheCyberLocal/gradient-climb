@@ -1,0 +1,18 @@
+{
+  "schema_version": "reader3-construction-exposure-audit-preparation-1",
+  "status": "draft_fixed_fields_only_not_a_finalized_exposure_audit",
+  "fixed_fields": {
+    "session_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+    "prediction_exposure_status": "known",
+    "first_prediction_exposure_at": null,
+    "note": "This source was inspected after reader output and is construction-only. The precise first viewed-prediction timestamp is unresolved; null is explicitly qualified by known exposure, never an absence claim."
+  },
+  "required_bindings": {
+    "exposure_reviewed_through": "Actual timestamp through which the final named reviewer has audited exposure; must cover the proposed label timestamps.",
+    "reviewer": "Actual responsible reviewer at finalization."
+  },
+  "source_run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+  "original_session_id": null,
+  "no_blinded_or_independent_claim": true,
+  "publication_rule": "Finalize a truthful complete ExposureAudit only after its reviewer and cutoff are established, hash those exact bytes, and bind that hash consistently in ReaderSession and the construction plan."
+}
