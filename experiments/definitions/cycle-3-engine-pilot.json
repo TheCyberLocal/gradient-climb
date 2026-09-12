@@ -1,0 +1,59 @@
+{
+  "protocol_version": "articulated-engine-pilot-3.0",
+  "status": "REGISTERED before engine installation and experimental execution",
+  "question": "Can a pinned mature Python 2D engine provide stable articulated wheel and moving-bridge fixtures with usable measured offscreen throughput on this workstation?",
+  "scope": "Synthetic engineering fixtures only; no game fidelity, calibration, policy learning or transfer qualification",
+  "rapid_learning_authority": "Primary outcome is elapsed command time to independently evaluated real-game competence. This engine pilot has no competence observation. Compute, simulated experience, episode counts and wall time remain separate costs; raw rates never select the final method.",
+  "fidelity_level": "synthetic_articulated_geometry_with_debug_render",
+  "observation_recording": "Each completed diagnostic repeat, diagnostic gate and throughput arm is immediately stored as an exclusive immutable engine-observation-3.0 JSON artifact. Completed measurements survive a later failed gate or arm. These fixtures have no episode lifecycle: training/evaluation/real-game episode counts remain zero; scripted fixture decisions are separate and no EvaluationRecord is emitted.",
+  "cost_measures": ["elapsed wall seconds", "process CPU core seconds", "sampled process RSS bytes", "physics substeps", "scripted fixture decisions", "rendered observations", "summed simulator seconds", "policy decisions (zero)", "optimizer updates (zero)", "installation and system-prior cost"],
+  "candidate": {
+    "distribution": "Box2D",
+    "version": "2.3.10",
+    "engine_family": "Box2D 2.3 via SWIG; not Box2D 3.x",
+    "wheel": "Box2D-2.3.10-cp313-cp313-win_amd64.whl",
+    "wheel_sha256": "49f9d3d0d5956d360e25cd9733a29a3f0018297a3b554a401f19ed2c9499a507",
+    "installation": "Fresh run-local target directory; binary wheel only, no dependencies, hash required; stdout/stderr, pip report, installed binary and notices retained"
+  },
+  "alternatives": {
+    "box2d-python-0.1.2": "Box2D 3 CFFI binding with CPython 3.13 Windows wheel, MIT wrapper, Python>=3.12 and explicitly preview API. Consider a second bounded pilot if the mature binding has a measured limitation; not rejected by uncollected performance evidence.",
+    "surrogate-0.1.0": "Preserved legacy comparator; its two virtual contacts and heightfield cannot represent the articulated fixtures. Raw speed comparison would therefore measure different workloads."
+  },
+  "fixture_version": "articulated-engine-fixtures-3.0",
+  "fixture_parameters": "Original synthetic constants encoded in the committed fixture source. No proprietary coefficients or game assets. One chassis, two independently rotating wheel bodies, spring/damper wheel joints, independent drive torque and brake motor. Bridge has twelve collidable planks and thirteen revolute joints over an actual ground gap.",
+  "solver": {"decision_seconds": 0.016666666666666666, "substeps": 2, "velocity_iterations": 8, "position_iterations": 3},
+  "screen": {
+    "seeds": [31000],
+    "world_counts": [1, 8, 32],
+    "fixtures": ["flat", "bridge_traverse"],
+    "modes": ["physics_and_diagnostics", "physics_diagnostics_and_offscreen_render"],
+    "decisions_per_world": 600,
+    "render_every_decisions": 4,
+    "render_size": [320, 180],
+    "maximum_wall_seconds_per_arm": 30,
+    "maximum_arms": 12,
+    "action_sequence": "Gas for the first 70% of decisions then brake; this is a diagnostic script, never a learned driver"
+  },
+  "diagnostics": {
+    "fixtures": ["flat", "bridge_load", "bridge_traverse"],
+    "repeat_seed": 31000,
+    "decisions": 600,
+    "repeats": 2,
+    "checks": ["finite states", "exact same-process repeated state digest", "wheel lateral constraint drift", "bridge joint anchor drift", "flat wheel penetration", "wheel-to-moving-plank contact", "body speed and angular speed bounds"],
+    "engineering_sanity_limits": {"max_wheel_lateral_error": 0.1, "max_bridge_joint_error": 0.15, "minimum_flat_wheel_bottom_y": -0.05, "max_body_speed": 100, "max_abs_angular_speed": 300},
+    "limits_interpretation": "Prospective synthetic sanity limits, not tolerances for real-game fidelity or a claim of physically identified parameters"
+  },
+  "budgets": {"installation_timeout_seconds": 180, "maximum_total_wall_seconds": 600, "training_seconds": 0, "native_interactions": 0},
+  "pilot_clock_definition": "Pilot elapsed time starts after protocol/source verification and includes installation, fixture construction, diagnostics and measurements; caller imports and final artifact serialization/sealing are separate overhead. It is not a command-start learning clock or rapid-learning result.",
+  "stopping_rule": "Stop on installation failure, nonfinite state, invalid engine version, or a failed diagnostic gate; retain the failed canonical run. Incomplete throughput arms remain censored at their wall cap, not discarded or replaced. At most one screen under this protocol; further screens need a linked prospective amendment.",
+  "selection_rule": "An engineering candidate can proceed to measured fixture construction only if installation and all diagnostic gates pass and at least one rendered arm completes within its cap. Report every throughput arm; select no learning algorithm, final batch size or fidelity level from FPS. Subsequent fixed-source comparisons must justify added fidelity/compute through independent real competence and report Pareto comparisons of real performance, wall time, experience and compute with explicit prior cost.",
+  "source_authority": "Execute only after the implementation and this protocol are committed, with exact expected SHA and clean source. No concurrent edits or unrelated high-load jobs during timing; disclose any observed concurrent load.",
+  "sources": [
+    "https://pypi.org/project/Box2D/2.3.10/",
+    "https://github.com/pybox2d/pybox2d/blob/master/LICENSE",
+    "https://github.com/pybox2d/pybox2d/wiki/manual",
+    "https://box2d.org/documentation/md_simulation.html",
+    "https://box2d.org/documentation/group__wheel__joint.html",
+    "https://pypi.org/project/box2d-python/0.1.2/"
+  ]
+}
