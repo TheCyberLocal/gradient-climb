@@ -1,6 +1,14 @@
 # Research Cycle 1 resumption checkpoint
 
-**When work resumes, start here.** Cycle 1 is intentionally paused. Do not resume
+**Superseded as the current entry point.** Cycle 2 ran after this checkpoint and is
+itself paused at a stabilized boundary; read
+[cycle-2-state.md](cycle-2-state.md) and
+[cycle-2-future-work.md](cycle-2-future-work.md) first. Everything below remains the
+accurate frozen record of Cycle 1 and is bound to the tag `cycle-1-paused`; Cycle 2
+changed none of it. Its "exact first task" was completed by the Cycle 2
+preregistration and the two reliability studies that followed.
+
+Cycle 1 is intentionally paused. Do not resume
 an old queued battery or launch a one-hour run automatically. The owner's
 [pause directive](../methodology/cycle-1-pause-directive.md) supersedes the earlier
 open-ended completion mandate for this release.
@@ -146,10 +154,16 @@ official PyTorch CUDA 12.8 index; portable CPU installs may differ. See
 Evidence/report reconstruction, without new learning:
 
 ```powershell
-.venv/Scripts/python scripts/audit_cycle_state.py
+.venv/Scripts/python scripts/audit_cycle_state.py --output artifacts/integrity-now.json
 .venv/Scripts/python scripts/analyze_research.py --verify --benchmark-run c0a9e142-1ad6-4d88-810d-bda4ca297f40
 .venv/Scripts/python scripts/build_research_notebooks.py --execute
 ```
+
+`--output` is required and must not be the Cycle 1 inventory. A current scan covers
+every canonical run present now, Cycle 2 included, so writing it over
+`research/experiments/cycle-1-integrity.json` would change the 100-run number this
+document, the completion audit, the report and the notebooks all cite. The Cycle 2
+boundary scan is [cycle-2-integrity.json](../../research/experiments/cycle-2-integrity.json).
 
 These commands write derived inventories/reports, never mutate sealed source runs.
 Inspect changes before committing. Exact training configurations remain in

@@ -4,10 +4,15 @@ GradientClimb is a research platform for rapid-learning adaptive control, using
 Hill Climb Racing as its first testbed. It measures policy quality against real
 wall-clock cost, experience, prior training, generalization and adaptation.
 
-**Research Cycle 1 is intentionally paused. Version 0.1.0a1 is a research
-prerelease.** Start with the [resumption checkpoint](docs/operations/resume-state.md)
-and [remaining-work plan](docs/operations/resumption-plan.md). The original
-scientific program is incomplete; no further experiments are scheduled.
+**Research Cycles 1 and 2 are both intentionally paused at stabilized boundaries.
+Version 0.1.0a2 is a research prerelease.** Cycle 1 is frozen at the tag
+`cycle-1-paused`; Cycle 2 is frozen at `cycle-2-paused`. Start with the
+[Cycle 2 boundary record](docs/operations/cycle-2-state.md) and the
+[Cycle 2 future-work queue](docs/operations/cycle-2-future-work.md); the
+[Cycle 1 checkpoint](docs/operations/resume-state.md) and
+[Cycle 1 plan](docs/operations/resumption-plan.md) remain the long-range map. The
+original scientific program is incomplete and no experiment is scheduled: five
+Cycle 2 protocols are registered and unexecuted, and registration is not a queue.
 
 ## What the evidence establishes
 
@@ -31,15 +36,53 @@ are bounded integration evidence, not performance qualification.
 
 The [interim research report](research/reports/gradientclimb-research-report.md),
 [findings](research/findings/), and [completion audit](docs/methodology/completion-audit.md)
-separate measured outcomes, implemented capabilities and deferred work.
+separate measured outcomes, implemented capabilities and deferred work. The report and
+its notebooks cover Cycle 1 only; Cycle 2 has findings but no report yet.
+
+## What Cycle 2 added
+
+Cycle 2 preregistered its measurements before collecting them, then spent itself on the
+operational frontier: making a real episode cycle repeatable. It did not get there.
+
+- **Two registered reliability studies ran and both failed their criteria.** Study 2.0
+  met three distinct unseen UI phases and reached a longest scored-success run of **1**
+  against a criterion of 10 ([F-004](research/findings/F-004-native-reliability-study-1.md)).
+  Study 2.1 failed after one session when an allowlisted advertisement control opened the
+  advertised app's Play Store page in the host browser
+  ([F-005](research/findings/F-005-allowlisted-ad-control-opened-store-page.md)). Both
+  failures became mechanism rather than relaxed criteria: the UI profile grew to 22 audited
+  hash-pinned variants, advertisement controls are enabled only where a sealed run shows a
+  recognized game state afterwards, unintended actions are now detected by effect as well as
+  by allowlist, and the only escape from a stuck screen is an application restart that posts
+  WM_CLOSE and relaunches the shortcut instead of clicking anything. `native-reliability-2.2`
+  is registered with unchanged criteria and **has not been run**.
+- **Live headed and headless training works and its cost is measured.** One isolated
+  environment follows detached policy snapshots at about **12.7 % fewer environment steps**
+  at 64 environments over 60 s, across three paired seeds
+  ([F-003](research/findings/F-003-live-headed-training-overhead.md)).
+- **The restricted screen-body student was trained, and the budget hypothesis failed.**
+  Tripling the budget to 1,800 s left the mean at **483.6** simulator units against the
+  teacher's 673.4, with 11 of 20 episodes still crashing
+  ([F-006](research/findings/F-006-body-student-distillation-plateau.md)). This is an
+  uncalibrated analytic projection, and it is a negative result.
+- **Behavioral metrics and objectives exist ahead of their data.** `behavioral-metrics-2.0`,
+  objective families A–E, a recovery definition and an eight-indicator reward-hacking battery
+  are implemented and tested under the
+  [preregistration](docs/methodology/cycle-2-preregistration.md). No episode is yet eligible
+  for the score- or recovery-dependent arms, because their readers are unvalidated.
+
+Cycle 2 therefore added measurement, mechanism and four findings — three of them negative —
+without adding real-game competence. Reliable scored native episodes remain the gate.
 
 ## Architecture
 
 Versioned configuration, source, hardware and seeds feed an original vectorized
 surrogate or a guarded screen/input adapter. PPO uses idealized simulator state;
 the native feature bridge provides masked image-relative observations. These
-representations are explicitly separate. A direct-screen linear CEM learner and
-an observation-compatible student implementation exist; the student was not trained.
+representations are explicitly separate. A direct-screen linear CEM learner exists and
+has never completed an eligible update on the real game. The observation-compatible
+restricted student has now been distilled twice in the simulator and stays well behind
+its teacher; no student or CEM policy has been deployed on the real game.
 
 Append-only run journals finalize into sealed JSON/Parquet. DuckDB queries the
 canonical records for the six-view local dashboard. Checkpoint hashes, parent
@@ -106,7 +149,7 @@ measurement record (never a PPO run). See
 .venv/Scripts/python -m gradientclimb --root artifacts dashboard --port 8765
 .venv/Scripts/python -m gradientclimb experiment list
 .venv/Scripts/python -m gradientclimb experiment verify c0a9e142-1ad6-4d88-810d-bda4ca297f40
-.venv/Scripts/python scripts/audit_cycle_state.py
+.venv/Scripts/python scripts/audit_cycle_state.py --output artifacts/integrity-now.json
 ```
 
 Open [localhost:8765](http://127.0.0.1:8765/). The dashboard launches with an empty
@@ -117,20 +160,30 @@ and the resumption checkpoint for report/notebook reconstruction commands.
 
 Generated models, frames, videos and telemetry stay under ignored `artifacts/`.
 **Git alone does not contain the trained models or native reference images.**
-Preserve complete run directories and the documented local dependencies; the
-[integrity inventory](research/experiments/cycle-1-integrity.json) covers all 100
-finalized Cycle 1 runs. Hashes detect changes but do not replace a backup.
+Preserve complete run directories and the documented local dependencies. The
+[Cycle 1 inventory](research/experiments/cycle-1-integrity.json) covers all 100 runs
+finalized at that pause and is frozen; the
+[Cycle 2 inventory](research/experiments/cycle-2-integrity.json) covers all **134**
+verified at this boundary. `audit_cycle_state.py` requires an explicit `--output` so a
+new scan cannot overwrite a published inventory. Hashes detect changes but do not
+replace a backup.
 
 ## Future research direction
 
-On explicit resumption, verify the release and local evidence, then preregister
-Cycle 2 objective/behavioral metrics and a bounded native reset/scoring reliability
-test before new training. The operational frontier is repeatable scored episodes.
-Subsequent qualification must investigate versioned multi-objective fitness:
-distance, useful score, pace, survival and recovery-conditioned trick credit.
-Raw score can reward spectacular but fatal behavior. Existing objectives and
-results remain unchanged; the reward campaign is deferred. See the
-[resumption plan](docs/operations/resumption-plan.md).
+On explicit resumption, verify the release and local evidence, then execute the already
+registered `native-reliability-2.2` study before anything downstream. The operational
+frontier is repeatable scored episodes; the reliability gate precedes the reward campaign,
+real baselines, reader validation and any governed real hour. Qualification must still
+investigate versioned multi-objective fitness — distance, useful score, pace, survival and
+recovery-conditioned trick credit — because raw score can reward spectacular but fatal
+behavior. Those arms are implemented and deferred: they depend on readers that have no
+held-out accuracy yet. Existing objectives and results remain unchanged.
+
+The [Cycle 2 future-work queue](docs/operations/cycle-2-future-work.md) is the current
+prioritized list, with the five registered-but-unexecuted protocols, fourteen deferred
+feature rows and the constraints that survive the pause. The
+[Cycle 1 plan](docs/operations/resumption-plan.md) remains valid for the rows Cycle 2 did
+not touch. No document here authorizes execution.
 
 ## License and game boundary
 

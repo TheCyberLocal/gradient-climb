@@ -1,5 +1,7 @@
 # Canonical resumption plan after Research Cycle 1
 
+**Partly answered by Cycle 2.** This plan's first resumption task was carried out: Cycle 2 preregistered its metrics and objectives and registered a bounded native reliability test. Priority 1 was attempted twice and failed both times, priority 6 was attempted once with a negative result, and priorities 0 and 9 advanced. The rows below are unchanged and still valid for everything Cycle 2 did not touch; [cycle-2-future-work.md](cycle-2-future-work.md) is the current queue and records which rows moved.
+
 Status: **PAUSED by the owner.** This document is the future work queue, not authorization or a scheduler. The [pause directive](../methodology/cycle-1-pause-directive.md) supersedes the original open-ended execution mandate. No new experiment, native interaction, draft restoration or training should start merely because a historical protocol says pending.
 
 The containing release is bound by the immutable annotated tag `cycle-1-paused`; its annotation/release receipt records the final development/main SHAs and CI checks. [resume-state.md](resume-state.md) owns operational release status. Do not confuse the stabilization starting SHA `f8183772d78641dc692a1008152af9ba085207bf` with the final release revision. The [completion audit](../methodology/completion-audit.md) distinguishes release readiness from incomplete scientific goals.

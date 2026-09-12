@@ -15,9 +15,26 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("artifacts"))
     parser.add_argument(
-        "--output", type=Path, default=Path("research/experiments/cycle-1-integrity.json")
+        "--output",
+        type=Path,
+        required=True,
+        help=(
+            "Destination inventory path. Required and never defaulted: each cycle's inventory "
+            "is cited by that cycle's report and notebooks."
+        ),
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Permit replacing an inventory that already exists at --output.",
     )
     args = parser.parse_args()
+    if args.output.exists() and not args.overwrite:
+        raise SystemExit(
+            f"{args.output.as_posix()} already exists. A published inventory records one "
+            "cycle's verified run set; write the current scan to a new path, or pass "
+            "--overwrite deliberately."
+        )
     rows = []
     for run in list_runs(args.root):
         directory = args.root / "runs" / run["run_id"]

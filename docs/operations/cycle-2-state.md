@@ -1,16 +1,19 @@
-# Research Cycle 2: active state
+# Research Cycle 2: operational state
 
-**This document is the live operational state of the resumed program.** It is
-updated at every stabilization boundary on `dev`; it never rewrites Cycle 1
-records, which remain bound to the tag `cycle-1-paused`. Read
+**Cycle 2 is paused at the stabilization boundary recorded at the end of this
+document.** This document is the operational state of the resumed program, updated
+at every stabilization boundary on `dev`; it never rewrites Cycle 1 records, which
+remain bound to the tag `cycle-1-paused`. Read
+[cycle-2-future-work.md](cycle-2-future-work.md) for the deferred forward queue,
 [resume-state.md](resume-state.md) for the frozen Cycle 1 checkpoint and
 [cycle-2-preregistration.md](../methodology/cycle-2-preregistration.md) for the
 registered metric, objective and reliability protocols.
 
 ## Checkout and storage
 
-- Cycle 2 development started from `ebab4ef` on `dev`; `main` stays at the Cycle 1
-  release until the final integration gate.
+- Cycle 2 development started from `ebab4ef` on `dev` and was integrated into `main`
+  by fast-forward at this boundary; the exact SHAs are in the `cycle-2-paused`
+  annotation.
 - The checkout moved to `D:\Projects\gradient-climb` on 2026-09-11 (a 1 TB drive
   provided for large files). `artifacts/` lives directly under the project again
   after a temporary junction detour. The Google Play Games emulator lives on C:,
@@ -100,6 +103,12 @@ definition and declares application restart as the only recovery from stuck scre
   attempts each, interleaved.
 - `reader-validation-2.0`: held-out labels from sessions sealed after the
   registration; the reliability study sessions are the first held-out set.
+- `context-encoder-2.0` and `privileged-critic-2.0`: simulator-side protocols
+  registered before their implementations, which do not exist yet.
+
+None of these started before the pause.
+[cycle-2-future-work.md](cycle-2-future-work.md) records why each is blocked and
+what would close it; registration is not a queue that runs itself.
 
 ## Simulator-side work
 
@@ -114,4 +123,57 @@ definition and declares application restart as the only recovery from stuck scre
   under student occupancy, mean 483.6 m and median 561.3 m against the teacher's
   673.4 m and 700.1 m, with 11 of 20 episodes crashing versus 2 for the teacher.
   This is an uncalibrated analytic-projection result, not real-game evidence.
-  A 1,800 s second-seed run follows to measure whether the gap closes with budget.
+- The 1,800 s second-seed run `807048e2` (seed 501) answered the budget question
+  negatively and closed this line for now: mean 483.6 and median 585.0 against the
+  same teacher, the same 11 of 20 crashes, joint agreement 0.859 and final BCE
+  0.315. Budget and seed are confounded across the two runs and the episode
+  bootstrap intervals overlap, so this is a negative result at this scale rather
+  than a demonstrated plateau. `807048e2` is the deployable restricted candidate.
+  See [F-006](../../research/findings/F-006-body-student-distillation-plateau.md).
+
+## Stabilization boundary 2026-09-12
+
+**Cycle 2 development is paused here by the owner, at a stabilized boundary, with
+the original Cycle 2 program incomplete.** The registered protocols below have not
+been executed; no experiment, native session or training run is authorized by this
+document or by any registration it references.
+[cycle-2-future-work.md](cycle-2-future-work.md) is the forward queue.
+
+- Release: project version **0.1.0a2**, a research prerelease. The boundary revision
+  is bound by the annotated tag `cycle-2-paused`, whose annotation records the final
+  dev and main SHAs, the CI workflow results and these validation counts. Cycle 1
+  stays bound to `cycle-1-paused`. The bump distinguishes the two stabilized
+  prereleases and nothing else: every sealed Cycle 2 run recorded `0.1.0a1`, because
+  the runs precede the bump, and a package version was never a scientific or
+  objective version identifier.
+- Local validation on the workstation (Windows 11, Python 3.13.5): **400 tests
+  passed** in 69.75 s with the two known Starlette/httpx deprecation warnings;
+  `ruff check` passed; `ruff format --check` passed over 102 files;
+  `compileall -q src` succeeded; `pip check` reported no broken requirements;
+  `gradientclimb doctor` reported Torch 2.11.0+cu128 with CUDA available.
+- Artifact integrity: **134 of 134** canonical local runs verified valid, zero
+  unfinished, zero uncatalogued directories, 991,794,172 bytes
+  ([inventory](../../research/experiments/cycle-2-integrity.json)). 34 runs are new
+  since the Cycle 1 pause: 26 completed and 8 failed-but-preserved, spanning
+  `real-screen-episode-pilot` (10), `ui-profile-audit` (7),
+  `headed-overhead-pilot` (7), `native-reliability-study` (4),
+  `screen-body-distillation` (2), `real-ui-reference` and
+  `result-reader-construction`, plus two runs that are validation or operator
+  exercise rather than Cycle 2 evidence: one `synthetic-convergence` demonstration
+  created by the CI smoke command during this validation, and failed
+  `surrogate-pilot` run `e911764e` (seed 7, 64 environments, 600 s requested with a
+  windowed observer, stopped at 124.9 s with zero recorded environment steps and
+  zero episodes). Neither supports a finding; both are preserved because sealed runs
+  are never deleted to tidy a boundary.
+- `scripts/audit_cycle_state.py` now requires an explicit `--output` and refuses to
+  replace an existing inventory without `--overwrite`. Its previous default wrote
+  over `research/experiments/cycle-1-integrity.json`, the frozen 100-run Cycle 1
+  inventory that the Cycle 1 report and notebooks cite; running the documented
+  command at this boundary would have silently changed that published number.
+- Native sessions are stopped. No native input should restart automatically, and
+  window handles, coordinates and capture-device state from this cycle are not
+  durable target identity.
+- Unchanged by this boundary: the surrogate remains uncalibrated, no learned native
+  policy exists, sim-to-real transfer is unmeasured, and no real one-hour
+  qualification has been attempted. A green suite and a clean tag establish release
+  state, never actual-game competence.
