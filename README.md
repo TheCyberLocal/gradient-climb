@@ -7,8 +7,13 @@ evaluation latency, generalization and adaptation are measured separately.
 
 > **Episodes measure experience. Compute measures cost. Wall-clock time measures rapidity. Real-game capability determines whether the learning mattered.**
 
-**Cycle 3 is active under the owner's 2026-09-12 mandate. Version 0.1.0a2 remains
-a research prerelease; the scientific program is incomplete.** Start with the
+**Cycle 3 research is paused at the owner's 2026-09-12 stabilization checkpoint.
+Version 0.1.0a2 remains a research prerelease; scientific qualification is incomplete.**
+Start with the [stabilization report](research/reports/cycle-3-stabilization-report.md),
+[current handoff](docs/operations/cycle-3-stabilized-state.md) and
+[future goals](docs/operations/cycle-3-future-work.md). The owner authorized integration
+through `dev` into `main` as a software checkpoint, with no new research dispatch.
+The research scope remains recorded in the
 [current mandate](docs/methodology/cycle-3-mandate.md),
 [requirements/evidence register](docs/methodology/cycle-3-evidence-register.md) and
 [bounded campaign ledger](experiments/definitions/cycle-3-campaign.json).
@@ -204,8 +209,9 @@ preserves the reliability criteria while correcting implementation semantics;
 the inherited 2.2 registration remains unexecuted. Every new study requires its
 specific committed protocol, source and entry gates before collection.
 
-The campaign proceeds through bounded demonstration, engine/fidelity and learner
-screens before selected replications. Qualification still covers distance, useful
+On explicit resumption, the campaign's future queue proceeds through bounded
+demonstration, engine/fidelity and learner screens before selected replications.
+Qualification still covers distance, useful
 score, pace, survival and recovery-conditioned skill credit with validated readers
 and controlled comparisons. Additional real profiles and retention follow
 reference competence. The evidence register distinguishes implemented contracts,

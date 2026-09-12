@@ -1,0 +1,522 @@
+{
+  "schema_version": "reader3-construction-stop-report-1.0",
+  "report_id": "reader3-construction-stop-001",
+  "prepared_at": "2026-09-12T17:52:25.276934+00:00",
+  "reviewer": "Codex architecture audit; canonical publication semantics independently reviewed by accounting audit",
+  "status": "two_publications_completed_user_stopped_before_builder_or_freeze",
+  "scope": "Read-only review of exact canonical run/seal metadata, registered JSON artifacts, publication logs, original endpoint summary and prior-cost report. No images opened or decoded, no inference, collection, fitting, tests or sealed modifications for this report.",
+  "source_git_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+  "actual_imported_source_clean": true,
+  "stop": {
+    "reason": "User requested stabilization, dev/main publication, future-work documentation and conclusion before builder or freeze dispatch.",
+    "basis": "Parent execution ledger and user-directed stop, alongside the two completed publication records; no claim of a broad filesystem absence audit.",
+    "builder_invocations": 0,
+    "freeze_invocations": 0,
+    "new_candidate_created": false,
+    "new_candidate_predictions": 0,
+    "new_capture_seconds": 0,
+    "new_training_steps": 0,
+    "new_optimizer_updates": 0,
+    "new_qualification_runs": 0,
+    "new_evaluated_episodes": 0,
+    "manual_review_cost_seconds": null,
+    "native_reliability_sessions_remaining": 1,
+    "native_reliability_session_budget_total": 3,
+    "budget_scope": "These offline publications consume no additional native reliability session; two earlier reliability sessions remain counted."
+  },
+  "registration_refs": [
+    {
+      "path": "experiments/definitions/cycle-3-reader-validation-3.0.json",
+      "sha256": "88d59ee970c99d409af2b3f7a1257f66f65ae4c669d43a296f1ae21b50ea0f69"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-reader-construction-001.json",
+      "sha256": "715565884fd5a13efa90bcbeac0fff62fd694e359a60f5809fca4b4c60df5612"
+    },
+    {
+      "path": "experiments/definitions/cycle-3-reader-construction-selection-001.json",
+      "sha256": "56f9a455a4414b234c26627418e80d05a4fc1a2b88f0feb578e55c6916145254"
+    }
+  ],
+  "publications": [
+    {
+      "run_id": "02886e4c-b804-4c0d-a619-9eda13b01ee9",
+      "experiment_id": "reader-session-declaration-3.0",
+      "status": "completed",
+      "source_git_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+      "dirty_worktree": false,
+      "start_time": "2026-09-12T17:36:26.077963Z",
+      "end_time": "2026-09-12T17:36:26.589615Z",
+      "seal_created_at": "2026-09-12T17:36:26.709472+00:00",
+      "record": {
+        "path": "artifacts/runs/02886e4c-b804-4c0d-a619-9eda13b01ee9/run.json",
+        "sha256": "640f9d9113e44df2c9054b3765f94b818588ab50a38a229aea69ac06b0e1e749"
+      },
+      "seal": {
+        "path": "artifacts/runs/02886e4c-b804-4c0d-a619-9eda13b01ee9/seal.json",
+        "sha256": "1a8cc4e2b47385180dc0889f22dec314c7698546986225a80d5d415383efc7c0"
+      },
+      "seal_file_count": 20,
+      "recorder_wall_seconds": 0.5117504999943776,
+      "environment_steps": 0,
+      "training_steps": 0,
+      "optimizer_updates": 0,
+      "episodes": 0,
+      "resource_scope": "recorder publication window; excludes imports, initial validation and dependency seal preflight; no capture, predictions or fitting",
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 0.5114882999914698,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 2,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 0.02926784000133921,
+            "utilization_percent": {
+              "coverage_fraction": 0.6636973373620163,
+              "covered_seconds": 0.12454400000569876,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 24.0,
+              "time_weighted_sampled_mean": 23.5,
+              "uncovered_seconds": 0.06310779998602811,
+              "valid_samples": 2
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.6636973373620163,
+              "covered_seconds": 0.12454400000569876,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 844103680.0,
+              "time_weighted_sampled_mean": 844103680.0,
+              "uncovered_seconds": 0.06310779998602811,
+              "valid_samples": 2
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.32383649999974295,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.7029642135419099,
+            "covered_seconds": 0.13191250000090804,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 35890769920.0,
+            "time_weighted_sampled_mean": 35881058304.0,
+            "uncovered_seconds": 0.055739299990818836,
+            "valid_samples": 2
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.7027984811085969,
+            "covered_seconds": 0.13188140001147985,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 70742016.0,
+            "time_weighted_sampled_mean": 70739968.0,
+            "uncovered_seconds": 0.05577039998024702,
+            "valid_samples": 2
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 0.015625,
+          "counter_resets": 0,
+          "coverage_fraction": 0.7028533699565496,
+          "covered_seconds": 0.13189170000259764,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 0.015625,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.05576009998912923,
+          "valid_samples": 2
+        },
+        "sample_count": 2,
+        "sample_span_seconds": 0.18765179999172688,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "derived_artifacts": [
+        {
+          "kind": "reader_session_declaration",
+          "path": "artifacts/runs/02886e4c-b804-4c0d-a619-9eda13b01ee9/files/b4be63a2725fc037a9e8aff8d4a522da63b3b5caa25caa5c9f6f1d73e5ee4e87_reader-session-declaration.json",
+          "sha256": "b4be63a2725fc037a9e8aff8d4a522da63b3b5caa25caa5c9f6f1d73e5ee4e87"
+        }
+      ]
+    },
+    {
+      "run_id": "ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d",
+      "experiment_id": "reader-annotation-publication-3.0",
+      "status": "completed",
+      "source_git_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+      "dirty_worktree": false,
+      "start_time": "2026-09-12T17:37:45.756976Z",
+      "end_time": "2026-09-12T17:37:58.970809Z",
+      "seal_created_at": "2026-09-12T17:37:59.103805+00:00",
+      "record": {
+        "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/run.json",
+        "sha256": "2a8dcb84cfe7a68f40525b7b863f2613c8b5929dce4891018d1801467646365b"
+      },
+      "seal": {
+        "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/seal.json",
+        "sha256": "60636f9b18db318a5b2a90709865f4df82a77b97fcfed2d6e319cda438452bb5"
+      },
+      "seal_file_count": 28,
+      "recorder_wall_seconds": 13.213931500009494,
+      "environment_steps": 0,
+      "training_steps": 0,
+      "optimizer_updates": 0,
+      "episodes": 0,
+      "resource_scope": "Recorder setup through final resource sample; imports, minimal JSON/root parsing and later sealing excluded; overlaps operation journal clocks",
+      "resources": {
+        "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+        "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+        "energy_measured": false,
+        "final_sample_elapsed_seconds": 13.21367409999948,
+        "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+        "gpu_query_count": 2,
+        "gpu_query_failures": 0,
+        "gpus": [
+          {
+            "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+            "scope": "device_wide_all_processes; not_policy_attributed",
+            "utilization_equivalent_seconds": 3.357346902001591,
+            "utilization_percent": {
+              "coverage_fraction": 0.9962760142443802,
+              "covered_seconds": 12.912872700006119,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 26.0,
+              "time_weighted_sampled_mean": 26.0,
+              "uncovered_seconds": 0.04826709999179002,
+              "valid_samples": 2
+            },
+            "vram_bytes": {
+              "coverage_fraction": 0.9962760142443802,
+              "covered_seconds": 12.912872700006119,
+              "identity_change_intervals_excluded": 0,
+              "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+              "long_gap_intervals_excluded": 0,
+              "missing_samples": 0,
+              "nonmonotonic_intervals_excluded": 0,
+              "sampled_peak": 844103680.0,
+              "time_weighted_sampled_mean": 844103680.0,
+              "uncovered_seconds": 0.04826709999179002,
+              "valid_samples": 2
+            }
+          }
+        ],
+        "initial_sample_elapsed_seconds": 0.25253430000157095,
+        "max_interpolation_gap_seconds": 30.0,
+        "memory": {
+          "host_ram_used_bytes": {
+            "coverage_fraction": 0.9958925603131871,
+            "covered_seconds": 12.907902699997067,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 35652149248.0,
+            "time_weighted_sampled_mean": 35649062912.0,
+            "uncovered_seconds": 0.053237100000842474,
+            "valid_samples": 2
+          },
+          "process_rss_bytes": {
+            "coverage_fraction": 0.9958915727460594,
+            "covered_seconds": 12.907889900001464,
+            "identity_change_intervals_excluded": 0,
+            "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+            "long_gap_intervals_excluded": 0,
+            "missing_samples": 0,
+            "nonmonotonic_intervals_excluded": 0,
+            "sampled_peak": 76767232.0,
+            "time_weighted_sampled_mean": 71344128.0,
+            "uncovered_seconds": 0.05324989999644458,
+            "valid_samples": 2
+          }
+        },
+        "nonmonotonic_samples_excluded": 0,
+        "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+        "process_cpu": {
+          "core_seconds": 12.453125,
+          "counter_resets": 0,
+          "coverage_fraction": 0.9958918659301382,
+          "covered_seconds": 12.907893700001296,
+          "identity_changes": 0,
+          "long_gap_intervals_bridged_by_cumulative_counters": 0,
+          "method": "measured_cumulative_user_plus_system_counter_differences",
+          "missing_samples": 0,
+          "observed_segment_delta_seconds": 12.453125,
+          "scope": "recorder_process_all_threads; excludes_child_processes",
+          "status": "observed",
+          "uncovered_seconds": 0.05324609999661334,
+          "valid_samples": 2
+        },
+        "sample_count": 2,
+        "sample_span_seconds": 12.961139799997909,
+        "samples_with_errors": 0,
+        "version": "resources-3.0"
+      },
+      "derived_artifacts": [
+        {
+          "kind": "reader_result_annotation",
+          "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/files/e40d649113a400d7bddae34b36e4f2e25c2a60df727fb27a02eb683bf41648d1_annotation-0000.json",
+          "sha256": "e40d649113a400d7bddae34b36e4f2e25c2a60df727fb27a02eb683bf41648d1"
+        },
+        {
+          "kind": "reader_annotation_index",
+          "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/files/e92df6765a3ee727e6979a52d64910d864df9512dff0d2b0bfe7914dce353bb7_reader-annotations.json",
+          "sha256": "e92df6765a3ee727e6979a52d64910d864df9512dff0d2b0bfe7914dce353bb7"
+        },
+        {
+          "kind": "reader_operation_journal",
+          "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/files/27757840c24d59d06da4626d416acaf643fa2dc72324aa5a14fa2a1f6b02cc61_reader-operations.jsonl",
+          "sha256": "27757840c24d59d06da4626d416acaf643fa2dc72324aa5a14fa2a1f6b02cc61"
+        }
+      ],
+      "operation_work": {
+        "cpu_core_seconds": 12.546875,
+        "elapsed_seconds": 13.167488199993386,
+        "gpu_utilization_equivalent_seconds": null,
+        "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+      },
+      "operation_counters": {
+        "annotation_publication_completed": 1,
+        "annotation_published": 1,
+        "annotation_validation_started": 1,
+        "annotation_write_started": 1,
+        "prediction_exposure_not_ruled_out": 1,
+        "source_verified": 1
+      },
+      "operation_journal": [
+        {
+          "sequence": 0,
+          "at": "2026-09-12T17:37:46.058209+00:00",
+          "phase": "annotation_validation_started",
+          "work": {
+            "cpu_core_seconds": 0.09375,
+            "elapsed_seconds": 0.3315194999886444,
+            "gpu_utilization_equivalent_seconds": null,
+            "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+          }
+        },
+        {
+          "sequence": 1,
+          "at": "2026-09-12T17:37:50.028119+00:00",
+          "phase": "source_verified",
+          "work": {
+            "cpu_core_seconds": 3.96875,
+            "elapsed_seconds": 4.30142989999149,
+            "gpu_utilization_equivalent_seconds": null,
+            "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+          }
+        },
+        {
+          "sequence": 2,
+          "at": "2026-09-12T17:37:54.057495+00:00",
+          "phase": "prediction_exposure_not_ruled_out",
+          "work": {
+            "cpu_core_seconds": 7.9375,
+            "elapsed_seconds": 8.330807099991944,
+            "gpu_utilization_equivalent_seconds": null,
+            "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+          }
+        },
+        {
+          "sequence": 3,
+          "at": "2026-09-12T17:37:58.848982+00:00",
+          "phase": "annotation_write_started",
+          "work": {
+            "cpu_core_seconds": 12.546875,
+            "elapsed_seconds": 13.122291699997731,
+            "gpu_utilization_equivalent_seconds": null,
+            "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+          }
+        },
+        {
+          "sequence": 4,
+          "at": "2026-09-12T17:37:58.870908+00:00",
+          "phase": "annotation_published",
+          "work": {
+            "cpu_core_seconds": 12.546875,
+            "elapsed_seconds": 13.144218199988245,
+            "gpu_utilization_equivalent_seconds": null,
+            "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+          }
+        },
+        {
+          "sequence": 5,
+          "at": "2026-09-12T17:37:58.894177+00:00",
+          "phase": "annotation_publication_completed",
+          "work": {
+            "cpu_core_seconds": 12.546875,
+            "elapsed_seconds": 13.167488199993386,
+            "gpu_utilization_equivalent_seconds": null,
+            "scope": "Publisher entry through this event, including validation/hash reads/JSON publication; excludes imports, initial JSON/root parsing and later sealing; overlaps recorder resources, do not add"
+          }
+        }
+      ],
+      "published_annotation_count": 1,
+      "image_decodes": 0,
+      "predictions": 0,
+      "labels_generated": 0,
+      "inherited_label_review_wall_seconds": null,
+      "inherited_label_review_compute": null,
+      "sealed_summary_publication_complete": false,
+      "sealed_index_publication_state": "owning_completed_seal_required",
+      "publication_marker_interpretation": "The false summary flag is a stale conservative pre-seal marker that was never promoted. Completion is authoritative only with owning canonical status completed, a valid seal, and the exact registered annotation. The operation journal ends annotation_publication_completed and the returned CLI envelope says completed. No sealed metadata was edited."
+    }
+  ],
+  "construction_annotation": {
+    "annotation": {
+      "kind": "reader_result_annotation",
+      "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/files/e40d649113a400d7bddae34b36e4f2e25c2a60df727fb27a02eb683bf41648d1_annotation-0000.json",
+      "sha256": "e40d649113a400d7bddae34b36e4f2e25c2a60df727fb27a02eb683bf41648d1"
+    },
+    "annotation_index": {
+      "kind": "reader_annotation_index",
+      "path": "artifacts/runs/ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d/files/e92df6765a3ee727e6979a52d64910d864df9512dff0d2b0bfe7914dce353bb7_reader-annotations.json",
+      "sha256": "e92df6765a3ee727e6979a52d64910d864df9512dff0d2b0bfe7914dce353bb7"
+    },
+    "label_id": "native2-attempt8-terminal024-full-result-001",
+    "text": "269",
+    "field": "result_distance",
+    "is_result": true,
+    "labeled_at": "2026-09-12T17:37:44.506777Z",
+    "reviewer": "Codex root, explicit review of original retained result pixels after registration",
+    "purpose": "construction",
+    "prediction_exposure_status": "known",
+    "first_prediction_exposure_at": null,
+    "first_exposure_time_meaning": "Unknown exact time; null does not mean unexposed.",
+    "blinding_established": false,
+    "independent_truth_established": false,
+    "qualification_evidence": false,
+    "canonical_unit": {
+      "artifact": {
+        "artifact_id": "4fa75395-a51d-4af1-9ab2-2c05bfc0d8af",
+        "kind": "terminal_frame",
+        "path": "files/7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da_terminal-024.png",
+        "sha256": "7b82dee6cd32c2c2aa14a3b839324ccb64c26d5ce560774ad54c04860b5748da"
+      },
+      "attempt_index": 8,
+      "canonical_unit_id": "native-endpoint:1c263031-ac29-4dbc-8fa5-864a2473116a:attempt:8",
+      "capture_timing": {
+        "completed_ns": 57843651913400,
+        "started_ns": 57843629863900,
+        "timestamp_ns": 57843640888650
+      },
+      "construction_fallback": null,
+      "limitations": "Identity and timing resolution only; not label correctness, reader accuracy, independent sampling or competence. Selection receipt chronology is checked separately.",
+      "qualification_eligible": false,
+      "schema_version": "reader-canonical-source-unit-3.0",
+      "source_record_sha256": "075f934b4ce5bc9ff88df88cfee0e018c2bd5ab8e71ce3b6475a1d3531d7009e",
+      "source_run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+      "source_seal_sha256": "3a595ec725bccbf820bee9e318855586521e10886dd6e88b6b2d4eb5a7bf3beb",
+      "unit_kind": "native_attempt_endpoint"
+    },
+    "session_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+    "session_id_meaning": "Audit grouping of the pre-existing run; original session ID was absent. This does not establish a new or independent acquisition session.",
+    "source_pixels_read_for_this_report": false,
+    "source_frame_hash_verification_scope": "Identity and source hash obtained from exact sealed manifest/annotation metadata; no source image reread in this report.",
+    "exposure_audit": {
+      "path": "artifacts/reader3-construction-001/construction-exposure-audit.json",
+      "sha256": "daa4d449141ddfa7bb1569101e19922d8d3a87601cd285884a0959639285067c"
+    }
+  },
+  "historical_endpoint": {
+    "source_run_id": "1c263031-ac29-4dbc-8fa5-864a2473116a",
+    "record": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/run.json",
+      "sha256": "075f934b4ce5bc9ff88df88cfee0e018c2bd5ab8e71ce3b6475a1d3531d7009e"
+    },
+    "seal": {
+      "path": "artifacts/runs/1c263031-ac29-4dbc-8fa5-864a2473116a/seal.json",
+      "sha256": "3a595ec725bccbf820bee9e318855586521e10886dd6e88b6b2d4eb5a7bf3beb"
+    },
+    "attempt_index": 8,
+    "classification": "success_unscored",
+    "distance": null,
+    "unchanged": true,
+    "meaning": "The new construction annotation does not replace the original null terminal score or convert the native result into an accepted independent measurement."
+  },
+  "cost_accounting": {
+    "full_command_elapsed_seconds": null,
+    "full_command_cpu_core_seconds": null,
+    "full_command_cost_meaning": "No full command-entry receipt is asserted by these publication summaries/logs. Imports, initial validation/root parsing, dependency preflight where applicable, later sealing and manual review are outside the stated component boundaries.",
+    "nonadditivity": "Recorder wall, sampled resource windows and operation journal clocks overlap. Do not add them, do not sum cumulative operation rows, and do not sum their CPU totals.",
+    "resource_scope": "Recorder process CPU includes all its threads and excludes children. GPU activity and VRAM are device-wide across all processes and are not candidate or policy attributed.",
+    "coverage": "Each publication has only two resource samples. Exact metric coverage, uncovered duration and sampled mean/peak values are retained above; missing coverage is unknown, not zero.",
+    "memory_method": "Time-weighted sampled means use valid adjacent-sample trapezoids within the 30-second gap limit. Sampled peaks can miss higher unsampled peaks.",
+    "energy_measured": false,
+    "performance_claim": false,
+    "inherited_prior_cost_report": {
+      "path": "research/diagnostics/reader3-construction-prior-costs-001.json",
+      "sha256": "dfab242f53c8f767ec13459bca775cd8a7420aef9e1e5a38e0bcb85b3d021eec"
+    },
+    "inherited_unique_canonical_cost_rows": 26,
+    "inherited_pixel_origin_or_bank_construction_rows": 24,
+    "inherited_explicit_design_feedback_rows": 2,
+    "inherited_noncanonical_sources_with_unknown_cost": 6,
+    "causal_prior_closure_complete": false,
+    "inherited_aggregate_cost": null,
+    "manual_first_view_review_labeling_and_engineering_cost": null,
+    "prior_scope": "The linked report retains original recorder wall, steps, episodes and available scoped CPU/memory for each unique inherited acquisition/construction/feedback run. Run IDs do not establish independent sessions. Adjacent studies without an inherited edge are excluded.",
+    "causal_closure_limitations": [
+      "File lineage plus two explicit bank configuration feedback pointers identify inherited pixels and known diagnostic dependencies. They still do not identify every decision or engineering dependency: selection, additional failed experiments, manual inspection, annotation, thresholds, UI controls and software implementation can have further unmeasured costs.",
+      "The named source records generally omit original session IDs. Separate run IDs are not proof of independent acquisition sessions.",
+      "Historical predecessor edges are retained as construction history. Replaced anchors or noninherited bootstrap templates do not imply every intermediate artifact survives in the final reader.",
+      "The inventory notes ca73a234 extended_from.run_id names the child; the predecessor is established by the parent manifest path/hash and canonical configuration. No historical record is rewritten.",
+      "The inventory found a changed mutable legacy annotation path and a recoverable exact sealed copy. This preparation does not revalidate or reseal labels and does not interpret that path as fresh truth.",
+      "The earlier native session failure, engine studies, simulator studies and owner-video acquisition are not included merely because they are adjacent in the campaign. No source pixel/bank edge to those runs is established here.",
+      "No command-entry receipt, first-view time, manual engineering duration or per-edge allocation was recovered from these named records. Their absence is unknown, not zero."
+    ]
+  },
+  "evidence_verification": {
+    "canonical_run_json_hashes_match_seals": true,
+    "selected_declaration_annotation_index_journal_hashes_match_manifest_and_seal": true,
+    "metadata_only_verification_in_this_report": true,
+    "independent_accounting_audit": "Accounting audit confirmed annotation owning run completed and its seal valid.",
+    "console_logs": [
+      {
+        "path": "artifacts/reader3-construction-001/declaration.log",
+        "sha256": "02a1641072ad4ced4096c7027478210b07efb38510679410e31a9cbf40662d09"
+      },
+      {
+        "path": "artifacts/reader3-construction-001/annotation-publication.log",
+        "sha256": "9b200514279e2cee7693558d575cd152dee3b6ff5b87332e74236779e4512302"
+      }
+    ],
+    "historical_records_changed": false
+  },
+  "limitations": [
+    "One exposed reviewed label is construction evidence only; no reader accuracy, calibration, qualification or learning competence was measured.",
+    "Builder and freeze were never invoked, so there is no candidate bank, candidate checkpoint, frozen candidate or new candidate performance result.",
+    "Publication completion describes durable evidence publication, not completion of the broader reader or rapid-learning programme.",
+    "Known prior exposure and unknown manual review costs remain explicit."
+  ],
+  "privacy": "Public report omits hardware UUIDs, machine fingerprints, process identities, personal absolute paths and raw media. Those identifiers remain only in original canonical evidence where present."
+}

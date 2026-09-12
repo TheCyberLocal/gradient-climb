@@ -450,6 +450,38 @@
       "wall_clock_seconds": 36.88919529999839,
       "wall_scope": "Original canonical recorder boundary, not retroactively expanded",
       "source_sha": "596b0e36b93565b80130099347da24ce0fdd3fff"
+    },
+    {
+      "campaign": "native-instrument",
+      "kind": "reader_construction_declaration",
+      "run_id": "02886e4c-b804-4c0d-a619-9eda13b01ee9",
+      "source_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+      "status": "completed_construction_only",
+      "diagnostic": "research/diagnostics/reader3-construction-stop-001.json",
+      "wall_clock_seconds": 0.5117504999943776,
+      "wall_scope": "recorder publication window; excludes imports, initial validation and dependency seal preflight; no capture, predictions or fitting",
+      "new_gameplay_episodes": 0,
+      "new_real_interaction_seconds": 0,
+      "optimizer_updates": 0,
+      "counts_as_reliability_session": false,
+      "qualification_evidence": false,
+      "individual_seal_verified": true
+    },
+    {
+      "campaign": "native-instrument",
+      "kind": "reader_construction_annotation_publication",
+      "run_id": "ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d",
+      "source_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+      "status": "completed_construction_only",
+      "diagnostic": "research/diagnostics/reader3-construction-stop-001.json",
+      "wall_clock_seconds": 13.213931500009494,
+      "wall_scope": "Recorder setup through final resource sample; imports, minimal JSON/root parsing and later sealing excluded; overlaps operation journal clocks",
+      "new_gameplay_episodes": 0,
+      "new_real_interaction_seconds": 0,
+      "optimizer_updates": 0,
+      "counts_as_reliability_session": false,
+      "qualification_evidence": false,
+      "individual_seal_verified": true
     }
   ],
   "scientific_targets_met": false,
@@ -457,5 +489,24 @@
     "date": "2026-09-12",
     "instruction": "Use the youtube recordings instead of new recordings",
     "effect": "Do not request another owner play session. Use archived footage for separately partitioned construction/assisted work, with inferred video controls distinct from synchronized demonstrations and all acquisition/prior costs retained. Native policy evaluation is still separate."
+  },
+  "stabilization_boundary": {
+    "date": "2026-09-12",
+    "owner_instruction": "Stabilize current progress presentably and push to dev then merge and push to main and document future work and goals and conclude with a report of the details.",
+    "research_status": "paused_pending_explicit_owner_resumption",
+    "integration_scope": "Software checkpoint on dev and main; original scientific targets remain unmet; no release/version/tag qualification.",
+    "last_research_source_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+    "last_completed_run_id": "ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d",
+    "reader_builder_invocations": 0,
+    "new_reader_candidate_freezes": 0,
+    "reliability_sessions_used": 2,
+    "reliability_sessions_remaining": 1,
+    "native_reader_acquisition_amendment_status": "draft_not_dispatchable",
+    "new_research_dispatch_authorized_by_this_boundary": false,
+    "integrity_inventory": "research/experiments/cycle-3-stabilization-integrity-001.json",
+    "handoff": "docs/operations/cycle-3-stabilized-state.md",
+    "future_work": "docs/operations/cycle-3-future-work.md",
+    "report": "research/reports/cycle-3-stabilization-report.md",
+    "historical_records_and_clocks": "Preserved unchanged; this additive stop does not revise prior registrations or reset campaign doses."
   }
 }

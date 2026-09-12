@@ -246,3 +246,29 @@ The [reader ancestry inventory](../../research/datasets/native-reader-constructi
 locates all effective glyph/UI pixel sources and the exact sealed historical
 annotation bytes. Missing original session identities remain unknown; an audit
 grouping cannot create independent sessions. Candidate fitting remains pending.
+
+## Stabilization disposition — 2026-09-12
+
+The owner redirected current work to stabilization, documentation and integration
+through `dev` into `main`. The [closing report](../../research/reports/cycle-3-stabilization-report.md)
+and [handoff](../operations/cycle-3-stabilized-state.md) govern the current stop;
+the [future-work queue](../operations/cycle-3-future-work.md) retains all unmet
+research goals. This later authority permits a software checkpoint while
+`scientific_targets_met` remains false. Cycle 1/2 records and qualification
+criteria are preserved. No new release or research dispatch follows from merging.
+
+C3-07/08 now include registered reader protocol 3.0, reviewed-label publication and
+implemented opt-in native collection hooks. The older draft protocol and the
+still-draft live acquisition amendment remain distinguishable. One construction
+label was actually published in a completed sealed run with known prediction
+exposure; [its stop receipt](../../research/diagnostics/reader3-construction-stop-001.md)
+preserves the original null native result, explicit prior costs and zero builder/
+freeze/evaluation invocations. No accuracy, blinding or competence gate was met.
+
+C3-19/20 now include the [151-run integrity cutoff](../../research/experiments/cycle-3-stabilization-integrity-001.json)
+without replacing the earlier 136/149-run cutoffs. Code and derived reports are
+reviewable in Git; private payloads remain local. Archive/restore functionality
+has not yet produced a verified backup. Reader qualification, native reliability
+and soak, complete profile/action/benchmark evidence, calibrated fidelity, real
+learner comparisons, three one-hour qualification seeds and multi-profile
+adaptation/retention remain open at this software stabilization boundary.

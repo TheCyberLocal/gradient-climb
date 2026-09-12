@@ -1,0 +1,76 @@
+{
+  "schema_version": "software-stabilization-validation-1.0",
+  "date_utc": "2026-09-12T17:54:50.701694+00:00",
+  "scope": "Software validation with synthetic fixtures, package construction and read-only evidence verification; no research dispatch or qualification.",
+  "implementation_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+  "working_changes_during_validation": "Closing Markdown/JSON documents and additive campaign stop only; no Python implementation/test changes.",
+  "pytest": {
+    "command": ".venv/Scripts/python.exe -m pytest -q --basetemp artifacts/cycle3-tests-stabilization-final-001",
+    "passed": 949,
+    "skipped": 4,
+    "warnings": 2,
+    "elapsed_seconds": 568.33,
+    "exit_code": 0,
+    "log": {
+      "path": "artifacts/cycle3-tests-stabilization-final-001.log",
+      "sha256": "467360db9f75de8d54e00f3d5a47f792d45dcffffab7c75167b11d83933cb220"
+    },
+    "warning_scope": "Starlette/httpx and AnyIO BlockingPortal dependency deprecations",
+    "skips": "Optional engine/platform coverage; no live game in this suite"
+  },
+  "ruff": {
+    "lint": "passed",
+    "format": "passed",
+    "format_file_count": 176,
+    "scope": [
+      "src",
+      "scripts",
+      "tests"
+    ]
+  },
+  "compileall": {
+    "status": "passed",
+    "scope": [
+      "src",
+      "scripts"
+    ]
+  },
+  "package": {
+    "status": "built",
+    "command": ".venv/Scripts/python.exe -m pip wheel --no-deps --no-build-isolation --no-index . --wheel-dir artifacts/stabilization-package-001",
+    "artifact": {
+      "path": "artifacts/stabilization-package-001/gradientclimb-0.1.0a2-py3-none-any.whl",
+      "sha256": "d3c7602fa84b0ddd8e180bb5d2177b8d8f1e63117a8105c6a182b3e3b7a67a3c"
+    },
+    "entry_count": 90,
+    "dashboard_assets_and_reader_module_present": true,
+    "initial_attempt": "Restricted temporary-directory permission failure; same local build passed with required filesystem access; no dependency downloads."
+  },
+  "cli_help": "passed",
+  "integrity": {
+    "path": "research/experiments/cycle-3-stabilization-integrity-001.json",
+    "sha256": "25f2dbe5955a76ac072217d7cf89243fc10a89d6d94ef2fed8f7f27666d7f7ba",
+    "canonical_runs": 151,
+    "valid": 151,
+    "unfinished": 0,
+    "uncatalogued": 0,
+    "historical_seal_hashes_unchanged_at_cutoffs": [
+      100,
+      134,
+      136,
+      149
+    ]
+  },
+  "final_reviews": "Three bounded independent reader/annotation/native and documentation audits found no new material blocking defect.",
+  "historical_tags": {
+    "cycle-1-paused": "ebab4efd1bc5c456b424f5c8e590262f7cf84aa6",
+    "cycle-2-paused": "610dc48dc601f878086053f900ee7a005ccea821"
+  },
+  "version": "0.1.0a2",
+  "prior_exact_source_ci": {
+    "head_sha": "1c80c3265a2a296db384d9b3ec44de87fa915553",
+    "conclusion": "success",
+    "url": "https://github.com/TheCyberLocal/gradient-climb/actions/runs/34708671814"
+  },
+  "integration_verification": "Final dev/main heads and their exact-head CI runs are reported after the requested pushes; this pre-push receipt does not assert future CI success."
+}

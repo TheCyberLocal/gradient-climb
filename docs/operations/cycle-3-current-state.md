@@ -1,5 +1,13 @@
 # Cycle 3 implementation state — 2026-09-12
 
+**Latest state: research paused for the owner's requested software stabilization
+and integration through `dev` into `main`.** Use the
+[stabilized handoff](cycle-3-stabilized-state.md),
+[closing report](../../research/reports/cycle-3-stabilization-report.md) and
+[future-work queue](cycle-3-future-work.md) for the final state. The chronological
+milestones below retain their original cutoffs; later addenda supersede earlier
+statements about work still pending or merge authorization.
+
 This is a current work record, not an amendment to sealed Cycle 1/2 findings.
 The governing [learning-efficiency methodology](../methodology/learning-efficiency.md)
 defines the prospective objective and the [campaign](../../experiments/definitions/cycle-3-campaign.json)
@@ -227,3 +235,35 @@ noncanonical and human costs. No aggregate or independent-session count is
 invented. The opt-in native acquisition amendment remains draft, preserving the
 two used reliability sessions and the single remaining session. No native input,
 new annotation, candidate fit or qualification result was produced by registration.
+
+## Owner-directed stabilization boundary
+
+The owner subsequently requested stabilization, presentable documentation, a
+`dev` push followed by merge/push to `main`, future goals and a concluding report.
+This explicitly authorizes a software integration checkpoint while scientific
+qualification remains incomplete. It supersedes the earlier restriction on a
+`main` merge above; it does not change the original research observations or
+qualify a release. Version 0.1.0a2 and Cycle 1/2 tags remain unchanged.
+
+At clean source `1c80c3265a2a296db384d9b3ec44de87fa915553`, declaration
+`02886e4c-b804-4c0d-a619-9eda13b01ee9` and annotation publication
+`ac65bbd6-1c8e-4b7a-a57f-23fc1efa895d` completed and sealed. The
+[construction stop receipt](../../research/diagnostics/reader3-construction-stop-001.md)
+records the one known-exposure “269” label and its costs. Original native attempt
+8 remains unscored. The recorded pre-seal `publication_complete=false` summary
+marker is conservative/stale; consumers require the completed canonical envelope,
+valid seal and exact registered annotation. Sealed metadata is not rewritten.
+
+The unused builder dose remains unused: no candidate fitting, freeze, new native
+capture, independent reader qualification or learning followed. Earlier statements
+that native receipt collection support was pending are now superseded: opt-in
+hooks are implemented and tested, but their live acquisition amendment remains
+draft and non-dispatchable. Both prior reliability sessions remain counted; one
+of three remains. No new research is dispatched during this stabilization.
+
+The [final integrity cutoff](../../research/experiments/cycle-3-stabilization-integrity-001.json)
+verifies **151/151 canonical runs**, **2,107,956,898 bytes**, at
+**2026-09-12 17:45:20 UTC**, with no unfinished or uncatalogued directories.
+Earlier inventories and overlapping test milestones retain their own cutoffs.
+Final validation is recorded in the closing report. Private backup/restore,
+real competence and all remaining scientific gates are explicitly pending.
