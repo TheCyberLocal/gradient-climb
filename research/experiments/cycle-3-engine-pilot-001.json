@@ -1,0 +1,230 @@
+{
+  "schema_version": "engine-pilot-interpretation-3.0",
+  "run_id": "a88aeae4-ccdf-4f84-a178-bc5e58feebd8",
+  "source_sha": "b61b7e19343b37451d8af83b32fba87ce55abe08",
+  "status": "failed",
+  "protocol": "articulated-engine-pilot-3.0",
+  "source_files": {
+    "run.json": "fe04d387f2982ac7b7d1250a6a7d03895752444af98b258c3d7f62eb58abfcb5",
+    "seal.json": "27831097c8cf048c4f74acf8b8753e78a5cb1755a5d485c375d8a4722a65c63a",
+    "engine-diagnostic-flat.json": "494b0ac64c8189afcbb52ce0bc72aa220feab54fb04a59a744bd601be14e418a",
+    "engine-install-report.json": "972c44ec340d33b9fc7705c165141f30b89bf990f06eb88316eb6bf6085ceed2"
+  },
+  "scope": "synthetic engineering; no policy training or real-game qualification",
+  "diagnostic": {
+    "kind": "flat",
+    "repeats": [
+      {
+        "kind": "flat",
+        "seed": 31000,
+        "decisions": 600,
+        "simulated_seconds": 10.0,
+        "final_state": [
+          [
+            108.3456039428711,
+            -9.6742525100708,
+            -11.442031860351562,
+            6.608756065368652,
+            -13.839001655578613,
+            -3.858637571334839
+          ],
+          [
+            108.78215026855469,
+            -10.680113792419434,
+            -295.17218017578125,
+            2.7126293182373047,
+            -15.673775672912598,
+            -3.858637571334839
+          ],
+          [
+            109.40135192871094,
+            -9.37973690032959,
+            -336.3810729980469,
+            7.806974411010742,
+            -17.901552200317383,
+            -3.858637571334839
+          ]
+        ],
+        "state_sha256": "2322beac1dc57ed2aabe2e3f8ffa294692cb91b83aa7514db7f0984009939733",
+        "peak_bridge_joint_anchor_error": 0.0,
+        "peak_wheel_lateral_constraint_error": 0.0007581066131716412,
+        "minimum_wheel_bottom_y": -10.980113792419434,
+        "bridge_contact_steps": 0,
+        "minimum_bridge_body_y": null,
+        "max_body_speed": 19.52983411693158,
+        "max_abs_angular_speed": 57.504974365234375,
+        "body_count": 4,
+        "joint_count": 2
+      },
+      {
+        "kind": "flat",
+        "seed": 31000,
+        "decisions": 600,
+        "simulated_seconds": 10.0,
+        "final_state": [
+          [
+            108.3456039428711,
+            -9.6742525100708,
+            -11.442031860351562,
+            6.608756065368652,
+            -13.839001655578613,
+            -3.858637571334839
+          ],
+          [
+            108.78215026855469,
+            -10.680113792419434,
+            -295.17218017578125,
+            2.7126293182373047,
+            -15.673775672912598,
+            -3.858637571334839
+          ],
+          [
+            109.40135192871094,
+            -9.37973690032959,
+            -336.3810729980469,
+            7.806974411010742,
+            -17.901552200317383,
+            -3.858637571334839
+          ]
+        ],
+        "state_sha256": "2322beac1dc57ed2aabe2e3f8ffa294692cb91b83aa7514db7f0984009939733",
+        "peak_bridge_joint_anchor_error": 0.0,
+        "peak_wheel_lateral_constraint_error": 0.0007581066131716412,
+        "minimum_wheel_bottom_y": -10.980113792419434,
+        "bridge_contact_steps": 0,
+        "minimum_bridge_body_y": null,
+        "max_body_speed": 19.52983411693158,
+        "max_abs_angular_speed": 57.504974365234375,
+        "body_count": 4,
+        "joint_count": 2
+      }
+    ],
+    "gate": {
+      "passed": false,
+      "checks": {
+        "deterministic_repeat": true,
+        "wheel_lateral_constraint": true,
+        "bridge_joint_constraint": true,
+        "bounded_speed": true,
+        "bounded_angular_speed": true,
+        "flat_penetration": false
+      }
+    }
+  },
+  "recorder_wall_seconds": 11.349516299997049,
+  "installation_wall_seconds": 6.72184169999673,
+  "resource_window": {
+    "boundary_exclusions": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+    "clock_boundary": "initial_resource_sample_start_to_final_resource_sample_completion",
+    "energy_measured": false,
+    "final_sample_elapsed_seconds": 11.34916389999853,
+    "gpu_attribution": "host_device_activity_includes_other_processes; no_policy_attribution",
+    "gpu_query_count": 3,
+    "gpu_query_failures": 0,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 4090 Laptop GPU",
+        "scope": "device_wide_all_processes; not_policy_attributed",
+        "utilization_equivalent_seconds": 5.369440571001723,
+        "utilization_percent": {
+          "coverage_fraction": 0.9950331721839941,
+          "covered_seconds": 10.920782500004862,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 67.0,
+          "time_weighted_sampled_mean": 49.167178002119655,
+          "uncovered_seconds": 0.054512399998202454,
+          "valid_samples": 3
+        },
+        "uuid": "GPU-0ba50d3a-2292-0c94-2edc-9a151a8a651f",
+        "vram_bytes": {
+          "coverage_fraction": 0.9950331721839941,
+          "covered_seconds": 10.920782500004862,
+          "identity_change_intervals_excluded": 0,
+          "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+          "long_gap_intervals_excluded": 0,
+          "missing_samples": 0,
+          "nonmonotonic_intervals_excluded": 0,
+          "sampled_peak": 795869184.0,
+          "time_weighted_sampled_mean": 795869184.0,
+          "uncovered_seconds": 0.054512399998202454,
+          "valid_samples": 3
+        }
+      }
+    ],
+    "initial_sample_elapsed_seconds": 0.37386899999546586,
+    "max_interpolation_gap_seconds": 30.0,
+    "memory": {
+      "host_ram_used_bytes": {
+        "coverage_fraction": 0.9943350041556425,
+        "covered_seconds": 10.913119900003949,
+        "identity_change_intervals_excluded": 0,
+        "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+        "long_gap_intervals_excluded": 0,
+        "missing_samples": 0,
+        "nonmonotonic_intervals_excluded": 0,
+        "sampled_peak": 34189017088.0,
+        "time_weighted_sampled_mean": 34119559650.249443,
+        "uncovered_seconds": 0.062174999999115244,
+        "valid_samples": 12
+      },
+      "process_rss_bytes": {
+        "coverage_fraction": 0.9943353230534561,
+        "covered_seconds": 10.913123400001496,
+        "identity_change_intervals_excluded": 0,
+        "interpolation": "trapezoid_between_valid_adjacent_samples_only",
+        "long_gap_intervals_excluded": 0,
+        "missing_samples": 0,
+        "nonmonotonic_intervals_excluded": 0,
+        "sampled_peak": 65691648.0,
+        "time_weighted_sampled_mean": 61554585.51417652,
+        "uncovered_seconds": 0.06217150000156835,
+        "valid_samples": 12
+      }
+    },
+    "nonmonotonic_samples_excluded": 0,
+    "peak_semantics": "sampled_peaks_only; unsampled_peaks_may_be_higher",
+    "process_cpu": {
+      "core_seconds": 1.21875,
+      "counter_resets": 0,
+      "coverage_fraction": 0.9943347308143753,
+      "covered_seconds": 10.913116900002933,
+      "identity_changes": 0,
+      "long_gap_intervals_bridged_by_cumulative_counters": 0,
+      "method": "measured_cumulative_user_plus_system_counter_differences",
+      "missing_samples": 0,
+      "observed_segment_delta_seconds": 1.21875,
+      "process_identities": [
+        {
+          "create_time_unix_seconds": 1789223386.3193452,
+          "pid": 47756
+        }
+      ],
+      "scope": "recorder_process_all_threads; excludes_child_processes",
+      "status": "observed",
+      "uncovered_seconds": 0.06217800000013085,
+      "valid_samples": 12
+    },
+    "sample_count": 12,
+    "sample_span_seconds": 10.975294900003064,
+    "samples_with_errors": 0,
+    "version": "resources-3.0"
+  },
+  "experience": {
+    "scripted_fixture_decisions": 1200,
+    "derived_physics_substeps": 2400,
+    "derived_simulator_seconds": 20.0,
+    "completed_fixture_instances": 2,
+    "rendered_frames": 0,
+    "learned_policy_decisions": 0,
+    "optimizer_updates": 0,
+    "real_game_interaction_seconds": 0,
+    "real_evaluation_episodes": 0
+  },
+  "interpretation": "Final wheel centers lie beyond the x=100 floor endpoint. Aggregate evidence supports a fixture-extent/gate-domain defect; it does not independently rule out earlier in-domain penetration. No throughput arm, bridge diagnosis or transfer qualification was reached.",
+  "next_experiment": "Prospectively extend declared synthetic ground coverage and separate support-domain exits from penetration, retain all physical tolerances; one bounded successor only."
+}

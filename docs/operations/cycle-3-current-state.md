@@ -47,6 +47,13 @@ were checked separately. The notebook and dashboard report **zero** qualifying
 efficiency study envelopes; no historical surrogate result was relabeled to fill
 this gap. Synthetic test fixtures are not research training or qualification data.
 
+The governing efficiency revision `b61b7e19343b37451d8af83b32fba87ce55abe08`
+passed [exact-revision CI](https://github.com/TheCyberLocal/gradient-climb/actions/runs/34699410134).
+The subsequent first engine pilot was retained as failed because its flat fixture
+ran beyond its finite support domain; see [F-007](../../research/findings/F-007-engine-fixture-support-domain.md).
+Its individual seal passed verification. The 136-run audit above remains at its
+original pre-pilot cutoff; the new failed run is additional evidence.
+
 ## Remaining collection gates
 
 No learned real-game threshold is demonstrated by this milestone. Native scored
