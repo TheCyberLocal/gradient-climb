@@ -22,7 +22,8 @@
   "ui_profile": "configs/perception/hcr-reset-ui.json (version 2 chrome-aware profile; hash recorded per run)",
   "score_readers": {
     "gameplay_hud": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/gameplay-glyphs/hud-glyphs.json",
-    "result": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-reader.json"
+    "result": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/result-reader.json",
+    "amendment": "2026-09-11, before any study attempt: the result reader is the 58-glyph bank sealed in run ca73a234 (extended from 66ce7f08 with two labeled construction frames, 246 m and 398 m) because the frozen bank refused both Cycle 2 results as 6/9 and 8/9 ambiguities; study frames remain held-out for reader-validation-2.0"
   },
   "terminal_classification": [
     "success_natural_scored: natural result, two agreeing fresh readings >=0.15 s apart, parked at Tune",
@@ -72,7 +73,7 @@
     "simulator": null,
     "calibration": null,
     "ui_profile": "hcr-wrapper-reset-v2",
-    "score_reader": "result-reader-66ce7f08 + hud-glyphs-78a29b33",
+    "score_reader": "result-reader-ca73a234 + hud-glyphs-78a29b33",
     "recovery_definition": null
   }
 }
