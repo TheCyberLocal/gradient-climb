@@ -42,22 +42,34 @@ registered metric, objective and reliability protocols.
   vehicle-selection screen, in addition to the Cycle 1 variants. Every addition
   was audited offline over all stored frames (`scripts/audit_ui_profile.py`;
   sealed audits `7b73824a`, `745ea91e`, `b73aa968`, `5bd55d79`, `d1613fff`,
-  `6b807f8e`).
-- Advertisement closes require the same control on two fresh frames ≥ 0.15 s apart.
+  `6b807f8e`, `8dd9d796`).
+- Advertisement controls are enabled only where a sealed run shows the close followed
+  by a recognized game state (`commercial_break_available_close`,
+  `admob_tiny_layout_close`); the other seven advertisement variants are
+  recognition-only since F-005. Advertisement closes require the same control on two
+  fresh frames ≥ 0.15 s apart.
+- Unintended actions are measured by effect as well as by allowlist: a foreground loss
+  within 5 s of an accepted click halts the session as `unintended_action` with the
+  foreground window recorded. Stuck screens are escaped by `restart_app` (WM_CLOSE to
+  the pinned window, then the Start Menu shortcut
+  `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Google Play Games\Hill Climb
+  Racing.lnk`): the window hides within about 1 s, reappears about 15 s after the
+  shortcut with the same handle, process and geometry, and boots to the recognized
+  vehicle-selection screen. Enabled in the runner with `--restart-shortcut`.
 
 ## Exploratory native sessions so far (not study attempts)
 
 | Session | Outcome |
 | --- | --- |
 | `fa103b59` | Natural result at 398 m (HUD max) through revive decline, continue and bonus decline; parking stopped on a then-unknown Google small-layout interstitial after 45 s of no-input waiting. Frozen result bank refused 398 as an 8/9 ambiguity. |
-| `91c3d4f4` | Legitimate skip of that interstitial after two stable frames; session then halted on foreground loss caused by the assistant window. |
+| `91c3d4f4` | Click on the small-layout skip glyph after two stable frames; the session then halted on foreground loss. Attributed at the time to the assistant window; after F-005 (the pixel-identical medium-layout glyph opened a store page) the attribution is unresolved. |
 | `b8e15581` | Attempt 0: natural result 246 m, full flow parked at Tune; frozen bank refused 246 as a 6/9 ambiguity (unscored). Attempt 1: random policy, 2 m, scored; the emulator then died while an advertisement loaded because the host disk was exhausted by an unrelated build. |
 
 Every exploratory failure is sealed and preserved. Two independently labeled
 result frames (246, 398) extended the terminal bank to 58 glyphs in construction
 run `ca73a234`; those two sessions are construction evidence for that bank.
 
-## Reliability study 2.0 (complete, failed) and 2.1 (registered)
+## Reliability studies 2.0 and 2.1 (both failed) and 2.2 (registered)
 
 `native-reliability-2.0` ran its three sessions (`28a9d5be`, `78d51e26`,
 `55b84b0f`): longest consecutive scored success run 1, zero unintended actions,
@@ -65,13 +77,20 @@ zero manual interventions, each session halted safely on a distinct unseen UI
 phase (tiny Google end card, the current build's out-of-fuel result, a third
 Google player size). See [F-004](../../research/findings/F-004-native-reliability-study-1.md).
 Each phase became a hash-pinned, audited variant; the profile now has 22.
-`native-reliability-2.1` re-registers the identical criteria against the
-extended profile.
+`native-reliability-2.1` re-registered the identical criteria against the
+extended profile and failed after one session (`54d58272`): the medium-layout
+skip glyph, an allowlisted control, opened the advertised app's Play Store page in
+the host browser; the foreground guard halted the session on the next capture with
+zero further input. See
+[F-005](../../research/findings/F-005-allowlisted-ad-control-opened-store-page.md).
+`native-reliability-2.2` keeps the criteria, adds the effect-based unintended-action
+definition and declares application restart as the only recovery from stuck screens.
 
 ## Registered protocols awaiting execution
 
-- `native-reliability-2.1`: 12 consecutive attempts per session, alternating gas
-  and random scripted controls, ≥ 10 consecutive scored successes required.
+- `native-reliability-2.2`: 12 consecutive attempts per session, alternating gas
+  and random scripted controls, ≥ 10 consecutive scored successes required, zero
+  unintended actions by allowlist and by effect, restarts reported.
 - `real-baselines-2.0`: random, always-gas and the stabilizing heuristic, ten scored
   attempts each, interleaved.
 - `reader-validation-2.0`: held-out labels from sessions sealed after the

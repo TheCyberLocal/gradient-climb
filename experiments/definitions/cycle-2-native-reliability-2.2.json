@@ -1,6 +1,6 @@
 {
-  "protocol_version": "native-reliability-2.1",
-  "status": "CLOSED: failed its criteria after one session (F-005); superseded by native-reliability-2.2",
+  "protocol_version": "native-reliability-2.2",
+  "status": "REGISTERED after native-reliability-2.1 failed on an effect-based unintended action (F-005); identical success criteria, stricter unintended-action definition, application-restart recovery declared",
   "question": "Can the native episode lifecycle cycle scored Hill Climb Racing episodes unattended across natural results, full-horizon truncation, revive/bonus offers and advertisements, without any unintended action?",
   "hypothesis": "In one unattended session of twelve consecutive attempts, at least ten attempts complete a full cycle (start -> gameplay -> natural result or governed truncation -> qualified score -> park at Tune or Paused) with zero unintended actions and zero manual interventions.",
   "environment": "actual_hill_climb_racing",
@@ -9,7 +9,7 @@
   "upgrades": "reacquired from the Tune screen at session start and recorded in the run configuration; not assumed from Cycle 1",
   "policies": {
     "schedule": "attempt index even -> always_gas, odd -> random; scripted non-learning controls only",
-    "random_seed": 4301,
+    "random_seed": 4401,
     "purpose": "natural terminations and full-horizon truncations must both occur; this is not a baseline study"
   },
   "episode_horizon_seconds": 60,
@@ -19,7 +19,7 @@
   "capture_backend": "dxcam",
   "maximum_observation_age_seconds": 0.45,
   "maximum_lease_seconds": 0.4,
-  "ui_profile": "configs/perception/hcr-reset-ui.json (version 2 profile with 22 variants after the three study-1 additions; hash recorded per run)",
+  "ui_profile": "configs/perception/hcr-reset-ui.json (version 2, 22 variants; advertisement controls enabled only on commercial_break_available_close and admob_tiny_layout_close, whose closes are followed by a recognized game state in sealed runs dad65c73 and 78d51e26; every other advertisement variant is recognition-only; hash recorded per run)",
   "score_readers": {
     "gameplay_hud": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/gameplay-glyphs/hud-glyphs.json",
     "result": "artifacts/runs/ca73a234-86be-4498-bcc0-ec40ca0f99c2/result-reader.json",
@@ -46,7 +46,9 @@
     "unknown-state incidence and its evidence frames",
     "safe neutral release after every halt",
     "manual interventions (any -> unattended claim fails)",
-    "unintended actions (any click outside the allowlisted named controls -> study fails)"
+    "unintended actions (any click outside the allowlisted named controls -> study fails)",
+    "application restarts per attempt and per session (count, phase, reason, seconds)",
+    "foreground-loss evidence (foreground window title and process) after every accepted click"
   ],
   "primary_endpoint": "longest run of consecutive successful cycles within a single session",
   "secondary_endpoints": [
@@ -54,11 +56,12 @@
     "score coverage: scored successes / attempts",
     "reset coverage: parked attempts / attempts",
     "advertisement handling: legitimate closes / advertisement encounters",
-    "median reset and advertisement overhead seconds"
+    "median reset and advertisement overhead seconds",
+    "application restarts per session"
   ],
   "success_criteria": {
     "consecutive_successes": ">= 10 within one session of 12 attempts",
-    "unintended_actions": 0,
+    "unintended_actions": "0 by both the allowlist and the effect-based definition",
     "manual_interventions": 0,
     "score_coverage": ">= 10/12 scored"
   },
@@ -69,7 +72,7 @@
     "metric_schema": "behavioral-metrics-2.0",
     "observation_schema": "hcr-screen-relative-1",
     "reward_fitness": "distance-only-2.0",
-    "benchmark": "native-reliability-2.1",
+    "benchmark": "native-reliability-2.2",
     "simulator": null,
     "calibration": null,
     "ui_profile": "hcr-wrapper-reset-v2",
@@ -77,15 +80,28 @@
     "recovery_definition": null
   },
   "predecessor": {
-    "protocol": "native-reliability-2.0",
-    "finding": "research/findings/F-004-native-reliability-study-1.md",
+    "protocols": [
+      "native-reliability-2.0",
+      "native-reliability-2.1"
+    ],
+    "findings": [
+      "research/findings/F-004-native-reliability-study-1.md",
+      "research/findings/F-005-allowlisted-ad-control-opened-store-page.md"
+    ],
     "sessions": [
       "28a9d5be-c0c3-4884-99a6-8988417d9858",
       "78d51e26-4696-4e94-a573-8bc5565cc559",
-      "55b84b0f-2da7-4d7c-ad20-224b3fa00542"
+      "55b84b0f-2da7-4d7c-ad20-224b3fa00542",
+      "54d58272-d75e-4db8-8552-a7002e4a2d90"
     ]
   },
   "amendments": [
-    "2026-09-11: registered as a fresh study; success criteria, attempts per session, maximum sessions, measurements and exclusion rules are unchanged from 2.0"
-  ]
+    "2026-09-11: registered as a fresh study after F-005; success criteria, attempts per session, maximum sessions and exclusion rules are unchanged from 2.0/2.1; the unintended-action definition is stricter (effect-based) and application restart is declared as the only recovery from stuck screens"
+  ],
+  "unintended_action_definition": "either (a) any click outside the allowlisted named controls, or (b) an accepted click followed within 5 s by loss of the foreground to another window (effect-based; the foreground window title and process are recorded as evidence). Either classifies the attempt as unintended_action, halts the session and fails the study.",
+  "recovery": {
+    "application_restart": "after a stuck reset only (unknown screen past its bounded wait, or a recognized advertisement without a verified control after the 45 s advertisement wait): WM_CLOSE to the pinned game window, then the game shortcut; the window must reappear with unchanged identity and client geometry and reach a recognized state within 150 s. Never after a foreground loss or any latched guard fault. Never a click inside the game.",
+    "max_restarts_per_session": 6,
+    "accounting": "restarts are reported per attempt (phase, reason, seconds) and summed per session as a secondary endpoint; an attempt parked through a restart keeps its terminal classification; a failed restart halts the session"
+  }
 }

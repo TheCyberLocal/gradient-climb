@@ -116,6 +116,20 @@ interventions, ≥ 10/12 scored). No attempt is excluded after the fact. Explora
 advertisement-discovery sessions that precede the study are labeled exploratory in their
 run configuration and are not study attempts.
 
+Amendments (each registered before the data it governs): `native-reliability-2.0` failed
+its criteria on unseen UI phases ([F-004](../../research/findings/F-004-native-reliability-study-1.md));
+`native-reliability-2.1` re-registered the same criteria against the extended profile and
+failed after one session when an allowlisted advertisement control opened a store page in
+the host browser ([F-005](../../research/findings/F-005-allowlisted-ad-control-opened-store-page.md)).
+[`native-reliability-2.2`](../../experiments/definitions/cycle-2-native-reliability-2.2.json)
+keeps every criterion and adds two definitions rather than relaxing anything: an unintended
+action is also any accepted click followed within 5 s by loss of the foreground to another
+window (effect-based, with the foreground window recorded as evidence), and the only
+recovery from a stuck screen is an application restart (WM_CLOSE to the pinned game window
+plus the game's shortcut; never a click, never after a foreground loss), reported per
+attempt as a secondary endpoint. Advertisement controls remain enabled only where a
+sealed run shows the close followed by a recognized game state.
+
 ## Sequencing
 
 1. Exploratory offline and supervised native work to recognize advertisement chrome and
