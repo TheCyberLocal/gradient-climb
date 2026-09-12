@@ -11,6 +11,7 @@ import json
 import os
 import time
 import traceback
+from contextlib import ExitStack, nullcontext
 from pathlib import Path
 
 import numpy as np
@@ -61,8 +62,9 @@ class ResultScoreCollector:
     failed numeric reading never authorizes an optimizer update or a zero score.
     """
 
-    def __init__(self, reader):
+    def __init__(self, reader, *, capture_sink=None):
         self.reader = reader
+        self.capture_sink = capture_sink
         self.readings, self.frames, self.accepted, self.exhausted = [], [], [], []
         self.reset()
 
@@ -71,7 +73,23 @@ class ResultScoreCollector:
         self.first_attempt_ns, self.attempts = None, 0
 
     def __call__(self, observation):
-        self.frames.append((observation.frame.rgb.copy(), observation.frame.metadata()))
+        structural = None
+        if self.capture_sink is not None:
+            # The new acquisition path must retain identity even without numeric
+            # inference, or if inference raises after the original PNG is sealed.
+            structural = {
+                **observation.frame.metadata(),
+                "ui_state": observation.state,
+                "ui_variant": getattr(observation, "variant", None),
+                "ui_confidence": getattr(observation, "confidence", None),
+                "valid": False,
+                "distance_meters": None,
+                "reason": "numeric_inference_not_completed",
+            }
+            self.readings.append(structural)
+            self.capture_sink.terminal(observation)
+        else:
+            self.frames.append((observation.frame.rgb.copy(), observation.frame.metadata()))
         if self.reader is None:
             return True
         reading = {
@@ -85,7 +103,11 @@ class ResultScoreCollector:
             "ui_variant": getattr(observation, "variant", None),
             "ui_confidence": getattr(observation, "confidence", None),
         }
-        self.readings.append(reading)
+        if structural is None:
+            self.readings.append(reading)
+        else:
+            structural.clear()
+            structural.update(reading)
         if self.first_attempt_ns is None:
             self.first_attempt_ns = reading["timestamp_ns"]
         self.attempts += 1
@@ -128,6 +150,18 @@ class ResultScoreCollector:
 
 def adapter_profile_id(path):
     return json.loads(Path(path).read_text(encoding="utf-8")).get("profile_id", "unknown")
+
+
+def annotate_terminal_score(summary, terminal, reading_start, accepted_start):
+    """Retain structural timings even when terminal capture or inference failed."""
+    summary["terminal_readings"] = terminal.readings[reading_start:]
+    summary["accepted_terminal_readings"] = terminal.accepted[accepted_start:]
+    accepted_results = [r["distance_meters"] for r in summary["accepted_terminal_readings"]]
+    if accepted_results and len(set(accepted_results)) == 1:
+        summary["distance"] = accepted_results[0]
+        summary["score_semantics"] = (
+            "two agreeing fresh right-side result-field readings at least 0.15s apart"
+        )
 
 
 STABILIZING_PITCH_THRESHOLD_RADIANS = 0.35
@@ -517,6 +551,9 @@ def main():
         default=Path("artifacts"),
         help="Canonical artifact root, independent of the pinned source checkout",
     )
+    parser.add_argument("--project-root", type=Path, help="Required for opt-in reader acquisition")
+    parser.add_argument("--reader-session-receipt", help="Sealed pre-acquisition declaration run")
+    parser.add_argument("--reader-sampling-source-id", help="Exact preregistered source role")
     parser.add_argument(
         "--ui-profile", type=Path, default=Path("configs/perception/hcr-reset-ui.json")
     )
@@ -613,7 +650,41 @@ def main():
         raise ValueError("Frozen evaluation requires policy path, kind and parent run together")
     validate_limits(args.episodes, args.episode_seconds, args.max_seconds, long_run=args.long_run)
     protocol = json.loads(args.protocol.read_text(encoding="utf-8")) if args.protocol else None
-    if protocol:
+    reader_prepared, reader_capture, reader_amendment = None, None, None
+    reader_options = (args.reader_session_receipt, args.reader_sampling_source_id)
+    if any(reader_options):
+        if not all(reader_options) or args.project_root is None or protocol is None:
+            raise ValueError(
+                "Reader acquisition requires receipt, source role, project root and amendment"
+            )
+        from gradientclimb.experiments.reader_collection3 import (
+            VERSION as READER_COLLECTION_VERSION,
+        )
+        from gradientclimb.experiments.reader_collection3 import (
+            NativeReaderCollection,
+            ReaderSetupOwnership,
+            assert_reliability_capacity,
+            prediction_safe_console,
+            prepare_native_reader_collection,
+            validate_native_reader_amendment,
+        )
+
+        reader_amendment, protocol = validate_native_reader_amendment(
+            args.project_root, protocol, args
+        )
+        reader_artifact_root = (
+            args.root.absolute().relative_to(args.project_root.absolute()).as_posix()
+        )
+        reader_prepared = prepare_native_reader_collection(
+            args.project_root,
+            reader_artifact_root,
+            args.reader_session_receipt,
+            args.reader_sampling_source_id,
+            expected_protocol=reader_amendment.reader_protocol.model_dump(),
+            attempts=args.episodes,
+        )
+        assert_reliability_capacity(args.project_root, reader_artifact_root)
+    elif protocol:
         validate_protocol(protocol, args)
     host = HostBudgetGuard(args.root)
     host.check(force=True)
@@ -758,17 +829,36 @@ def main():
             f"{adapter_profile_id(args.ui_profile)}@{config['ui_profile_sha256'][:16]}"
         )
         config = stamp_versions(config, ExperimentVersions.model_validate(declared))
+    if reader_prepared is not None:
+        config.update(
+            {
+                "protocol_version": READER_COLLECTION_VERSION,
+                "reader_native_collection_version": READER_COLLECTION_VERSION,
+                "reader_native_amendment": reader_amendment.model_dump(mode="json"),
+                "reader_preflight_wall_seconds": reader_prepared.preflight_wall_seconds,
+                "reader_preflight_cpu_core_seconds": reader_prepared.preflight_cpu_core_seconds,
+                "reader_cost_scope": "Receipt preflight reported separately; frame publication and journal costs are inside recorder elapsed/resources. No candidate inference; legacy numeric predictions retained privately until all annotations are sealed.",
+            }
+        )
+        config = reader_prepared.bind(config)
     adapter = None
     backend = WindowsPedalBackend(target, gas_vk=0x27, brake_vk=0x25, input_mode="scancode")
-    controller = PedalController(backend, lambda: adapter is not None and adapter.is_playing())
-    adapter = NativeGameAdapter(
-        target,
-        args.ui_profile,
-        reference_root=args.root,
-        release_pedals=controller.release,
-        capture_backend=args.capture_backend,
-        runtime_check=host.check,
-    )
+    with (
+        ReaderSetupOwnership(backend) if reader_prepared is not None else nullcontext()
+    ) as creation_setup:
+        controller = PedalController(backend, lambda: adapter is not None and adapter.is_playing())
+        if reader_prepared is not None:
+            creation_setup.own(controller)
+        adapter = NativeGameAdapter(
+            target,
+            args.ui_profile,
+            reference_root=args.root,
+            release_pedals=controller.release,
+            capture_backend=args.capture_backend,
+            runtime_check=host.check,
+        )
+        if reader_prepared is not None:
+            creation_setup.transfer()
     summaries, reset_frames, restart_frames = [], [], []
     terminal = ResultScoreCollector(result_reader)
     error = None
@@ -776,16 +866,46 @@ def main():
         "real-screen-policy-evaluation" if args.policy else "real-screen-episode-pilot"
     )
     attempt_outcomes = []
-    with RunRecorder(
-        args.root,
-        experiment_id,
-        config,
-        seed=args.seed,
-        algorithm=algorithm,
-        environment="actual_hill_climb_racing",
-        parent_run=args.parent_run,
-        parent_checkpoint=checkpoint_hash,
-    ) as run:
+    if reader_prepared is not None:
+        # Recheck after acquiring the existing exclusive native input ownership.
+        # An earlier concurrent command may have consumed the remaining run.
+        with ReaderSetupOwnership(controller, backend) as capacity_setup:
+            assert_reliability_capacity(args.project_root, reader_artifact_root)
+            capacity_setup.transfer()
+    with (
+        (
+            ReaderSetupOwnership(controller, backend)
+            if reader_prepared is not None
+            else nullcontext()
+        ) as reader_setup,
+        RunRecorder(
+            args.root,
+            experiment_id,
+            config,
+            seed=args.seed,
+            algorithm=algorithm,
+            environment="actual_hill_climb_racing",
+            parent_run=args.parent_run,
+            parent_checkpoint=checkpoint_hash,
+            source_root=Path(__file__).resolve().parents[1]
+            if reader_prepared is not None
+            else Path.cwd(),
+        ) as run,
+        ExitStack() as reader_setup_stack,
+    ):
+        if reader_prepared is not None:
+            # Own the journal before any later evidence copy can fail. The
+            # runtime context closes it before finalization; setup failures
+            # close it here before RunRecorder seals the failed run.
+            reader_capture = reader_setup_stack.enter_context(
+                NativeReaderCollection(run, reader_prepared)
+            )
+            terminal.capture_sink = reader_capture
+            amendment_artifact = run.register_artifact(
+                args.protocol, "reader_native_acquisition_amendment"
+            )
+            if amendment_artifact["sha256"] != config["protocol_sha256"]:
+                raise ValueError("Native reader amendment changed before acquisition")
         if args.policy:
             run.register_artifact(args.policy, "evaluated_checkpoint")
         for path, kind in (
@@ -845,6 +965,8 @@ def main():
             )
 
         def reset_observation(observation):
+            if reader_capture is not None:
+                reader_capture.observe_start(observation)
             attempt_states[observation.state] = attempt_states.get(observation.state, 0) + 1
             if len(reset_frames) < 120 and (
                 not reset_frames
@@ -862,8 +984,10 @@ def main():
                     )
                 )
 
+        if reader_capture is not None:
+            reader_setup.transfer()
         try:
-            with adapter, controller:
+            with reader_capture or nullcontext(), adapter, controller:
                 if args.probe_restart:
                     probe_rows = []
                     adapter.observe()
@@ -906,6 +1030,8 @@ def main():
                         if remaining < 1:
                             break
                         attempt_states.clear()
+                        if reader_capture is not None:
+                            reader_capture.start_attempt(index)
                         choose = scripted.get(attempt_policy_name(index), choose)
                         attempt_started = time.perf_counter()
                         menu_rows_before = len(adapter.trace)
@@ -941,6 +1067,8 @@ def main():
                         terminal.reset()
                         terminal_start = len(terminal.readings)
                         accepted_start = len(terminal.accepted)
+                        if reader_capture is not None:
+                            reader_capture.activate_endpoint(index)
                         episode_run_elapsed = run.elapsed_seconds
                         if first is not None:
                             summary, rows, images = collect_episode(
@@ -1002,18 +1130,9 @@ def main():
                                 halted_error = halted_error or summary["park_error"]
                         finally:
                             annotate_parked_score(summary, parked, paused_reader)
-                            summary["terminal_readings"] = terminal.readings[terminal_start:]
-                            summary["accepted_terminal_readings"] = terminal.accepted[
-                                accepted_start:
-                            ]
-                            accepted_results = [
-                                r["distance_meters"] for r in summary["accepted_terminal_readings"]
-                            ]
-                            if accepted_results and len(set(accepted_results)) == 1:
-                                summary["distance"] = accepted_results[0]
-                                summary["score_semantics"] = (
-                                    "two agreeing fresh right-side result-field readings at least 0.15s apart"
-                                )
+                            annotate_terminal_score(
+                                summary, terminal, terminal_start, accepted_start
+                            )
                             menu_rows = adapter.trace[menu_rows_before:]
                             unintended = unintended_action_evidence(
                                 adapter, first_row=menu_rows_before
@@ -1067,7 +1186,17 @@ def main():
                             run.metric(
                                 "attempt_seconds", summary["attempt"]["attempt_seconds"], index
                             )
-                        print(json.dumps({"episode": index, **summary}), flush=True)
+                        console = (
+                            prediction_safe_console(
+                                run_id=run.run_id,
+                                attempt_index=index,
+                                failed=bool(halted_error),
+                                completed=len(summaries),
+                            )
+                            if reader_capture is not None
+                            else {"episode": index, **summary}
+                        )
+                        print(json.dumps(console), flush=True)
                         if halted_error:
                             raise RuntimeError(halted_error)
         except BaseException:  # noqa: BLE001 - retain interrupts and release every input path
@@ -1187,7 +1316,11 @@ def main():
         )
         print(
             json.dumps(
-                {
+                prediction_safe_console(
+                    run_id=run.run_id, failed=bool(error), completed=len(summaries)
+                )
+                if reader_capture is not None
+                else {
                     "run_id": run.run_id,
                     "status": "failed" if error else "completed",
                     "episodes": len(summaries),

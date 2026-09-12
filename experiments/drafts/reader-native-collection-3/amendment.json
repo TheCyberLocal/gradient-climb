@@ -1,0 +1,23 @@
+{
+  "schema_version": "reader-native-collection-3.0",
+  "status": "draft",
+  "registered_at": null,
+  "native_protocol": {
+    "path": "experiments/definitions/cycle-3-native-reliability-2.3.json",
+    "sha256": "a74c9408a2e76802501c54e3ec35bcab23594b075370d18f172fc70f47545953"
+  },
+  "reader_protocol": null,
+  "implementation_files": [],
+  "prior_session_run_ids": [
+    "915ac38b-ac38-45f1-bc16-7540f5aa2353",
+    "1c263031-ac29-4dbc-8fa5-864a2473116a"
+  ],
+  "maximum_reliability_sessions": 3,
+  "maximum_new_sessions": 1,
+  "reliability_session_index": 3,
+  "terminal_population": "first_retained_terminal_callback_per_attempt_after_start_reset",
+  "negative_opportunities": "first_tune_in_declared_attempt_start_reset",
+  "console": "counts_and_safety_only_until_all_labels_sealed",
+  "candidate_inference": "offline_after_annotation_seal_only",
+  "note": "DRAFT, no collection authorized. This additive instrument carries forward both prior native reliability sessions, including the zero-attempt foreground failure, leaving one of three sessions. Original 2.3 protocol and sealed results remain unchanged. Every native input/profile/reader hash and limit is inherited exactly: twelve alternating always-gas/random attempts, seed 4401, 60 s horizon, 2400 s session limit, original DXCam freshness/lease/restart/host guards. New behavior is pre-acquisition sealed reader declaration binding, durable exact callback terminal retention before numeric inference, explicit out-of-attempt terminal diagnostics, structural timing records even without inference, preregistered first-Tune negative opportunities on existing start-reset observations, and prediction-free console status until every annotation is sealed. The callback population begins after each attempt's start reset; earlier result pixels retained as real_game_frame are not silently reclassified. Legacy numeric scoring/dismissal logic is unchanged and its private predictions must remain unviewed until label sealing. Before registration, supply exact registered reader protocol and both implementation file hashes, a sealed candidate, and immutable session/selection receipt. One session cannot meet reader3's three-session qualification minimum. No retry, renamed budget, candidate fitting, new human recording, optimizer update or competence claim is authorized. Halted or missing opportunities remain missing; all planned attempts and costs are retained. Further dispatch needs a separate decision after this fixed dose."
+}
