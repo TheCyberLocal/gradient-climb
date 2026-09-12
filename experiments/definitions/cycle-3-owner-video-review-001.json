@@ -1,0 +1,48 @@
+{
+  "schema_version": "owner-video-review-3.0",
+  "status": "registered",
+  "experiment_id": "cycle-3-owner-video-review-001",
+  "registered_at": "2026-09-12T16:38:02.857949+00:00",
+  "source_run_id": "13db846a-1e6b-4dfe-b51a-c1bacece6565",
+  "source_video": {
+    "path": "artifacts/runs/13db846a-1e6b-4dfe-b51a-c1bacece6565/acquisition/owner-excerpt.webm",
+    "sha256": "91e6ecf2ad93a574f486ad5e07e9a5e010834b39b5aa8cf472eb90f8df42db9d"
+  },
+  "ffmpeg": {
+    "path": "C:\\Users\\timdi\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0.1-full_build\\bin\\ffmpeg.exe",
+    "sha256": "57c56e369d5b4873b4d93fc1a1d833cb7cd8bc9325c14b05c34ce60b22842d8a",
+    "version_from_installed_path": "9.0.1"
+  },
+  "ffprobe": {
+    "path": "C:\\Users\\timdi\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0.1-full_build\\bin\\ffprobe.exe",
+    "sha256": "afe05347caaabe479b3c4eae71992b6ec1e11c57266a1d665deb0f9fe9847208"
+  },
+  "requested_timestamps_seconds": [
+    0,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    37,
+    40,
+    60,
+    90,
+    120,
+    150,
+    180,
+    210,
+    240,
+    270,
+    299
+  ],
+  "wall_budget_seconds": 120,
+  "output_budget_bytes": 134217728,
+  "source_partition": "construction",
+  "selection": "Purposeful sparse screen review: denser fixed samples near menus/first start observed in browser, then30s spacing and final299s. No complete-segment review or positive outcome selection. All18selected frames retained with original PTS or explicit failure; no generated/interpolated frames.",
+  "budget_scope": "Recorder start to operation deadline, including source/tool verification and child processing; cooperativepolls0.2s, final retention/seal excluded.32MiBpayloadcap reserves canonicalcopieswithin128MiB. ffprobe is a separate counted full decoding pass; ffmpeg selected-frame count is not its raw decode count.",
+  "accounting": "Canonical resources plus each media subprocess wall/CPU lower-bound receipt. Source acquisition141.0945255recorderseconds and its compute retained bysource_run_id, historical human skill/play/editingunknown. No new real interaction, simulator experience, learning updates, action labels or benchmark episodes.",
+  "observation_contract": "Original full source frames for local human construction review only. Facecam/HUD overlays present, no actor ingestion or profile equivalence claimed. No perception feature extraction or training.",
+  "stop": "One committed-source review, no retry or output-selected resampling under this protocol. Failure retained and separately registered successor required."
+}

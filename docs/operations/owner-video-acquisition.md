@@ -38,3 +38,17 @@ labels and uncertainty. Do not pass video-inferred states to the existing causal
 key-poll dataset as if they were delivered controls. Any assisted policy must
 retain archive acquisition, annotation, pretraining and teacher costs in its
 lineage and still undergo independently qualified real evaluation.
+
+After the acquisition seal verifies, a separate committed sparse-review protocol
+can extract original frames for visual inspection:
+
+```powershell
+.venv/Scripts/python.exe scripts/review_owner_video.py --project-root D:/Projects/gradient-climb --protocol experiments/definitions/cycle-3-owner-video-review-001.json
+```
+
+This first review freezes 18 requested timestamps, preserves each selected source
+presentation timestamp, and performs no interpolation or actor preprocessing.
+The full ffprobe counting pass and ffmpeg extraction pass have separate subprocess
+receipts. Eighteen retained frames do not mean only eighteen frames were decoded.
+The actual media metadata and source-frame count are measured in the review run;
+they are not backfilled into the sealed acquisition record.
