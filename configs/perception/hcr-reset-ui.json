@@ -589,6 +589,36 @@
       },
       "matching": "rgb",
       "notes": "Google-served interstitial end card rendered by the emulator as a small card in the top-left corner over a black letterbox, with a tiny Close text pill at the extreme top-right of the game area that appears several seconds after the card. Anchors are the Close pill and the static container marker at the card's bottom-right corner; the creative, its title and its Install pill are never controls. Clicked only after two stable frames."
+    },
+    {
+      "label": "out_of_fuel_native",
+      "state": "result",
+      "file": "runs/ed3475b6-f753-4f62-9e07-1b223ff7c8d5/out_of_fuel.png",
+      "sha256": "3a07a7eb768280ec103a8e99c33b764f3686ba3a5a86e9d085fd9b733eef8223",
+      "anchors": [
+        [
+          628,
+          84,
+          830,
+          126
+        ],
+        [
+          604,
+          159,
+          733,
+          192
+        ]
+      ],
+      "controls": {
+        "continue_result": [
+          589,
+          368,
+          880,
+          403
+        ]
+      },
+      "matching": "outlined_white",
+      "notes": "Native OUT OF FUEL result of the current game build captured during reliability study session 2: static header and DISTANCE label establish the state; the separately visible TOUCH TO CONTINUE glyph patch is the only control. The Cycle 1 discovery reference matched this native layout at only 0.85 and is retained unchanged. The screen also shows +GEMS/+COINS lines and bonus tallies (AIR TIME, FLIP, BACK FLIP, NECK FLIP), which are reader targets, never controls."
     }
   ],
   "glyph_threshold": 0.9,
