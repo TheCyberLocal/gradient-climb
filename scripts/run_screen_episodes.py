@@ -31,7 +31,8 @@ from gradientclimb.control.native_protocol import (
 )
 from gradientclimb.control.pedals import PedalAction, PedalController
 from gradientclimb.control.windows import WindowsPedalBackend
-from gradientclimb.evaluation.benchmark import summarize
+from gradientclimb.evaluation.native_summary import VERSION as NATIVE_SUMMARY_VERSION
+from gradientclimb.evaluation.native_summary import describe_native_attempts
 from gradientclimb.experiments import RunRecorder, load_run, verify_run
 from gradientclimb.perception.hud import HUDDigitReader
 from gradientclimb.perception.measurements import HCRPixelMeasurer, MeasurementProfile
@@ -699,6 +700,7 @@ def main():
         "long_run": args.long_run,
         "stall_seconds": 60 if args.long_run else None,
         "endpoint_contract": "native-endpoint-3.0",
+        "statistics_contract": NATIVE_SUMMARY_VERSION,
         "host_limits": vars(HostLimits()),
         "max_session_seconds": args.max_seconds,
         "ui_profile_sha256": sha256_file(args.ui_profile),
@@ -1103,7 +1105,15 @@ def main():
         if session_unintended and not error:
             error = "Unintended action detected: " + session_unintended[-1]["guard_reason"]
         scored = [s for s in summaries if s["distance"] is not None and not s["error"]]
-        statistics = summarize([s["distance"] for s in scored]) if scored else None
+        # Preserve the existing scored-episode selection for legacy summary keys.
+        # The additive inventory below also retains observed scores when a later
+        # fault prevents lifecycle success. Neither summary implies qualification.
+        statistics = describe_native_attempts(scored, len(scored))["observed_result_distance"]
+        native_descriptives = describe_native_attempts(
+            summaries,
+            0 if args.inspect or args.probe_restart else args.episodes,
+            attempt_outcomes=attempt_outcomes,
+        )
         classifications = {}
         for outcome in attempt_outcomes:
             key = outcome["classification"]
@@ -1158,6 +1168,7 @@ def main():
                         "scope": config["scope"],
                         "attempt_outcomes": attempt_outcomes,
                         "reliability": reliability,
+                        "native_descriptive_summary": native_descriptives,
                     },
                 }
             )
@@ -1168,6 +1179,7 @@ def main():
             episode_summaries=summaries,
             scored_episodes=len(scored),
             distance_statistics=statistics,
+            native_descriptive_summary=native_descriptives,
             reliability=reliability,
             error=error,
             observed_session_seconds=time.perf_counter() - start,
