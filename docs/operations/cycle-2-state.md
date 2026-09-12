@@ -68,5 +68,10 @@ run `ca73a234`; those two sessions are construction evidence for that bank.
 - The live headed PPO training observer (snapshot hook, observer thread, sinks,
   overhead protocol) is implemented and under review fix-up in the working tree;
   it is not yet committed.
-- The restricted screen-body student has never been trained; its first
-  distillation run is the next simulator-side step.
+- The restricted screen-body student was trained for the first time in run
+  `3ceb8b27` (600 s, seed 500, teacher `c0a9e142` final checkpoint, prior compute
+  3,600.3 s): validation on seeds 30000–30019 gave joint-action agreement 0.849
+  under student occupancy, mean 483.6 m and median 561.3 m against the teacher's
+  673.4 m and 700.1 m, with 11 of 20 episodes crashing versus 2 for the teacher.
+  This is an uncalibrated analytic-projection result, not real-game evidence.
+  A 1,800 s second-seed run follows to measure whether the gap closes with budget.
