@@ -62,7 +62,7 @@ class PedalController:
                 if self._stop.is_set() or not self.is_playing():
                     raise RuntimeError("Input refused: gameplay/focus is not verified")
                 self.backend.set_pedals(action.gas, action.brake)
-            except Exception as error:
+            except BaseException as error:
                 self._trip(error)
                 raise
             now = time.perf_counter()
@@ -92,12 +92,12 @@ class PedalController:
             except Exception as error:  # noqa: BLE001 - watchdog must latch backend faults
                 self._trip(error)
 
-    def _trip(self, error: Exception):
+    def _trip(self, error: BaseException):
         self._stop.set()
         self.fault = f"{type(error).__name__}: {error}"
         try:
             self.release()
-        except Exception as cleanup_error:  # noqa: BLE001 - preserve original fault and disable input
+        except BaseException as cleanup_error:  # noqa: BLE001 - preserve primary fault, including interruption
             self.release_failure = f"{type(cleanup_error).__name__}: {cleanup_error}"
 
     def close(self):

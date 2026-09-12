@@ -23,6 +23,12 @@ from gradientclimb.control.game_adapter import (
     STUCK_RESET_MARKERS,
     NativeGameAdapter,
 )
+from gradientclimb.control.host import HostBudgetGuard, HostLimits
+from gradientclimb.control.native_protocol import (
+    longest_scored_streak,
+    validate_limits,
+    validate_protocol,
+)
 from gradientclimb.control.pedals import PedalAction, PedalController
 from gradientclimb.control.windows import WindowsPedalBackend
 from gradientclimb.evaluation.benchmark import summarize
@@ -173,23 +179,28 @@ def collect_episode(
     seconds,
     deadline,
     on_tick=None,
+    stall_seconds=None,
+    max_frames=2000,
 ):
     """Hold leases only after fresh classified capture and explicit policy output."""
     bridge.reset()
     start = time.perf_counter()
-    end = min(start + seconds, deadline)
+    episode_end = start + seconds
+    end = min(episode_end, deadline)
+    clock_reason = "session_deadline" if deadline < episode_end else "episode_time_limit"
     rows, images = [], []
     observed_values = []
     current = first
-    reason = "episode_time_limit"
+    reason = clock_reason
     failure = None
     unknown_since = None
+    last_progress_time = start
+    last_progress = None
+    progress_continuous = True
     try:
-        for step in range(2000):
+        for step in range(max_frames):
             if on_tick:
                 on_tick()
-            if time.perf_counter() >= end:
-                break
             if current.state != "playing":
                 controller.release()
                 reason = f"observed_{current.state}"
@@ -205,8 +216,10 @@ def collect_episode(
                         current = adapter.observe()
                         continue
                 break
+            if time.perf_counter() >= end:
+                break
             unknown_since = None
-            reason = "episode_time_limit"
+            reason = clock_reason
             actual_code, age = os_state_at(backend.trace, current.frame.started_ns)
             screen = bridge.observe(
                 current.frame.rgb,
@@ -215,7 +228,9 @@ def collect_episode(
                 action_age_seconds=age,
                 episode_elapsed_seconds=max(0.0, current.frame.timestamp_ns / 1e9 - start),
             )
+            observation_ready_ns = int(time.perf_counter() * 1e9)
             code = choose_action(screen)
+            decision_ready_ns = int(time.perf_counter() * 1e9)
             if type(code) is not int or code not in range(4):
                 raise ValueError("Policy returned an invalid independent pedal state")
             remaining = end - time.perf_counter()
@@ -223,6 +238,7 @@ def collect_episode(
                 break
             dispatched = adapter.is_playing()
             lease = min(0.4, remaining)
+            input_started_ns = int(time.perf_counter() * 1e9)
             if dispatched:
                 controller.submit(PedalAction.from_code(code, lease))
             else:
@@ -237,6 +253,10 @@ def collect_episode(
                 "maximum_lease_seconds": lease if dispatched else 0.0,
                 "preceding_os_code": actual_code,
                 "screen": screen.as_dict(),
+                "observation_ready_ns": observation_ready_ns,
+                "decision_ready_ns": decision_ready_ns,
+                "input_started_ns": input_started_ns,
+                "input_completed_ns": int(time.perf_counter() * 1e9),
             }
             rows.append(row)
             if step % 5 == 0:
@@ -247,7 +267,20 @@ def collect_episode(
                     )
                 )
             if screen.hud.get("valid"):
-                observed_values.append(screen.hud["hud_displayed_progress_meters"])
+                progress = screen.hud["hud_displayed_progress_meters"]
+                observed_values.append(progress)
+                if last_progress is None or progress > last_progress or not progress_continuous:
+                    last_progress_time = time.perf_counter()
+                last_progress = max(progress, last_progress or 0)
+                progress_continuous = True
+                if (
+                    stall_seconds is not None
+                    and time.perf_counter() - last_progress_time >= stall_seconds
+                ):
+                    reason = "verified_progress_stall"
+                    break
+            else:
+                progress_continuous = False
             if controller.fault:
                 raise RuntimeError(controller.fault)
             if time.perf_counter() >= end:
@@ -265,6 +298,8 @@ def collect_episode(
     return (
         {
             "reason": reason,
+            "requested_horizon_seconds": seconds,
+            "endpoint_contract": "native-endpoint-3.0",
             "observed_seconds": time.perf_counter() - start,
             "frames": len(rows),
             "actions_dispatched": sum(row["dispatched"] for row in rows),
@@ -439,6 +474,8 @@ def classify_attempt(summary, parked, *, halted_error=None, unintended=None):
     if parked is None:
         return "unknown_failure"
     reason = summary.get("reason")
+    if reason in {"session_deadline", "frame_limit", "verified_progress_stall"}:
+        return "administrative_interruption"
     if reason == "episode_time_limit" and parked.state == "paused":
         reading = summary.get("paused_reading") or {}
         if reading.get("valid") and summary.get("distance") is not None:
@@ -455,8 +492,6 @@ def classify_attempt(summary, parked, *, halted_error=None, unintended=None):
 
 def terminal_cause(summary):
     """Evidence-backed terminal cause; unknown unless the result variant was recognized."""
-    if summary.get("reason") == "episode_time_limit":
-        return "truncated_horizon"
     variants = {r.get("ui_variant") for r in summary.get("terminal_readings", []) if r}
     if any(v and "driver_down" in v for v in variants):
         return "driver_down"
@@ -464,6 +499,10 @@ def terminal_cause(summary):
         return "out_of_fuel"
     if summary.get("reason") in {"observed_result", "observed_revive_offer"}:
         return "natural_unlabeled"
+    if summary.get("reason") == "episode_time_limit":
+        return "truncated_horizon"
+    if summary.get("reason") in {"session_deadline", "frame_limit", "verified_progress_stall"}:
+        return summary["reason"]
     if summary.get("error"):
         return "aborted"
     return "unknown"
@@ -499,6 +538,11 @@ def main():
     parser.add_argument("--episodes", type=int, default=2)
     parser.add_argument("--episode-seconds", type=float, default=8)
     parser.add_argument("--max-seconds", type=float, default=120)
+    parser.add_argument(
+        "--long-run",
+        action="store_true",
+        help="Explicit long-run mode: up to 900 gameplay seconds, 60 s verified-progress stall handling",
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--capture-backend", choices=["dxcam", "mss", "pillow"], default="dxcam")
     parser.add_argument(
@@ -560,16 +604,18 @@ def main():
         (args.policy, args.policy_kind, args.parent_run)
     ):
         raise ValueError("Frozen evaluation requires policy path, kind and parent run together")
-    if not (
-        1 <= args.episodes <= 20
-        and 1 <= args.episode_seconds <= 120
-        and 1 <= args.max_seconds <= 3600
-    ):
-        raise ValueError("Episode/count/session limits are out of bounds")
+    validate_limits(args.episodes, args.episode_seconds, args.max_seconds, long_run=args.long_run)
+    protocol = json.loads(args.protocol.read_text(encoding="utf-8")) if args.protocol else None
+    if protocol:
+        validate_protocol(protocol, args)
+    host = HostBudgetGuard("artifacts")
+    host.check(force=True)
     targets = discover_windows()
     if len(targets) != 1:
         raise RuntimeError("Expected exactly one visible game window")
     target = targets[0]
+    host.target = target
+    host.check(force=True)
     profile = MeasurementProfile(**json.loads(args.measurement_profile.read_text()))
     bridge = ScreenFeatureBridge(HCRPixelMeasurer(profile), HUDDigitReader.from_manifest(args.hud))
     result_reader = (
@@ -623,9 +669,7 @@ def main():
             else 0
         )
         algorithm = args.policy_kind
-    protocol = None
-    if args.protocol:
-        protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
+    if protocol:
         recovery = (protocol.get("recovery") or {}) if isinstance(protocol, dict) else {}
         if recovery.get("application_restart") and not args.exploratory:
             # A registered recovery is part of the frozen protocol: it must be
@@ -645,6 +689,10 @@ def main():
         "parent_run": args.parent_run,
         "requested_episodes": args.episodes,
         "episode_seconds": args.episode_seconds,
+        "long_run": args.long_run,
+        "stall_seconds": 60 if args.long_run else None,
+        "endpoint_contract": "native-endpoint-3.0",
+        "host_limits": vars(HostLimits()),
         "max_session_seconds": args.max_seconds,
         "ui_profile_sha256": sha256_file(args.ui_profile),
         "measurement_profile_sha256": sha256_file(args.measurement_profile),
@@ -709,6 +757,7 @@ def main():
         args.ui_profile,
         release_pedals=controller.release,
         capture_backend=args.capture_backend,
+        runtime_check=host.check,
     )
     summaries, reset_frames, restart_frames = [], [], []
     terminal = ResultScoreCollector(result_reader)
@@ -893,6 +942,8 @@ def main():
                                 first,
                                 seconds=args.episode_seconds,
                                 deadline=deadline,
+                                stall_seconds=60 if args.long_run else None,
+                                max_frames=30000 if args.long_run else 2000,
                             )
                         else:
                             summary = {
@@ -919,7 +970,8 @@ def main():
                                 raise RuntimeError(summary["error"])
                             if remaining >= 1:
                                 parked = adapter.reset(
-                                    truncate=summary["reason"] == "episode_time_limit",
+                                    truncate=summary["reason"]
+                                    in {"episode_time_limit", "verified_progress_stall"},
                                     start_next=False,
                                     max_seconds=min(args.reset_seconds, remaining),
                                     on_terminal=terminal,
@@ -1008,13 +1060,13 @@ def main():
                         print(json.dumps({"episode": index, **summary}), flush=True)
                         if halted_error:
                             raise RuntimeError(halted_error)
-        except Exception:  # noqa: BLE001 - release and persist all native traces on every failure
+        except BaseException:  # noqa: BLE001 - retain interrupts and release every input path
             error = traceback.format_exc()
         finally:
             for cleanup in (controller.close, backend.close):
                 try:
                     cleanup()
-                except Exception:  # noqa: BLE001 - attempt every release and retain each failure
+                except BaseException:  # noqa: BLE001 - attempt every release and retain each failure
                     error = (error or "") + traceback.format_exc()
         for name, data in (
             ("os-pedal-transitions", backend.trace),
@@ -1025,6 +1077,7 @@ def main():
             ("guard-diagnostics", adapter.guard_trace),
             ("app-restarts", adapter.restart_trace),
             ("numeric-score-exhaustions", terminal.exhausted),
+            ("host-budget", host.trace),
         ):
             path = run.directory / f"{name}.json"
             path.write_text(json.dumps(data, indent=2, allow_nan=False) + "\n", encoding="utf-8")
@@ -1052,15 +1105,7 @@ def main():
             if not (args.inspect or args.probe_restart)
             else 0
         )
-        longest_success_run, current_run = 0, 0
-        for outcome in attempt_outcomes:
-            if outcome["classification"].startswith("success") and outcome[
-                "classification"
-            ].endswith("scored"):
-                current_run += 1
-                longest_success_run = max(longest_success_run, current_run)
-            else:
-                current_run = 0
+        longest_success_run = longest_scored_streak(attempt_outcomes)
         reliability = {
             "attempts_requested": args.episodes if not (args.inspect or args.probe_restart) else 0,
             "attempts_completed": len(attempt_outcomes),

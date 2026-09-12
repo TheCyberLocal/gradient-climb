@@ -416,6 +416,7 @@ class NativeGameAdapter:
         capture_backend: Literal["dxcam", "mss", "pillow"] = "dxcam",
         sender=None,
         release_pedals=None,
+        runtime_check=None,
         max_observation_age_seconds=0.45,
         clock=time.perf_counter,
         sleep=time.sleep,
@@ -444,6 +445,7 @@ class NativeGameAdapter:
         if not callable(release_pedals):
             raise TypeError("A pedal-release callback is required before menu navigation")
         self.release_pedals = release_pedals
+        self.runtime_check = runtime_check
         self.max_age, self.clock, self.sleep = max_observation_age_seconds, clock, sleep
         self.latest = None
         self.trace = []
@@ -476,6 +478,8 @@ class NativeGameAdapter:
 
     def _guard(self):
         try:
+            if self.runtime_check is not None:
+                self.runtime_check()
             if self._stopped.is_set() or self.sender.is_down(0x1B):
                 raise RuntimeError("Adapter stopped by operator or previous fault")
             if self.guard.validate(require_foreground=True).client_rect != self.target.client_rect:

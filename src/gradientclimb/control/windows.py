@@ -13,6 +13,7 @@ import threading
 import time
 
 from gradientclimb.capture.windows import WindowGuard, WindowTarget
+from gradientclimb.control.host import NativeInputLease
 
 
 class MOUSEINPUT(ctypes.Structure):
@@ -158,6 +159,7 @@ class WindowsPedalBackend:
         self._lock = threading.RLock()
         self._faulted = False
         self.trace: list[dict] = []
+        self._ownership = NativeInputLease().__enter__() if sender is None else None
 
     @property
     def input_encoding(self) -> dict:
@@ -233,11 +235,20 @@ class WindowsPedalBackend:
                     self._faulted = True
                     raise RuntimeError("SendInput delivered only part of the pedal transition")
                 self._held = desired
-            except Exception:
-                self._release()
+            except BaseException as exc:
+                self._faulted = True
+                try:
+                    self._release()
+                except BaseException as cleanup:  # noqa: BLE001 - preserve primary release failure
+                    exc.add_note(f"Pedal release also failed: {type(cleanup).__name__}: {cleanup}")
                 raise
 
     def close(self):
         with self._lock:
-            self._release()
-            self._faulted = True
+            try:
+                self._release()
+            finally:
+                self._faulted = True
+                if self._ownership is not None:
+                    self._ownership.close()
+                    self._ownership = None
