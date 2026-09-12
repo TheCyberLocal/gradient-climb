@@ -1,0 +1,1284 @@
+{
+  "schema_version": "screen-pose-replay-3.0",
+  "replay_id": "first-four-reviewed-visual-poses-001",
+  "frames": [
+    {
+      "geometry": {
+        "schema_version": "screen-geometry-labels-3.0",
+        "label_id": "fbafca5b-frame-000039-manual-construction-v1",
+        "coordinate_system": "screen_pixels_x_right_y_down",
+        "image_size": [
+          1034,
+          581
+        ],
+        "provenance": "reviewed_construction",
+        "source_image": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000039.png",
+          "sha256": "93a2a0a16bb08ddf689a907461a81d76a44be4ba849f1ff34348df5f7f2ec37c"
+        },
+        "label_protocol": {
+          "path": "experiments/definitions/cycle-3-visual-pose-screen-001.json",
+          "sha256": "ddbbbb44c5aa359d4cb30ac1572c47daa03040f493afd6318008fd8d80c904aa"
+        },
+        "reviewer": "Codex root; manual construction estimates from original retained pixels",
+        "reviewed_at": "2026-09-12T16:03:57.573807Z",
+        "body": {
+          "vertices": [
+            [
+              225.0,
+              345.0
+            ],
+            [
+              244.0,
+              342.0
+            ],
+            [
+              269.0,
+              346.0
+            ],
+            [
+              300.0,
+              350.0
+            ],
+            [
+              322.0,
+              351.0
+            ],
+            [
+              331.0,
+              352.0
+            ],
+            [
+              359.0,
+              362.0
+            ],
+            [
+              365.0,
+              367.0
+            ],
+            [
+              362.0,
+              393.0
+            ],
+            [
+              226.0,
+              379.0
+            ]
+          ],
+          "uncertainty_pixels": 4.0,
+          "note": "Coarse visible red-body silhouette; wheel arches, antenna, head and fine texture are not reconstructed. Pixel uncertainty is an uncalibrated annotation estimate."
+        },
+        "wheels": [
+          {
+            "wheel_id": "visible-circle-0",
+            "center": [
+              243.0,
+              378.0
+            ],
+            "radius_pixels": 17.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          },
+          {
+            "wheel_id": "visible-circle-1",
+            "center": [
+              338.0,
+              389.0
+            ],
+            "radius_pixels": 16.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          }
+        ],
+        "terrain": [
+          {
+            "points": [
+              [
+                64.0,
+                399.0
+              ],
+              [
+                129.0,
+                400.0
+              ],
+              [
+                197.0,
+                404.0
+              ],
+              [
+                257.0,
+                409.0
+              ],
+              [
+                318.0,
+                417.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          },
+          {
+            "points": [
+              [
+                402.0,
+                426.0
+              ],
+              [
+                454.0,
+                434.0
+              ],
+              [
+                509.0,
+                443.0
+              ],
+              [
+                567.0,
+                450.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          },
+          {
+            "points": [
+              [
+                745.0,
+                475.0
+              ],
+              [
+                801.0,
+                478.0
+              ],
+              [
+                852.0,
+                480.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          },
+          {
+            "points": [
+              [
+                998.0,
+                481.0
+              ],
+              [
+                1033.0,
+                480.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          }
+        ],
+        "landmarks": [
+          {
+            "role": "front",
+            "point": [
+              363.0,
+              375.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "rear",
+            "point": [
+              225.0,
+              361.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "head",
+            "point": [
+              287.0,
+              323.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          }
+        ],
+        "occluders": [
+          {
+            "vertices": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                1033.0,
+                0.0
+              ],
+              [
+                1033.0,
+                35.0
+              ],
+              [
+                0.0,
+                35.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque app/title bar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                0.0,
+                36.0
+              ],
+              [
+                63.0,
+                36.0
+              ],
+              [
+                63.0,
+                580.0
+              ],
+              [
+                0.0,
+                580.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque left emulator toolbar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                104.0,
+                412.0
+              ],
+              [
+                243.0,
+                412.0
+              ],
+              [
+                243.0,
+                560.0
+              ],
+              [
+                104.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse brake-panel bounding occlusion; openings and fine controls are not modeled."
+          },
+          {
+            "vertices": [
+              [
+                856.0,
+                412.0
+              ],
+              [
+                997.0,
+                412.0
+              ],
+              [
+                997.0,
+                560.0
+              ],
+              [
+                856.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse gas-panel bounding occlusion; actual pedal appearance varies and is not a sensor or action label."
+          }
+        ],
+        "missing_geometry": [
+          "No calibrated world scale, collision surface, mass, dynamics, suspension or wheel rotation",
+          "No appearance model for driver/head, coins, fuel objects, transparent dials, HUD text, vegetation or background texture",
+          "Geometry behind overlays and outside visible strips remains unknown"
+        ],
+        "note": "Purposefully selected construction pose after detector-coverage inspection. No independent labels or fidelity/accuracy claim; frozen profile identity remains incomplete and this source is training-ineligible."
+      },
+      "timestamp_ns": 55526634558300,
+      "continuity_id": "isolated-frame-39"
+    },
+    {
+      "geometry": {
+        "schema_version": "screen-geometry-labels-3.0",
+        "label_id": "fbafca5b-frame-000350-manual-construction-v1",
+        "coordinate_system": "screen_pixels_x_right_y_down",
+        "image_size": [
+          1034,
+          581
+        ],
+        "provenance": "reviewed_construction",
+        "source_image": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000350.png",
+          "sha256": "0d9c560411804fcb9f738c8c0f54b34554f6c7f86b24735d6616d0f2f03a982b"
+        },
+        "label_protocol": {
+          "path": "experiments/definitions/cycle-3-visual-pose-screen-001.json",
+          "sha256": "ddbbbb44c5aa359d4cb30ac1572c47daa03040f493afd6318008fd8d80c904aa"
+        },
+        "reviewer": "Codex root; manual construction estimates from original retained pixels",
+        "reviewed_at": "2026-09-12T16:03:57.573807Z",
+        "body": {
+          "vertices": [
+            [
+              157.0,
+              250.0
+            ],
+            [
+              162.0,
+              245.0
+            ],
+            [
+              215.0,
+              225.0
+            ],
+            [
+              224.0,
+              219.0
+            ],
+            [
+              249.0,
+              214.0
+            ],
+            [
+              266.0,
+              216.0
+            ],
+            [
+              272.0,
+              235.0
+            ],
+            [
+              255.0,
+              239.0
+            ],
+            [
+              250.0,
+              249.0
+            ],
+            [
+              181.0,
+              274.0
+            ],
+            [
+              166.0,
+              275.0
+            ]
+          ],
+          "uncertainty_pixels": 4.0,
+          "note": "Coarse visible red-body silhouette; wheel arches, antenna, head and fine texture are not reconstructed. Pixel uncertainty is an uncalibrated annotation estimate."
+        },
+        "wheels": [
+          {
+            "wheel_id": "visible-circle-0",
+            "center": [
+              186.0,
+              278.0
+            ],
+            "radius_pixels": 15.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          },
+          {
+            "wheel_id": "visible-circle-1",
+            "center": [
+              256.0,
+              248.0
+            ],
+            "radius_pixels": 16.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          }
+        ],
+        "terrain": [
+          {
+            "points": [
+              [
+                64.0,
+                377.0
+              ],
+              [
+                116.0,
+                357.0
+              ],
+              [
+                162.0,
+                337.0
+              ],
+              [
+                205.0,
+                305.0
+              ],
+              [
+                232.0,
+                298.0
+              ],
+              [
+                302.0,
+                309.0
+              ],
+              [
+                329.0,
+                316.0
+              ],
+              [
+                351.0,
+                339.0
+              ],
+              [
+                374.0,
+                366.0
+              ],
+              [
+                398.0,
+                379.0
+              ],
+              [
+                429.0,
+                380.0
+              ],
+              [
+                490.0,
+                376.0
+              ],
+              [
+                525.0,
+                367.0
+              ],
+              [
+                567.0,
+                347.0
+              ],
+              [
+                611.0,
+                326.0
+              ],
+              [
+                655.0,
+                318.0
+              ],
+              [
+                700.0,
+                309.0
+              ],
+              [
+                742.0,
+                295.0
+              ],
+              [
+                783.0,
+                284.0
+              ],
+              [
+                827.0,
+                286.0
+              ],
+              [
+                858.0,
+                278.0
+              ],
+              [
+                915.0,
+                236.0
+              ],
+              [
+                969.0,
+                256.0
+              ],
+              [
+                1033.0,
+                284.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          }
+        ],
+        "landmarks": [
+          {
+            "role": "front",
+            "point": [
+              269.0,
+              229.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "rear",
+            "point": [
+              162.0,
+              260.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "head",
+            "point": [
+              200.0,
+              211.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          }
+        ],
+        "occluders": [
+          {
+            "vertices": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                1033.0,
+                0.0
+              ],
+              [
+                1033.0,
+                35.0
+              ],
+              [
+                0.0,
+                35.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque app/title bar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                0.0,
+                36.0
+              ],
+              [
+                63.0,
+                36.0
+              ],
+              [
+                63.0,
+                580.0
+              ],
+              [
+                0.0,
+                580.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque left emulator toolbar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                104.0,
+                412.0
+              ],
+              [
+                243.0,
+                412.0
+              ],
+              [
+                243.0,
+                560.0
+              ],
+              [
+                104.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse brake-panel bounding occlusion; openings and fine controls are not modeled."
+          },
+          {
+            "vertices": [
+              [
+                856.0,
+                412.0
+              ],
+              [
+                997.0,
+                412.0
+              ],
+              [
+                997.0,
+                560.0
+              ],
+              [
+                856.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse gas-panel bounding occlusion; actual pedal appearance varies and is not a sensor or action label."
+          }
+        ],
+        "missing_geometry": [
+          "No calibrated world scale, collision surface, mass, dynamics, suspension or wheel rotation",
+          "No appearance model for driver/head, coins, fuel objects, transparent dials, HUD text, vegetation or background texture",
+          "Geometry behind overlays and outside visible strips remains unknown"
+        ],
+        "note": "Purposefully selected construction pose after detector-coverage inspection. No independent labels or fidelity/accuracy claim; frozen profile identity remains incomplete and this source is training-ineligible."
+      },
+      "timestamp_ns": 55578596982750,
+      "continuity_id": "isolated-frame-350"
+    },
+    {
+      "geometry": {
+        "schema_version": "screen-geometry-labels-3.0",
+        "label_id": "fbafca5b-frame-000358-manual-construction-v1",
+        "coordinate_system": "screen_pixels_x_right_y_down",
+        "image_size": [
+          1034,
+          581
+        ],
+        "provenance": "reviewed_construction",
+        "source_image": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000358.png",
+          "sha256": "5e3326adeb3009bd6d98b36b84a8f14cd56638305a9e4a02d7d23ecbc5fd34e8"
+        },
+        "label_protocol": {
+          "path": "experiments/definitions/cycle-3-visual-pose-screen-001.json",
+          "sha256": "ddbbbb44c5aa359d4cb30ac1572c47daa03040f493afd6318008fd8d80c904aa"
+        },
+        "reviewer": "Codex root; manual construction estimates from original retained pixels",
+        "reviewed_at": "2026-09-12T16:03:57.573807Z",
+        "body": {
+          "vertices": [
+            [
+              149.0,
+              347.0
+            ],
+            [
+              159.0,
+              341.0
+            ],
+            [
+              207.0,
+              327.0
+            ],
+            [
+              218.0,
+              318.0
+            ],
+            [
+              245.0,
+              316.0
+            ],
+            [
+              259.0,
+              318.0
+            ],
+            [
+              267.0,
+              332.0
+            ],
+            [
+              256.0,
+              337.0
+            ],
+            [
+              247.0,
+              348.0
+            ],
+            [
+              165.0,
+              374.0
+            ],
+            [
+              155.0,
+              371.0
+            ]
+          ],
+          "uncertainty_pixels": 4.0,
+          "note": "Coarse visible red-body silhouette; wheel arches, antenna, head and fine texture are not reconstructed. Pixel uncertainty is an uncalibrated annotation estimate."
+        },
+        "wheels": [
+          {
+            "wheel_id": "visible-circle-0",
+            "center": [
+              173.0,
+              365.0
+            ],
+            "radius_pixels": 13.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          },
+          {
+            "wheel_id": "visible-circle-1",
+            "center": [
+              247.0,
+              342.0
+            ],
+            "radius_pixels": 14.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          }
+        ],
+        "terrain": [
+          {
+            "points": [
+              [
+                64.0,
+                408.0
+              ],
+              [
+                99.0,
+                399.0
+              ],
+              [
+                150.0,
+                392.0
+              ],
+              [
+                190.0,
+                380.0
+              ],
+              [
+                228.0,
+                369.0
+              ],
+              [
+                279.0,
+                370.0
+              ],
+              [
+                309.0,
+                354.0
+              ],
+              [
+                343.0,
+                326.0
+              ],
+              [
+                363.0,
+                321.0
+              ],
+              [
+                401.0,
+                339.0
+              ],
+              [
+                453.0,
+                356.0
+              ],
+              [
+                493.0,
+                376.0
+              ],
+              [
+                519.0,
+                384.0
+              ],
+              [
+                547.0,
+                385.0
+              ],
+              [
+                577.0,
+                371.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          },
+          {
+            "points": [
+              [
+                708.0,
+                272.0
+              ],
+              [
+                748.0,
+                266.0
+              ],
+              [
+                786.0,
+                267.0
+              ],
+              [
+                813.0,
+                274.0
+              ],
+              [
+                846.0,
+                301.0
+              ],
+              [
+                870.0,
+                317.0
+              ],
+              [
+                901.0,
+                318.0
+              ],
+              [
+                937.0,
+                312.0
+              ],
+              [
+                971.0,
+                301.0
+              ],
+              [
+                1004.0,
+                276.0
+              ],
+              [
+                1033.0,
+                247.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          }
+        ],
+        "landmarks": [
+          {
+            "role": "front",
+            "point": [
+              264.0,
+              329.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "rear",
+            "point": [
+              153.0,
+              356.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "head",
+            "point": [
+              203.0,
+              309.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          }
+        ],
+        "occluders": [
+          {
+            "vertices": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                1033.0,
+                0.0
+              ],
+              [
+                1033.0,
+                35.0
+              ],
+              [
+                0.0,
+                35.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque app/title bar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                0.0,
+                36.0
+              ],
+              [
+                63.0,
+                36.0
+              ],
+              [
+                63.0,
+                580.0
+              ],
+              [
+                0.0,
+                580.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque left emulator toolbar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                104.0,
+                412.0
+              ],
+              [
+                243.0,
+                412.0
+              ],
+              [
+                243.0,
+                560.0
+              ],
+              [
+                104.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse brake-panel bounding occlusion; openings and fine controls are not modeled."
+          },
+          {
+            "vertices": [
+              [
+                856.0,
+                412.0
+              ],
+              [
+                997.0,
+                412.0
+              ],
+              [
+                997.0,
+                560.0
+              ],
+              [
+                856.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse gas-panel bounding occlusion; actual pedal appearance varies and is not a sensor or action label."
+          }
+        ],
+        "missing_geometry": [
+          "No calibrated world scale, collision surface, mass, dynamics, suspension or wheel rotation",
+          "No appearance model for driver/head, coins, fuel objects, transparent dials, HUD text, vegetation or background texture",
+          "Geometry behind overlays and outside visible strips remains unknown"
+        ],
+        "note": "Purposefully selected construction pose after detector-coverage inspection. No independent labels or fidelity/accuracy claim; frozen profile identity remains incomplete and this source is training-ineligible."
+      },
+      "timestamp_ns": 55579932603200,
+      "continuity_id": "isolated-frame-358"
+    },
+    {
+      "geometry": {
+        "schema_version": "screen-geometry-labels-3.0",
+        "label_id": "fbafca5b-frame-000378-manual-construction-v1",
+        "coordinate_system": "screen_pixels_x_right_y_down",
+        "image_size": [
+          1034,
+          581
+        ],
+        "provenance": "reviewed_construction",
+        "source_image": {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000378.png",
+          "sha256": "a3347acebe410e3699d5163d582ddafb0e6044df40deb02c128ac02ac00ce3c4"
+        },
+        "label_protocol": {
+          "path": "experiments/definitions/cycle-3-visual-pose-screen-001.json",
+          "sha256": "ddbbbb44c5aa359d4cb30ac1572c47daa03040f493afd6318008fd8d80c904aa"
+        },
+        "reviewer": "Codex root; manual construction estimates from original retained pixels",
+        "reviewed_at": "2026-09-12T16:03:57.573807Z",
+        "body": {
+          "vertices": [
+            [
+              202.0,
+              201.0
+            ],
+            [
+              226.0,
+              201.0
+            ],
+            [
+              234.0,
+              208.0
+            ],
+            [
+              238.0,
+              260.0
+            ],
+            [
+              243.0,
+              279.0
+            ],
+            [
+              245.0,
+              289.0
+            ],
+            [
+              238.0,
+              303.0
+            ],
+            [
+              230.0,
+              325.0
+            ],
+            [
+              208.0,
+              324.0
+            ],
+            [
+              204.0,
+              284.0
+            ],
+            [
+              200.0,
+              227.0
+            ]
+          ],
+          "uncertainty_pixels": 4.0,
+          "note": "Coarse visible red-body silhouette; wheel arches, antenna, head and fine texture are not reconstructed. Pixel uncertainty is an uncalibrated annotation estimate."
+        },
+        "wheels": [
+          {
+            "wheel_id": "visible-circle-0",
+            "center": [
+              190.0,
+              222.0
+            ],
+            "radius_pixels": 16.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          },
+          {
+            "wheel_id": "visible-circle-1",
+            "center": [
+              199.0,
+              306.0
+            ],
+            "radius_pixels": 15.0,
+            "uncertainty_pixels": 3.0,
+            "note": "Manually estimated visible circle, including partially occluded rim. Identity is per-image only; no contact or rotation is inferred."
+          }
+        ],
+        "terrain": [
+          {
+            "points": [
+              [
+                64.0,
+                425.0
+              ],
+              [
+                92.0,
+                415.0
+              ],
+              [
+                120.0,
+                402.0
+              ],
+              [
+                145.0,
+                404.0
+              ],
+              [
+                191.0,
+                408.0
+              ],
+              [
+                224.0,
+                407.0
+              ],
+              [
+                250.0,
+                397.0
+              ],
+              [
+                278.0,
+                379.0
+              ],
+              [
+                304.0,
+                372.0
+              ],
+              [
+                330.0,
+                372.0
+              ],
+              [
+                351.0,
+                378.0
+              ],
+              [
+                373.0,
+                391.0
+              ],
+              [
+                385.0,
+                404.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          },
+          {
+            "points": [
+              [
+                400.0,
+                422.0
+              ],
+              [
+                420.0,
+                449.0
+              ],
+              [
+                438.0,
+                483.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          },
+          {
+            "points": [
+              [
+                480.0,
+                543.0
+              ],
+              [
+                495.0,
+                579.0
+              ]
+            ],
+            "uncertainty_pixels": 6.0,
+            "note": "Coarse visible lower turf/material edge, not collision surface. Separate strips omit obscured or unobserved intervals; no hidden continuity is labeled."
+          }
+        ],
+        "landmarks": [
+          {
+            "role": "front",
+            "point": [
+              230.0,
+              319.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "rear",
+            "point": [
+              217.0,
+              204.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          },
+          {
+            "role": "head",
+            "point": [
+              260.0,
+              253.0
+            ],
+            "uncertainty_pixels": 5.0,
+            "note": "Manual visible semantic reference; diagnostic annotation only, never rendered as a marker or passed to actor features."
+          }
+        ],
+        "occluders": [
+          {
+            "vertices": [
+              [
+                0.0,
+                0.0
+              ],
+              [
+                1033.0,
+                0.0
+              ],
+              [
+                1033.0,
+                35.0
+              ],
+              [
+                0.0,
+                35.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque app/title bar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                0.0,
+                36.0
+              ],
+              [
+                63.0,
+                36.0
+              ],
+              [
+                63.0,
+                580.0
+              ],
+              [
+                0.0,
+                580.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Opaque left emulator toolbar approximation, outside the shared scene ROI."
+          },
+          {
+            "vertices": [
+              [
+                104.0,
+                412.0
+              ],
+              [
+                243.0,
+                412.0
+              ],
+              [
+                243.0,
+                560.0
+              ],
+              [
+                104.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse brake-panel bounding occlusion; openings and fine controls are not modeled."
+          },
+          {
+            "vertices": [
+              [
+                856.0,
+                412.0
+              ],
+              [
+                997.0,
+                412.0
+              ],
+              [
+                997.0,
+                560.0
+              ],
+              [
+                856.0,
+                560.0
+              ]
+            ],
+            "uncertainty_pixels": 4.0,
+            "note": "Coarse gas-panel bounding occlusion; actual pedal appearance varies and is not a sensor or action label."
+          }
+        ],
+        "missing_geometry": [
+          "No calibrated world scale, collision surface, mass, dynamics, suspension or wheel rotation",
+          "No appearance model for driver/head, coins, fuel objects, transparent dials, HUD text, vegetation or background texture",
+          "Geometry behind overlays and outside visible strips remains unknown"
+        ],
+        "note": "Purposefully selected construction pose after detector-coverage inspection. No independent labels or fidelity/accuracy claim; frozen profile identity remains incomplete and this source is training-ineligible."
+      },
+      "timestamp_ns": 55583272608050,
+      "continuity_id": "isolated-frame-378"
+    }
+  ],
+  "source_partition": "train",
+  "note": "Sparse manual construction labels under committed43a78b3 protocol and committede71ba75 schema. Existing train-session assignment retained; use is construction only. Each pose resets temporal history. No numerical detector outputs were used as coordinate labels; manual annotation labor is unmeasured."
+}
