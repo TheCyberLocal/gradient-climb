@@ -7,11 +7,13 @@ from collections import deque
 
 import numpy as np
 
-from gradientclimb.simulation import SIMULATOR_VERSION, VectorHillEnv
+from gradientclimb.environments import make_environment
+from gradientclimb.simulation import SIMULATOR_VERSION
 from gradientclimb.simulation.hill import FEATURE_NAMES
 
 from .policies import LinearPolicy
 from .ppo import DEFAULT_CHECKPOINT_TIMES, TrainingResult
+from .progress import TrainingProgress
 
 
 def train_cem(
@@ -30,6 +32,7 @@ def train_cem(
     elite_fraction: float = 0.2,
     initial_std: float = 0.6,
     log_interval: float = 5.0,
+    progress: TrainingProgress | None = None,
 ) -> TrainingResult:
     """Governed search with common seeds per candidate and a fixed validation set.
 
@@ -42,6 +45,8 @@ def train_cem(
     if seconds <= 0 or population < 4 or episodes_per_candidate < 1 or not 0 < elite_fraction < 1:
         raise ValueError("Invalid CEM budget/population/elite fraction")
     start = time.monotonic()
+    progress = progress if progress is not None else TrainingProgress()
+    progress.started = start
     deadline = start + seconds
     rng = np.random.default_rng(seed)
     width = len(FEATURE_NAMES)
@@ -49,7 +54,15 @@ def train_cem(
     deviation = np.full_like(mean, initial_std)
     model = LinearPolicy(mean.copy())
     actual_envs = population * episodes_per_candidate
-    env = VectorHillEnv(actual_envs, seed, profile, terrain, randomization, stack, max_steps)
+    env = make_environment(
+        num_envs=actual_envs,
+        seed=seed,
+        profile=profile,
+        terrain=terrain,
+        randomization=randomization,
+        stack=stack,
+        max_steps=max_steps,
+    )
     config = {
         "algorithm": "cem",
         "algorithm_version": "original-0.1.0",
@@ -75,6 +88,10 @@ def train_cem(
     }
     model.config = config
     metrics = []
+    progress.model, progress.config, progress.metrics = model, config, metrics
+    progress.checkpoint_safe = True
+    progress.phase = "ready"
+    progress.publish(force=True)
     targets = deque(sorted({float(t) for t in checkpoint_times if 0 < t <= seconds}))
     next_log = log_interval
     generation = total_steps = episodes = evaluated_candidate_episodes = 0
@@ -99,6 +116,7 @@ def train_cem(
             "mean_episode_distance": last_mean,
             "best_training_distance": best_score,
             "search_std": float(deviation.mean()),
+            "accounting_publication_seconds": progress.publication_seconds,
             "checkpoint": target is not None or final,
             "checkpoint_target_seconds": target,
             "requested_checkpoint_seconds": target,
@@ -138,9 +156,13 @@ def train_cem(
             logits = (
                 np.einsum("ni,nij->nj", observations[:, -width:], weights[:, :-1]) + weights[:, -1]
             )
+            progress.phase = "environment_step"
             observations, _, _terminated, _truncated, info = env.step(logits.argmax(-1))
             total_steps += actual_envs
             episodes += len(info["episodes"])
+            progress.environment_steps, progress.episodes = total_steps, episodes
+            progress.phase = "candidate_evaluation"
+            progress.publish()
             for episode in info["episodes"]:
                 index = episode["env_index"]
                 if not finished[index]:
@@ -153,6 +175,8 @@ def train_cem(
             break
         scores = distances.reshape(population, episodes_per_candidate).mean(-1)
         elite = np.argsort(scores)[-elite_count:]
+        progress.phase = "optimizer_step"
+        progress.checkpoint_safe = False
         mean = 0.25 * mean + 0.75 * candidates[elite].mean(0)
         deviation = np.maximum(0.04, 0.25 * deviation + 0.75 * candidates[elite].std(0))
         winner = int(np.argmax(scores))
@@ -160,9 +184,15 @@ def train_cem(
         model.weights = candidates[winner].copy()
         last_mean = float(scores.mean())
         generation += 1
+        progress.optimizer_updates = generation
+        progress.checkpoint_safe = True
+        progress.phase = "candidate_evaluation"
+        progress.publish()
         boundaries()
     boundaries()
     emit(final=True)
+    progress.phase = "completed"
+    progress.publish(force=True)
     return TrainingResult(
         model, metrics, config, time.monotonic() - start, total_steps, episodes, generation
     )

@@ -1,0 +1,37 @@
+{
+  "diagnostic_version": "cycle-3-accounting-1",
+  "historical_run_id": "e911764e-2038-4e58-b28f-14ece1c11321",
+  "historical_run_path": "artifacts/runs/e911764e-2038-4e58-b28f-14ece1c11321",
+  "historical_files_modified": false,
+  "verification": {"valid": true, "errors": []},
+  "source_files": {
+    "run.json": "ea0965d53f00581d4dc535e1e7fa46cc364df9990537a02fe99fc5d3f43b77cc",
+    "metrics.jsonl": "5b9d11d0de63a5a06817429d6d6efb6c64afcaf1e57b774967db8317247f84d4"
+  },
+  "sealed_exception": {"error_type": "KeyboardInterrupt", "error": ""},
+  "historical_final_record": {
+    "status": "failed", "environment_steps": 0, "episodes": 0, "optimizer_updates": 0,
+    "wall_clock_seconds": 124.88336519999939, "checkpoint_hash": null
+  },
+  "reconstructed_lower_bounds": {
+    "basis": "last complete group in 480-row sealed metrics.jsonl",
+    "environment_steps": 1433600, "training_steps": 1433600, "episodes": 1663,
+    "optimizer_updates": 11200, "iterations": 175,
+    "training_elapsed_seconds": 122.22132350000174,
+    "metric_timestamp": "2026-09-12T04:57:39.506129Z",
+    "snapshot_count": 24, "snapshot_errors": 0
+  },
+  "supported_diagnosis": [
+    "Training raised KeyboardInterrupt before returning to the runner.",
+    "The runner promoted counters only on successful return, so exception finalization retained initial zeros.",
+    "Observer shutdown executed in finally but observer evidence serialization was reached only after successful return."
+  ],
+  "unresolved": [
+    "No traceback or console artifact establishes the source or exact code location of KeyboardInterrupt.",
+    "No observer report establishes whether the display closed or failed.",
+    "Zero snapshot callback errors does not prove absence of observer thread failures.",
+    "Actual final counters can exceed these journal-derived lower bounds.",
+    "No checkpoint appears in the sealed run; a trained policy cannot be recovered from metric values."
+  ],
+  "scientific_scope": "Operator exercise and interrupted-run diagnostic; no qualified learned-performance finding."
+}

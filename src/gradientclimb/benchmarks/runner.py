@@ -44,6 +44,7 @@ def run_training(
     resolved training configuration artifact is byte-identical.
     """
     from gradientclimb.algorithms import train_cem, train_ppo
+    from gradientclimb.algorithms.progress import TrainingProgress
     from gradientclimb.simulation import SIMULATOR_VERSION
     from gradientclimb.visualization.observer import ObserverConfig, TrainingObserver, build_sinks
 
@@ -56,7 +57,7 @@ def run_training(
         raise ValueError("A cold-start run cannot load trained parent weights")
     if benchmark_class != "cold_start" and not config.get("parent_checkpoint"):
         raise ValueError("Non-cold-start training requires declared parent weights")
-    if {"snapshot", "snapshot_interval", "callback"} & set(config):
+    if {"snapshot", "snapshot_interval", "callback", "progress"} & set(config):
         raise ValueError(
             "Snapshotting and callbacks are wired by the runner, not the training config"
         )
@@ -99,9 +100,58 @@ def run_training(
         qualifies_real_game=False,
     ) as run:
         last_checkpoint = None
+        progress = TrainingProgress()
+        config_path = run.directory / "resolved-training-config.json"
+        initialization_recorded = False
+
+        def save_checkpoint(model, elapsed, label, target=None, final=False):
+            nonlocal last_checkpoint
+            previous_phase = progress.phase
+            progress.phase = "checkpoint_serialization"
+            path = run.directory / f"policy-{label}.pt"
+            model.save(path)
+            progress.phase = "checkpoint_registration"
+            last_checkpoint = run.register_artifact(
+                path,
+                "checkpoint",
+                {
+                    "training_elapsed_seconds": elapsed,
+                    "target_seconds": target,
+                    "model_config": model.config,
+                    "final": final,
+                    "stage": label,
+                    "parent_run": parent_run,
+                    "parent_checkpoint": parent_hash,
+                    "continuation": "warm_start" if algorithm == "ppo" else "inference_only",
+                    "exact_resume": False,
+                },
+            )
+            progress.phase = previous_phase
+            run.annotate(
+                last_valid_checkpoint=last_checkpoint["path"],
+                last_valid_checkpoint_hash=last_checkpoint["sha256"],
+            )
+            run.record_progress({**progress.snapshot(), "checkpoint": last_checkpoint})
+
+        def persist_progress(snapshot):
+            nonlocal initialization_recorded
+            run.record_progress(
+                {**snapshot, **({"checkpoint": last_checkpoint} if last_checkpoint else {})}
+            )
+            if snapshot["phase"] == "ready" and not initialization_recorded:
+                initialization_recorded = True
+                config_path.write_text(json.dumps(progress.config, indent=2), encoding="utf-8")
+                run.register_artifact(config_path, "resolved_configuration")
+                if progress.prepare_checkpoint:
+                    progress.prepare_checkpoint()
+                save_checkpoint(progress.model, snapshot["training_clock_seconds"], "initial")
+
+        progress.sink = persist_progress
 
         def callback(metrics, model, elapsed):
             nonlocal last_checkpoint
+            previous_phase = progress.phase
+            progress.phase = "metric_journal"
             step = int(metrics.get("environment_steps", 0))
             for name, value in metrics.items():
                 if (
@@ -117,22 +167,12 @@ def run_training(
                         episodes=metrics.get("episodes", 0),
                     )
             run.telemetry(include_gpu=True)
+            progress.phase = previous_phase
             if metrics.get("checkpoint"):
                 target = metrics.get("checkpoint_target_seconds")
                 label = f"at-{target:g}s" if target is not None else "final"
-                path = run.directory / f"policy-{label}.pt"
-                model.save(path)
-                last_checkpoint = run.register_artifact(
-                    path,
-                    "checkpoint",
-                    {
-                        "training_elapsed_seconds": elapsed,
-                        "target_seconds": target,
-                        "model_config": model.config,
-                        "final": metrics.get("final", False),
-                        "parent_run": parent_run,
-                        "parent_checkpoint": parent_hash,
-                    },
+                save_checkpoint(
+                    model, elapsed, label, target=target, final=metrics.get("final", False)
                 )
                 print(
                     json.dumps(
@@ -148,28 +188,76 @@ def run_training(
 
         train = train_ppo if algorithm == "ppo" else train_cem
         observer_report = None
-        if live is None:
-            result = train(seconds=seconds, seed=seed, callback=callback, **config)
-        else:
-            live.start()
-            try:
-                result = train(
-                    seconds=seconds,
-                    seed=seed,
-                    callback=callback,
-                    **config,
-                    snapshot_interval=observer.snapshot_interval,
-                    snapshot=live.snapshot,
-                )
-            finally:
-                observer_report = live.stop(timeout=10.0)
-        config_path = run.directory / "resolved-training-config.json"
-        config_path.write_text(json.dumps(result.config, indent=2), encoding="utf-8")
-        run.register_artifact(config_path, "resolved_configuration")
         observer_summary = None
-        if observer_report is not None:
-            observer_summary = _record_observer(
-                run, run_config["observer"], observer_report, result, video_skipped_reason
+        training_error = None
+        cleanup_errors = []
+        try:
+            if live is not None:
+                live.start()
+            result = train(
+                seconds=seconds,
+                seed=seed,
+                callback=callback,
+                progress=progress,
+                **config,
+                **(
+                    {"snapshot_interval": observer.snapshot_interval, "snapshot": live.snapshot}
+                    if live is not None
+                    else {}
+                ),
+            )
+            progress.finished = progress.started + result.elapsed
+        except BaseException as error:
+            progress.finished = time.monotonic()
+            training_error = error
+            run.annotate(failure_phase=progress.phase)
+            raise
+        finally:
+            if live is not None:
+                try:
+                    observer_report = live.stop(timeout=10.0)
+                    observer_summary = _record_observer(
+                        run, run_config["observer"], observer_report, progress, video_skipped_reason
+                    )
+                    run.annotate(observer=observer_summary)
+                except BaseException as error:  # noqa: BLE001 - preserve learner and cleanup evidence
+                    observer_summary = {
+                        "error": f"{type(error).__name__}: {error}",
+                        "stopped_cleanly": False,
+                        "record_error": "observer cleanup or recording failed",
+                    }
+                    run.annotate(observer=observer_summary)
+                    if training_error is not None:
+                        training_error.add_note(f"Observer cleanup also failed: {error}")
+            try:
+                progress.publish(force=True)
+                if training_error is not None and progress.model is not None:
+                    if progress.checkpoint_safe:
+                        if progress.prepare_checkpoint:
+                            progress.prepare_checkpoint()
+                        save_checkpoint(
+                            progress.model,
+                            progress.snapshot()["training_clock_seconds"],
+                            "interrupted",
+                        )
+                    else:
+                        run.annotate(
+                            checkpoint_recovery="refused: optimizer operation may be partial"
+                        )
+            except BaseException as error:
+                cleanup_errors.append(f"{type(error).__name__}: {error}")
+                if training_error is not None:
+                    training_error.add_note(f"Progress/checkpoint recovery also failed: {error}")
+                else:
+                    raise
+            run.annotate(
+                learner_status="interrupted"
+                if isinstance(training_error, KeyboardInterrupt)
+                else "failed"
+                if training_error is not None
+                else "completed",
+                cleanup_errors=cleanup_errors,
+                **({"checkpoint_hash": last_checkpoint["sha256"]} if last_checkpoint else {}),
             )
         # Final model evaluation is separate from the training clock and explicitly timed.
         from gradientclimb.evaluation import evaluate
@@ -209,7 +297,7 @@ def run_training(
 
 
 def _record_observer(run, observer_block, report, result, video_skipped_reason):
-    """Write observer evidence after training returned; it never touches the learner.
+    """Write observer evidence after training stops, including its exception paths.
 
     Nothing here may fail the finished training run: a missing or unregistrable
     video is recorded as ``video_skipped_reason`` and any other recording error
@@ -286,6 +374,15 @@ def _record_observer(run, observer_block, report, result, video_skipped_reason):
     except Exception as error:  # Observer evidence must never fail the training run.
         summary["record_error"] = f"{type(error).__name__}: {error}"
         LOG.warning("Observer evidence could not be recorded", exc_info=True)
+    summary["status"] = (
+        "degraded"
+        if summary.get("error")
+        or summary.get("record_error")
+        or summary.get("sink_errors")
+        or summary.get("stopped_cleanly") is False
+        or summary.get("video_skipped_reason")
+        else "completed"
+    )
     return summary
 
 
@@ -295,8 +392,8 @@ def run_evaluation(
     baseline="random",
     episodes=20,
     seed_start=20000,
-    profile="default",
-    terrain="train",
+    profile=None,
+    terrain=None,
     generalization=False,
 ):
     import torch
@@ -312,6 +409,8 @@ def run_evaluation(
         if checkpoint
         else (RandomPolicy(seed_start) if baseline == "random" else AlwaysGasPolicy())
     )
+    profile = profile if profile is not None else policy.config.get("profile", "default")
+    terrain = terrain if terrain is not None else policy.config.get("terrain", "train")
     config = {
         "checkpoint_hash": sha256_file(checkpoint) if checkpoint else None,
         "baseline": None if checkpoint else baseline,

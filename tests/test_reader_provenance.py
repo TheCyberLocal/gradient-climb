@@ -1,6 +1,6 @@
 """Whole-session exclusion and chronology gates use synthetic provenance only."""
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -12,7 +12,7 @@ from gradientclimb.experiments.reader_provenance import (
 
 
 def stamp(hour):
-    return datetime(2026, 9, 12, tzinfo=timezone.utc) + timedelta(hours=hour)
+    return datetime(2026, 9, 12, tzinfo=UTC) + timedelta(hours=hour)
 
 
 def digest(number):
@@ -236,7 +236,7 @@ def test_incomplete_or_ambiguous_provenance_refused(mutation, match):
 
 def test_timezone_hashes_and_explicit_root_categories_are_required():
     data = manifest_data()
-    data["registered_at"] = datetime(2026, 9, 12)
+    data["registered_at"] = datetime(2026, 9, 12)  # noqa: DTZ001 - deliberately invalid fixture
     with pytest.raises(ValueError):
         validate(data)
     data = manifest_data()

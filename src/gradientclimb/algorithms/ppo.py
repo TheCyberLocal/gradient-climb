@@ -20,7 +20,11 @@ import torch
 from torch import nn
 from torch.distributions import Bernoulli
 
-from gradientclimb.simulation import SIMULATOR_VERSION, VectorHillEnv
+from gradientclimb.environments import make_environment
+from gradientclimb.simulation import SIMULATOR_VERSION
+
+from .checkpoints import atomic_torch_save, continuation_manifest
+from .progress import TrainingProgress
 
 DEFAULT_CHECKPOINT_TIMES = (300, 600, 1200, 1800, 2700, 3600)
 
@@ -62,16 +66,16 @@ class ActorCritic(nn.Module):
         return (bits[:, 0] + 2 * bits[:, 1]).cpu().numpy()
 
     def save(self, path: str | Path) -> None:
-        Path(path).parent.mkdir(parents=True, exist_ok=True)
-        torch.save(
+        atomic_torch_save(
             {
-                "format_version": 1,
+                "format_version": 2,
                 "algorithm": "ppo",
                 "config": self.config,
                 "observation_dim": self.observation_dim,
                 "hidden_size": self.hidden_size,
                 "model_state": self.state_dict(),
                 "training_state": self.training_state,
+                "continuation_manifest": continuation_manifest("ppo", self.training_state),
             },
             path,
         )
@@ -133,6 +137,7 @@ def train_ppo(
     parent_checkpoint: str | None = None,
     snapshot_interval: float | None = None,
     snapshot: Callable[[dict], None] | None = None,
+    progress: TrainingProgress | None = None,
 ) -> TrainingResult:
     """Train until a monotonic deadline, counting initialization and callback time.
 
@@ -170,11 +175,21 @@ def train_ppo(
     if snapshot is not None and (snapshot_interval is None or not snapshot_interval > 0):
         raise ValueError("A snapshot callback requires a positive snapshot_interval")
     start = time.monotonic()
+    progress = progress if progress is not None else TrainingProgress()
+    progress.started = start
     deadline = start + seconds
     torch.set_num_threads(torch_threads)
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
-    env = VectorHillEnv(num_envs, seed, profile, terrain, randomization, stack, max_steps)
+    env = make_environment(
+        num_envs=num_envs,
+        seed=seed,
+        profile=profile,
+        terrain=terrain,
+        randomization=randomization,
+        stack=stack,
+        max_steps=max_steps,
+    )
     observations, _ = env.reset(seed)
     model = ActorCritic(env.observation_dim, hidden_size, device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, eps=1e-5)
@@ -219,6 +234,7 @@ def train_ppo(
                 group["lr"] = learning_rate
     model.config = config
     metrics: list[dict] = []
+    progress.model, progress.config, progress.metrics = model, config, metrics
     recent: deque = deque(maxlen=100)
     targets = deque(sorted({float(t) for t in checkpoint_times if 0 < t <= seconds}))
     environment_steps = episodes = updates = iterations = 0
@@ -231,6 +247,29 @@ def train_ppo(
     best_mean: float | None = None
     best_state: dict | None = None
     best_snapshot: dict | None = None
+
+    def prepare_checkpoint():
+        if not progress.checkpoint_safe:
+            raise RuntimeError("An interrupted optimizer step may have partially mutated weights")
+        model.training_state = {
+            "optimizer": optimizer.state_dict(),
+            "torch_rng": torch.get_rng_state(),
+            "sampler_rng": rng.bit_generator.state,
+            **(
+                {"cuda_rng": torch.cuda.get_rng_state_all()}
+                if str(device).startswith("cuda")
+                else {}
+            ),
+            "environment_steps": progress.environment_steps,
+            "episodes": progress.episodes,
+            "optimizer_updates": progress.optimizer_updates,
+            "elapsed": time.monotonic() - start,
+        }
+
+    progress.prepare_checkpoint = prepare_checkpoint
+    progress.checkpoint_safe = True
+    progress.phase = "ready"
+    progress.publish(force=True)
 
     def emit(final=False, target=None):
         elapsed = time.monotonic() - start
@@ -255,6 +294,7 @@ def train_ppo(
             "inference_seconds": total_inference,
             "environment_seconds": total_environment,
             "optimizer_seconds": total_optimizer,
+            "accounting_publication_seconds": progress.publication_seconds,
             "checkpoint": target is not None or final,
             "checkpoint_target_seconds": target,
             "requested_checkpoint_seconds": target,
@@ -265,14 +305,7 @@ def train_ppo(
             "snapshot_errors": snapshot_errors,
         }
         metrics.append(row)
-        model.training_state = {
-            "optimizer": optimizer.state_dict(),
-            "torch_rng": torch.get_rng_state(),
-            "environment_steps": environment_steps,
-            "episodes": episodes,
-            "optimizer_updates": updates,
-            "elapsed": elapsed,
-        }
+        prepare_checkpoint()
         if callback:
             callback(row, model, elapsed)
 
@@ -340,6 +373,7 @@ def train_ppo(
             if time.monotonic() >= deadline:
                 break
             t = time.monotonic()
+            progress.phase = "inference"
             obs_tensor = torch.as_tensor(observations, device=device)
             with torch.no_grad():
                 distribution, values = model.distribution_value(obs_tensor)
@@ -348,8 +382,14 @@ def train_ppo(
             actions = (bits[:, 0].long() + 2 * bits[:, 1].long()).cpu().numpy()
             total_inference += time.monotonic() - t
             t = time.monotonic()
+            progress.phase = "environment_step"
             next_obs, rewards, terminated, truncated, info = env.step(actions)
             total_environment += time.monotonic() - t
+            environment_steps += num_envs
+            episodes += len(info["episodes"])
+            progress.environment_steps, progress.episodes = environment_steps, episodes
+            progress.phase = "inference"
+            progress.publish()
             done = terminated | truncated
             bootstrap_obs = next_obs.copy()
             if done.any():
@@ -369,12 +409,12 @@ def train_ppo(
             term_buffer.append(torch.as_tensor(terminated, device=device, dtype=torch.float32))
             done_buffer.append(torch.as_tensor(done, device=device, dtype=torch.float32))
             recent.extend(info["episodes"])
-            episodes += len(info["episodes"])
-            environment_steps += num_envs
             observations = next_obs
         if not obs_buffer or time.monotonic() >= deadline:
             break
         t = time.monotonic()
+        progress.phase = "optimization"
+        accounting_before = progress.publication_seconds
         advantages, returns = compute_gae(
             torch.stack(reward_buffer),
             torch.stack(value_buffer),
@@ -410,17 +450,25 @@ def train_ppo(
                 optimizer.zero_grad(set_to_none=True)
                 loss.backward()
                 nn.utils.clip_grad_norm_(model.parameters(), 0.5)
+                progress.phase = "optimizer_step"
+                progress.checkpoint_safe = False
                 optimizer.step()
                 updates += 1
+                progress.optimizer_updates = updates
+                progress.checkpoint_safe = True
+                progress.phase = "optimization"
+                progress.publish()
                 last_loss, last_entropy = float(policy_loss.detach()), float(entropy.detach())
                 last_kl = float(((ratio - 1) - log_ratio).mean().detach())
             if last_kl > 0.03 or time.monotonic() >= deadline:
                 break
-        total_optimizer += time.monotonic() - t
+        total_optimizer += time.monotonic() - t - (progress.publication_seconds - accounting_before)
         iterations += 1
         boundaries()
     boundaries()
     emit(final=True)
+    progress.phase = "completed"
+    progress.publish(force=True)
     model.eval()
     return TrainingResult(
         model, metrics, config, time.monotonic() - start, environment_steps, episodes, updates

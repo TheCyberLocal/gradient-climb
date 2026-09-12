@@ -13,6 +13,7 @@ import os
 import shutil
 import threading
 import time
+import traceback as traceback_module
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
@@ -157,6 +158,8 @@ class RunRecorder:
         self._thread: threading.Thread | None = None
         self._artifacts: list[ArtifactRecord] = []
         self._evaluations: list[EvaluationRecord] = []
+        self._progress_state: dict[str, Any] = {}
+        self._summary: dict[str, Any] = {}
         source_root = Path(metadata.pop("source_root", Path.cwd()))
         telemetry_interval = float(metadata.pop("telemetry_interval_seconds", 1.0))
         if telemetry_interval < 0:
@@ -202,6 +205,9 @@ class RunRecorder:
             name: (self.directory / f"{name}.jsonl").open("x", encoding="utf-8", newline="\n")
             for name in PARQUET_SCHEMAS
         }
+        self._streams["progress"] = (self.directory / "progress.jsonl").open(
+            "x", encoding="utf-8", newline="\n"
+        )
         self.register_artifact(self.directory / "source-state.json", "source_provenance")
         self.telemetry()
         if telemetry_interval:
@@ -221,13 +227,83 @@ class RunRecorder:
         traceback: TracebackType | None,
     ) -> bool:
         if not self._closed:
-            self.finalize(
-                status="failed" if exc is not None else "completed",
-                **(
-                    {"error": str(exc), "error_type": type(exc).__name__} if exc is not None else {}
-                ),
+            failure = (
+                {
+                    "error": str(exc),
+                    "error_type": type(exc).__name__,
+                    "traceback": "".join(
+                        traceback_module.format_exception(exc_type, exc, traceback)
+                    ),
+                }
+                if exc is not None
+                else {}
             )
+            try:
+                if failure:
+                    _write_new(self.directory / "failure.json", failure)
+                self.finalize(
+                    status="cancelled"
+                    if isinstance(exc, KeyboardInterrupt)
+                    else "failed"
+                    if exc is not None
+                    else "completed",
+                    **failure,
+                )
+            except BaseException as finalization_error:
+                cleanup_errors = self._abandon()
+                if exc is None:
+                    raise
+                # Storage or cleanup failure must not replace the actual learner exception.
+                exc.add_note(
+                    f"Run finalization also failed; preserved unsealed journals at {self.directory}: "
+                    f"{type(finalization_error).__name__}: {finalization_error}; "
+                    f"cleanup_errors={cleanup_errors}"
+                )
+                logging.getLogger(__name__).exception("Run finalization failed")
         return False
+
+    def _abandon(self) -> list[str]:
+        errors = []
+        self._stop.set()
+        if self._thread:
+            try:
+                self._thread.join(timeout=5)
+            except BaseException as error:  # noqa: BLE001 - release streams despite a second interrupt
+                errors.append(f"thread: {type(error).__name__}: {error}")
+        self._closed = True
+        for stream in self._streams.values():
+            try:
+                stream.close()
+            except BaseException as error:  # noqa: BLE001 - release every stream, retaining evidence
+                errors.append(f"stream: {type(error).__name__}: {error}")
+        return errors
+
+    def record_progress(self, snapshot: dict[str, Any]) -> None:
+        """Persist completed-operation counters independently of metric or model writes.
+
+        Caller updates its own counters every operation; these bounded-cadence,
+        fsynced snapshots support explicit lower bounds after abrupt termination.
+        """
+        with self._lock:
+            self._ensure_open()
+            canonical_json(snapshot)
+            counters = {}
+            for key in ("environment_steps", "training_steps", "episodes", "optimizer_updates"):
+                value = snapshot[key]
+                if type(value) is not int or value < getattr(self._record, key):
+                    raise ValueError(f"Progress {key} must be a monotonic nonnegative integer")
+                counters[key] = value
+            self._record = self._record.model_copy(update=counters)
+            self._progress_state = json.loads(canonical_json(snapshot))
+            row = {"run_id": self.run_id, "elapsed_seconds": self.elapsed_seconds, **snapshot}
+            self._streams["progress"].write(canonical_json(row) + "\n")
+            self._streams["progress"].flush()
+            os.fsync(self._streams["progress"].fileno())
+
+    def annotate(self, **summary: Any) -> None:
+        """Retain lifecycle diagnostics for either explicit or exception finalization."""
+        self._ensure_open()
+        self._summary.update(json.loads(canonical_json(summary)))
 
     @property
     def elapsed_seconds(self) -> float:
@@ -356,6 +432,13 @@ class RunRecorder:
         if status not in {"completed", "failed", "cancelled"}:
             raise ValueError("Final status must be completed, failed, or cancelled")
         # Validate summary before stopping the live recorder.
+        summary = {**self._summary, **summary}
+        if self._progress_state:
+            summary = {
+                "training_clock_seconds": self._progress_state["training_clock_seconds"],
+                "accounting": self._progress_state,
+                **summary,
+            }
         canonical_json(summary)
         duration = self.elapsed_seconds
         promoted = {
@@ -460,7 +543,36 @@ def load_run(root: str | Path, run_id: str) -> dict[str, Any]:
     path = directory / "run.json"
     if not path.exists():
         path = directory / "run-start.json"
-    return RunRecord.model_validate_json(path.read_text(encoding="utf-8")).model_dump(mode="json")
+    record = RunRecord.model_validate_json(path.read_text(encoding="utf-8")).model_dump(mode="json")
+    if record["status"] == "running":
+        latest = read_progress(directory)
+        if latest:
+            for key in ("environment_steps", "training_steps", "episodes", "optimizer_updates"):
+                record[key] = latest[key]
+            if latest.get("checkpoint"):
+                record["checkpoint_hash"] = latest["checkpoint"]["sha256"]
+            record["summary"] = {
+                **record["summary"],
+                "accounting": {
+                    **latest,
+                    "counter_basis": "persisted_completed_operations_lower_bound",
+                },
+            }
+    return record
+
+
+def read_progress(directory: str | Path) -> dict[str, Any] | None:
+    """Read through the last complete progress line without repairing or sealing it."""
+    path = Path(directory) / "progress.jsonl"
+    if not path.exists():
+        return None
+    latest = None
+    with path.open(encoding="utf-8") as stream:
+        for line in stream:
+            if not line.endswith("\n"):
+                break
+            latest = json.loads(line)
+    return latest
 
 
 def list_runs(root: str | Path) -> list[dict[str, Any]]:

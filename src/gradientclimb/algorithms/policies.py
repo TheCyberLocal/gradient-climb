@@ -42,13 +42,15 @@ class LinearPolicy:
     def save(self, path: str | Path) -> None:
         import torch
 
-        Path(path).parent.mkdir(parents=True, exist_ok=True)
-        torch.save(
+        from .checkpoints import atomic_torch_save, continuation_manifest
+
+        atomic_torch_save(
             {
-                "format_version": 1,
+                "format_version": 2,
                 "algorithm": "cem",
                 "config": self.config,
                 "weights": torch.from_numpy(self.weights),
+                "continuation_manifest": continuation_manifest("cem", {}),
             },
             path,
         )
@@ -59,8 +61,16 @@ def load_policy(path: str | Path, device: str = "cpu"):
     import torch
 
     checkpoint = torch.load(path, map_location=device, weights_only=True)
-    if checkpoint.get("format_version") != 1:
-        raise ValueError("Unsupported GradientClimb checkpoint version")
+    if checkpoint.get("format_version") not in {1, 2}:
+        raise ValueError(
+            "Unsupported GradientClimb checkpoint version; load with the producing release "
+            "and export a supported v1/v2 checkpoint"
+        )
+    if checkpoint.get("format_version") == 2 and (
+        not isinstance(checkpoint.get("continuation_manifest"), dict)
+        or checkpoint["continuation_manifest"].get("exact_resume") is not False
+    ):
+        raise ValueError("Invalid v2 continuation manifest; exact resume is unsupported")
     if checkpoint["algorithm"] == "cem":
         return LinearPolicy(checkpoint["weights"].cpu().numpy(), checkpoint["config"])
     if checkpoint["algorithm"] == "ppo":
@@ -70,6 +80,9 @@ def load_policy(path: str | Path, device: str = "cpu"):
         model.load_state_dict(checkpoint["model_state"])
         model.config = checkpoint["config"]
         model.training_state = checkpoint.get("training_state", {})
+        model.checkpoint_manifest = checkpoint.get(
+            "continuation_manifest", {"continuation": "legacy_warm_start", "exact_resume": False}
+        )
         model.eval()
         return model
     raise ValueError(f"Unknown algorithm: {checkpoint['algorithm']}")
