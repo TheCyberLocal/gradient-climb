@@ -1,0 +1,30 @@
+{
+  "protocol_id": "cycle-3-campaign-3.0",
+  "status": "registered_before_new_experiments",
+  "source_authority": "cycle-2-paused",
+  "starting_sha": "610dc48dc601f878086053f900ee7a005ccea821",
+  "requirements": "docs/methodology/cycle-3-evidence-register.md",
+  "rules": {
+    "commit_implementation_and_specific_protocol_before_experiment": true,
+    "isolate_running_experiment_source": true,
+    "ordinary_ci_has_no_game_input_or_research_training": true,
+    "all_attempts_and_negative_trials_retained": true,
+    "no_target_lowering_after_qualification": true,
+    "stop_native_on_unintended_effect_or_latched_guard": true,
+    "future_unparameterized_campaigns_are_not_dispatchable": true
+  },
+  "campaigns": [
+    {"id": "foundation", "kind": "software_validation", "budget": "focused fault tests plus one full suite per coherent milestone", "gate": "source/evidence identity, truthful counters, atomic checkpoint and host safeguards", "stop": "fix a specific failing contract before dependent work"},
+    {"id": "native-instrument", "kind": "real", "max_sessions": 3, "attempts_per_session": 12, "episode_seconds": 60, "requires": ["foundation", "native-reliability-2.3 registration", "fresh game identity"], "gate": "10 consecutive scored successes, 10/12 scored, zero unintended actions/manual interventions", "stop": "any guard fault/effect, then bounded diagnosis; do not count exploratory sessions as study"},
+    {"id": "native-soak", "kind": "real", "max_sessions": 1, "attempts_per_session": 30, "session_seconds": 10800, "requires": ["native-instrument", "specific soak registration"], "gate": "30 accounted attempts, zero safety faults/intervention; report all availability and wait costs", "stop": "first safety fault or deadline; no set-and-forget claim from short gate alone"},
+    {"id": "demonstrations", "kind": "human", "initial_training_runs": 3, "initial_benchmark_runs": 3, "requires": ["validated read-only recorder", "owner play availability", "whole-session split manifest"], "gate": "synchronized controls and complete varied runs; benchmark never used for training", "stop": "request additional coverage only from measured gaps"},
+    {"id": "engine-screen", "kind": "synthetic_engineering", "max_candidates": 2, "timing_seconds_per_cell": 10, "environment_counts": [1, 8, 32], "repetitions": 3, "requires": ["pinned engine protocol/license"], "gate": "installation, articulation/contact stability, offscreen timing and unchanged solver semantics", "stop": "reject unstable or unsupported candidates; no real-fidelity claim"},
+    {"id": "fidelity", "kind": "construction_then_heldout", "max_fit_rounds": 3, "requires": ["synchronized real data", "frozen tolerances and data split"], "gate": "heldout geometry/dynamics/perception plus early real transfer probes", "stop": "after each failure identify layer-specific bottleneck; never tune heldout labels"},
+    {"id": "learner-screen", "kind": "learning", "max_candidate_methods": 3, "screen_seconds_per_method": 300, "screen_seeds": [3101], "replication_seeds": [3101, 3102, 3103], "replication_seconds_per_seed": 600, "requires": ["specific matched learner protocol", "qualified observations/environment", "native gate for real training"], "gate": "independent frozen evaluation and improvement per total cost", "stop": "reject unproductive method after screen; change a specific bottleneck before repeating"},
+    {"id": "objectives", "kind": "learning", "required_arms": ["distance", "distance_score", "distance_score_time", "recovery_with_same_time"], "screen_seconds_per_arm": 300, "screen_seeds": [3201], "requires": ["validated score and recovery", "distance/pace baseline", "frozen arm parameters and noninferiority margins"], "gate": "unique score attribution and matched outcome/hacking comparisons", "stop": "do not extend arms that violate declared distance/survival/coverage constraints"},
+    {"id": "one-hour", "kind": "real_qualification", "training_seeds": [3301, 3302, 3303], "training_seconds_per_seed": 3600, "checkpoint_minutes": [5, 10, 20, 30, 45, 60], "evaluation_executions_per_final_policy": 20, "long_run_seconds": 900, "target_median_real_m": 2000, "requires": ["development-selected frozen method", "untouched qualification manifest", "specific prior-class protocol"], "gate": "target status per seed, full distributions and command-start costs", "stop": "deadline, no extra updates; publish measured shortfall"},
+    {"id": "profiles-and-retention", "kind": "real_adaptation", "additional_vehicle_profiles": 2, "additional_maps": 1, "adaptation_minutes": [0, 5, 10, 30, 60], "requires": ["reference competence", "legitimately accessible content", "profile-specific targets and matched total budget registration"], "gate": "zero-shot/adaptation/retention across map, vehicle, and pair", "stop": "record content blockers; no purchases; no broad training before reference competence"}
+  ],
+  "executions": [],
+  "scientific_targets_met": false
+}
