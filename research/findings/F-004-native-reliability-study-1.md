@@ -1,6 +1,6 @@
 # F-004 — Unattended native episode cycling is not yet established: study 2.0 failed on unseen UI phases
 
-Status: **NOT SUPPORTED (registered study failed its criteria)**, Cycle 2, 2026-09-12.
+Status: **NOT SUPPORTED (registered study failed its criteria)**, Cycle 2, 2026-09-11.
 Protocol [`native-reliability-2.0`](../../experiments/definitions/cycle-2-native-reliability.json);
 sessions `28a9d5be`, `78d51e26`, `55b84b0f` (experiment `native-reliability-study`).
 

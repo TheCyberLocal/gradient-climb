@@ -34,12 +34,15 @@ registered metric, objective and reliability protocols.
   a native session runs, because that raises the assistant window over the game and
   the adapter halts on foreground loss (exploratory session `91c3d4f4`). Native
   sessions therefore run as single foreground commands with tools idle.
-- UI profile `hcr-wrapper-reset-v2` (19 variants): Meta Audience Network chrome
+- UI profile `hcr-wrapper-reset-v2` (22 variants): Meta Audience Network chrome
   (skip-forward and muted-speaker glyphs, binarized-shape matching), the
-  Google-served small-layout interstitial (dim skip glyph plus static marker), the
-  Fingersoft commercial break, and the vehicle-selection screen, in addition to the
-  Cycle 1 variants. Every addition was audited offline over all stored frames
-  (`scripts/audit_ui_profile.py`; sealed audits `7b73824a`, `745ea91e`, `b73aa968`).
+  Google-served interstitial at three player sizes (small, tiny end card, medium;
+  dim skip glyph or Close pill plus a creative-independent static marker), the
+  Fingersoft commercial break, the current build's out-of-fuel result and the
+  vehicle-selection screen, in addition to the Cycle 1 variants. Every addition
+  was audited offline over all stored frames (`scripts/audit_ui_profile.py`;
+  sealed audits `7b73824a`, `745ea91e`, `b73aa968`, `5bd55d79`, `d1613fff`,
+  `6b807f8e`).
 - Advertisement closes require the same control on two fresh frames ≥ 0.15 s apart.
 
 ## Exploratory native sessions so far (not study attempts)
@@ -54,9 +57,20 @@ Every exploratory failure is sealed and preserved. Two independently labeled
 result frames (246, 398) extended the terminal bank to 58 glyphs in construction
 run `ca73a234`; those two sessions are construction evidence for that bank.
 
+## Reliability study 2.0 (complete, failed) and 2.1 (registered)
+
+`native-reliability-2.0` ran its three sessions (`28a9d5be`, `78d51e26`,
+`55b84b0f`): longest consecutive scored success run 1, zero unintended actions,
+zero manual interventions, each session halted safely on a distinct unseen UI
+phase (tiny Google end card, the current build's out-of-fuel result, a third
+Google player size). See [F-004](../../research/findings/F-004-native-reliability-study-1.md).
+Each phase became a hash-pinned, audited variant; the profile now has 22.
+`native-reliability-2.1` re-registers the identical criteria against the
+extended profile.
+
 ## Registered protocols awaiting execution
 
-- `native-reliability-2.0`: 12 consecutive attempts per session, alternating gas
+- `native-reliability-2.1`: 12 consecutive attempts per session, alternating gas
   and random scripted controls, ≥ 10 consecutive scored successes required.
 - `real-baselines-2.0`: random, always-gas and the stabilizing heuristic, ten scored
   attempts each, interleaved.
