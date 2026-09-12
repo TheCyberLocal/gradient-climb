@@ -1,0 +1,47 @@
+{
+  "schema_version": "imitation-window-plan-3.0",
+  "dataset_id": "first-human-construction-windows-002",
+  "artifact_root": "artifacts",
+  "partition_ledger": {
+    "path": "research/datasets/cycle-3-demonstration-partitions-v1.json",
+    "sha256": "7e362e133b54420dc218874e416c1514932abce4568b21f3e1c5528ab5137665"
+  },
+  "reviews": [
+    {
+      "path": "research/datasets/fbafca5b-reviewed-segments-v2.json",
+      "sha256": "da51ef43a53c2ad050fd52a92085f5d422d68a4d891b81b88558e3dc4bbd1b24"
+    }
+  ],
+  "split": "train",
+  "history_frames": 4,
+  "maximum_frame_gap_seconds": 0.25,
+  "maximum_frame_age_seconds": 0.45,
+  "maximum_target_lag_seconds": 0.1,
+  "maximum_poll_gap_seconds": 0.05,
+  "maximum_source_frames": 1000,
+  "maximum_source_control_samples": 10000,
+  "maximum_journal_bytes": 16777216,
+  "prior_evidence": [
+    {
+      "path": "research/diagnostics/human-demonstrations-2026-09-12.json",
+      "sha256": "3c308c1a4b91aec5a0de481df73ba7c3125877e969555d70fb2be1d07d3feefa"
+    },
+    {
+      "sha256": "8ba94c30c5ef03ebefb221aa86a64ea26333f0ae0ca9d93e25192ff6b97326dc",
+      "path": "research/datasets/fbafca5b-frame-visual-review-v1.json"
+    },
+    {
+      "path": "research/datasets/fbafca5b-reviewed-segments-v1.json",
+      "sha256": "6b6d8f3065d6654b62d9206effb0a47126720da31db84545c9da8af1ad77a391"
+    },
+    {
+      "path": "research/diagnostics/imitation-window-001-hash-failure.json",
+      "sha256": "08a85bf6dc51d724cafec00b86b6c2fc9a77590c694cb56cafb4fe4a29a5280a"
+    },
+    {
+      "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/run.json",
+      "sha256": "dff658ae11bb5e75375b9e330f6a43e13722bdc0359dfaa686a0c4742eea10d1"
+    }
+  ],
+  "note": "One prospectively registered successor to failed plan001/run8f5a7301. Correct only the logical-configuration-hash versus exact-file-hash review error; source bytes, reviewed spans, split, timing limits, detector and eligibility remain unchanged. Retain failed assembly as prior cost. After committing source run exactly one window build, then one fixed geometry diagnostic over every unique accepted-window frame with unchanged configs/perception/hcr-discovery-wrapper.json and maximum1000 frames. Stop on failure; no fitting, training, new capture, independent qualification or competence claim."
+}

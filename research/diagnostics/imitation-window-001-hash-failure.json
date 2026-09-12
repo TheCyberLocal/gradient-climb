@@ -1,0 +1,39 @@
+{
+  "schema_version": "imitation-construction-failure-3.0",
+  "created_at": "2026-09-12T15:44:43.780513+00:00",
+  "source_git_sha": "e6489b520f7a1fb2261ab408ad52127923d515f0",
+  "failed_run": {
+    "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/run.json",
+    "sha256": "dff658ae11bb5e75375b9e330f6a43e13722bdc0359dfaa686a0c4742eea10d1"
+  },
+  "source_seal": {
+    "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/seal.json",
+    "sha256": "cb9d5a8f446e83a3273e2f2c5bde88b3b96844dd7201468c28b3156d8c5e0221"
+  },
+  "failed_run_seal": {
+    "path": "artifacts/runs/8f5a7301-3cba-49c2-97e0-d39420526d7b/seal.json",
+    "sha256": "9f179e7e8888e2a8f50cf5b4a68ffd5d6d53f97a6b9a6273399f5ff1a030a8d3"
+  },
+  "failure": "Review used logical canonical configuration hash where exact file SHA was required; detected before window assembly.",
+  "original_review": {
+    "path": "research/datasets/fbafca5b-reviewed-segments-v1.json",
+    "sha256": "6b6d8f3065d6654b62d9206effb0a47126720da31db84545c9da8af1ad77a391"
+  },
+  "logical_configuration_hash_in_original_review": "0aa0af4ad757a4bddcd80847f7104d7c4060b9525cb1d59f2ae91eb5d484fcf9",
+  "required_configuration_file": {
+    "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/config.json",
+    "sha256": "fa9d8f9972eb187b2af70fbe0e7bc6ec9e5de08dba35c10235079baa35740df9"
+  },
+  "source_and_failed_run_seals_verified": true,
+  "other_review_evidence": "Independent verification: all65 unique evidence references (66 occurrences) match source bytes and seal; parsed config equals run.configuration.",
+  "windows_produced": 0,
+  "geometry_frames_measured": 0,
+  "optimizer_updates": 0,
+  "new_gameplay_episodes": 0,
+  "recorder_wall_seconds": 0.4140345000050729,
+  "sampled_cpu_core_seconds": 0.015625,
+  "resource_scope": "before_initial_sample_and_after_final_sample; not_full_command_cost",
+  "full_command_seconds": null,
+  "partition_assignments_remain_binding": true,
+  "decision": "Retain failed attempt and original review/plan. Register one hash-only corrected successor before execution; no thresholds, segmentation, detector or training eligibility changes."
+}
