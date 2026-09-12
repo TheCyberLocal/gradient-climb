@@ -66,8 +66,10 @@ run `ca73a234`; those two sessions are construction evidence for that bank.
 ## Simulator-side work
 
 - The live headed PPO training observer (snapshot hook, observer thread, sinks,
-  overhead protocol) is implemented and under review fix-up in the working tree;
-  it is not yet committed.
+  overhead protocol) is committed. Its measured cost is in
+  [F-003](../../research/findings/F-003-live-headed-training-overhead.md): about
+  12.7 % fewer environment steps at 64 environments and real-time observer frame
+  rate over 60 s (three paired seeds, protocol run `238ce3a7`).
 - The restricted screen-body student was trained for the first time in run
   `3ceb8b27` (600 s, seed 500, teacher `c0a9e142` final checkpoint, prior compute
   3,600.3 s): validation on seeds 30000–30019 gave joint-action agreement 0.849
