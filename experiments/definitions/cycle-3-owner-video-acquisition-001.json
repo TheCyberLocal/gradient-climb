@@ -1,0 +1,59 @@
+{
+  "schema_version": "owner-video-acquisition-3.0",
+  "experiment_id": "cycle-3-owner-video-acquisition-001",
+  "status": "registered",
+  "registered_at": "2026-09-12T16:23:25.465953+00:00",
+  "owner_authorization": "User: Use the youtube recordings instead of new recordings. Channel supplied by owner: https://www.youtube.com/@thecyberlocal",
+  "video_url": "https://www.youtube.com/watch?v=wx_cI59vFX0",
+  "video_title": "Hill Climb Racing - All Cars Video",
+  "channel_url": "https://www.youtube.com/@thecyberlocal",
+  "selection": "Purposeful construction selection after browser review at about15s and37s. Red reference-style car, vehicle selection and0m gameplay visible. First five minutes selected to include configuration and first driving attempt. No full-video review, independent sampling, ground-truth action or exact profile/build claim.",
+  "whole_source_partition": "construction",
+  "source_session_group": "youtube-wx_cI59vFX0",
+  "source_duration_seconds_from_player": 4017,
+  "start_seconds": 0,
+  "end_seconds": 300,
+  "wall_budget_seconds": 300,
+  "output_budget_bytes": 268435456,
+  "maximum_download_attempts": 1,
+  "maximum_video_height": 720,
+  "budget_scope": "Recorder starts before package acquisition/install/download. Total external-command deadline300s; bounded polling about0.2s can overrun by one indivisible operation. Payload cap one third of256MiB leaves final-copy/seal reserve. Partial files retained. Imports, protocol parse and prior-run lookup precede recorder; final seal after last resource sample. Inspect actual final bytes after execution.",
+  "failure": "No automatic retry, credential or cookie extraction, login prompt handling, access-control workaround, purchases, playlists or bulk archive. If public unauthenticated extraction fails, preserve failure and use browser review as available; register any materially changed successor.",
+  "action_semantics": "No synchronized actions. Visible pedal states may later support separately identified, uncertainty-bearing video inference; do not feed these files to the synchronized behavior-cloning dataset or declare delivered key events.",
+  "accounting": "Retain exact tool/media hashes, package/install/download wall clocks, recorder process CPU/memory/device GPU scope and sampled subprocess-tree CPU lower bounds. Archive acquisition costs are data-generation priors. Historical human play/skill/editing/upload costs unknown, not zero. Media PTS is source-video time, not simulator or new interaction seconds. No energy estimates.",
+  "privacy": "All video/audio/facecam bytes and tool logs stay in ignored canonical local artifacts. Public source history contains only metadata, hashes and derived diagnostics.",
+  "disallowed_claims": [
+    "new real-game interaction",
+    "independent evaluated policy episodes",
+    "expert benchmark",
+    "synchronized keypress truth",
+    "real-game competence",
+    "rapid learning result"
+  ],
+  "next_gate": "Verify actual media duration, dimensions, PTS continuity, first profile screens and segment boundaries; mask facecam/HUD/browser/OS nuisance content according to a frozen observation plan before learning.",
+  "prior_discovery": {
+    "path": "research/datasets/owner-gameplay-channel-index-2026-09-12.json",
+    "sha256": "9f0744519824be03a17402b4025305ec20c2a2984b5e55d136ea41a0aab24526"
+  },
+  "prior_browser_review": {
+    "method": "Chrome visible player and screenshots; exploratory unmetered work",
+    "wall_seconds": null,
+    "compute_cost": null,
+    "new_action_labels": 0
+  },
+  "ffmpeg": {
+    "path": "C:\\Users\\timdi\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0.1-full_build\\bin\\ffmpeg.exe",
+    "sha256": "57c56e369d5b4873b4d93fc1a1d833cb7cd8bc9325c14b05c34ce60b22842d8a",
+    "version_from_installed_path": "9.0.1"
+  },
+  "tool": {
+    "version": "2026.8.19",
+    "filename": "yt_dlp-2026.8.19-py3-none-any.whl",
+    "url": "https://files.pythonhosted.org/packages/69/b2/8cd1613f56eed7ceb64fbd4df3f1c01246bfb098e6f398228bafda22b80b/yt_dlp-2026.8.19-py3-none-any.whl",
+    "sha256": "1d57897e94c6665a0a6f9bc54b34e584284e32c034ffab3a7df25d8f7b24eedf",
+    "bytes": 3185533,
+    "official_metadata": "https://pypi.org/pypi/yt-dlp/json",
+    "official_documentation": "https://github.com/yt-dlp/yt-dlp#installation",
+    "installation": "Isolated --no-index --no-deps --no-compile target inside this run; no global installation"
+  }
+}

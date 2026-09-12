@@ -151,3 +151,27 @@ The reviewed software milestone passed 723 tests with four optional-engine/platf
 skips and two dependency warnings. [Exact-revision CI for `d10fd6e8`](https://github.com/TheCyberLocal/gradient-climb/actions/runs/34702900700)
 also succeeded. This software validation is separate from the clean source revisions
 and construction observations recorded above.
+
+## Owner archive direction
+
+The owner directed this work to **use the YouTube recordings instead of new
+recordings**. Further human play sessions are not requested. Existing synchronized
+captures retain their original provenance; archive video does not acquire that
+status through reuse. Video-derived pedal hypotheses, if developed, must retain
+their inference method, timing uncertainty and validation separately.
+
+Channel search also exposed “Hill Climb Racing - All Cars Video”
+(`wx_cI59vFX0`, player duration 1:06:57) and “Hill Climb Racing - All Stages Video”
+(`-qTaHCIPqZE`, visible duration about 1:08). A purposeful browser inspection of
+the former showed vehicle selection at about 15–20 seconds and the red car at
+0 m with visible pedals at about 37 seconds. This is exploratory source review;
+exact upgrades, game build, control synchronization and outcomes remain unknown.
+The [bounded acquisition protocol](../../experiments/definitions/cycle-3-owner-video-acquisition-001.json)
+registers one first-five-minute construction excerpt, its tool identity and
+acquisition costs. The source video as a whole is construction material and cannot
+be repackaged as untouched policy qualification. Facecam and other nuisance
+overlays require explicit masking before a learning observation contract is used.
+
+The construction-audit revision `88e2f2b2` passed
+[exact-revision CI](https://github.com/TheCyberLocal/gradient-climb/actions/runs/34703700548).
+No learned real threshold or release qualification follows from this check.
