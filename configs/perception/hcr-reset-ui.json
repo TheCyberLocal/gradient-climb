@@ -619,6 +619,36 @@
       },
       "matching": "outlined_white",
       "notes": "Native OUT OF FUEL result of the current game build captured during reliability study session 2: static header and DISTANCE label establish the state; the separately visible TOUCH TO CONTINUE glyph patch is the only control. The Cycle 1 discovery reference matched this native layout at only 0.85 and is retained unchanged. The screen also shows +GEMS/+COINS lines and bonus tallies (AIR TIME, FLIP, BACK FLIP, NECK FLIP), which are reader targets, never controls."
+    },
+    {
+      "label": "admob_medium_layout_skip",
+      "state": "advertisement",
+      "file": "runs/55b84b0f-2da7-4d7c-ad20-224b3fa00542/reset-025.png",
+      "sha256": "c968f18b9dded62bf96a9eee7a02eaa1597b55511e5a3c99c8b306c17a3166c9",
+      "anchors": [
+        [
+          1010,
+          42,
+          1034,
+          66
+        ],
+        [
+          230,
+          166,
+          362,
+          180
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          1010,
+          42,
+          1034,
+          66
+        ]
+      },
+      "matching": "rgb",
+      "notes": "Google-served video interstitial rendered by the emulator at a third player size with its companion install card; the dim skip-forward glyph at the extreme top-right is byte-identical to the small-layout reference and the card's static RATINGS/CATEGORY/DEVELOPER label row is the second anchor. The creative, its Install pill and the player are never controls. Clicked only after two stable frames."
     }
   ],
   "glyph_threshold": 0.9,
