@@ -87,8 +87,8 @@ def main(argv=None):
     evaluate.add_argument("--baseline", choices=["random", "always_gas"], default="random")
     evaluate.add_argument("--episodes", type=int, default=20)
     evaluate.add_argument("--seed-start", type=int, default=20000)
-    evaluate.add_argument("--profile", default="default")
-    evaluate.add_argument("--terrain", default="train")
+    evaluate.add_argument("--profile", help="Override the checkpoint vehicle profile")
+    evaluate.add_argument("--terrain", help="Override the checkpoint terrain profile")
     evaluate.add_argument("--generalization", action="store_true")
     checkpoints = commands.add_parser(
         "evaluate-checkpoints", help="Evaluate saved timed checkpoints offline"

@@ -17,13 +17,13 @@ def watch(checkpoint=None, seconds=30, seed=20000, video=None, sink: FrameSink |
     import torch
 
     from gradientclimb.algorithms import RandomPolicy, load_policy
-    from gradientclimb.simulation import VectorHillEnv
+    from gradientclimb.environments import environment_from_config
 
     if not 0 < seconds <= 600:
         raise ValueError("Visualization duration must be in (0,600] simulation seconds")
     torch.set_num_threads(1)
     policy = load_policy(checkpoint) if checkpoint else RandomPolicy(seed)
-    env = VectorHillEnv(1, seed, stack=policy.config.get("stack", 4))
+    env = environment_from_config(policy.config, num_envs=1, seed=seed)
     obs, _ = env.reset(seed)
     frames = int(seconds / env.action_duration)
     if sink is None:
@@ -46,5 +46,11 @@ def watch(checkpoint=None, seconds=30, seed=20000, video=None, sink: FrameSink |
         "simulation_seconds": count * env.action_duration,
         "render_wall_seconds": time.perf_counter() - start,
         "video": str(Path(video)) if video else report.get("video"),
-        "scope": "uncalibrated_simulator",
+        "scope": env.environment_spec.evidence_domain,
+        "simulator_version": env.environment_spec.environment_id,
+        "distance_unit": env.environment_spec.distance_unit,
+        "scenario": env.scenario.model_dump(mode="json"),
+        "scenario_hash": env.scenario.sha256,
+        "environment_config": env.config,
+        "qualification": False,
     }

@@ -21,6 +21,8 @@ def evaluation():
             "scope": "uncalibrated_simulator",
             "simulator_version": "test-1",
             "calibration_version": "uncalibrated",
+            "distance_unit": "surrogate_unit",
+            "action_duration_seconds": 0.06,
             "profile": "default",
             "terrain": "train",
             "max_steps": 1000,

@@ -7,7 +7,7 @@ from collections import Counter
 
 import numpy as np
 
-from gradientclimb.simulation import SIMULATOR_VERSION, VectorHillEnv
+from gradientclimb.environments import LEGACY_ENVIRONMENT_ID, environment_from_config
 
 
 def summarize(values, bootstrap_seed: int = 0, bootstrap_samples: int = 2000) -> dict:
@@ -40,9 +40,9 @@ def summarize(values, bootstrap_seed: int = 0, bootstrap_samples: int = 2000) ->
 def evaluate(
     policy,
     seeds=tuple(range(1000, 1020)),
-    profile: str = "default",
-    terrain: str = "train",
-    max_steps: int = 1000,
+    profile: str | None = None,
+    terrain: str | None = None,
+    max_steps: int | None = None,
     stack: int | None = None,
     deterministic: bool = True,
 ) -> dict:
@@ -50,16 +50,28 @@ def evaluate(
 
     Same-step automatic resets occur internally, but post-reset episodes never
     enter results. CIs describe episode variation, not training-seed uncertainty.
-    Training and test seeds must be disjoint; this function records, not guesses,
-    that experimental responsibility. No in-game qualification is implied.
+    Omitted scenario settings come from the checkpoint; explicit arguments can
+    select a transfer condition. Training and test seeds must be disjoint; this
+    function records, not guesses, that responsibility. No game qualification
+    is implied. Randomization is disabled for frozen evaluation.
     """
     start = time.monotonic()
-    seeds = [int(s) for s in seeds]
-    if not seeds or len(set(seeds)) != len(seeds):
-        raise ValueError("Evaluation requires nonempty unique seeds")
-    if stack is None:
-        stack = getattr(policy, "config", {}).get("stack", 4)
-    env = VectorHillEnv(len(seeds), seeds[0], profile, terrain, False, stack, max_steps)
+    seeds = list(seeds)
+    if (
+        not seeds
+        or any(type(seed) is not int or seed < 0 for seed in seeds)
+        or len(set(seeds)) != len(seeds)
+    ):
+        raise ValueError("Evaluation requires nonempty unique nonnegative integer seeds")
+    overrides = {"profile": profile, "terrain": terrain, "max_steps": max_steps, "stack": stack}
+    env = environment_from_config(
+        getattr(policy, "config", {}),
+        num_envs=len(seeds),
+        seed=seeds[0],
+        randomization=False,
+        **{key: value for key, value in overrides.items() if value is not None},
+    )
+    profile, terrain, max_steps = env.profile, env.terrain, env.max_steps
     observations, _ = env.reset(seeds)
     active = np.ones(len(seeds), dtype=bool)
     episodes = []
@@ -89,10 +101,19 @@ def evaluate(
     reasons = Counter(row["termination"] for row in episodes)
     distance = summarize([row["distance"] for row in episodes])
     return {
-        "benchmark_version": "surrogate-evaluation-0.1.0",
-        "scope": "uncalibrated_simulator",
-        "simulator_version": SIMULATOR_VERSION,
-        "calibration_version": "uncalibrated",
+        "benchmark_version": "simulator-evaluation-3.0",
+        "scope": env.environment_spec.evidence_domain,
+        "simulator_version": env.environment_spec.environment_id,
+        "calibration_version": env.scenario.calibration_version,
+        "distance_unit": env.environment_spec.distance_unit,
+        "action_duration_seconds": env.action_duration,
+        "dt": env.dt,
+        "substeps": env.substeps,
+        "randomization": env.randomization,
+        "scenario": env.scenario.model_dump(mode="json"),
+        "scenario_hash": env.scenario.sha256,
+        "vehicle_profile_hash": env.scenario.vehicle.sha256,
+        "map_profile_hash": env.scenario.map.sha256,
         "policy_config": getattr(policy, "config", {}),
         "seeds": seeds,
         "profile": profile,
@@ -130,17 +151,24 @@ def generalization_suite(policy, seeds=tuple(range(2000, 2020)), max_steps: int 
 
 def compare_paired(first: dict, second: dict, bootstrap_seed: int = 0) -> dict:
     """Paired distance deltas on matching scenario seeds; positive favors first."""
-    if (first["profile"], first["terrain"], first["max_steps"]) != (
-        second["profile"],
-        second["terrain"],
-        second["max_steps"],
-    ):
-        raise ValueError("Paired comparisons require identical scenarios and limits")
+    if _comparison_scope(first) != _comparison_scope(second):
+        raise ValueError(
+            "Paired comparisons require identical domains, units, scenarios and limits"
+        )
     left = {e["seed"]: e["distance"] for e in first["episodes"]}
     right = {e["seed"]: e["distance"] for e in second["episodes"]}
-    if left.keys() != right.keys():
-        raise ValueError("Paired comparisons require matching evaluation seeds")
-    differences = np.array([left[s] - right[s] for s in sorted(left)])
+    if (
+        not left
+        or len(left) != len(first["episodes"])
+        or len(right) != len(second["episodes"])
+        or left.keys() != right.keys()
+    ):
+        raise ValueError("Paired comparisons require matching unique evaluation seeds")
+    left_distances = np.asarray([left[s] for s in sorted(left)], dtype=float)
+    right_distances = np.asarray([right[s] for s in sorted(left)], dtype=float)
+    if not np.isfinite(left_distances).all() or not np.isfinite(right_distances).all():
+        raise ValueError("Paired distances must all be finite measurements")
+    differences = left_distances - right_distances
     summary = summarize(differences, bootstrap_seed)
     std = differences.std(ddof=1) if len(differences) > 1 else 0
     return {
@@ -149,3 +177,46 @@ def compare_paired(first: dict, second: dict, bootstrap_seed: int = 0) -> dict:
         "win_fraction": float(np.mean(differences > 0)),
         "limitation": "Episode-seed pairing does not substitute for independent training replicates",
     }
+
+
+def _comparison_scope(result: dict) -> tuple:
+    required = (
+        "scope",
+        "simulator_version",
+        "calibration_version",
+        "profile",
+        "terrain",
+        "max_steps",
+        "deterministic",
+    )
+    if any(key not in result or result[key] is None for key in required):
+        raise ValueError("Paired result is missing its evaluation scope")
+    # The sealed legacy protocol fixes these units and cadence. Do not infer
+    # them for unknown generations or relabel historical artifact bytes.
+    legacy = (
+        result.get("benchmark_version") == "surrogate-evaluation-0.1.0"
+        and result["simulator_version"] == LEGACY_ENVIRONMENT_ID
+        and result["scope"] == "uncalibrated_simulator"
+    )
+    unit = result.get("distance_unit", "surrogate_unit" if legacy else None)
+    duration = result.get("action_duration_seconds", 0.06 if legacy else None)
+    if (
+        not isinstance(unit, str)
+        or not unit
+        or not isinstance(duration, (int, float))
+        or isinstance(duration, bool)
+        or not np.isfinite(duration)
+    ):
+        raise ValueError("Paired results require declared distance units and action cadence")
+    if duration <= 0:
+        raise ValueError("Action cadence must be positive")
+    return (
+        *(result[key] for key in required),
+        unit,
+        duration,
+        result.get("dt", 0.02 if legacy else None),
+        result.get("substeps", 3 if legacy else None),
+        result.get("randomization", False if legacy else None),
+        result.get("vehicle_profile_hash"),
+        result.get("map_profile_hash"),
+    )

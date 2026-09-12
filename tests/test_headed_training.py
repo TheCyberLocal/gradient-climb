@@ -434,9 +434,13 @@ def test_tk_sink_smoke():
 
 def test_watch_results_unchanged_with_null_sink():
     result = watch(None, 1.2, 20000, sink=NullSink())
-    assert set(result) == {"frames", "simulation_seconds", "render_wall_seconds", "video", "scope"}
+    assert {"frames", "simulation_seconds", "render_wall_seconds", "video", "scope"} <= set(result)
     assert result["frames"] == int(1.2 / 0.06)
     assert result["video"] is None and result["scope"] == "uncalibrated_simulator"
+    assert result["qualification"] is False
+    assert result["distance_unit"] == "surrogate_unit"
+    assert result["scenario"]["environment_id"] == result["simulator_version"]
+    assert len(result["scenario_hash"]) == 64
 
 
 def test_headless_observer_changes_only_the_observer_block(tmp_path):

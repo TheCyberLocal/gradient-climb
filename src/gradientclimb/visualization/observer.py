@@ -381,20 +381,12 @@ class TrainingObserver:
         import torch
 
         from gradientclimb.algorithms.ppo import ActorCritic
-        from gradientclimb.simulation import SIMULATOR_VERSION, VectorHillEnv
+        from gradientclimb.environments import environment_from_config
 
         self.config = config
         self.training = dict(training)
-        self.simulator_version = SIMULATOR_VERSION
-        self.env = VectorHillEnv(
-            1,
-            config.seed,
-            self.training.get("profile", "default"),
-            self.training.get("terrain", "train"),
-            bool(self.training.get("randomization", False)),
-            int(self.training.get("stack", 4)),
-            int(self.training.get("max_steps", 1000)),
-        )
+        self.env = environment_from_config(self.training, num_envs=1, seed=config.seed)
+        self.simulator_version = self.env.environment_spec.environment_id
         # Orthogonal initialization would otherwise consume the learner's global RNG.
         with torch.random.fork_rng(devices=[]):
             self.model = ActorCritic(
