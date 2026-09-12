@@ -1,0 +1,26 @@
+{
+  "schema_version": "demonstration-partitions-3.0",
+  "ledger_id": "cycle-3-first-human-recordings-v1",
+  "created_at": "2026-09-12T15:17:06.9474545+00:00",
+  "sessions": [
+    {
+      "session_id": "863082f7-ee46-4558-97d1-ac00d4c1e03d",
+      "run_id": "febf6812-0f73-495f-a8a7-34a21a1dddf9",
+      "source_purpose": "development",
+      "split": "development"
+    },
+    {
+      "session_id": "51f03e51-946d-4b6a-b49a-a9f8bc1dce78",
+      "run_id": "789b59ed-8c97-4cb9-9d97-9b1a4aaba277",
+      "source_purpose": "development",
+      "split": "development"
+    },
+    {
+      "session_id": "910b220f-31a4-451d-a574-d25d45c8e198",
+      "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+      "source_purpose": "imitation",
+      "split": "train"
+    }
+  ],
+  "note": "Frozen whole-session assignments before any feature fitting or training. The train-assigned imitation session currently has incomplete visually verified profile identity; windows remain construction-only until a justified new linked review establishes eligibility. No source session is untouched qualification."
+}

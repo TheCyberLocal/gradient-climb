@@ -66,6 +66,20 @@ def test_archive_restore_retains_all_bytes_and_failed_run_seal(tmp_path, evidenc
     assert not (tmp_path / "restored/.restore-incomplete.json").exists()
 
 
+def test_partition_lock_is_narrowly_excluded_operational_metadata(tmp_path, evidence):
+    root, _, _, _ = evidence
+    lock = root / "artifacts/.imitation-partitions.lock"
+    lock.write_bytes(b"\0")
+    inventory = build_inventory(root, tmp_path / "with-operational-lock.json")
+    assert inventory["excluded_operational_files"] == ["artifacts/.imitation-partitions.lock"]
+    assert not any(
+        row["path"] == "artifacts/.imitation-partitions.lock" for row in inventory["files"]
+    )
+    lock.write_bytes(b"not operational metadata")
+    with pytest.raises(ValueError, match="reserved partition lock"):
+        build_inventory(root, tmp_path / "must-not-hide-evidence.json")
+
+
 def test_all_publication_destinations_refuse_overwrite(tmp_path, evidence):
     root, manifest, _, _ = evidence
     before = manifest.read_bytes()

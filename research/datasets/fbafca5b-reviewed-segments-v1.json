@@ -1,0 +1,343 @@
+{
+  "schema_version": "demonstration-segmentation-3.0",
+  "review_id": "fbafca5b-two-bounded-gameplay-spans-v1",
+  "reviewer": "Codex measurement_audit; individual local PNG visual inspection",
+  "reviewed_at": "2026-09-12T15:09:45Z",
+  "source": {
+    "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+    "session_id": "910b220f-31a4-451d-a574-d25d45c8e198",
+    "run_sha256": "d27c4e5bbf720c5fbe8ccc88348f3c72f146dbd7d5885b65dadc975a95b2d21c",
+    "configuration_sha256": "0aa0af4ad757a4bddcd80847f7104d7c4060b9525cb1d59f2ae91eb5d484fcf9",
+    "frames": {
+      "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frames.jsonl",
+      "sha256": "0cdc728afa7eb780c5f7910db5b24a2d83796ce7065589fc95ceb35fdb6d5fd6"
+    },
+    "controls": {
+      "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/controls.jsonl",
+      "sha256": "228ff7d62763b43893cbfaca8d7b258f56a29b9837b780c29e9c94cffa2d3613"
+    }
+  },
+  "accepted_capture_status": "failed",
+  "capture_failure_review_note": "The original capture ended with WindowUnavailable: demonstration target unavailable. This review accepts only individually inspected bounded spans for construction checks. Capture failure is preserved; its precise cause is not established here. No natural gameplay failure, completed episode outcome, or full-session eligibility is inferred.",
+  "profile": {
+    "profile_id": "fbafca5b-visually-referenced-profile-v1",
+    "vehicle_name": null,
+    "map_name": null,
+    "game_build": null,
+    "upgrades": [
+      {
+        "name": "displayed_slot_1",
+        "observed_level": 13,
+        "observed_maximum": 13
+      },
+      {
+        "name": "displayed_slot_2",
+        "observed_level": 14,
+        "observed_maximum": 14
+      },
+      {
+        "name": "displayed_slot_3",
+        "observed_level": 16,
+        "observed_maximum": 16
+      },
+      {
+        "name": "displayed_slot_4",
+        "observed_level": 10,
+        "observed_maximum": 10
+      }
+    ],
+    "evidence": [
+      {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000000.png",
+        "sha256": "0dde6eb9a694f375120b0acf44f993cead8b1a9f0543f3c863c3764cb85537c7"
+      }
+    ],
+    "field_evidence": {
+      "upgrades": [
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000000.png",
+          "sha256": "0dde6eb9a694f375120b0acf44f993cead8b1a9f0543f3c863c3764cb85537c7"
+        }
+      ]
+    },
+    "limitations": "Frame 0 individually inspected: Tune screen shows four MAX cards with 13/13, 14/14, 16/16, 10/10 from left to right. Selected vehicle name, map name and game build are not visible and remain null. Slot names preserve display order and do not assert upgrade category identities. Gameplay images show a red open-top car and grass/dirt terrain, which do not independently establish named vehicle/map identity. Profile ID names this review only. Frame 0 is profile evidence, excluded from gameplay segments. Identity is incomplete; this review supports construction checks only, not training eligibility."
+  },
+  "segments": [
+    {
+      "segment_id": "fbafca5b-early-000035-000065",
+      "episode_id": null,
+      "first_frame_index": 35,
+      "end_frame_index_exclusive": 66,
+      "started_ns": 55525934379100,
+      "end_ns_exclusive": 55531008960801,
+      "state": "playing",
+      "start_context": "unknown",
+      "end_context": "unknown",
+      "frame_evidence": [
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000035.png",
+          "sha256": "7f9a3e6dc0fecc28b49888b916269ef73cf896865fd23d7105722720fbb0992c"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000036.png",
+          "sha256": "50ec9b2a40e5301a077357febb193b5da7572383b9459df8a95347157ddf1765"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000037.png",
+          "sha256": "57b510a6f52031042563c0ccc854688020fabedc01a57f65d9b446ba5926bef2"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000038.png",
+          "sha256": "0c42a57d9e0fa7badd37a6c6f3a7f76fdf6d8998074dd15a7c6039dac3a39049"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000039.png",
+          "sha256": "93a2a0a16bb08ddf689a907461a81d76a44be4ba849f1ff34348df5f7f2ec37c"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000040.png",
+          "sha256": "235554eb7c5676130cf8ae1333237c7a11a9fd4fd76f5c19119f3a52018fd89d"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000041.png",
+          "sha256": "8b772aa0dfd3555ee4b25c9b92ba059812ce9592e3da26b0938a4cfc82c6ae0d"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000042.png",
+          "sha256": "1c53047c1cc80ab6987dac52b99ed8a951dd6c6e60394f6f11b695c25760eef4"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000043.png",
+          "sha256": "6eac252cf1a73deda52fa8b3450300a993687285e81b05e7df8e3b6297663958"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000044.png",
+          "sha256": "09f4292b0e541e56f5851319e574e4170f78857136a3bca5e6d1b1cf89ee71f7"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000045.png",
+          "sha256": "9ea245e8da252bdbe920e911be9b3ffca3c37041cac746825b9408c1da838231"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000046.png",
+          "sha256": "27bf0ce9f9c76f96bb570f05b9f392aec73a6d70ef78a141ce994b54f9cee50f"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000047.png",
+          "sha256": "1d480e5529b4678341a7dc63c524b25745bba0a136d2e6e9b40d6f22e193815a"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000048.png",
+          "sha256": "39c79dd16f4ac9032fa1372a4a2d616a6d28a4f8a6a4ba64e8e0d33a67258c46"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000049.png",
+          "sha256": "917fe4020bfdc201639a67f5a21453990b14d14707381e09c70be9233a311872"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000050.png",
+          "sha256": "fa57af9b8279a47605946e77445664051abe2026079e143625ca353d46f73436"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000051.png",
+          "sha256": "0fad3900db25bca87ebfce6fb0f83c941bfe6d731d24a0d609a7b41a30716d88"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000052.png",
+          "sha256": "cd423f9b5da962039cc5ec019fa30e510eef50066fe514d05302aa0f8c29fff9"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000053.png",
+          "sha256": "8428ec909583e53107f7b0fab3ad88c58fc8d3b2a52d3c3fbca30df840a2151e"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000054.png",
+          "sha256": "ee0faee448a1c56573caadb0d1df46e023afac9c9cc77cfd51a6b1c8737745e7"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000055.png",
+          "sha256": "9814712d03a66f82ae34bf0ed1b5f7c82bb12de5170d83edd377300075b458cb"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000056.png",
+          "sha256": "f63b3ca4dd7e16e8a2918f86715f1c703994e1bff5ba33fe868095ccaec2d5e3"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000057.png",
+          "sha256": "d58d991c0d24828a1ece3a5f07de11ed59dc04b4eada7a53590cfa9db286ffb9"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000058.png",
+          "sha256": "8f6828b6d36d414de7aa8879010458c5ef127894101716af5402f36bc7666073"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000059.png",
+          "sha256": "cfab347b164c96e4fe85c19848e869694b5c2e547ca03d89f87283d49b65058e"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000060.png",
+          "sha256": "f7efd5ca3fb0aeb6ab9edeb19b53c69d03de10f90eb152a211e934b945451af7"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000061.png",
+          "sha256": "553ac958a88f02fcce9826250c4e38f648c5bdc3d5cbf9310cb168301f91ddeb"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000062.png",
+          "sha256": "a106da3531545edce70267be432a0dc956a9d87861c2195d346368e0b771b50d"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000063.png",
+          "sha256": "5e3c7791d2cfd875b08d3147f00e6e978a49352c15a5d37bf8db0401f4bfa666"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000064.png",
+          "sha256": "a3991a6bf24f54058c4bedb08c3b303dcca88e42304b3ba47211b7f597ba9435"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000065.png",
+          "sha256": "8a94703ad05893060b2ac0f1912050a699eadebc6fbd5d3346139d5b6de839e5"
+        }
+      ],
+      "note": "Every frame 35 through 65 individually inspected using view_image. Normal gameplay HUD, red car and terrain visible throughout; current-distance HUD reads 0 m through 47 m. AIR TIME +15 at frame 65 is an ordinary gameplay overlay. State confidence is high qualitative, not calibrated. No observed pause/menu/result/ad in this span. Episode boundary and completed outcome are unknown. Half-open time coverage ends at last reviewed capture completion plus 1 ns; it is not extended to include later observation-ready or action-sample times. Source-frame timestamps and polling checks must determine window eligibility. Per-frame visual notes: research/datasets/fbafca5b-frame-visual-review-v1.json"
+    },
+    {
+      "segment_id": "fbafca5b-later-000350-000380",
+      "episode_id": null,
+      "first_frame_index": 350,
+      "end_frame_index_exclusive": 381,
+      "started_ns": 55578563567800,
+      "end_ns_exclusive": 55583645766301,
+      "state": "playing",
+      "start_context": "unknown",
+      "end_context": "unknown",
+      "frame_evidence": [
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000350.png",
+          "sha256": "0d9c560411804fcb9f738c8c0f54b34554f6c7f86b24735d6616d0f2f03a982b"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000351.png",
+          "sha256": "de06ff4e6e12c8822fe70ef5bb2f3b72e4622df043b5bf2f28f5976a45f31354"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000352.png",
+          "sha256": "11fc5429228cb3c2fdf343dafe11a55110388688ffe636070b24549d2c4b350c"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000353.png",
+          "sha256": "72dca56f11f18fc16995581899804a3f6276fbb62d9af1097cda7fe8a35a7081"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000354.png",
+          "sha256": "bb6cf35943d4297c6e5a574871d8c95ceef5fa11336093bc8230d7450870ebfa"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000355.png",
+          "sha256": "3a32ce20cd6c00c5df8632c4296a73350ffe0f9340a3edc56a43b6087fa88a1e"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000356.png",
+          "sha256": "8006f710afe3f7650af0dad285e8f7f9eddd52e25be5e225213aace979555f6a"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000357.png",
+          "sha256": "1445df3b753041e1949fad63d1cbba405bccbbdc813924fafb371dd02659c2fd"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000358.png",
+          "sha256": "5e3326adeb3009bd6d98b36b84a8f14cd56638305a9e4a02d7d23ecbc5fd34e8"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000359.png",
+          "sha256": "18462f8bc7c0578dfab702972b8c9c75fb69ae07074b8d423d218c48cbc4541d"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000360.png",
+          "sha256": "22052c833e5e8099ff3234464509e06647c22ab7bb50cdb143bb7bad5392b3b9"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000361.png",
+          "sha256": "98c379a358366d6e5c39e95a367de40a31d814059fbee9fdbffaa277bdf87662"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000362.png",
+          "sha256": "cdc6e2ae0e1a6a5965030e14c47614f347cf0322557170157a1c465c343c6840"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000363.png",
+          "sha256": "8543c657b5a19312476365f812ff00b62dc5de2fbea3cb67c7921269dd49e675"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000364.png",
+          "sha256": "dad0b435b2fc6ec62013a5778899306eeabf2e626b9f6e26c3ef8caa4b21615f"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000365.png",
+          "sha256": "a8b6b625f8b36fe3d7bce3f769746893c4ef11eff358bae691f983aa2a544bb4"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000366.png",
+          "sha256": "17edcf804bc6c6f5dcf2f374cc2a3ffbfca3580e4782bff8ee7f549c81d514e4"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000367.png",
+          "sha256": "ee33ca2e682503c7bff4278669c8128b242acd2486cf92f29dc78b3e4c1f1ab7"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000368.png",
+          "sha256": "cc1dee230b6e64f8872377c284157bc6a3d3473215111d7d32ee18b5b77fe72c"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000369.png",
+          "sha256": "a13650fe0882975a27ccfa03ca779b1ebbd1260af629af3ec04e1e563fa9f7a8"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000370.png",
+          "sha256": "3610b0ab3dbe312e906abdccb23e1571cc37ffca7f968c603423a990b9947ef5"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000371.png",
+          "sha256": "f9b30951fd2527484b1103e0d0fe1027928135b132ce417fdc875415155877c3"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000372.png",
+          "sha256": "8d25dd688e86ad256f04f3385cdb9d40d5489afcca6dbf906dca6bec0f353665"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000373.png",
+          "sha256": "3793c173a10c5b14b337bd1c2421b8d90c65e2c23afa179ede8b185b96fc9d95"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000374.png",
+          "sha256": "c147905079ee5ca6ec746795da30cb555b9990a8a10fc4be535be9a490947008"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000375.png",
+          "sha256": "7070dce04cf1a05607ea9e96a68c61f72e1412379c895494a12b4f121adc8f3e"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000376.png",
+          "sha256": "c8f90a53a1cb74898707dd0303325055c21edd7ae3013bc03d7e5e6c3bafde2f"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000377.png",
+          "sha256": "dc05d40e6d7757e1f50ce2a261aa5c13c5548cc50439184491488d0dc140b262"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000378.png",
+          "sha256": "a3347acebe410e3699d5163d582ddafb0e6044df40deb02c128ac02ac00ce3c4"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000379.png",
+          "sha256": "ae628b0d30b0cbf791ab2d9f18a9f6a18a8f92599062f4b5d35e92b0d5c7df9d"
+        },
+        {
+          "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000380.png",
+          "sha256": "1ae6f64febd69a148020c86a4e1a67a2463b22add3196b3b5430483603bb66d9"
+        }
+      ],
+      "note": "Every frame 350 through 380 individually inspected using view_image. Normal gameplay HUD, red car and terrain visible throughout; current-distance HUD reads 661 m through 712 m. Terrain traversal and airborne rotation are visible; frames 378 through 380 progress from near vertical to inverted while airborne. AIR TIME overlays are ordinary gameplay. State confidence is high qualitative, not calibrated. No observed pause/menu/result/ad in this span. Episode boundary and completed outcome are unknown; reviewed spans are separated by unreviewed frames. Half-open time coverage ends at last reviewed capture completion plus 1 ns; it is not extended to include later observation-ready or action-sample times. Source-frame timestamps and polling checks must determine window eligibility. Per-frame visual notes: research/datasets/fbafca5b-frame-visual-review-v1.json"
+    }
+  ]
+}

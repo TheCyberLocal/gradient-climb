@@ -153,9 +153,15 @@ def build_inventory(project_root: str | Path, output: str | Path, *, include=())
         )
     selections = []
     excluded = []
+    operational = []
     unselected = []
     for child in sorted(artifacts.iterdir()):
-        if child.name in EVIDENCE_DIRECTORIES:
+        if child.name == ".imitation-partitions.lock":
+            _no_links(child)
+            if not child.is_file() or child.stat().st_size != 1 or child.read_bytes() != b"\0":
+                raise ValueError("Unexpected content at the reserved partition lock path")
+            operational.append(child.relative_to(root).as_posix())
+        elif child.name in EVIDENCE_DIRECTORIES:
             selections.append(child)
         elif CACHE_DIRECTORY.fullmatch(child.name):
             excluded.append(child.relative_to(root).as_posix())
@@ -227,6 +233,7 @@ def build_inventory(project_root: str | Path, output: str | Path, *, include=())
         "scope": "Private canonical runs, non-cache auxiliary artifacts, configs, research, docs and protocols",
         "backup_status": "inventory_only; archive_and_verified_restore_required",
         "excluded_regenerable_directories": excluded,
+        "excluded_operational_files": operational,
         "canonical_runs": run_checks,
         "unselected_artifact_directories": unselected,
         "explicit_additional_selections": list(include),

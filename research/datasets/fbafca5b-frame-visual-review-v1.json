@@ -1,0 +1,874 @@
+{
+  "schema_version": "demonstration-visual-notes-3.0",
+  "review_id": "fbafca5b-two-bounded-gameplay-spans-v1",
+  "reviewed_at": "2026-09-12T15:09:45Z",
+  "reviewer": "Codex measurement_audit; individual local PNG visual inspection",
+  "segmentation_review": {
+    "path": "research/datasets/fbafca5b-reviewed-segments-v1.json",
+    "sha256": "78818f5e0ae8373b7babdd8439118867e659e25b372db358eb75110972609e71"
+  },
+  "source": {
+    "run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+    "session_id": "910b220f-31a4-451d-a574-d25d45c8e198",
+    "run_sha256": "d27c4e5bbf720c5fbe8ccc88348f3c72f146dbd7d5885b65dadc975a95b2d21c",
+    "configuration_sha256": "0aa0af4ad757a4bddcd80847f7104d7c4060b9525cb1d59f2ae91eb5d484fcf9",
+    "frames": {
+      "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frames.jsonl",
+      "sha256": "0cdc728afa7eb780c5f7910db5b24a2d83796ce7065589fc95ceb35fdb6d5fd6"
+    },
+    "controls": {
+      "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/controls.jsonl",
+      "sha256": "228ff7d62763b43893cbfaca8d7b258f56a29b9837b780c29e9c94cffa2d3613"
+    }
+  },
+  "scope": "Only frames 35..65 and 350..380 inclusive were individually inspected for gameplay eligibility, plus frame 0 for profile evidence. No image was synthesized, assembled into a grid, or modified. This is a construction review, not a training dataset or independent evaluation.",
+  "limitations": [
+    "Qualitative confidence labels are not calibrated probabilities.",
+    "Visual current-distance HUD transcriptions are diagnostic observations, not validated endpoint outcomes, benchmark measurements, physics state or learned-policy results.",
+    "No human action label, action execution time, pedal intent, contact force, exact speed or hidden state is inferred from pixels. Action labels require the sealed control journal and causal alignment checks.",
+    "Episode IDs and start/end contexts remain unknown. No natural terminal, complete-episode count or full-session gameplay duration is established.",
+    "The two reviewed spans are separated by unreviewed frames; history must reset across the gap. Endpoints stop at last capture completion plus 1 ns; later readiness/target polls are outside review coverage.",
+    "Unverified vehicle/map/build identity prevents training eligibility under the current assembly contract.",
+    "This review does not qualify the template-unknown or unreviewed portions of the source recording."
+  ],
+  "profile_frame": {
+    "frame_index": 0,
+    "evidence": {
+      "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000000.png",
+      "sha256": "0dde6eb9a694f375120b0acf44f993cead8b1a9f0543f3c863c3764cb85537c7"
+    },
+    "method": "individual view_image inspection",
+    "reviewed_state": "tune",
+    "state_confidence": "high qualitative; uncalibrated",
+    "gameplay_eligible": false,
+    "note": "Frame 0 individually inspected: Tune screen shows four MAX cards with 13/13, 14/14, 16/16, 10/10 from left to right. Selected vehicle name, map name and game build are not visible and remain null. Slot names preserve display order and do not assert upgrade category identities. Gameplay images show a red open-top car and grass/dirt terrain, which do not independently establish named vehicle/map identity. Profile ID names this review only. Frame 0 is profile evidence, excluded from gameplay segments. Identity is incomplete; this review supports construction checks only, not training eligibility."
+  },
+  "coverage": [
+    {
+      "first_frame_index": 35,
+      "end_frame_index_exclusive": 66,
+      "reviewed_frame_count": 31,
+      "started_ns": 55525934379100,
+      "end_ns_exclusive": 55531008960801,
+      "reviewed_acquisition_span_seconds": 5.074581701,
+      "duration_scope": "time between reviewed acquisition boundaries; not complete-episode or full-session interaction duration"
+    },
+    {
+      "first_frame_index": 350,
+      "end_frame_index_exclusive": 381,
+      "reviewed_frame_count": 31,
+      "started_ns": 55578563567800,
+      "end_ns_exclusive": 55583645766301,
+      "reviewed_acquisition_span_seconds": 5.082198501,
+      "duration_scope": "time between reviewed acquisition boundaries; not complete-episode or full-session interaction duration"
+    }
+  ],
+  "frame_annotations": [
+    {
+      "frame_index": 35,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000035.png",
+        "sha256": "7f9a3e6dc0fecc28b49888b916269ef73cf896865fd23d7105722720fbb0992c"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car above the initial descending terrain."
+    },
+    {
+      "frame_index": 36,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000036.png",
+        "sha256": "50ec9b2a40e5301a077357febb193b5da7572383b9459df8a95347157ddf1765"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car above the initial descending terrain."
+    },
+    {
+      "frame_index": 37,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000037.png",
+        "sha256": "57b510a6f52031042563c0ccc854688020fabedc01a57f65d9b446ba5926bef2"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car above the initial descending terrain."
+    },
+    {
+      "frame_index": 38,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000038.png",
+        "sha256": "0c42a57d9e0fa7badd37a6c6f3a7f76fdf6d8998074dd15a7c6039dac3a39049"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car above the initial descending terrain."
+    },
+    {
+      "frame_index": 39,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000039.png",
+        "sha256": "93a2a0a16bb08ddf689a907461a81d76a44be4ba849f1ff34348df5f7f2ec37c"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car close to the descending ground."
+    },
+    {
+      "frame_index": 40,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000040.png",
+        "sha256": "235554eb7c5676130cf8ae1333237c7a11a9fd4fd76f5c19119f3a52018fd89d"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car body visible; wheels partly occluded by foreground terrain."
+    },
+    {
+      "frame_index": 41,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000041.png",
+        "sha256": "8b772aa0dfd3555ee4b25c9b92ba059812ce9592e3da26b0938a4cfc82c6ae0d"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 42,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000042.png",
+        "sha256": "1c53047c1cc80ab6987dac52b99ed8a951dd6c6e60394f6f11b695c25760eef4"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 43,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000043.png",
+        "sha256": "6eac252cf1a73deda52fa8b3450300a993687285e81b05e7df8e3b6297663958"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 0,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 44,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000044.png",
+        "sha256": "09f4292b0e541e56f5851319e574e4170f78857136a3bca5e6d1b1cf89ee71f7"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 1,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 45,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000045.png",
+        "sha256": "9ea245e8da252bdbe920e911be9b3ffca3c37041cac746825b9408c1da838231"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 1,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 46,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000046.png",
+        "sha256": "27bf0ce9f9c76f96bb570f05b9f392aec73a6d70ef78a141ce994b54f9cee50f"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 1,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 47,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000047.png",
+        "sha256": "1d480e5529b4678341a7dc63c524b25745bba0a136d2e6e9b40d6f22e193815a"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 2,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car on the descending terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 48,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000048.png",
+        "sha256": "39c79dd16f4ac9032fa1372a4a2d616a6d28a4f8a6a4ba64e8e0d33a67258c46"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 2,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 49,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000049.png",
+        "sha256": "917fe4020bfdc201639a67f5a21453990b14d14707381e09c70be9233a311872"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 3,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 50,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000050.png",
+        "sha256": "fa57af9b8279a47605946e77445664051abe2026079e143625ca353d46f73436"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 4,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 51,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000051.png",
+        "sha256": "0fad3900db25bca87ebfce6fb0f83c941bfe6d731d24a0d609a7b41a30716d88"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 5,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 52,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000052.png",
+        "sha256": "cd423f9b5da962039cc5ec019fa30e510eef50066fe514d05302aa0f8c29fff9"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 6,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 53,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000053.png",
+        "sha256": "8428ec909583e53107f7b0fab3ad88c58fc8d3b2a52d3c3fbca30df840a2151e"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 8,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 54,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000054.png",
+        "sha256": "ee0faee448a1c56573caadb0d1df46e023afac9c9cc77cfd51a6b1c8737745e7"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 10,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 55,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000055.png",
+        "sha256": "9814712d03a66f82ae34bf0ed1b5f7c82bb12de5170d83edd377300075b458cb"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 13,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 56,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000056.png",
+        "sha256": "f63b3ca4dd7e16e8a2918f86715f1c703994e1bff5ba33fe868095ccaec2d5e3"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 16,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 57,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000057.png",
+        "sha256": "d58d991c0d24828a1ece3a5f07de11ed59dc04b4eada7a53590cfa9db286ffb9"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 19,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 58,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000058.png",
+        "sha256": "8f6828b6d36d414de7aa8879010458c5ef127894101716af5402f36bc7666073"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 23,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car traverses the valley and following rise; camera scale varies across the span."
+    },
+    {
+      "frame_index": 59,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000059.png",
+        "sha256": "cfab347b164c96e4fe85c19848e869694b5c2e547ca03d89f87283d49b65058e"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 26,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car approaches the crest; collectible effects visible."
+    },
+    {
+      "frame_index": 60,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000060.png",
+        "sha256": "f7efd5ca3fb0aeb6ab9edeb19b53c69d03de10f90eb152a211e934b945451af7"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 30,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car approaches the crest; collectible effects visible."
+    },
+    {
+      "frame_index": 61,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000061.png",
+        "sha256": "553ac958a88f02fcce9826250c4e38f648c5bdc3d5cbf9310cb168301f91ddeb"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 33,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car approaches the crest; collectible effects visible."
+    },
+    {
+      "frame_index": 62,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000062.png",
+        "sha256": "a106da3531545edce70267be432a0dc956a9d87861c2195d346368e0b771b50d"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 36,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car at the crest."
+    },
+    {
+      "frame_index": 63,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000063.png",
+        "sha256": "5e3c7791d2cfd875b08d3147f00e6e978a49352c15a5d37bf8db0401f4bfa666"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 40,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne beyond the crest."
+    },
+    {
+      "frame_index": 64,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000064.png",
+        "sha256": "a3991a6bf24f54058c4bedb08c3b303dcca88e42304b3ba47211b7f597ba9435"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 43,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne beyond the crest."
+    },
+    {
+      "frame_index": 65,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000065.png",
+        "sha256": "8a94703ad05893060b2ac0f1912050a699eadebc6fbd5d3346139d5b6de839e5"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 47,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne; ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 350,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000350.png",
+        "sha256": "0d9c560411804fcb9f738c8c0f54b34554f6c7f86b24735d6616d0f2f03a982b"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 661,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 351,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000351.png",
+        "sha256": "de06ff4e6e12c8822fe70ef5bb2f3b72e4622df043b5bf2f28f5976a45f31354"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 663,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 352,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000352.png",
+        "sha256": "11fc5429228cb3c2fdf343dafe11a55110388688ffe636070b24549d2c4b350c"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 665,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 353,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000353.png",
+        "sha256": "72dca56f11f18fc16995581899804a3f6276fbb62d9af1097cda7fe8a35a7081"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 667,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD."
+    },
+    {
+      "frame_index": 354,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000354.png",
+        "sha256": "bb6cf35943d4297c6e5a574871d8c95ceef5fa11336093bc8230d7450870ebfa"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 669,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD. Ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 355,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000355.png",
+        "sha256": "3a32ce20cd6c00c5df8632c4296a73350ffe0f9340a3edc56a43b6087fa88a1e"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 671,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD. Ordinary AIR TIME +30 overlay."
+    },
+    {
+      "frame_index": 356,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000356.png",
+        "sha256": "8006f710afe3f7650af0dad285e8f7f9eddd52e25be5e225213aace979555f6a"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 673,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD. Ordinary AIR TIME +30 overlay."
+    },
+    {
+      "frame_index": 357,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000357.png",
+        "sha256": "1445df3b753041e1949fad63d1cbba405bccbbdc813924fafb371dd02659c2fd"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 676,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne over rolling terrain; normal gameplay HUD. Ordinary AIR TIME +45 overlay."
+    },
+    {
+      "frame_index": 358,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000358.png",
+        "sha256": "5e3326adeb3009bd6d98b36b84a8f14cd56638305a9e4a02d7d23ecbc5fd34e8"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 677,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car near descending ground; ordinary AIR TIME +60 overlay."
+    },
+    {
+      "frame_index": 359,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000359.png",
+        "sha256": "18462f8bc7c0578dfab702972b8c9c75fb69ae07074b8d423d218c48cbc4541d"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 679,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car partly occluded by steep ground; ordinary AIR TIME +60 overlay."
+    },
+    {
+      "frame_index": 360,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000360.png",
+        "sha256": "22052c833e5e8099ff3234464509e06647c22ab7bb50cdb143bb7bad5392b3b9"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 681,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car pitched upward at the crest; ordinary AIR TIME +60 overlay."
+    },
+    {
+      "frame_index": 361,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000361.png",
+        "sha256": "98c379a358366d6e5c39e95a367de40a31d814059fbee9fdbffaa277bdf87662"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 683,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne again; fading AIR TIME +60 overlay."
+    },
+    {
+      "frame_index": 362,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000362.png",
+        "sha256": "cdc6e2ae0e1a6a5965030e14c47614f347cf0322557170157a1c465c343c6840"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 685,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne, with increasingly downward nose orientation."
+    },
+    {
+      "frame_index": 363,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000363.png",
+        "sha256": "8543c657b5a19312476365f812ff00b62dc5de2fbea3cb67c7921269dd49e675"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 686,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne, with increasingly downward nose orientation."
+    },
+    {
+      "frame_index": 364,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000364.png",
+        "sha256": "dad0b435b2fc6ec62013a5778899306eeabf2e626b9f6e26c3ef8caa4b21615f"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 688,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne, with increasingly downward nose orientation."
+    },
+    {
+      "frame_index": 365,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000365.png",
+        "sha256": "a8b6b625f8b36fe3d7bce3f769746893c4ef11eff358bae691f983aa2a544bb4"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 690,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne, with increasingly downward nose orientation."
+    },
+    {
+      "frame_index": 366,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000366.png",
+        "sha256": "17edcf804bc6c6f5dcf2f374cc2a3ffbfca3580e4782bff8ee7f549c81d514e4"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 692,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne near crest; ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 367,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000367.png",
+        "sha256": "ee33ca2e682503c7bff4278669c8128b242acd2486cf92f29dc78b3e4c1f1ab7"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 693,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car nearly level close to crest; ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 368,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000368.png",
+        "sha256": "cc1dee230b6e64f8872377c284157bc6a3d3473215111d7d32ee18b5b77fe72c"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 694,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car slightly nose-up close to crest; ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 369,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000369.png",
+        "sha256": "a13650fe0882975a27ccfa03ca779b1ebbd1260af629af3ec04e1e563fa9f7a8"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 695,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car crosses onto descending slope; ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 370,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000370.png",
+        "sha256": "3610b0ab3dbe312e906abdccb23e1571cc37ffca7f968c603423a990b9947ef5"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 697,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car pitched downward on slope; terrain particles visible."
+    },
+    {
+      "frame_index": 371,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000371.png",
+        "sha256": "f9b30951fd2527484b1103e0d0fe1027928135b132ce417fdc875415155877c3"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 698,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car in valley, with terrain particles visible."
+    },
+    {
+      "frame_index": 372,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000372.png",
+        "sha256": "8d25dd688e86ad256f04f3385cdb9d40d5489afcca6dbf906dca6bec0f353665"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 699,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car pitched upward on following incline; one wheel partly occluded by terrain."
+    },
+    {
+      "frame_index": 373,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000373.png",
+        "sha256": "3793c173a10c5b14b337bd1c2421b8d90c65e2c23afa179ede8b185b96fc9d95"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 701,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car partly occluded by steep rising terrain; body and driver visible."
+    },
+    {
+      "frame_index": 374,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000374.png",
+        "sha256": "c147905079ee5ca6ec746795da30cb555b9990a8a10fc4be535be9a490947008"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 702,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car rises above crest, nose upward."
+    },
+    {
+      "frame_index": 375,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000375.png",
+        "sha256": "7070dce04cf1a05607ea9e96a68c61f72e1412379c895494a12b4f121adc8f3e"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 704,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne above crest and nearly level."
+    },
+    {
+      "frame_index": 376,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000376.png",
+        "sha256": "c8f90a53a1cb74898707dd0303325055c21edd7ae3013bc03d7e5e6c3bafde2f"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 706,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne, nose-down."
+    },
+    {
+      "frame_index": 377,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000377.png",
+        "sha256": "dc05d40e6d7757e1f50ce2a261aa5c13c5548cc50439184491488d0dc140b262"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 708,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne with a steeper downward nose orientation."
+    },
+    {
+      "frame_index": 378,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000378.png",
+        "sha256": "a3347acebe410e3699d5163d582ddafb0e6044df40deb02c128ac02ac00ce3c4"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 709,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne and near vertical, nose downward; no result overlay."
+    },
+    {
+      "frame_index": 379,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000379.png",
+        "sha256": "ae628b0d30b0cbf791ab2d9f18a9f6a18a8f92599062f4b5d35e92b0d5c7df9d"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 711,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne, rotating beyond vertical toward inverted; ordinary AIR TIME +15 overlay."
+    },
+    {
+      "frame_index": 380,
+      "evidence": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000380.png",
+        "sha256": "1ae6f64febd69a148020c86a4e1a67a2463b22add3196b3b5430483603bb66d9"
+      },
+      "method": "individual view_image inspection",
+      "reviewed_state": "playing",
+      "state_confidence": "high qualitative; uncalibrated",
+      "current_distance_hud_m": 712,
+      "hud_reading_confidence": "high qualitative; uncalibrated",
+      "note": "Car airborne and inverted; ordinary AIR TIME +30 overlay, no result overlay."
+    }
+  ]
+}

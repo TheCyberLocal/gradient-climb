@@ -155,3 +155,30 @@ learning-efficiency batch requires all 20 outcomes to have qualified natural or
 full-horizon endpoints; missing, unsafe or stall-truncated attempts do not get
 silently removed or replaced. Report their distances and reasons even when the
 batch cannot qualify. There are no qualified results under this new framework.
+
+## Reviewed demonstration pipeline milestone
+
+C3-08/15/16 now have an additive `imitation-windows-3.0` implementation:
+[window publication](../operations/imitation-window-datasets.md) verifies source
+seals, complete visual-review coverage and observation-before-control timing.
+Whole-session partitions bind across cooperating publishers in the canonical
+store, including failed publications; later ledgers may extend assignments but
+cannot move or omit earlier sessions. Incomplete histories and stale or
+unbracketed observations retain explicit exclusion reasons.
+
+The first [frozen construction plan](../../experiments/definitions/cycle-3-imitation-window-diagnostic-001.json)
+uses two individually reviewed spans from the owner's imitation recording.
+Vehicle/map/build identity remains incomplete, so its windows cannot train a
+policy. The [geometry diagnostic](../operations/imitation-geometry-diagnostic.md)
+measures the unchanged detector on every unique accepted image and preserves
+partial operations on failure. Detector validity is not labeled accuracy.
+
+These implementations preserve source recording costs and unknown human practice,
+and record each new offline publication's resource scope separately. They acquire
+zero new gameplay episodes and do not establish imitation learning, simulator
+fidelity or real competence. The planned executions and their results belong in
+subsequent source-linked records; they are not implied by this registration.
+
+Integrated validation passed 723 tests with four optional-engine/platform skips
+and two dependency deprecation warnings. Full Ruff checks passed; two focused
+checks also passed after the final explicit-LF publication adjustment.

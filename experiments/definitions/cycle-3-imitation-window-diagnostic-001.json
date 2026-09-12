@@ -1,0 +1,35 @@
+{
+  "schema_version": "imitation-window-plan-3.0",
+  "dataset_id": "first-human-construction-windows-001",
+  "artifact_root": "artifacts",
+  "partition_ledger": {
+    "path": "research/datasets/cycle-3-demonstration-partitions-v1.json",
+    "sha256": "7e362e133b54420dc218874e416c1514932abce4568b21f3e1c5528ab5137665"
+  },
+  "reviews": [
+    {
+      "path": "research/datasets/fbafca5b-reviewed-segments-v1.json",
+      "sha256": "6b6d8f3065d6654b62d9206effb0a47126720da31db84545c9da8af1ad77a391"
+    }
+  ],
+  "split": "train",
+  "history_frames": 4,
+  "maximum_frame_gap_seconds": 0.25,
+  "maximum_frame_age_seconds": 0.45,
+  "maximum_target_lag_seconds": 0.1,
+  "maximum_poll_gap_seconds": 0.05,
+  "maximum_source_frames": 1000,
+  "maximum_source_control_samples": 10000,
+  "maximum_journal_bytes": 16777216,
+  "prior_evidence": [
+    {
+      "path": "research/diagnostics/human-demonstrations-2026-09-12.json",
+      "sha256": "3c308c1a4b91aec5a0de481df73ba7c3125877e969555d70fb2be1d07d3feefa"
+    },
+    {
+      "sha256": "8ba94c30c5ef03ebefb221aa86a64ea26333f0ae0ca9d93e25192ff6b97326dc",
+      "path": "research/datasets/fbafca5b-frame-visual-review-v1.json"
+    }
+  ],
+  "note": "One bounded construction assembly of two individually reviewed 31-frame spans, chosen for early and later terrain/control coverage. No fitting, training, evaluation, new capture, or competence measurement. Recorded source purpose and whole-session split remain train, but incomplete profile identity makes the resulting windows construction-only. Costs of all capture attempts and unknown human practice remain linked. After committing source, run this plan once and then one fixed-profile geometry diagnostic over all unique window frames, maximum1000 images using unchanged configs/perception/hcr-discovery-wrapper.json; no outcome-selected replacement or threshold changes."
+}
