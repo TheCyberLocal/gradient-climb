@@ -77,6 +77,29 @@ The CUDA 12.8 Torch wheel requires its official wheel index; portable CPU traini
 is supported. No broad dependency upgrade is required. See
 [environment and validation](docs/operations/stabilization-validation.md).
 
+## Watch training live
+
+One representative simulator environment can follow the evolving PPO policy
+while the N training environments stay headless. `--headed` opens a Tk window;
+`--headless-record` counts frames without a window and can encode an MP4.
+
+```powershell
+.venv/Scripts/python -m gradientclimb --root artifacts train --seconds 600 --envs 64 --seed 7 --headed
+.venv/Scripts/python -m gradientclimb --root artifacts train --seconds 600 --envs 64 --seed 7 --headless-record --observer-video artifacts/videos/seed7.mp4
+```
+
+The observer uses its own seed, environment, model copy and RNG, contributes no
+learning data, and changes no training hyperparameter: the recorded configuration
+differs only by a separate `observer` block and the training metric series are
+the same set either way. Observer problems (no window, no FFmpeg, a closed
+window, an encoder failure) are recorded in the run's observer summary and never
+fail a finished training run. `--observer-policy best` follows a lagging
+training-signal selector, not held-out evaluation. Its learner-side cost is
+measured per run and by the paired protocol in
+`scripts/measure_headed_overhead.py`, which seals a `headed-overhead-protocol`
+measurement record (never a PPO run). See
+[headed training](docs/operations/headed-training.md).
+
 ## Explore existing evidence
 
 ```powershell

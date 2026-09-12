@@ -7,6 +7,7 @@ observations; it is not by itself a validated real-game perception policy.
 
 from __future__ import annotations
 
+import logging
 import time
 from collections import deque
 from collections.abc import Callable
@@ -130,6 +131,8 @@ def train_ppo(
     torch_threads: int = 1,
     log_interval: float = 5.0,
     parent_checkpoint: str | None = None,
+    snapshot_interval: float | None = None,
+    snapshot: Callable[[dict], None] | None = None,
 ) -> TrainingResult:
     """Train until a monotonic deadline, counting initialization and callback time.
 
@@ -142,9 +145,30 @@ def train_ppo(
 
     parent_checkpoint warm-starts weights and optimizer for adaptation. It does
     not restore exact in-flight simulator state and is not bitwise continuation.
+
+    ``snapshot`` is an observation side channel, not a hyperparameter: it is not
+    part of the returned ``config``. Every ``snapshot_interval`` seconds of the
+    governed clock (first at the first step boundary, so a warm start is visible
+    immediately) the callback receives a dict with a detached CPU copy of the
+    weights (``state_dict``), the best-so-far copy (``best_state_dict``,
+    ``best_index`` and its provenance ``best_snapshot``) selected by the highest
+    mean distance of the most recent training episodes at snapshot time (a
+    training-signal selector, not held-out evaluation), ``is_best``, ``index``,
+    ``elapsed``, ``optimizer_updates``, ``environment_steps``, ``episodes`` and
+    ``mean_episode_distance``. The selector lags the weights: the rolling window
+    holds up to 100 episodes completed *before* the snapshot, produced by the
+    weights of earlier iterations, so a snapshot taken right after a degrading
+    update can still rank best. Best-related values live only in the payload;
+    metric rows are identical with or without a snapshot callback apart from the
+    counters below. The copy and callback time count inside the governed clock
+    and are reported per row as ``snapshot_copy_seconds`` /
+    ``snapshot_callback_seconds``. A callback error is counted in
+    ``snapshot_errors`` and never interrupts training.
     """
     if seconds <= 0 or rollout_steps < 1 or num_envs < 1 or epochs < 1 or minibatch_size < 1:
         raise ValueError("Budget, rollout dimensions, epochs and batch size must be positive")
+    if snapshot is not None and (snapshot_interval is None or not snapshot_interval > 0):
+        raise ValueError("A snapshot callback requires a positive snapshot_interval")
     start = time.monotonic()
     deadline = start + seconds
     torch.set_num_threads(torch_threads)
@@ -201,6 +225,12 @@ def train_ppo(
     next_log = log_interval
     total_inference = total_environment = total_optimizer = 0.0
     last_loss = last_entropy = last_kl = 0.0
+    next_snapshot = 0.0
+    snapshot_count = snapshot_errors = 0
+    snapshot_copy_seconds = snapshot_callback_seconds = 0.0
+    best_mean: float | None = None
+    best_state: dict | None = None
+    best_snapshot: dict | None = None
 
     def emit(final=False, target=None):
         elapsed = time.monotonic() - start
@@ -229,6 +259,10 @@ def train_ppo(
             "checkpoint_target_seconds": target,
             "requested_checkpoint_seconds": target,
             "final": final,
+            "snapshot_count": snapshot_count,
+            "snapshot_copy_seconds": snapshot_copy_seconds,
+            "snapshot_callback_seconds": snapshot_callback_seconds,
+            "snapshot_errors": snapshot_errors,
         }
         metrics.append(row)
         model.training_state = {
@@ -242,6 +276,47 @@ def train_ppo(
         if callback:
             callback(row, model, elapsed)
 
+    def take_snapshot(elapsed):
+        nonlocal snapshot_count, snapshot_errors, snapshot_copy_seconds
+        nonlocal snapshot_callback_seconds, best_mean, best_state, best_snapshot, next_snapshot
+        t = time.perf_counter()
+        # A fresh detached CPU copy: the observer never aliases live parameters.
+        state = {k: v.detach().to("cpu", copy=True) for k, v in model.state_dict().items()}
+        mean = float(np.mean([e["distance"] for e in recent])) if recent else None
+        is_best = mean is not None and (best_mean is None or mean > best_mean)
+        provenance = {
+            "index": snapshot_count,
+            "elapsed": elapsed,
+            "optimizer_updates": updates,
+            "environment_steps": environment_steps,
+            "episodes": episodes,
+            "iterations": iterations,
+            "mean_episode_distance": mean,
+        }
+        if is_best:
+            best_mean, best_state, best_snapshot = mean, state, provenance
+        snapshot_copy_seconds += time.perf_counter() - t
+        payload = {
+            **provenance,
+            "state_dict": state,
+            "best_state_dict": best_state,
+            "best_index": best_snapshot["index"] if best_snapshot else None,
+            "best_snapshot": best_snapshot,
+            "is_best": is_best,
+            "best_mean_episode_distance": best_mean,
+            "algorithm_version": config["algorithm_version"],
+            "seed": seed,
+        }
+        t = time.perf_counter()
+        try:
+            snapshot(payload)
+        except Exception:
+            snapshot_errors += 1
+            logging.getLogger(__name__).warning("Snapshot callback failed", exc_info=True)
+        snapshot_callback_seconds += time.perf_counter() - t
+        snapshot_count += 1
+        next_snapshot = elapsed + snapshot_interval
+
     def boundaries():
         nonlocal next_log
         elapsed = time.monotonic() - start
@@ -254,6 +329,8 @@ def train_ppo(
             if not emitted:
                 emit()
             next_log = elapsed + log_interval
+        if snapshot is not None and elapsed >= next_snapshot:
+            take_snapshot(elapsed)
 
     while time.monotonic() < deadline:
         obs_buffer, bit_buffer, logp_buffer, value_buffer = [], [], [], []

@@ -1,16 +1,18 @@
 from __future__ import annotations
 
-import shutil
-import subprocess
 import time
 from pathlib import Path
 
+from .sinks import FfmpegSink, FrameSink, TkSink
 
-def watch(checkpoint=None, seconds=30, seed=20000, video=None):
+
+def watch(checkpoint=None, seconds=30, seed=20000, video=None, sink: FrameSink | None = None):
     """Render just one environment, live in Tk or as a local FFmpeg video.
 
     No game assets are used. Simulation time and rendering time are distinct.
     This is a selected policy rollout, not a recording of training collection.
+    ``sink`` overrides the default Tk/FFmpeg choice (for example ``NullSink`` in
+    headless tests); the returned record is identical either way.
     """
     import torch
 
@@ -24,80 +26,25 @@ def watch(checkpoint=None, seconds=30, seed=20000, video=None):
     env = VectorHillEnv(1, seed, stack=policy.config.get("stack", 4))
     obs, _ = env.reset(seed)
     frames = int(seconds / env.action_duration)
-    process = None
-    window = None
-    if video:
-        executable = shutil.which("ffmpeg")
-        if not executable:
-            raise RuntimeError("FFmpeg is required for --video")
-        video = Path(video)
-        if video.exists():
-            raise FileExistsError("Refusing to replace an existing research video")
-        video.parent.mkdir(parents=True, exist_ok=True)
-        process = subprocess.Popen(
-            [
-                executable,
-                "-v",
-                "error",
-                "-f",
-                "rawvideo",
-                "-pix_fmt",
-                "rgb24",
-                "-s",
-                "960x540",
-                "-r",
-                str(1 / env.action_duration),
-                "-i",
-                "-",
-                "-an",
-                "-c:v",
-                "libx264",
-                "-threads",
-                "1",
-                "-pix_fmt",
-                "yuv420p",
-                str(video),
-            ],
-            stdin=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-    else:
-        import tkinter as tk
-
-        from PIL import ImageTk
-
-        window = tk.Tk()
-        window.title("GradientClimb | selected surrogate rollout")
-        label = tk.Label(window)
-        label.pack()
+    if sink is None:
+        sink = FfmpegSink(video) if video else TkSink("GradientClimb | selected surrogate rollout")
+    sink.open(960, 540, 1 / env.action_duration)
     start = time.perf_counter()
     count = 0
     try:
         for _ in range(frames):
             action = policy.act(obs)
             obs, *_ = env.step(action)
-            frame = env.render()
-            if process:
-                process.stdin.write(frame.convert("RGB").tobytes())
-            else:
-                photo = ImageTk.PhotoImage(frame)
-                label.configure(image=photo)
-                label.image = photo
-                window.update()
+            sink.write(env.render())
+            if sink.paced:
                 time.sleep(env.action_duration)
             count += 1
     finally:
-        if process:
-            process.stdin.close()
-            error = process.stderr.read().decode(errors="replace")
-            if process.wait() != 0:
-                raise RuntimeError(f"FFmpeg failed: {error}")
-        if window:
-            window.destroy()
+        report = sink.close()
     return {
         "frames": count,
         "simulation_seconds": count * env.action_duration,
         "render_wall_seconds": time.perf_counter() - start,
-        "video": str(video) if video else None,
+        "video": str(Path(video)) if video else report.get("video"),
         "scope": "uncalibrated_simulator",
     }

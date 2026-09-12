@@ -42,16 +42,10 @@ def _nvidia_smi() -> str | None:
     return str(candidate) if candidate.is_file() else None
 
 
-def resource_sample(include_gpu: bool = False) -> dict[str, Any]:
+def gpu_sample() -> dict[str, Any]:
+    """GPU utilization and VRAM from ``nvidia-smi`` (one subprocess); empty when absent."""
     result: dict[str, Any] = {}
-    if psutil is not None:
-        result.update(
-            cpu_percent=psutil.cpu_percent(interval=None),
-            per_core_cpu_percent=psutil.cpu_percent(interval=None, percpu=True),
-            ram_used_bytes=psutil.virtual_memory().used,
-            process_rss_bytes=psutil.Process().memory_info().rss,
-        )
-    executable = _nvidia_smi() if include_gpu else None
+    executable = _nvidia_smi()
     if executable:
         output = _command(
             [executable, "--query-gpu=utilization.gpu,memory.used", "--format=csv,noheader,nounits"]
@@ -63,6 +57,20 @@ def resource_sample(include_gpu: bool = False) -> dict[str, Any]:
                 result["vram_used_bytes"] = int(float(first[1]) * 1024**2)
             except (ValueError, IndexError):
                 pass
+    return result
+
+
+def resource_sample(include_gpu: bool = False) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    if psutil is not None:
+        result.update(
+            cpu_percent=psutil.cpu_percent(interval=None),
+            per_core_cpu_percent=psutil.cpu_percent(interval=None, percpu=True),
+            ram_used_bytes=psutil.virtual_memory().used,
+            process_rss_bytes=psutil.Process().memory_info().rss,
+        )
+    if include_gpu:
+        result.update(gpu_sample())
     return result
 
 

@@ -40,6 +40,48 @@ def main(argv=None):
         choices=["cold_start", "simulator_pretrained", "generalist_adaptation", "fine_tuning"],
         default="cold_start",
     )
+    live = train.add_mutually_exclusive_group()
+    live.add_argument(
+        "--headed",
+        action="store_true",
+        help="Show one observer environment driven by policy snapshots in a live Tk window",
+    )
+    live.add_argument(
+        "--headless-record",
+        action="store_true",
+        help="Run the observer without a window (frames counted; optional --observer-video)",
+    )
+    train.add_argument(
+        "--observer-policy",
+        choices=["current", "best"],
+        default="current",
+        help=(
+            "Follow the newest snapshot, or the best-so-far snapshot ranked by the mean distance "
+            "of the last <=100 training episodes completed BEFORE the snapshot (earlier weights): "
+            "a lagging training signal, not held-out evaluation"
+        ),
+    )
+    train.add_argument(
+        "--observer-interval", type=float, default=5.0, help="Snapshot refresh in seconds"
+    )
+    train.add_argument(
+        "--observer-seed",
+        type=int,
+        default=41000,
+        help=(
+            "Observer environment seed; rejected inside the held-out ranges 1000-1019, "
+            "2000-2019, 10000-10019, 20000-20019, 30000-30019 or when equal to --seed"
+        ),
+    )
+    train.add_argument(
+        "--observer-fps",
+        type=float,
+        help="Rendered frames (= simulator actions) per second; default real time (16.667)",
+    )
+    train.add_argument(
+        "--observer-video", type=Path, help="Optional MP4; skipped with a reason without ffmpeg"
+    )
+    train.add_argument("--observer-mode", choices=["thread"], default="thread")
     evaluate = commands.add_parser("evaluate")
     evaluate.add_argument("--checkpoint", type=Path)
     evaluate.add_argument("--baseline", choices=["random", "always_gas"], default="random")
@@ -137,6 +179,18 @@ def main(argv=None):
             config.setdefault("device", args.device)
         if args.parent_checkpoint:
             config["parent_checkpoint"] = str(args.parent_checkpoint.resolve())
+        observer = None
+        if args.headed or args.headless_record:
+            # A separate block: the training config above is built exactly as without it.
+            observer = {
+                "mode": args.observer_mode,
+                "display": "window" if args.headed else "none",
+                "policy": args.observer_policy,
+                "snapshot_interval": args.observer_interval,
+                "seed": args.observer_seed,
+                "fps": args.observer_fps,
+                "video": str(args.observer_video.resolve()) if args.observer_video else None,
+            }
         output(
             run_training(
                 args.root,
@@ -147,6 +201,7 @@ def main(argv=None):
                 args.experiment,
                 args.benchmark_class,
                 args.parent_run,
+                observer=observer,
             )
         )
     elif args.command == "evaluate":
