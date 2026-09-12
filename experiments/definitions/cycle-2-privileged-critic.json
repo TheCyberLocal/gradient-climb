@@ -1,0 +1,43 @@
+{
+  "protocol_version": "privileged-critic-2.0",
+  "status": "REGISTERED before implementation and data collection",
+  "question": "With the actor restricted to screen-observable body features, does a critic that sees privileged simulator state learn faster at equal wall-clock budget than a critic restricted to the actor's own inputs, and does the resulting actor deploy better?",
+  "hypothesis": "Asymmetric training (privileged critic, restricted actor) improves equal-budget learning speed without leaking privileged information into actor inference; deployment quality is measured on the same restricted observations.",
+  "environment": "uncalibrated_hill_surrogate surrogate-0.1.0",
+  "actor_inputs": "the restricted screen-body vector: 8 body features and 8 validity masks over a 4-frame history (64 inputs) from the analytic projection used by the screen-body student; identical in both arms; no privileged feature enters the actor at training or inference",
+  "arms": {
+    "restricted_critic": "critic input equals the actor input (64 values)",
+    "privileged_critic": "critic input is the full 96-value idealized simulator observation (4-frame stack of the 24 features); actor unchanged"
+  },
+  "training": {
+    "algorithm": "PPO original-0.1.0 with a separated critic input path",
+    "randomization": false,
+    "profile": "default",
+    "terrain": "train",
+    "budget_seconds": 600,
+    "num_envs": 256,
+    "seeds": [0, 1, 2],
+    "checkpoints": [300, 600]
+  },
+  "evaluation": {
+    "seeds": "10000-10019 validation; 20000-20019 final test",
+    "conditions": ["default/train", "default/rough", "heavy/train"],
+    "observation_at_evaluation": "restricted actor observations only; the critic is not used",
+    "measures": ["distance at each checkpoint", "environment steps per second", "final held-out distance", "termination reasons"],
+    "leak_check": "the actor network's input dimension is asserted to be 64 and its forward pass is executed on restricted observations only; a test fails if privileged features can reach the actor"
+  },
+  "success_criteria": "the privileged-critic arm attains higher validation distance at 300 s and 600 s in all three seeds with a positive paired difference; otherwise report no benefit",
+  "relation_to_cycle_1": "Cycle 1 oracle PPO trained both actor and critic on idealized state and is not this experiment",
+  "exclusions": "none after the fact",
+  "cycle2_versions": {
+    "metric_schema": "behavioral-metrics-2.0",
+    "observation_schema": "screen-body-restricted-64 (actor) with critic input recorded per arm",
+    "reward_fitness": "historical:ppo-shaped-0.1.0",
+    "benchmark": "privileged-critic-2.0",
+    "simulator": "surrogate-0.1.0",
+    "calibration": "uncalibrated",
+    "ui_profile": null,
+    "score_reader": null,
+    "recovery_definition": null
+  }
+}

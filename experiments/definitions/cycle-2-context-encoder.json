@@ -1,0 +1,44 @@
+{
+  "protocol_version": "context-encoder-2.0",
+  "status": "REGISTERED before implementation and data collection",
+  "question": "Does conditioning the policy on a learned summary of recent observation-action history improve wall-clock learning and adaptation under hidden dynamics variation, compared with the Cycle 1 four-frame stack?",
+  "hypothesis": "Under per-episode vehicle randomization, an actor with a learned context z_t = f(o_{t-K:t}, a_{t-K:t-1}) reaches higher held-out distance at equal wall-clock budget than the four-frame stacked MLP, and retains more of that advantage on unseen vehicle/terrain shifts; a plain longer stack without the bottleneck is the control that separates history length from the encoder.",
+  "environment": "uncalibrated_hill_surrogate surrogate-0.1.0",
+  "arms": {
+    "A_stack4": "Cycle 1 architecture: 4-frame stack of the 24-feature frame, MLP 64x64, no context module",
+    "B_stack16": "16-frame stack, same MLP; controls for history length alone (actions are in the frame features)",
+    "C_context": "4-frame stack plus a context encoder: MLP over the last 16 frames (observations and previous actions) producing z of dimension 8 that is concatenated to the stacked input; z is computed only from past observations available before the decision"
+  },
+  "training": {
+    "algorithm": "PPO original-0.1.0",
+    "randomization": true,
+    "profile": "default",
+    "terrain": "train",
+    "budget_seconds": 600,
+    "num_envs": 256,
+    "seeds": [0, 1, 2],
+    "hyperparameters": "Cycle 1 defaults (rollout 128, minibatch 512, epochs 4, lr 3e-4, gamma 0.99, lambda 0.95, clip 0.2, entropy 0.01); identical across arms",
+    "checkpoints": [300, 600]
+  },
+  "evaluation": {
+    "seeds": "10000-10019 validation at checkpoints; 20000-20019 final test",
+    "conditions": ["default/train", "default/rough", "heavy/train", "heavy/rough", "agile/train", "agile/rough"],
+    "randomization_at_evaluation": false,
+    "measures": ["mean and median distance per condition", "survival seconds", "termination reasons", "environment steps per second", "parameter count", "inference cost"],
+    "statistics": "per-arm means over the three training seeds with per-seed values reported; paired seed differences between arms; episode CIs reported separately and never as training-seed uncertainty"
+  },
+  "success_criteria": "arm C beats arm A on the mean over three training seeds of held-out distance under randomization in at least four of six conditions with a positive paired difference in all three seeds; otherwise the context encoder is not adopted and the negative result is recorded",
+  "adaptation_follow_up": "if C is adopted, the real-adaptation study compares context versus no-context on the new-vehicle and new-map conditions at equal exposure",
+  "exclusions": "none after the fact; a run that fails to complete its budget is reported as failed and its seed is not replaced",
+  "cycle2_versions": {
+    "metric_schema": "behavioral-metrics-2.0",
+    "observation_schema": "surrogate-24-feature stack (A,B) / stack plus context (C); recorded per run",
+    "reward_fitness": "historical:ppo-shaped-0.1.0",
+    "benchmark": "context-encoder-2.0",
+    "simulator": "surrogate-0.1.0",
+    "calibration": "uncalibrated",
+    "ui_profile": null,
+    "score_reader": null,
+    "recovery_definition": null
+  }
+}
