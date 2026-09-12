@@ -1,0 +1,30 @@
+{
+  "schema_version": "reader-labels-1",
+  "protocol": "reader-validation-2.0",
+  "split": "construction",
+  "created": "2026-09-11",
+  "labels": [
+    {
+      "run_id": "b8e15581-6cac-4e27-be0d-8eaf926b02cc",
+      "frame": "terminal-000.png",
+      "sha256": "9e3993c9a03f673de02c0188f7d07ce992d1a31ac51b8aa4ec574ad7f66968c2",
+      "field": "result_distance",
+      "text": "246",
+      "annotation_id": "cycle2-result-246-b8e15581",
+      "annotator": "operator (Claude) visual inspection of a 3x crop",
+      "method": "manual; reader output for these frames was already inspected during development, so they are construction frames",
+      "notes": "Session 3 attempt 0 result; frozen bank rejected 6 as 6/9 ambiguous; label read from enlarged crop before any bank extension"
+    },
+    {
+      "run_id": "fa103b59-4406-4f3d-8eb3-8158ee6e12c5",
+      "frame": "terminal-000.png",
+      "sha256": "ecf12fcbec4cd8d2d647161c6ed6f1b232a1fe3e1f070c99aa652c42758f077e",
+      "field": "result_distance",
+      "text": "398",
+      "annotation_id": "cycle2-result-398-fa103b59",
+      "annotator": "operator (Claude) visual inspection of a 3x crop",
+      "method": "manual; reader output for these frames was already inspected during development, so they are construction frames",
+      "notes": "Session 1 attempt 0 result; frozen bank rejected 9/8 as ambiguous; label read from enlarged crop before any bank extension"
+    }
+  ]
+}

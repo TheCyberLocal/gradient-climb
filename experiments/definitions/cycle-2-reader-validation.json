@@ -1,0 +1,47 @@
+{
+  "protocol_version": "reader-validation-2.0",
+  "status": "REGISTERED before labeling; construction and held-out sessions are declared here, not chosen after results",
+  "question": "How accurate and how available are the result-distance, gameplay-progress, coin-counter, fuel-gauge and terminal-cause readers on independent real frames from separate sessions?",
+  "readers": {
+    "result_distance": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-reader.json (frozen Cycle 1 terminal bank) and any Cycle 2 successor bank built only from construction sessions",
+    "gameplay_progress": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/gameplay-glyphs/hud-glyphs.json",
+    "coin_counter": "hud-coin-counter-2.0 (gameplay bank over the declared coin region)",
+    "fuel_gauge": "hud-fuel-gauge-2.0",
+    "terminal_cause": "recognized result variant (driver_down_native / out_of_fuel_discovery) as evidence"
+  },
+  "labeling": {
+    "method": "manual, from enlarged crops of the sealed frames, recorded before the reader output for that frame is viewed; frames whose reader output was already inspected during development are construction frames by definition",
+    "label_fields": ["result_distance_m", "gameplay_progress_m", "coins", "fuel_fill_fraction_bin", "terminal_cause", "ui_state"],
+    "fuel_bins": "empty, low (<0.25), mid (0.25-0.75), high (>0.75) judged visually; the reader's fraction must fall in the labeled bin",
+    "storage": "artifacts/hud-independent-labels/cycle-2-reader-labels.json with source run id, frame path and sha256 per label"
+  },
+  "splits": {
+    "construction": ["fa103b59-4406-4f3d-8eb3-8158ee6e12c5", "b8e15581-6cac-4e27-be0d-8eaf926b02cc", "all Cycle 1 runs"],
+    "heldout": "every native session sealed after this registration whose frames were not viewed with reader output before labeling; the native reliability study sessions are the first held-out set",
+    "rule": "no frame, session or glyph moves from held-out to construction after evaluation; a bank extension makes its source sessions construction for every later evaluation"
+  },
+  "metrics": [
+    "availability: valid readings / labeled frames per reader",
+    "exact accuracy: exact matches / valid readings (result and progress metres, coins)",
+    "wrong-accept rate: valid readings that disagree with the label / valid readings",
+    "fuel: fraction of valid readings inside the labeled bin",
+    "terminal cause: agreement of the recognized variant with the labeled cause; unknown counted separately",
+    "per-digit confusion for rejected result readings (e.g. 6 versus 9 ambiguity observed in session b8e15581)"
+  ],
+  "acceptance_for_objective_use": "a reader may feed an objective only if its wrong-accept rate on held-out frames is zero over at least 20 labeled frames from at least three sessions and its availability is reported alongside",
+  "known_construction_facts": [
+    "session b8e15581 attempt 0: true result 246 m; frozen terminal bank rejected the third digit as 6/9 ambiguous (0.891 vs 0.896), a correct fail-closed refusal",
+    "session fa103b59 attempt 0: HUD maximum 398 m; terminal reading outcome recorded in the run and diagnosed during development"
+  ],
+  "cycle2_versions": {
+    "metric_schema": "behavioral-metrics-2.0",
+    "observation_schema": "hcr-screen-relative-1",
+    "reward_fitness": "historical:none",
+    "benchmark": "reader-validation-2.0",
+    "simulator": null,
+    "calibration": null,
+    "ui_profile": "hcr-wrapper-reset-v2",
+    "score_reader": "result-reader-66ce7f08 + hud-glyphs-78a29b33 + hud-coin-counter-2.0 + hud-fuel-gauge-2.0",
+    "recovery_definition": null
+  }
+}
