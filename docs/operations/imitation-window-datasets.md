@@ -172,6 +172,8 @@ dataset. Additional sessions are allowed. Both recording-run and session aliases
 are checked. A failed or cancelled sealed publication still binds its registered
 ledger. An unfinished publication blocks subsequent publishers until explicit
 recovery/audit; releasing an OS lock does not erase possible earlier data exposure.
+This includes the recorder's initial `run-start.json` identity when final
+`run.json` has not yet been written.
 Corrupt historical seals or missing registered ledgers likewise fail closed.
 
 This enforcement covers cooperating publishers in the same canonical store.

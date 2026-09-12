@@ -88,6 +88,9 @@ def _historical_assignments(root: Path, artifact_root: Path):
         record_path = directory / "run.json"
         _no_links(record_path)
         if not record_path.is_file():
+            record_path = directory / "run-start.json"
+            _no_links(record_path)
+        if not record_path.is_file():
             continue  # Unrelated recorder may be between directory creation and its first record.
         record = json.loads(record_path.read_bytes())
         config = record.get("configuration", {})

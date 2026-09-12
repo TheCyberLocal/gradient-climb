@@ -86,10 +86,11 @@ def test_failed_sealed_assembly_keeps_early_partition_binding(tmp_path, monkeypa
         publish_dataset(root, "research/plan.json")
 
 
-def test_unfinished_publication_fails_closed_after_os_lock_is_gone(tmp_path):
+@pytest.mark.parametrize("identity_file", ["run-start.json", "run.json"])
+def test_unfinished_publication_fails_closed_after_os_lock_is_gone(tmp_path, identity_file):
     root, plan, *_ = make_demo_source(tmp_path)
     with partition_publication(root, plan) as binding:
-        unfinished = root / "artifacts/runs" / str(uuid.uuid4()) / "run.json"
+        unfinished = root / "artifacts/runs" / str(uuid.uuid4()) / identity_file
         write_json(
             unfinished,
             {
