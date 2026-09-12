@@ -1,0 +1,101 @@
+{
+  "protocol_version": "visual-pose-construction-screen-3.0",
+  "experiment_id": "cycle-3-visual-pose-screen-001",
+  "status": "REGISTERED before numerical geometry annotation; execution additionally requires committed tested harness and frozen labels",
+  "created_at": "2026-09-12T15:57:25.648612+00:00",
+  "question": "Can original procedural geometry reproduce useful image hypotheses through the unchanged shared perception path, and which visible geometry or occlusion assumptions remain unsupported?",
+  "scope": "Four purposefully selected construction images; no held-out accuracy, physical fidelity, policy quality or learning-efficiency inference.",
+  "source_run_id": "fbafca5b-fd59-499a-a56d-1180528cdc21",
+  "source_partition": "train",
+  "use": "construction_only; incomplete profile identity remains training-ineligible",
+  "window_plan": {
+    "path": "experiments/definitions/cycle-3-imitation-window-diagnostic-002.json",
+    "sha256": "c94e95dc2e03f1dcf722e194f686c1ff3dbc9869ae6e7ad6cbc61fdeca05606a"
+  },
+  "prior_diagnostic": {
+    "path": "research/diagnostics/imitation-construction-002.json",
+    "sha256": "8c78c78dfc41bf0c518c2a1a3e56005bc6d8c3d58b954629b5d13cca88a22143"
+  },
+  "selected_frames": [
+    {
+      "frame_index": 39,
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000039.png",
+        "sha256": "93a2a0a16bb08ddf689a907461a81d76a44be4ba849f1ff34348df5f7f2ec37c"
+      }
+    },
+    {
+      "frame_index": 350,
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000350.png",
+        "sha256": "0d9c560411804fcb9f738c8c0f54b34554f6c7f86b24735d6616d0f2f03a982b"
+      }
+    },
+    {
+      "frame_index": 358,
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000358.png",
+        "sha256": "5e3326adeb3009bd6d98b36b84a8f14cd56638305a9e4a02d7d23ecbc5fd34e8"
+      }
+    },
+    {
+      "frame_index": 378,
+      "source_image": {
+        "path": "artifacts/runs/fbafca5b-fd59-499a-a56d-1180528cdc21/demonstration/frame-000378.png",
+        "sha256": "a3347acebe410e3699d5163d582ddafb0e6044df40deb02c128ac02ac00ce3c4"
+      }
+    }
+  ],
+  "selection_basis": "Declared after inspecting existing detector coverage: wheel-pair gaps39/358, slope350, near-vertical pose and clipped-road coverage378. No independent sampling or blindness is claimed.",
+  "annotation": {
+    "coordinate_system": "screen_pixels_x_right_y_down",
+    "image_size": [
+      1034,
+      581
+    ],
+    "method": "Manual bounded construction estimates from original saved pixels; label visible body outline, wheel circles, separate visible terrain strips and occluding regions, with explicit pixel uncertainty and missing geometry. No prediction-derived labels or fitted dynamics.",
+    "body_vertices_maximum": 24,
+    "wheel_count_maximum": 2,
+    "terrain_points_per_strip_maximum": 24,
+    "landmarks": "Optional manually identified front/rear/head/roof references are diagnostic-only and never become colored markers or input features.",
+    "review_receipt": "One reviewer and timezone-aware annotation timestamp per image, after this protocol was committed; record unmeasured annotation labor as prior cost."
+  },
+  "renderer": {
+    "version": "procedural-screen-pose-3.0",
+    "assets": "Original procedural polygons/circles/lines only; no public raw game art.",
+    "camera": "Fixed screen-pixel projection, no world scale, camera fit or unobserved scene extrapolation.",
+    "labels_in_actor": "No source IDs, labels, directed angles, debug markers, controls or privileged values enter actor preprocessing.",
+    "physics_steps": 0
+  },
+  "perception_profile": {
+    "path": "configs/perception/hcr-discovery-wrapper.json",
+    "sha256": "8c3a731e415d3a0b53c07b214054c848c10c42aa92fbcfa728cac9648da48b54"
+  },
+  "actor_preprocessing": "Same frozen HCRPixelMeasurer and ScreenFeatureBridge for source RGB and rendered RGB. HUD, OS-action and episode context unavailable and masked. Reset temporal state for each deliberately sparse pose; no interpolated motion.",
+  "budgets": {
+    "maximum_poses": 4,
+    "maximum_rendered_frames": 4,
+    "maximum_source_image_reads": 4,
+    "maximum_wall_seconds": 120,
+    "maximum_output_bytes": 33554432,
+    "physics_steps": 0,
+    "policy_decisions": 0,
+    "optimizer_updates": 0,
+    "new_real_interaction_seconds": 0
+  },
+  "report": [
+    "Every pose, including missing/invalid detections",
+    "Source and rendered body/wheel/terrain validity",
+    "Construction pixel discrepancies to declared uncertain labels; not independent accuracy",
+    "Explicit full-direction orientation remains unresolved by current actor",
+    "Rendering, source decode, perception and publication costs with recorder resource coverage; no energy inference",
+    "Inherited capture, annotation, detector development and failed construction attempt costs remain explicit"
+  ],
+  "engineering_acceptance": [
+    "All4 chosen poses retained or explicit failure/unattempted reason",
+    "Exact source/profile/protocol/label hashes and whole-session partition agreement",
+    "Actor receives only rendered pixels through shared preprocessing; landmark metadata cannot affect actor pixels",
+    "Zero physics, training, policy decisions and new real game interaction"
+  ],
+  "stopping": "One committed-label screen only; no output-selected label, palette or detector changes. Failure requires a separately registered successor; no native evaluation or additional collection implied."
+}
