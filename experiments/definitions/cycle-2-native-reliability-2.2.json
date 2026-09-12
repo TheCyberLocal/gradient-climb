@@ -31,7 +31,8 @@
     "success_unscored: parked at a stationary boundary but the score reader returned unknown",
     "recoverable_failure: the adapter raised a bounded known failure and the session halted safely with pedals released",
     "unknown_failure: an unknown UI state or advertisement stopped the adapter with no click",
-    "not_attempted: the session halted before this attempt index"
+    "not_attempted: the session halted before this attempt index",
+    "unintended_action: an accepted allowlisted click followed within 5 s by loss of the foreground to another window; takes precedence over every failure class; the session halts"
   ],
   "measurements": [
     "capture initialization success per session",
@@ -46,7 +47,7 @@
     "unknown-state incidence and its evidence frames",
     "safe neutral release after every halt",
     "manual interventions (any -> unattended claim fails)",
-    "unintended actions (any click outside the allowlisted named controls -> study fails)",
+    "unintended actions (any click outside the allowlisted named controls, or any accepted click followed within 5 s by loss of the foreground to another window -> study fails)",
     "application restarts per attempt and per session (count, phase, reason, seconds)",
     "foreground-loss evidence (foreground window title and process) after every accepted click"
   ],
@@ -96,12 +97,17 @@
     ]
   },
   "amendments": [
-    "2026-09-11: registered as a fresh study after F-005; success criteria, attempts per session, maximum sessions and exclusion rules are unchanged from 2.0/2.1; the unintended-action definition is stricter (effect-based) and application restart is declared as the only recovery from stuck screens"
+    "2026-09-11: registered as a fresh study after F-005; success criteria, attempts per session, maximum sessions and exclusion rules are unchanged from 2.0/2.1; the unintended-action definition is stricter (effect-based) and application restart is declared as the only recovery from stuck screens",
+    "2026-09-11, before any 2.2 session: after adversarial review of the implementation, the restart trigger set was narrowed to the three bounded stuck errors above, unintended_action was added to the terminal classification vocabulary, the effect-based definition was made trace-derived and session-wide, restart bounds became runner-validated, and the restart path was sealed in probe run a3422d1c; criteria unchanged"
   ],
-  "unintended_action_definition": "either (a) any click outside the allowlisted named controls, or (b) an accepted click followed within 5 s by loss of the foreground to another window (effect-based; the foreground window title and process are recorded as evidence). Either classifies the attempt as unintended_action, halts the session and fails the study.",
+  "unintended_action_definition": "either (a) any click outside the allowlisted named controls, or (b) an accepted click followed within 5 s by a latched foreground-loss guard event (effect-based; derived from the adapter traces alone, so it counts whichever thread or method observed the loss and whatever exception the runner finally saw; the foreground window title and process are recorded as evidence). Either classifies the attempt as unintended_action, halts the session and fails the study. The count is session-wide and includes the pre-attempt truncating reset.",
   "recovery": {
-    "application_restart": "after a stuck reset only (unknown screen past its bounded wait, or a recognized advertisement without a verified control after the 45 s advertisement wait): WM_CLOSE to the pinned game window, then the game shortcut; the window must reappear with unchanged identity and client geometry and reach a recognized state within 150 s. Never after a foreground loss or any latched guard fault. Never a click inside the game.",
+    "application_restart": "WM_CLOSE to the pinned game window, then the game shortcut; never a click inside the game. Triggered only by a stuck reset, i.e. one of exactly three adapter errors, each raised after a full 45 s bounded no-input wait: \"Advertisement without legitimate control persisted\" (a recognized advertisement variant without a verified control), \"Unrecognized advertisement; no click\" (unknown frames following a recognized advertisement), \"Unknown screen persisted without recognized context\" (unknown frames with no pending click, result or advertisement context). Deadline, click and capture limits, post-click transition timeouts, recognized-but-unauthorized states and every guard fault (foreground loss, geometry, capture, click) halt the session instead. The adapter refuses a restart after any latched guard fault and requires the game to hold the foreground when the restart begins; the window must hide within 20 s, reappear with the same handle, process, creation time, title and client geometry, and reach a recognized state, all within the restart bound.",
+    "max_seconds": 150,
+    "hide_seconds": 20,
     "max_restarts_per_session": 6,
-    "accounting": "restarts are reported per attempt (phase, reason, seconds) and summed per session as a secondary endpoint; an attempt parked through a restart keeps its terminal classification; a failed restart halts the session"
+    "runner_validation": "the runner refuses to stamp this protocol unless --restart-shortcut is given and --restart-seconds / --max-restarts do not exceed the registered bounds",
+    "accounting": "restarts are reported per attempt (phase, reason, seconds, settled state) and summed per session as a secondary endpoint; relaunch boot frames are recorded under restart_state_counts and restart-*.png, never as unknown-state incidence of the reset flow; an attempt parked through a restart keeps its terminal classification; a failed restart halts the session",
+    "evidence": "exploratory probe run a3422d1c (WM_CLOSE plus shortcut from the vehicle-selection screen, sealed with app-restarts.json and restart frames)"
   }
 }

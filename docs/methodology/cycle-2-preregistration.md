@@ -124,10 +124,11 @@ the host browser ([F-005](../../research/findings/F-005-allowlisted-ad-control-o
 [`native-reliability-2.2`](../../experiments/definitions/cycle-2-native-reliability-2.2.json)
 keeps every criterion and adds two definitions rather than relaxing anything: an unintended
 action is also any accepted click followed within 5 s by loss of the foreground to another
-window (effect-based, with the foreground window recorded as evidence), and the only
-recovery from a stuck screen is an application restart (WM_CLOSE to the pinned game window
-plus the game's shortcut; never a click, never after a foreground loss), reported per
-attempt as a secondary endpoint. Advertisement controls remain enabled only where a
+window (effect-based, derived from the adapter traces with the foreground window recorded
+as evidence), and the only recovery from a stuck screen is an application restart (WM_CLOSE
+to the pinned game window plus the game's shortcut; never a click, never after a latched
+guard fault, and only after one of three bounded 45 s no-input waits), reported per
+attempt as a secondary endpoint and sealed in probe run `a3422d1c`. Advertisement controls remain enabled only where a
 sealed run shows the close followed by a recognized game state.
 
 ## Sequencing

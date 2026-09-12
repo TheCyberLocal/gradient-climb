@@ -21,8 +21,11 @@
   variants for three Google interstitial player sizes and the current out-of-fuel result;
   advertisement controls enabled only with sealed effect evidence; effect-based unintended
   action detection (foreground loss within 5 s of a click, with the foreground window as
-  evidence); bounded stuck detection for advertisements without a control; application
-  restart recovery (`NativeGameAdapter.restart_app`, `--restart-shortcut`) that posts
-  WM_CLOSE and relaunches the game's shortcut instead of clicking anything.
+  evidence, derived from the adapter traces and latched for faults raised inside the
+  capture read); bounded no-input waits for advertisements without a control and for
+  contextless unknown screens; application restart recovery
+  (`NativeGameAdapter.restart_app`, `--restart-shortcut`, `--probe-restart`) that posts
+  WM_CLOSE and relaunches the game's shortcut instead of clicking anything, after exactly
+  three bounded stuck errors and never after a latched fault.
 
 This development version does not imply completion of real-game qualification.

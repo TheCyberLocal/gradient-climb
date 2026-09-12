@@ -64,17 +64,15 @@ NEXT_STATES = {
 # Guard message emitted when another window took the foreground; a loss within a
 # few seconds of an accepted click is effect-based evidence of an unintended action.
 FOREGROUND_LOSS_MARKER = "Target is not the foreground window"
-# Reset failures that mean the game is stuck on a screen the adapter may not touch.
-# They may be escaped by restarting the application; guard faults never are.
+# Reset failures that mean the game sat on a screen the adapter may not touch for the
+# whole bounded advertisement wait. Only these may be escaped by restarting the
+# application. Deadline, click and capture limits, post-click transition timeouts and
+# every guard fault halt the session instead: a restart must never follow a click
+# closely enough to hide its effect, nor interrupt an advertisement inside its wait.
 STUCK_RESET_MARKERS = (
-    "Unrecognized advertisement; no click",
     "Advertisement without legitimate control",
-    "Unrecognized/unauthorized reset state",
-    "did not recover within transition limit",
-    "Unexpected or timed-out reset transition",
-    "Reset time limit",
-    "Reset click limit",
-    "Reset capture limit",
+    "Unrecognized advertisement; no click",
+    "Unknown screen persisted without recognized context",
 )
 
 
@@ -488,12 +486,25 @@ class NativeGameAdapter:
             self._guard_event(f"{type(exc).__name__}: {exc}", latched=True)
             raise
 
+    def _latch(self, reason):
+        """Stop, latch and record a guard-class fault; only a restart after a stuck reset may clear the stop, never the latch."""
+        self._stopped.set()
+        self._latched = True
+        self._guard_event(reason, latched=True)
+
     @property
     def last_click_ns(self):
-        """Clock timestamp of the most recent accepted click, or None."""
+        """Clock timestamp at which the most recent accepted click was delivered, or None."""
         for row in reversed(self.trace):
             if row.get("accepted"):
-                return row.get("completed_ns")
+                return row.get("accepted_ns", row.get("completed_ns"))
+        return None
+
+    @property
+    def last_accepted_click(self):
+        for row in reversed(self.trace):
+            if row.get("accepted"):
+                return row
         return None
 
     def _guard_event(self, reason, *, latched=False):
@@ -543,8 +554,12 @@ class NativeGameAdapter:
             # may explicitly retry; the watchdog remains false until fresh input.
             self.release_pedals()
             raise
-        except Exception:
-            self._stopped.set()
+        except Exception as exc:
+            # A fault raised by the capture read itself (foreground lost during
+            # the read, geometry change, nonmonotonic capture) is a guard-class
+            # fault: record it with its reason so an effect that follows a click
+            # is attributable, and latch so no restart can hide it.
+            self._latch(f"{type(exc).__name__}: {exc}")
             self.release_pedals()
             raise
 
@@ -563,8 +578,7 @@ class NativeGameAdapter:
             self._guard_event(str(exc))
             return False
         except Exception as exc:  # noqa: BLE001 - watchdog receives a fail-closed state
-            self._stopped.set()
-            self._guard_event(f"{type(exc).__name__}: {exc}", latched=True)
+            self._latch(f"{type(exc).__name__}: {exc}")
             return False
 
     def click_verified(self, name, observation=None):
@@ -614,6 +628,7 @@ class NativeGameAdapter:
             try:
                 self.sender.click(point)
                 row["accepted"] = True
+                row["accepted_ns"] = int(self.clock() * 1e9)
                 if self.pointer_park_xy is not None and hasattr(self.sender, "park_pointer"):
                     self._guard()
                     x, y = self.pointer_park_xy
@@ -629,8 +644,8 @@ class NativeGameAdapter:
             finally:
                 row["completed_ns"] = int(self.clock() * 1e9)
                 self.trace.append(row)
-        except BaseException:
-            self._stopped.set()
+        except BaseException as exc:
+            self._latch(f"{type(exc).__name__}: {exc}")
             self.release_pedals()
             raise
 
@@ -683,6 +698,7 @@ class NativeGameAdapter:
         known_result_until = None
         ad_close_seen = None
         ad_no_control_since = None
+        unknown_since = None
         try:
             self.release_pedals()
             for _ in range(2000):
@@ -709,7 +725,13 @@ class NativeGameAdapter:
                 state = observation.state
                 if state != "advertisement":
                     ad_close_seen = None
+                if state not in {"advertisement", "unknown"}:
+                    # A recognized game state ends the advertisement; an unknown
+                    # frame inside a known advertisement (a creative transition)
+                    # must not restart its bounded wait.
                     ad_no_control_since = None
+                if state != "unknown":
+                    unknown_since = None
                 if state == "result":
                     known_result_until = min(deadline, self.clock() + transition_seconds)
                 elif state == "unknown" and known_result_until is not None:
@@ -791,6 +813,22 @@ class NativeGameAdapter:
                         return observation
                     name = "start_episode"
                     ready = True
+                elif state == "unknown":
+                    # No pending click, no recent result or advertisement: the
+                    # screen is unknown without context (a loading advertisement,
+                    # a new phase). Wait the advertisement bound without input,
+                    # then report it as stuck so the caller may restart the game.
+                    if unknown_since is None:
+                        unknown_since = self.clock()
+                    if self.clock() - unknown_since < ad_transition_seconds:
+                        self._guard_event(
+                            "Unknown screen without recognized context; bounded wait without input"
+                        )
+                        self.sleep(0.03)
+                        continue
+                    raise RuntimeError(
+                        "Unknown screen persisted without recognized context; no click"
+                    )
                 else:
                     raise RuntimeError("Unrecognized/unauthorized reset state; no click")
                 if clicks >= max_clicks:
@@ -842,8 +880,9 @@ class NativeGameAdapter:
         ``max_seconds``; unknown boot frames are waited out without input.
 
         Refused after a latched guard fault (foreground loss, geometry change,
-        capture or operator faults): those can indicate an external effect that
-        needs an operator, and hiding the evidence behind a restart is not allowed.
+        capture, click or operator faults): those can indicate an external effect
+        that needs an operator, and hiding the evidence behind a restart is not
+        allowed. The game must still hold the foreground when the restart begins.
         A stuck reset (``STUCK_RESET_MARKERS``) is not latched and may be recovered.
         """
         if not callable(launch):
@@ -878,13 +917,19 @@ class NativeGameAdapter:
         deadline = self.clock() + max_seconds
         try:
             self.release_pedals()
-            self.guard.validate(require_foreground=False)
+            try:
+                # The game must still hold the foreground: a foreground already
+                # taken by another window is a guard fault, not a stuck screen.
+                self.guard.validate(require_foreground=True)
+            except Exception as exc:
+                self._latch(f"{type(exc).__name__}: {exc}")
+                raise RuntimeError("Restart refused: game is not the foreground window") from exc
             if not api.request_close(hwnd):
                 raise RuntimeError("WM_CLOSE could not be posted to the game window")
             row["closed"] = True
             started = self.clock()
             while api.visible(hwnd):
-                if self.clock() - started >= hide_seconds:
+                if self.clock() - started >= hide_seconds or self.clock() >= deadline:
                     raise TimeoutError("Game window did not hide after WM_CLOSE")
                 self.sleep(poll_seconds)
             row["hidden_seconds"] = self.clock() - started
@@ -902,6 +947,10 @@ class NativeGameAdapter:
                 raise RuntimeError(
                     "Game geometry changed across restart; explicit profile reselection required"
                 )
+            summary = getattr(api, "foreground_summary", None)
+            if callable(summary):
+                # Evidence of what held the foreground while the game was hidden.
+                row["foreground_before_activation"] = summary()
             if not api.bring_to_foreground(hwnd):
                 raise RuntimeError("Game window could not take the foreground after relaunch")
             # The stuck fault is the only latch a restart may clear.

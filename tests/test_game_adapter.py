@@ -158,7 +158,7 @@ def test_bounded_reset_sequences_have_only_verified_clicks(dataset, sequence, na
 @pytest.mark.parametrize(
     "sequence,expected",
     [
-        (["unknown"], "Unrecognized"),
+        (["unknown"], "Unknown screen persisted"),
         (["tune"], "Unrecognized"),
         (["paused", "paused"], "timed-out"),
         (["result"], "Terminal-frame"),
@@ -168,7 +168,7 @@ def test_bounded_reset_sequences_have_only_verified_clicks(dataset, sequence, na
 def test_unknown_incomplete_or_failed_flow_stops_and_releases(dataset, sequence, expected):
     adapter, _, _, released, clicks = adapter_fixture(dataset, sequence)
     with pytest.raises((RuntimeError, OSError), match=expected):
-        adapter.reset(transition_seconds=0.2)
+        adapter.reset(transition_seconds=0.2, ad_transition_seconds=1.0)
     assert adapter._stopped.is_set() and released
     assert len(clicks) <= 1
 
@@ -815,18 +815,105 @@ def test_known_advertisement_without_control_is_bounded_then_stuck(dataset):
         if variant["state"] == "advertisement":
             variant["controls"] = {}
     path.write_text(json.dumps(stripped))
-    adapter, _, _, released, clicks = adapter_fixture(dataset, ["advertisement"])
+    adapter, clock, _, released, clicks = adapter_fixture(dataset, ["advertisement"])
+    started = clock.now
     with pytest.raises(RuntimeError, match="without legitimate control"):
         adapter.reset(ad_transition_seconds=1.0)
+    assert 1.0 <= clock.now - started < 2.0
+    assert any("close unavailable" in row["reason"] for row in adapter.guard_trace)
     assert not clicks and released
     assert adapter._stopped.is_set() and not adapter._latched
+    # An unknown frame inside the known advertisement (a creative transition) does
+    # not restart the bounded wait; the raise still comes after the same bound.
+    adapter, clock, _, released, clicks = adapter_fixture(
+        dataset, ["advertisement", "unknown"] * 400
+    )
+    started = clock.now
+    with pytest.raises(RuntimeError, match="without legitimate control"):
+        adapter.reset(ad_transition_seconds=1.0)
+    assert 1.0 <= clock.now - started < 2.0 and not clicks
+
+
+def test_contextless_unknown_screen_waits_the_advertisement_bound_then_reports_stuck(dataset):
+    adapter, clock, _, released, clicks = adapter_fixture(dataset, ["unknown"])
+    started = clock.now
+    with pytest.raises(RuntimeError, match="Unknown screen persisted"):
+        adapter.reset(ad_transition_seconds=1.0)
+    assert 1.0 <= clock.now - started < 2.0
+    assert any("bounded wait without input" in row["reason"] for row in adapter.guard_trace)
+    assert not clicks and released and adapter._stopped.is_set() and not adapter._latched
 
 
 def test_last_click_ns_tracks_only_accepted_clicks(dataset):
     adapter, _, _, _, _ = adapter_fixture(dataset, ["paused"])
     assert adapter.last_click_ns is None
     adapter.click_verified("restart_paused", adapter.observe())
-    assert adapter.last_click_ns == adapter.trace[-1]["completed_ns"]
+    accepted = adapter.trace[-1]
+    assert accepted["accepted"] and adapter.last_click_ns == accepted["accepted_ns"]
+    assert accepted["started_ns"] <= accepted["accepted_ns"] <= accepted["completed_ns"]
+    # A click the sender refused is recorded but never anchors the effect window.
+    adapter._stopped.clear()
+
+    def fail(point):
+        raise OSError("mock sender failure")
+
+    adapter.sender.click = fail
+    with pytest.raises(OSError):
+        adapter.click_verified("restart_paused", adapter.observe())
+    assert not adapter.trace[-1]["accepted"]
+    assert adapter.last_click_ns == accepted["accepted_ns"]
+    assert adapter._latched  # a failed click is a latched fault
+
+
+def test_foreground_loss_inside_the_capture_read_is_latched_with_its_reason(dataset):
+    """The F-005 path: the loss is raised by the capture backend, not by _guard()."""
+    from gradientclimb.capture.windows import WindowUnavailable
+    from gradientclimb.control.game_adapter import FOREGROUND_LOSS_MARKER
+
+    adapter, _, _, released, _ = adapter_fixture(dataset, ["paused", "paused"])
+    adapter.click_verified("restart_paused", adapter.observe())
+    original = adapter.capture_backend.grab
+
+    def grab():
+        original()
+        raise WindowUnavailable(f"{FOREGROUND_LOSS_MARKER}; foreground is 'Store' (chrome.exe)")
+
+    adapter.capture_backend.grab = grab
+    with pytest.raises(WindowUnavailable):
+        adapter.observe()
+    event = adapter.guard_trace[-1]
+    assert event["latched"] and FOREGROUND_LOSS_MARKER in event["reason"]
+    assert "chrome.exe" in event["reason"]
+    assert event["timestamp_ns"] >= adapter.last_click_ns
+    assert adapter._latched and adapter._stopped.is_set() and released
+    launches = []
+    with pytest.raises(RuntimeError, match="latched"):
+        adapter.restart_app(lambda: launches.append(1))
+    assert not launches and adapter.restart_trace == []
+
+
+def test_guard_fault_seen_first_by_the_watchdog_latches_and_refuses_restart(dataset):
+    from gradientclimb.capture.windows import WindowUnavailable
+    from gradientclimb.control.game_adapter import FOREGROUND_LOSS_MARKER
+
+    adapter, _, _, _, _ = adapter_fixture(dataset, ["playing"])
+    adapter.observe()
+
+    def lost(**kwargs):
+        raise WindowUnavailable(f"{FOREGROUND_LOSS_MARKER}; foreground is 'Store' (chrome.exe)")
+
+    adapter.guard.validate = lost
+    assert not adapter.is_playing()
+    assert adapter._latched and adapter._stopped.is_set()
+    assert any(
+        row["latched"] and FOREGROUND_LOSS_MARKER in row["reason"] for row in adapter.guard_trace
+    )
+    with pytest.raises(RuntimeError, match="Adapter stopped"):
+        adapter.observe()
+    launches = []
+    with pytest.raises(RuntimeError, match="latched"):
+        adapter.restart_app(lambda: launches.append(1))
+    assert not launches
 
 
 def restart_fixture(dataset, sequence, *, hide_after=0.4, reappear_after=2.0):
@@ -879,9 +966,19 @@ def test_restart_app_closes_relaunches_and_settles_without_clicks(dataset):
 
 
 @pytest.mark.parametrize(
-    "failure", ["latched", "geometry", "never_hides", "never_reappears", "never_settles"]
+    "failure,message",
+    [
+        ("latched", "latched guard fault"),
+        ("not_foreground", "not the foreground window"),
+        ("geometry", "geometry changed"),
+        ("never_hides", "did not hide"),
+        ("never_reappears", "did not reappear"),
+        ("never_settles", "recognized state"),
+    ],
 )
-def test_restart_app_refuses_or_times_out_and_stays_stopped(dataset, failure):
+def test_restart_app_refuses_or_times_out_and_stays_stopped(dataset, failure, message):
+    from gradientclimb.capture.windows import WindowUnavailable
+
     kwargs = {}
     if failure == "never_hides":
         kwargs["hide_after"] = None
@@ -893,15 +990,28 @@ def test_restart_app_refuses_or_times_out_and_stays_stopped(dataset, failure):
     )
     if failure == "latched":
         adapter._latched = True
+    if failure == "not_foreground":
+
+        def validate(**kwargs):
+            if kwargs.get("require_foreground", True):
+                raise WindowUnavailable("Target is not the foreground window; foreground is 'x'")
+            return current[0]
+
+        adapter.guard.validate = validate
     if failure == "geometry":
         current[0] = replace(TARGET, client_rect=ClientRect(101, 200, 800, 600))
-    with pytest.raises((RuntimeError, TimeoutError)):
+    with pytest.raises((RuntimeError, TimeoutError), match=message):
         adapter.restart_app(launch, max_seconds=10, hide_seconds=2, poll_seconds=0.5)
     assert adapter._stopped.is_set() and not clicks and released
     if failure == "latched":
         assert adapter.restart_trace == [] and state["launches"] == 0
     else:
         assert adapter.restart_trace[-1]["error"]
+    if failure == "not_foreground":
+        assert adapter._latched and state["launches"] == 0
+    if failure == "geometry":
+        # Geometry is compared before the window is activated or the stop cleared.
+        assert state["foreground"] == 0 and not adapter._latched
     with pytest.raises(ValueError):
         adapter.restart_app(launch, max_seconds=0)
     with pytest.raises(TypeError):

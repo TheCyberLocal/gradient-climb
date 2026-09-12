@@ -45,17 +45,22 @@ registered metric, objective and reliability protocols.
   `6b807f8e`, `8dd9d796`).
 - Advertisement controls are enabled only where a sealed run shows the close followed
   by a recognized game state (`commercial_break_available_close`,
-  `admob_tiny_layout_close`); the other seven advertisement variants are
-  recognition-only since F-005. Advertisement closes require the same control on two
-  fresh frames ≥ 0.15 s apart.
-- Unintended actions are measured by effect as well as by allowlist: a foreground loss
-  within 5 s of an accepted click halts the session as `unintended_action` with the
-  foreground window recorded. Stuck screens are escaped by `restart_app` (WM_CLOSE to
-  the pinned window, then the Start Menu shortcut
+  `admob_tiny_layout_close`); the other eight advertisement variants are
+  recognition-only (seven disabled after F-005; the muted-speaker variant never carried
+  a control). Advertisement closes require the same control on two fresh frames
+  ≥ 0.15 s apart.
+- Unintended actions are measured by effect as well as by allowlist: a latched
+  foreground-loss guard event within 5 s of an accepted click halts the session as
+  `unintended_action`, counted session-wide from the adapter traces with the foreground
+  window recorded. Stuck screens (three bounded errors only: advertisement without a
+  verified control, unknown after an advertisement, unknown without context, each after
+  a 45 s no-input wait) are escaped by `restart_app` (WM_CLOSE to the pinned window,
+  then the Start Menu shortcut
   `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Google Play Games\Hill Climb
-  Racing.lnk`): the window hides within about 1 s, reappears about 15 s after the
-  shortcut with the same handle, process and geometry, and boots to the recognized
-  vehicle-selection screen. Enabled in the runner with `--restart-shortcut`.
+  Racing.lnk`). Sealed probe run `a3422d1c`: the window hid 0.5 s after WM_CLOSE,
+  reappeared 9.5 s after the shortcut with the same handle, process and geometry, and
+  reached the recognized vehicle-selection screen 31.7 s later. Enabled in the runner
+  with `--restart-shortcut`; `--probe-restart --exploratory` seals one restart alone.
 
 ## Exploratory native sessions so far (not study attempts)
 

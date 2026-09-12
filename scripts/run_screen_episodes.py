@@ -314,6 +314,8 @@ def save_episode(run, index, summary, rows, images):
 
 UNKNOWN_HALT_MARKERS = (
     "Unrecognized advertisement",
+    "Advertisement without legitimate control",
+    "Unknown screen persisted without recognized context",
     "Unrecognized/unauthorized reset state",
     "did not recover",
     "Unexpected or timed-out reset transition",
@@ -323,49 +325,102 @@ UNKNOWN_HALT_MARKERS = (
 POST_CLICK_WINDOW_SECONDS = 5.0
 
 
-def should_restart(error):
+def should_restart(error, adapter=None):
     """Whether a failed reset left the game stuck on a screen the adapter may not touch.
 
-    Only ``STUCK_RESET_MARKERS`` qualify. A foreground loss or any other guard fault
-    never does: it can be the effect of a click that reached another application and
-    must halt the session with its evidence intact.
+    Only ``STUCK_RESET_MARKERS`` qualify: each is raised after the full bounded
+    advertisement wait with no click in between. A foreground loss, a latched
+    guard fault, a deadline or click limit, or a post-click transition timeout
+    never qualifies: those halt the session with their evidence intact.
     """
     if not error or FOREGROUND_LOSS_MARKER in error or "latched" in error:
+        return False
+    if adapter is not None and getattr(adapter, "_latched", False):
         return False
     return any(marker in error for marker in STUCK_RESET_MARKERS)
 
 
-def unintended_action_evidence(error, adapter, *, window_seconds=POST_CLICK_WINDOW_SECONDS):
-    """Effect-based unintended action: the game lost the foreground shortly after a click.
+def unintended_action_events(adapter, *, first_row=0, window_seconds=POST_CLICK_WINDOW_SECONDS):
+    """Effect-based unintended actions derived from the adapter traces alone.
 
-    The allowlist bounds what is clicked; this bounds what a click did. A verified
-    control that opens a store page, a browser or any other window is an unintended
-    action even though the click itself was allowlisted.
+    The allowlist bounds what is clicked; this bounds what a click did. For every
+    accepted click (from trace index ``first_row`` on) a latched foreground-loss
+    guard event recorded at or after the click's start and within
+    ``window_seconds`` of its delivery is an unintended action, whichever thread
+    or method observed the loss and whatever exception the runner finally saw.
     """
-    if not error or FOREGROUND_LOSS_MARKER not in error:
-        return None
-    last = adapter.last_click_ns
-    if last is None:
-        return None
+    events = []
     losses = [
         event
-        for event in adapter.guard_trace
-        if FOREGROUND_LOSS_MARKER in event["reason"] and event["timestamp_ns"] >= last
+        for event in getattr(adapter, "guard_trace", [])
+        if event.get("latched") and FOREGROUND_LOSS_MARKER in event["reason"]
     ]
-    if not losses:
-        return None
-    elapsed = (losses[0]["timestamp_ns"] - last) / 1e9
-    if elapsed > window_seconds:
-        return None
-    click = next(row for row in reversed(adapter.trace) if row.get("accepted"))
-    return {
-        "seconds_after_click": elapsed,
-        "click": {
-            key: click.get(key)
-            for key in ("name", "state", "variant", "bounds_xyxy", "source_pixels_sha256")
-        },
-        "guard_reason": losses[0]["reason"],
-    }
+    for row in adapter.trace[first_row:]:
+        if not row.get("accepted"):
+            continue
+        delivered = row.get("accepted_ns", row.get("completed_ns"))
+        started = row.get("started_ns", delivered)
+        for loss in losses:
+            if loss["timestamp_ns"] < started:
+                continue
+            elapsed = max(0.0, (loss["timestamp_ns"] - delivered) / 1e9)
+            if elapsed <= window_seconds:
+                events.append(
+                    {
+                        "seconds_after_click": elapsed,
+                        "click": {
+                            key: row.get(key)
+                            for key in (
+                                "name",
+                                "state",
+                                "variant",
+                                "bounds_xyxy",
+                                "source_pixels_sha256",
+                            )
+                        },
+                        "guard_reason": loss["reason"],
+                    }
+                )
+                break
+    return events
+
+
+def unintended_action_evidence(adapter, *, first_row=0, window_seconds=POST_CLICK_WINDOW_SECONDS):
+    """The most recent effect-based unintended action for an attempt, or None."""
+    events = unintended_action_events(adapter, first_row=first_row, window_seconds=window_seconds)
+    return events[-1] if events else None
+
+
+def attempt_restart(adapter, launch, *, phase, error_text, rows, budget, on_observation=None):
+    """Restart the game after a stuck reset; True when it settled on a known state.
+
+    ``budget`` carries ``deadline``, ``restart_seconds``, ``max_restarts`` and the
+    mutable ``used`` count. Nothing here decides whether the error qualifies beyond
+    ``should_restart``; the adapter refuses on its own after any latched fault.
+    """
+    if launch is None or not should_restart(error_text, adapter):
+        return False
+    now = time.perf_counter()
+    if budget["used"] >= budget["max_restarts"] or budget["deadline"] - now < 30:
+        return False
+    budget["used"] += 1
+    reason = error_text.strip().splitlines()[-1][:160]
+    row = {"phase": phase, "index": budget["used"], "reason": reason, "ok": False, "seconds": None}
+    rows.append(row)
+    started = time.perf_counter()
+    try:
+        settled = adapter.restart_app(
+            launch,
+            max_seconds=min(budget["restart_seconds"], budget["deadline"] - started),
+            reason=f"{phase}: {reason}",
+            on_observation=on_observation,
+        )
+        row["ok"], row["settled_state"] = True, settled.state
+    except Exception:  # noqa: BLE001 - a failed restart halts the session with evidence
+        row["error"] = traceback.format_exc()
+    finally:
+        row["seconds"] = time.perf_counter() - started
+    return row["ok"]
 
 
 def classify_attempt(summary, parked, *, halted_error=None, unintended=None):
@@ -481,6 +536,14 @@ def main():
     )
     parser.add_argument("--restart-seconds", type=float, default=150.0)
     parser.add_argument("--max-restarts", type=int, default=6)
+    parser.add_argument(
+        "--probe-restart",
+        action="store_true",
+        help=(
+            "Exploratory only: perform exactly one application restart from the current "
+            "screen, seal its trace and exit; no episode, no click"
+        ),
+    )
     args = parser.parse_args()
     if not 1 <= args.reset_seconds <= 120:
         raise ValueError("Reset deadline must be within 1..120 seconds")
@@ -491,6 +554,8 @@ def main():
         if not args.restart_shortcut.is_file():
             raise FileNotFoundError(f"Restart shortcut not found: {args.restart_shortcut}")
         launch = lambda: os.startfile(str(args.restart_shortcut))
+    if args.probe_restart and (not args.exploratory or launch is None or args.inspect):
+        raise ValueError("--probe-restart requires --exploratory and --restart-shortcut")
     if any((args.policy, args.policy_kind, args.parent_run)) and not all(
         (args.policy, args.policy_kind, args.parent_run)
     ):
@@ -561,6 +626,18 @@ def main():
     protocol = None
     if args.protocol:
         protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
+        recovery = (protocol.get("recovery") or {}) if isinstance(protocol, dict) else {}
+        if recovery.get("application_restart") and not args.exploratory:
+            # A registered recovery is part of the frozen protocol: it must be
+            # enabled and its bounds must not exceed the registered ones.
+            if launch is None:
+                raise ValueError(
+                    "Protocol declares application restart; --restart-shortcut required"
+                )
+            if args.restart_seconds > float(recovery.get("max_seconds", args.restart_seconds)):
+                raise ValueError("Restart bound exceeds the registered recovery limit")
+            if args.max_restarts > int(recovery.get("max_restarts_per_session", args.max_restarts)):
+                raise ValueError("Restart count exceeds the registered recovery limit")
     config = {
         "baseline": args.baseline if not args.policy else None,
         "policy_kind": args.policy_kind,
@@ -583,6 +660,7 @@ def main():
         if args.policy
         else "scripted baseline evaluation",
         "inspect_only": args.inspect,
+        "probe_restart": args.probe_restart,
         "exploratory": args.exploratory,
         "operator_note": args.note,
         "reset_deadline_seconds": args.reset_seconds,
@@ -603,8 +681,11 @@ def main():
             "max_restarts": args.max_restarts,
             "policy": (
                 "WM_CLOSE to the pinned game window plus the shortcut, only after a stuck "
-                "reset; never after a foreground loss; never a click inside the game"
+                "reset (one of STUCK_RESET_MARKERS, each raised after the full bounded "
+                "advertisement wait); never after a foreground loss or any latched guard "
+                "fault; never a click inside the game"
             ),
+            "stuck_markers": list(STUCK_RESET_MARKERS),
         },
         "unintended_action_definition": (
             f"foreground loss to another window within {POST_CLICK_WINDOW_SECONDS:g} s of an "
@@ -629,7 +710,7 @@ def main():
         release_pedals=controller.release,
         capture_backend=args.capture_backend,
     )
-    summaries, reset_frames = [], []
+    summaries, reset_frames, restart_frames = [], [], []
     terminal = ResultScoreCollector(result_reader)
     error = None
     experiment_id = args.experiment_id or (
@@ -671,32 +752,38 @@ def main():
         start = time.perf_counter()
         deadline = start + args.max_seconds
         attempt_states = {}
-        restarts_used = 0
+        restart_states = {}
+        restart_budget = {
+            "deadline": deadline,
+            "restart_seconds": args.restart_seconds,
+            "max_restarts": args.max_restarts,
+            "used": 0,
+        }
+
+        def restart_observation(observation):
+            # Boot frames of a relaunch are evidence of the restart, never
+            # unknown-state incidence of the reset flow.
+            restart_states[observation.state] = restart_states.get(observation.state, 0) + 1
+            if len(restart_frames) < 40 and (
+                not restart_frames or restart_frames[-1][1]["state"] != observation.state
+            ):
+                restart_frames.append(
+                    (
+                        observation.frame.rgb.copy(),
+                        {**observation.frame.metadata(), "state": observation.state},
+                    )
+                )
 
         def try_restart(phase, error_text, rows):
-            """Restart the game after a stuck reset; True when it settled on a known state."""
-            nonlocal restarts_used
-            if launch is None or not should_restart(error_text):
-                return False
-            if restarts_used >= args.max_restarts or deadline - time.perf_counter() < 30:
-                return False
-            restarts_used += 1
-            started = time.perf_counter()
-            row = {"phase": phase, "index": restarts_used, "ok": False, "seconds": None}
-            rows.append(row)
-            try:
-                settled = adapter.restart_app(
-                    launch,
-                    max_seconds=min(args.restart_seconds, deadline - time.perf_counter()),
-                    reason=f"{phase}: {error_text.strip().splitlines()[-1][:160]}",
-                    on_observation=reset_observation,
-                )
-                row["ok"], row["settled_state"] = True, settled.state
-            except Exception:  # noqa: BLE001 - a failed restart halts the session with evidence
-                row["error"] = traceback.format_exc()
-            finally:
-                row["seconds"] = time.perf_counter() - started
-            return row["ok"]
+            return attempt_restart(
+                adapter,
+                launch,
+                phase=phase,
+                error_text=error_text,
+                rows=rows,
+                budget=restart_budget,
+                on_observation=restart_observation,
+            )
 
         def reset_observation(observation):
             attempt_states[observation.state] = attempt_states.get(observation.state, 0) + 1
@@ -718,7 +805,18 @@ def main():
 
         try:
             with adapter, controller:
-                if args.inspect:
+                if args.probe_restart:
+                    probe_rows = []
+                    adapter.observe()
+                    settled = adapter.restart_app(
+                        launch,
+                        max_seconds=min(args.restart_seconds, deadline - time.perf_counter()),
+                        reason="exploratory restart probe from the current screen",
+                        on_observation=restart_observation,
+                    )
+                    probe_rows.append({"settled_state": settled.state, "variant": settled.variant})
+                    print(json.dumps({"probe_restart": probe_rows[-1]}), flush=True)
+                elif args.inspect:
                     seen = adapter.observe()
                     reset_observation(seen)
                     print(
@@ -755,7 +853,8 @@ def main():
                         terminal.reset()
                         halted_error = None
                         summary, rows, images, parked, first = None, [], [], None, None
-                        restart_rows = []
+                        restart_rows, start_error_before_restart = [], None
+                        restart_states.clear()
                         try:
                             first = adapter.reset(
                                 allow_initial_start=True,
@@ -765,20 +864,20 @@ def main():
                             )
                         except Exception:  # noqa: BLE001 - classify, persist, then stop safely
                             halted_error = traceback.format_exc()
-                            remaining = deadline - time.perf_counter()
-                            if try_restart("start", halted_error, restart_rows) and remaining >= 1:
-                                try:
-                                    first = adapter.reset(
-                                        allow_initial_start=True,
-                                        max_seconds=min(
-                                            args.reset_seconds, deadline - time.perf_counter()
-                                        ),
-                                        on_terminal=terminal,
-                                        on_observation=reset_observation,
-                                    )
-                                    halted_error = None
-                                except Exception:  # noqa: BLE001 - a second failure halts
-                                    halted_error = traceback.format_exc()
+                            if try_restart("start", halted_error, restart_rows):
+                                start_error_before_restart = halted_error
+                                remaining = deadline - time.perf_counter()
+                                if remaining >= 1:
+                                    try:
+                                        first = adapter.reset(
+                                            allow_initial_start=True,
+                                            max_seconds=min(args.reset_seconds, remaining),
+                                            on_terminal=terminal,
+                                            on_observation=reset_observation,
+                                        )
+                                        halted_error = None
+                                    except Exception:  # noqa: BLE001 - a second failure halts
+                                        halted_error = traceback.format_exc()
                         start_reset_seconds = time.perf_counter() - attempt_started
                         terminal.reset()
                         terminal_start = len(terminal.readings)
@@ -831,9 +930,12 @@ def main():
                             if halted_error is None and try_restart(
                                 "park", summary["park_error"], restart_rows
                             ):
-                                # The relaunched game is the parked state for the next attempt.
+                                # The relaunched game is the parked state for the next
+                                # attempt; the attempt keeps its terminal classification
+                                # and the restart is reported alongside it.
                                 parked = adapter.latest
                                 summary["parked_via_restart"] = True
+                                summary["park_error_before_restart"] = summary.pop("park_error")
                             else:
                                 halted_error = halted_error or summary["park_error"]
                         finally:
@@ -852,8 +954,7 @@ def main():
                                 )
                             menu_rows = adapter.trace[menu_rows_before:]
                             unintended = unintended_action_evidence(
-                                halted_error or summary.get("park_error") or summary.get("error"),
-                                adapter,
+                                adapter, first_row=menu_rows_before
                             )
                             if unintended and not halted_error:
                                 halted_error = unintended["guard_reason"]
@@ -883,6 +984,8 @@ def main():
                                 "stale_captures": len(adapter.capture_trace),
                                 "app_restarts": len(restart_rows),
                                 "restarts": restart_rows,
+                                "restart_state_counts": dict(restart_states),
+                                "start_error_before_restart": start_error_before_restart,
                                 "parked_via_restart": bool(summary.get("parked_via_restart")),
                                 "unintended_action": unintended,
                             }
@@ -926,18 +1029,29 @@ def main():
             path = run.directory / f"{name}.json"
             path.write_text(json.dumps(data, indent=2, allow_nan=False) + "\n", encoding="utf-8")
             run.register_artifact(path, name)
-        for prefix, frames in (("reset", reset_frames), ("terminal", terminal.frames)):
+        for prefix, frames in (
+            ("reset", reset_frames),
+            ("terminal", terminal.frames),
+            ("restart", restart_frames),
+        ):
             for index, (rgb, metadata) in enumerate(frames):
                 path = run.directory / f"{prefix}-{index:03d}.png"
                 Image.fromarray(rgb).save(path)
                 run.register_artifact(path, f"{prefix}_frame", metadata)
+        session_unintended = unintended_action_events(adapter)
+        if session_unintended and not error:
+            error = "Unintended action detected: " + session_unintended[-1]["guard_reason"]
         scored = [s for s in summaries if s["distance"] is not None and not s["error"]]
         statistics = summarize([s["distance"] for s in scored]) if scored else None
         classifications = {}
         for outcome in attempt_outcomes:
             key = outcome["classification"]
             classifications[key] = classifications.get(key, 0) + 1
-        not_attempted = max(0, args.episodes - len(attempt_outcomes)) if not args.inspect else 0
+        not_attempted = (
+            max(0, args.episodes - len(attempt_outcomes))
+            if not (args.inspect or args.probe_restart)
+            else 0
+        )
         longest_success_run, current_run = 0, 0
         for outcome in attempt_outcomes:
             if outcome["classification"].startswith("success") and outcome[
@@ -948,7 +1062,7 @@ def main():
             else:
                 current_run = 0
         reliability = {
-            "attempts_requested": args.episodes if not args.inspect else 0,
+            "attempts_requested": args.episodes if not (args.inspect or args.probe_restart) else 0,
             "attempts_completed": len(attempt_outcomes),
             "not_attempted": not_attempted,
             "classifications": classifications,
@@ -958,14 +1072,16 @@ def main():
                 1 for o in attempt_outcomes if o["advertisement_frames"]
             ),
             "manual_interventions": 0,
-            "unintended_actions": sum(1 for o in attempt_outcomes if o.get("unintended_action")),
-            "unintended_action_evidence": [
-                o["unintended_action"] for o in attempt_outcomes if o.get("unintended_action")
-            ]
+            # Session-wide and trace-derived: every accepted click in the session
+            # (including the pre-attempt truncating reset) followed within the
+            # window by a latched foreground loss, whichever thread observed it.
+            "unintended_actions": len(session_unintended),
+            "unintended_action_evidence": session_unintended
             or (
-                f"no foreground loss within {POST_CLICK_WINDOW_SECONDS:g} s of an accepted click; "
-                "every click is an allowlisted named control (menu-transitions)"
+                f"no latched foreground loss within {POST_CLICK_WINDOW_SECONDS:g} s of any "
+                "accepted click; every click is an allowlisted named control (menu-transitions)"
             ),
+            "unintended_action_window_seconds": POST_CLICK_WINDOW_SECONDS,
             "app_restarts": sum(o.get("app_restarts", 0) for o in attempt_outcomes),
             "restart_failures": sum(
                 1 for o in attempt_outcomes for r in o.get("restarts", []) if not r["ok"]

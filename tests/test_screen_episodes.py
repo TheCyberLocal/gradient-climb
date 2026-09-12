@@ -274,38 +274,175 @@ def test_unintended_action_is_effect_based_and_takes_precedence():
         "bounds_xyxy": [1, 2, 3, 4],
         "source_pixels_sha256": "ab",
         "accepted": True,
-        "completed_ns": 10_000_000_000,
+        "started_ns": 9_990_000_000,
+        "accepted_ns": 10_000_000_000,
+        "completed_ns": 10_010_000_000,
     }
     loss = {"timestamp_ns": 10_800_000_000, "reason": reason, "latched": True}
-    adapter = SimpleNamespace(trace=[click], last_click_ns=10_000_000_000, guard_trace=[loss])
-    evidence = module.unintended_action_evidence(reason, adapter)
+    adapter = SimpleNamespace(trace=[click], guard_trace=[loss])
+    # Trace-derived: the exception text the runner saw is irrelevant.
+    evidence = module.unintended_action_evidence(adapter)
     assert evidence["click"]["name"] == "legitimate_ad_close"
     assert evidence["seconds_after_click"] == pytest.approx(0.8)
     assert evidence["guard_reason"] == reason
-    natural = {"reason": "start_failure", "error": reason, "distance": None}
+    natural = {
+        "reason": "start_failure",
+        "error": "RuntimeError: Adapter stopped",
+        "distance": None,
+    }
     assert module.classify_attempt(natural, None, unintended=evidence) == "unintended_action"
     assert module.classify_attempt(natural, None) == "recoverable_failure"
-    late = SimpleNamespace(
-        trace=[click],
-        last_click_ns=10_000_000_000,
-        guard_trace=[{**loss, "timestamp_ns": 20_000_000_000}],
-    )
-    assert module.unintended_action_evidence(reason, late) is None
-    no_click = SimpleNamespace(trace=[], last_click_ns=None, guard_trace=[loss])
-    assert module.unintended_action_evidence(reason, no_click) is None
-    assert module.unintended_action_evidence("TimeoutError: Reset time limit", adapter) is None
+    # A loss caught between delivery and pointer parking (stamped before completed_ns)
+    # is the most direct evidence of all and counts as zero seconds after the click.
+    early = SimpleNamespace(trace=[click], guard_trace=[{**loss, "timestamp_ns": 9_995_000_000}])
+    assert module.unintended_action_evidence(early)["seconds_after_click"] == 0.0
+    late = SimpleNamespace(trace=[click], guard_trace=[{**loss, "timestamp_ns": 20_000_000_000}])
+    assert module.unintended_action_evidence(late) is None
+    before = SimpleNamespace(trace=[click], guard_trace=[{**loss, "timestamp_ns": 9_000_000_000}])
+    assert module.unintended_action_evidence(before) is None
+    unlatched = SimpleNamespace(trace=[click], guard_trace=[{**loss, "latched": False}])
+    assert module.unintended_action_evidence(unlatched) is None
+    rejected = SimpleNamespace(trace=[{**click, "accepted": False}], guard_trace=[loss])
+    assert module.unintended_action_evidence(rejected) is None
+    assert module.unintended_action_evidence(SimpleNamespace(trace=[], guard_trace=[loss])) is None
+    # Session-level events cover every accepted click; per-attempt evidence is windowed
+    # by trace index so an earlier attempt's event is not re-attributed.
+    second = {
+        **click,
+        "name": "start_episode",
+        "started_ns": 30_000_000_000,
+        "accepted_ns": 30_000_000_000,
+        "completed_ns": 30_000_000_000,
+    }
+    session = SimpleNamespace(trace=[click, second], guard_trace=[loss])
+    assert len(module.unintended_action_events(session)) == 1
+    assert module.unintended_action_evidence(session, first_row=1) is None
 
 
-def test_restart_recovery_applies_only_to_stuck_resets():
+def test_restart_recovery_applies_only_to_bounded_stuck_resets():
     module = episode_module()
     assert module.should_restart("RuntimeError: Unrecognized advertisement; no click")
     assert module.should_restart(
         "RuntimeError: Advertisement without legitimate control persisted; no click"
     )
-    assert module.should_restart("TimeoutError: Reset time limit")
-    assert module.should_restart("RuntimeError: Unrecognized/unauthorized reset state; no click")
+    assert module.should_restart(
+        "RuntimeError: Unknown screen persisted without recognized context; no click"
+    )
+    # Deadline, click and capture limits and post-click transition timeouts halt.
+    assert not module.should_restart("TimeoutError: Reset time limit")
+    assert not module.should_restart("RuntimeError: Reset click limit")
+    assert not module.should_restart("RuntimeError: Reset capture limit")
+    assert not module.should_restart("RuntimeError: Unexpected or timed-out reset transition")
+    assert not module.should_restart(
+        "RuntimeError: Unrecognized/unauthorized reset state; no click"
+    )
     loss = f"WindowUnavailable: {module.FOREGROUND_LOSS_MARKER}; foreground is 'Store' (x.exe)"
     assert not module.should_restart(loss)
     assert not module.should_restart("RuntimeError: Adapter stopped by operator or previous fault")
     assert not module.should_restart("OSError: mock capture failure")
     assert not module.should_restart(None)
+    latched = SimpleNamespace(_latched=True)
+    assert not module.should_restart("RuntimeError: Unrecognized advertisement; no click", latched)
+    assert (
+        module.classify_attempt(
+            {
+                "reason": "observed_result",
+                "distance": 240,
+                "park_error": "RuntimeError: Advertisement without legitimate control persisted; no click",
+            },
+            None,
+        )
+        == "unknown_failure"
+    )
+    # An attempt parked through a restart keeps its terminal classification.
+    parked = {
+        "reason": "observed_result",
+        "distance": 246,
+        "accepted_terminal_readings": [{"distance_meters": 246}],
+        "terminal_readings": [{"ui_variant": "driver_down_native"}],
+        "parked_via_restart": True,
+        "park_error_before_restart": "RuntimeError: Unrecognized advertisement; no click",
+    }
+    assert (
+        module.classify_attempt(parked, SimpleNamespace(state="tune")) == "success_natural_scored"
+    )
+
+
+def restart_flow_fixture(module, *, restart_result="tune", deadline=1000.0):
+    clock = [100.0]
+    module.time = SimpleNamespace(perf_counter=lambda: clock[0])
+    calls = []
+
+    def restart_app(launch, **kwargs):
+        calls.append(kwargs)
+        clock[0] += 20.0
+        if isinstance(restart_result, Exception):
+            raise restart_result
+        return SimpleNamespace(state=restart_result)
+
+    adapter = SimpleNamespace(restart_app=restart_app, _latched=False)
+    budget = {"deadline": deadline, "restart_seconds": 150.0, "max_restarts": 2, "used": 0}
+    return adapter, clock, calls, budget
+
+
+def test_attempt_restart_bounds_records_and_refuses():
+    module = episode_module()
+    stuck = "Traceback...\nRuntimeError: Unrecognized advertisement; no click"
+    adapter, clock, calls, budget = restart_flow_fixture(module)
+    rows, launches = [], []
+    launch = lambda: launches.append(1)
+    seen = []
+    assert module.attempt_restart(
+        adapter,
+        launch,
+        phase="park",
+        error_text=stuck,
+        rows=rows,
+        budget=budget,
+        on_observation=seen.append,
+    )
+    assert calls[0]["max_seconds"] == pytest.approx(150.0)
+    assert calls[0]["reason"] == "park: RuntimeError: Unrecognized advertisement; no click"
+    assert calls[0]["on_observation"] == seen.append
+    assert rows[-1]["ok"] and rows[-1]["settled_state"] == "tune"
+    assert rows[-1]["reason"] == "RuntimeError: Unrecognized advertisement; no click"
+    assert rows[-1]["phase"] == "park" and rows[-1]["seconds"] == pytest.approx(20.0)
+    assert budget["used"] == 1
+    # The restart bound never exceeds the session time left.
+    budget["deadline"] = clock[0] + 60.0
+    assert module.attempt_restart(
+        adapter, launch, phase="start", error_text=stuck, rows=rows, budget=budget
+    )
+    assert calls[-1]["max_seconds"] == pytest.approx(60.0) and budget["used"] == 2
+    # Budget exhausted: refused without calling the adapter.
+    assert not module.attempt_restart(
+        adapter, launch, phase="start", error_text=stuck, rows=rows, budget=budget
+    )
+    assert len(calls) == 2 and len(rows) == 2
+    # A foreground loss never restarts, whatever the budget.
+    budget["used"] = 0
+    loss = f"WindowUnavailable: {module.FOREGROUND_LOSS_MARKER}; foreground is 'Store' (x.exe)"
+    assert not module.attempt_restart(
+        adapter, launch, phase="park", error_text=loss, rows=rows, budget=budget
+    )
+    # Too little session time left: refused.
+    budget["deadline"] = clock[0] + 10.0
+    assert not module.attempt_restart(
+        adapter, launch, phase="park", error_text=stuck, rows=rows, budget=budget
+    )
+    assert len(calls) == 2 and budget["used"] == 0
+    # No launcher configured: never restarts.
+    budget["deadline"] = clock[0] + 1000.0
+    assert not module.attempt_restart(
+        adapter, None, phase="park", error_text=stuck, rows=rows, budget=budget
+    )
+    # A restart that fails is recorded with its traceback and reports False.
+    adapter, clock, calls, budget = restart_flow_fixture(
+        module, restart_result=TimeoutError("Game window did not reappear after relaunch")
+    )
+    rows = []
+    assert not module.attempt_restart(
+        adapter, launch, phase="park", error_text=stuck, rows=rows, budget=budget
+    )
+    assert not rows[-1]["ok"] and "did not reappear" in rows[-1]["error"]
+    assert budget["used"] == 1 and not launches

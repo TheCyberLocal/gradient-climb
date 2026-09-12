@@ -64,24 +64,40 @@ Three rules follow.
   recognition-only: it extends the bounded no-input wait and is then reported as stuck.
 - **Unintended actions are measured by effect as well as by allowlist.** The window guard
   records the title and process of whichever window took the foreground
-  (`foreground_note`). The native runner classifies an attempt as `unintended_action`
-  when the foreground was lost within 5 s of an accepted click, stores that evidence in
-  the attempt block and the reliability summary, and halts the session. `last_click_ns`
-  and `guard_trace` are the inputs; `FOREGROUND_LOSS_MARKER` names the guard message.
+  (`foreground_note`), and every guard-class fault, including one raised inside the
+  capture read or first seen by the pedal watchdog through `is_playing()`, is latched and
+  recorded in `guard_trace` with its reason. The native runner derives unintended actions
+  from the traces alone (`unintended_action_events`): an accepted click (`accepted_ns`,
+  stamped when the click was delivered) followed within 5 s by a latched foreground-loss
+  event is one, whichever thread observed the loss and whatever exception the runner
+  finally saw. The attempt is classified `unintended_action`, the evidence goes into the
+  attempt block and the session-wide reliability summary, and the session halts.
 - **Stuck screens are escaped by restarting the application, never by clicking.**
-  `restart_app(launch)` posts WM_CLOSE to the pinned game window (the emulator's own exit
-  path), waits for it to hide (bounded by `hide_seconds`, 20 s), calls the caller's
-  `launch` (the game's Start Menu shortcut), waits for the window to reappear with the
-  same identity and client geometry, brings it to the foreground, and waits without input
-  until a recognized state appears (bounded by `max_seconds`, at most 300 s). A known
-  advertisement without a control now raises "Advertisement without legitimate control
-  persisted" after `ad_transition_seconds`; that and the other `STUCK_RESET_MARKERS`
-  are the only failures a restart may follow. A latched guard fault (foreground loss,
-  geometry change, capture or operator fault) refuses the restart so the evidence of a
-  possible external effect is never hidden. Every restart is recorded in `restart_trace`
-  (`app-restarts.json` in a run). The runner enables it with `--restart-shortcut`, bounds
-  it with `--restart-seconds` and `--max-restarts`, records the policy in the run
-  configuration, and reports restarts per attempt and per session.
+  `restart_app(launch)` requires the game to hold the foreground, posts WM_CLOSE to the
+  pinned game window (the emulator's own exit path), waits for it to hide (bounded by
+  `hide_seconds`, 20 s, and the overall deadline), calls the caller's `launch` (the game's
+  Start Menu shortcut), waits for the window to reappear with the same identity and
+  client geometry, records who holds the foreground, activates the game, and waits without
+  input until a recognized state appears (bounded by `max_seconds`, at most 300 s).
+  Exactly three reset errors (`STUCK_RESET_MARKERS`) may be followed by a restart, each
+  raised only after a full `ad_transition_seconds` no-input wait: "Advertisement without
+  legitimate control persisted" (a recognized advertisement variant without a control),
+  "Unrecognized advertisement; no click" (unknown frames after a recognized
+  advertisement) and "Unknown screen persisted without recognized context" (an unknown
+  screen with no pending click, result or advertisement context, which now waits the same
+  bound instead of failing at once). Deadline, click and capture limits, post-click
+  transition timeouts and recognized-but-unauthorized states halt the session, so a
+  restart can never follow a click closely enough to hide its effect nor interrupt an
+  advertisement inside its wait. A latched fault (foreground loss, geometry change,
+  capture, click or operator fault) refuses the restart. Every restart is recorded in
+  `restart_trace` (`app-restarts.json`) with its relaunch boot frames (`restart-*.png`),
+  which never count as unknown-state incidence of the reset flow. The runner enables it
+  with `--restart-shortcut`, bounds it with `--restart-seconds` and `--max-restarts`
+  (validated against a registered protocol's recovery block), records the policy and the
+  marker list in the run configuration, reports restarts per attempt and per session, and
+  `--probe-restart --exploratory` seals one restart on its own (probe run `a3422d1c`:
+  hidden after 0.5 s, visible 9.5 s after the shortcut, vehicle selection recognized
+  31.7 s later).
 
 Compose it with an already discovered `WindowTarget`, `PedalController`, and a
 required release callback. No input occurs while loading the profile or calling
