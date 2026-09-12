@@ -15,6 +15,14 @@ from .cycle3_measurements import FrozenRecord
 
 Sha256 = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 READER_PROVENANCE_VERSION = "reader-session-provenance-3.0"
+PredictionExposureStatus = Literal["none_reported", "known", "unknown"]
+
+
+def resolve_prediction_exposure(status, first_exposure_at):
+    """Preserve old audited-absence semantics while admitting unknown first-view time."""
+    if first_exposure_at is not None and status in ("none_reported", "unknown"):
+        raise ValueError("A recorded exposed timestamp contradicts the exposure status")
+    return status or ("known" if first_exposure_at is not None else "none_reported")
 
 
 class ConstructionSource(FrozenRecord):
@@ -32,8 +40,10 @@ class ReaderSession(FrozenRecord):
     acquired_at: AwareDatetime
     sealed_at: AwareDatetime
     purpose: Literal["construction", "development", "heldout"]
-    # None is an audited absence, never an absent audit: the two audit fields
-    # below are mandatory, and must cover the manifest's cutoff.
+    # Older declarations omit status: their original null=audited absence meaning
+    # stays intact. New construction can state known/unknown exposure with no
+    # invented first-view time. Such an interval cannot establish heldout blinding.
+    prediction_exposure_status: PredictionExposureStatus | None = None
     first_prediction_exposure_at: AwareDatetime | None
     exposure_reviewed_through: AwareDatetime
     exposure_evidence_sha256: Sha256
@@ -41,6 +51,9 @@ class ReaderSession(FrozenRecord):
 
     @model_validator(mode="after")
     def coherent(self):
+        resolve_prediction_exposure(
+            self.prediction_exposure_status, self.first_prediction_exposure_at
+        )
         if self.sealed_at < self.acquired_at:
             raise ValueError("Session must be acquired before sealing")
         if self.exposure_reviewed_through < self.acquired_at:
@@ -52,6 +65,12 @@ class ReaderSession(FrozenRecord):
         if len(set(self.run_ids)) != len(self.run_ids):
             raise ValueError("Duplicate run in session")
         return self
+
+    @property
+    def exposure_status(self):
+        return resolve_prediction_exposure(
+            self.prediction_exposure_status, self.first_prediction_exposure_at
+        )
 
 
 class BlindedLabel(FrozenRecord):
@@ -173,6 +192,8 @@ def validate_blinded_split(manifest: ReaderSplitManifest) -> dict:
         if session.exposure_reviewed_through < manifest.frozen_at:
             raise ValueError("Prediction exposure audit does not cover the frozen cutoff")
         exposed: datetime | None = session.first_prediction_exposure_at
+        if exposed is None and session.exposure_status != "none_reported":
+            raise ValueError("Unknown first-view timing cannot establish unexposed heldout labels")
         if exposed is not None and label.labeled_at >= exposed:
             raise ValueError("Session predictions were exposed before all independent labels")
         used_sessions.add(label.session_id)

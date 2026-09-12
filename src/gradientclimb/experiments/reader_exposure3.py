@@ -19,8 +19,16 @@ from .reader_receipts3 import _run_component, _verified
 OPERATIONS = {
     "result-reader-construction-3.0",
     "reader-validation-3.0",
+    "reader-annotation-publication-3.0",
 }
-EXPOSURE_PHASES = {"image_processing_started", "fitting_started", "prediction_started"}
+EXPOSURE_PHASES = {
+    "image_processing_started",
+    "fitting_started",
+    "prediction_started",
+    # A reported historical/uncertain exposure is durable even if no prediction
+    # is executed by the annotation publisher itself.
+    "prediction_exposure_not_ruled_out",
+}
 JOURNAL = "reader-operations.jsonl"
 
 
@@ -60,7 +68,10 @@ def _identities(record):
 def _declared_sources(record):
     config = record.get("configuration", {})
     plan = config.get("plan", config)
-    sessions = plan.get("sessions", plan.get("split", {}).get("sessions", []))
+    sessions = [
+        *plan.get("sessions", plan.get("split", {}).get("sessions", [])),
+        *record.get("summary", {}).get("prediction_exposure_attestations", []),
+    ]
     groups = [set(s.get("run_ids", [])) for s in sessions]
     direct = set(config.get("source_run_ids", [])) | set(
         record.get("summary", {}).get("source_run_ids", [])
@@ -69,6 +80,28 @@ def _declared_sources(record):
     for run_id in declared:
         _run_component(run_id)
     return declared, groups
+
+
+def _configured_prediction_exposure(record):
+    """Keep immutable prior attestations even when a later journal event failed.
+
+    These statements are exclusion evidence, not a claim that this operation
+    executed a prediction or measured when the original exposure happened.
+    A legacy nonnull first-view timestamp also reports known prior exposure.
+    """
+    config = record.get("configuration", {})
+    plan = config.get("plan", config)
+    sessions = [
+        *plan.get("sessions", plan.get("split", {}).get("sessions", [])),
+        *record.get("summary", {}).get("prediction_exposure_attestations", []),
+    ]
+    return {
+        run_id
+        for session in sessions
+        if session.get("prediction_exposure_status") in {"known", "unknown"}
+        or session.get("first_prediction_exposure_at") is not None
+        for run_id in session.get("run_ids", [])
+    }
 
 
 def assert_no_prior_reader_exposure(
@@ -169,7 +202,8 @@ def assert_no_prior_reader_exposure(
             raise KnownReaderExposure(
                 "Sealed reader journal has an incomplete exposure record", receipt
             )
-        exposed = set()
+        configured_exposure = _configured_prediction_exposure(record)
+        exposed = set(configured_exposure)
         for index, event in enumerate(events):
             if (
                 event.get("sequence") != index
@@ -191,6 +225,14 @@ def assert_no_prior_reader_exposure(
                 exposed.update(group)
         if any(target & identities(run_id) for run_id in exposed):
             receipt["exposed_source_run_ids"] = sorted(exposed)
+            if configured_exposure:
+                receipt["configured_prediction_exposure_source_run_ids"] = sorted(
+                    configured_exposure
+                )
+                receipt["configuration_evidence_scope"] = (
+                    "Prior known/unresolved prediction-exposure attestation; not a new "
+                    "prediction or a recovered first-view timestamp"
+                )
             receipt["journal"] = {
                 "path": journal_path.relative_to(root).as_posix(),
                 "sha256": sha256_file(journal_path),

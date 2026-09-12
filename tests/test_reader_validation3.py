@@ -626,6 +626,154 @@ def test_exposure_audit_bytes_must_match(evaluation):
         api.evaluate_reader3(root, plan)
 
 
+@pytest.mark.parametrize("status", ["known", "unknown"])
+def test_construction_preserves_unknown_first_view_time(construction, status):
+    root, plan, _, _ = construction
+    row = plan["sessions"][0]
+    audit = json.loads((root / plan["exposure_audits"][row["session_id"]]["path"]).read_bytes())
+    audit["prediction_exposure_status"] = status
+    reference = write(root, "explicit-exposure.json", audit)
+    plan["exposure_audits"][row["session_id"]] = reference
+    row.update(prediction_exposure_status=status, exposure_evidence_sha256=reference["sha256"])
+    built = api.build_reader3(root, plan)
+    record = load_run(root / "artifacts", built["run_id"])
+    saved = record["configuration"]["sessions"][0]
+    assert saved["prediction_exposure_status"] == status
+    assert saved["first_prediction_exposure_at"] is None
+    assert record["episodes"] == 0
+
+
+def test_exposure_status_must_match_exact_audit(construction):
+    root, plan, _, _ = construction
+    plan["sessions"][0]["prediction_exposure_status"] = "known"
+    with pytest.raises(ValueError, match="Exposure audit bytes disagree"):
+        api.build_reader3(root, plan)
+
+
+def test_exposure_audit_rejects_timestamp_beyond_review_cutoff():
+    with pytest.raises(ValueError, match="audit cutoff"):
+        api.ExposureAudit(
+            session_id="synthetic",
+            prediction_exposure_status="known",
+            first_prediction_exposure_at="2026-09-12T02:00:00Z",
+            exposure_reviewed_through="2026-09-12T01:00:00Z",
+            reviewer="test",
+            note="Invalid synthetic chronology",
+        )
+
+
+def test_audit_status_swap_after_path_hash_check_is_rejected(tmp_path, monkeypatch):
+    original = {
+        "session_id": "synthetic",
+        "prediction_exposure_status": "known",
+        "first_prediction_exposure_at": None,
+        "exposure_reviewed_through": now(),
+        "reviewer": "test",
+        "note": "Known exposure; no first-view timestamp",
+    }
+    reference = api.EvidenceRef.model_validate(write(tmp_path, "audit.json", original))
+    read = api._read
+
+    def swapped(root, ref):
+        path = read(root, ref)
+        path.write_text(
+            json.dumps({**original, "prediction_exposure_status": "none_reported"}),
+            encoding="utf-8",
+        )
+        return path
+
+    monkeypatch.setattr(api, "_read", swapped)
+    with pytest.raises(ValueError, match="exact payload"):
+        api._load(tmp_path, reference, api.ExposureAudit)
+
+
+@pytest.mark.parametrize(
+    "origin,status,event_fault",
+    [("session", "known", False), ("audit", "unknown", False), ("audit", "known", True)],
+)
+def test_rejected_exposure_attestation_cannot_be_erased_on_retry(
+    evaluation, monkeypatch, origin, status, event_fault
+):
+    from gradientclimb.experiments.reader_exposure3 import KnownReaderExposure
+
+    root, plan = evaluation
+    original = copy.deepcopy(plan)
+    session = plan["split"]["sessions"][0]
+    if origin == "session":
+        session["prediction_exposure_status"] = status
+    else:
+        old_ref = plan["exposure_audits"][session["session_id"]]
+        audit = json.loads((root / old_ref["path"]).read_bytes())
+        audit["prediction_exposure_status"] = status
+        plan["exposure_audits"][session["session_id"]] = write(root, "known-audit.json", audit)
+    original_event = api._ReaderAttempt.event
+    if event_fault:
+
+        def broken_event(self, phase, **details):
+            if phase == "prediction_exposure_not_ruled_out":
+                raise OSError("Injected exposure journal failure before write")
+            return original_event(self, phase, **details)
+
+        monkeypatch.setattr(api._ReaderAttempt, "event", broken_event)
+    with pytest.raises((ValueError, OSError)):
+        api.evaluate_reader3(root, plan)
+    failed = latest_attempt(root, "reader-validation-3.0")
+    assert failed["status"] == "failed"
+    events = operation_rows(root, failed)
+    if not event_fault:
+        assert any(
+            e["phase"] == "prediction_exposure_not_ruled_out" and e["attestation_origin"] == origin
+            for e in events
+        )
+    assert failed["summary"]["prediction_exposure_attestations"][0]["attestation_origin"] == origin
+    assert not any(e["phase"] == "prediction_started" for e in events)
+    monkeypatch.setattr(api._ReaderAttempt, "event", original_event)
+    with pytest.raises(KnownReaderExposure) as error:
+        api.evaluate_reader3(root, original)
+    assert failed["run_id"] in json.dumps(error.value.evidence)
+
+
+def test_wrong_session_audit_does_not_assign_exposure_to_requested_source(construction):
+    from gradientclimb.experiments.reader_exposure3 import assert_no_prior_reader_exposure
+
+    root, plan, _, _ = construction
+    session = plan["sessions"][0]
+    old_ref = plan["exposure_audits"][session["session_id"]]
+    audit = json.loads((root / old_ref["path"]).read_bytes())
+    audit.update(session_id="different-session", prediction_exposure_status="known")
+    plan["exposure_audits"][session["session_id"]] = write(root, "wrong-session-audit.json", audit)
+    with pytest.raises(ValueError, match="another session"):
+        api.build_reader3(root, plan)
+    failed = latest_attempt(root, "result-reader-construction-3.0")
+    assert not any(
+        e["phase"] == "prediction_exposure_not_ruled_out" for e in operation_rows(root, failed)
+    )
+    assert_no_prior_reader_exposure(root, "artifacts", session["run_ids"])
+
+
+def test_partial_failed_label_publication_cannot_supply_construction(construction):
+    root, plan, _, _ = construction
+    rows = [json.loads((root / r["path"]).read_bytes()) for r in plan["annotations"]]
+    references = []
+    with RunRecorder(
+        root / "artifacts",
+        "synthetic-partial-labels",
+        {},
+        source_root=root,
+        environment="synthetic",
+        telemetry_interval_seconds=0,
+    ) as run:
+        for i, row in enumerate(rows):
+            path = run.directory / f"annotation-{i}.json"
+            path.write_text(json.dumps(row) + "\n", encoding="utf-8")
+            artifact = run.register_artifact(path, "reader_annotation")
+            references.append(ref(root, run.directory / artifact["path"]))
+        run.finalize(status="failed", episode_count=0, reason="Injected after partial labels")
+    plan["annotations"], plan["annotation_run_id"] = references, run.run_id
+    with pytest.raises(ValueError, match="completed sealed label"):
+        api.build_reader3(root, plan)
+
+
 def latest_attempt(root, experiment):
     records = [json.loads(p.read_bytes()) for p in (root / "artifacts/runs").glob("*/run.json")]
     return max(

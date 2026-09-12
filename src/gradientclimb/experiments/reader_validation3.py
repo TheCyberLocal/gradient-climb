@@ -32,9 +32,11 @@ from gradientclimb.perception.scoring import ResultDistanceReader
 
 from .reader_provenance import (
     ConstructionSource,
+    PredictionExposureStatus,
     ReaderSession,
     ReaderSplitManifest,
     construction_closure,
+    resolve_prediction_exposure,
     validate_blinded_split,
 )
 
@@ -91,10 +93,29 @@ class ReaderProtocol3(Contract):
 
 class ExposureAudit(Contract):
     session_id: Name
+    prediction_exposure_status: PredictionExposureStatus | None = None
     first_prediction_exposure_at: AwareDatetime | None
     exposure_reviewed_through: AwareDatetime
     reviewer: Name
     note: Name
+
+    @model_validator(mode="after")
+    def coherent(self):
+        resolve_prediction_exposure(
+            self.prediction_exposure_status, self.first_prediction_exposure_at
+        )
+        if (
+            self.first_prediction_exposure_at is not None
+            and self.first_prediction_exposure_at > self.exposure_reviewed_through
+        ):
+            raise ValueError("Prediction exposure follows the audit cutoff")
+        return self
+
+    @property
+    def exposure_status(self):
+        return resolve_prediction_exposure(
+            self.prediction_exposure_status, self.first_prediction_exposure_at
+        )
 
 
 class ResultAnnotation(Contract):
@@ -198,7 +219,13 @@ def _read(root, reference):
 
 
 def _load(root, reference, model):
-    return model.model_validate_json(_read(root, reference).read_bytes())
+    # Parse the bytes whose digest was checked, even if the mutable original
+    # changes after path validation. In particular, an exposure status cannot
+    # differ from the audit identified by the recorded hash.
+    payload = _read(root, reference).read_bytes()
+    if len(payload) > 32 * 1024**2 or sha256(payload).hexdigest() != reference.sha256:
+        raise ValueError("Evidence changed before parsing its exact payload")
+    return model.model_validate_json(payload)
 
 
 def _graph(root, graph):
@@ -304,7 +331,34 @@ def _registered(record, directory, path, digest):
     )
 
 
-def _session_evidence(root, plan, sessions, protocol):
+def _exposure_attestation(attempt, session, status, first_view, origin, audit_ref=None):
+    if attempt is None or status == "none_reported":
+        return
+    attempt.exposure_attestations.append(
+        {
+            "session_id": session.session_id,
+            "run_ids": list(session.run_ids),
+            "prediction_exposure_status": status,
+            "first_prediction_exposure_at": first_view.isoformat() if first_view else None,
+            "attestation_origin": origin,
+            "exposure_audit": audit_ref.model_dump() if audit_ref is not None else None,
+        }
+    )
+    attempt.run.annotate(prediction_exposure_attestations=list(attempt.exposure_attestations))
+    for run_id in session.run_ids:
+        attempt.event(
+            "prediction_exposure_not_ruled_out",
+            source_run_id=run_id,
+            session_id=session.session_id,
+            prediction_exposure_status=status,
+            first_prediction_exposure_at=first_view.isoformat() if first_view else None,
+            attestation_origin=origin,
+            exposure_audit=audit_ref.model_dump() if audit_ref is not None else None,
+            note="Prior exposure attestation only; this event executes no new inference.",
+        )
+
+
+def _session_evidence(root, plan, sessions, protocol, attempt=None):
     from .reader_receipts3 import verify_session_declaration3
 
     by_id = {session.session_id: session for session in sessions}
@@ -316,12 +370,29 @@ def _session_evidence(root, plan, sessions, protocol):
     for session in sessions:
         audit_ref = plan.exposure_audits[session.session_id]
         audit = _load(root, audit_ref, ExposureAudit)
+        if audit.session_id != session.session_id:
+            raise ValueError("Exposure audit belongs to another session")
+        _exposure_attestation(
+            attempt,
+            session,
+            audit.exposure_status,
+            audit.first_prediction_exposure_at,
+            "audit",
+            audit_ref,
+        )
         if audit_ref.sha256 != session.exposure_evidence_sha256 or (
             audit.session_id != session.session_id
+            or audit.exposure_status != session.exposure_status
             or audit.first_prediction_exposure_at != session.first_prediction_exposure_at
             or audit.exposure_reviewed_through != session.exposure_reviewed_through
         ):
             raise ValueError("Exposure audit bytes disagree with session attestation")
+        if (
+            session.purpose == "heldout"
+            and audit.exposure_status != "none_reported"
+            and audit.first_prediction_exposure_at is None
+        ):
+            raise ValueError("Unknown first-view timing cannot establish unexposed heldout labels")
         for run_id in session.run_ids:
             if "/" in run_id or _relative(run_id) != run_id or run_id in runs:
                 raise ValueError("Run must have one safe explicit session assignment")
@@ -364,6 +435,8 @@ def _annotations(root, plan, runs, declarations, unit_receipts):
     annotation_record, annotation_directory = _verified_run(
         root, plan.artifact_root, plan.annotation_run_id
     )
+    if annotation_record["status"] != "completed":
+        raise ValueError("Annotations require a completed sealed label publication")
     annotation_sealed_at = _sealed_at(annotation_directory)
     annotations, ids, units, frames = [], set(), set(), set()
     for reference in plan.annotations:
@@ -538,6 +611,7 @@ class _ReaderAttempt:
         self.counts = Counter()
         self.units = {}
         self.report = None
+        self.exposure_attestations = []
         self.sequence = -1
 
     def event(self, phase, **details):
@@ -608,6 +682,14 @@ def _run_operation(project_root, plan, worker, operation):
         attempt = _ReaderAttempt(run, operation, started, cpu_started)
         try:
             sessions = plan.sessions if operation == "construction" else plan.split.sessions
+            for session in sessions:
+                _exposure_attestation(
+                    attempt,
+                    session,
+                    session.exposure_status,
+                    session.first_prediction_exposure_at,
+                    "session",
+                )
             attempt.event(
                 "validation_started", source_run_ids=[r for s in sessions for r in s.run_ids]
             )
@@ -741,7 +823,7 @@ def _build_reader3(root, plan, attempt):
     root, protocol, _, _, base_reader, ui, dependencies = _prepare(root, plan)
     if plan.result_reader.sha256 != protocol.base_result_reader_sha256:
         raise ValueError("Construction must extend the preregistered base reader")
-    runs, declarations = _session_evidence(root, plan, plan.sessions, protocol)
+    runs, declarations = _session_evidence(root, plan, plan.sessions, protocol, attempt)
     labels, _ = _annotations(root, plan, runs, declarations, attempt.units)
     sources = _bounded_sources(root, plan, protocol, dependencies, labels)
     now = datetime.now(UTC)
@@ -892,7 +974,7 @@ def _evaluate_reader3(root, plan, attempt):
     )
     if any(s.session_id in forbidden for s in split.sessions if s.purpose == "heldout"):
         raise ValueError("Protocol excludes exposed construction/development sessions")
-    runs, declarations = _session_evidence(root, plan, split.sessions, protocol)
+    runs, declarations = _session_evidence(root, plan, split.sessions, protocol, attempt)
     prior_attempts = assert_no_prior_reader_exposure(
         root,
         plan.artifact_root,

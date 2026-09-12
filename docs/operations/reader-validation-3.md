@@ -33,6 +33,10 @@ anchor source and UI references. Every embedded dependency must be in the
 closure. Construction labels are individual `ResultAnnotation` JSON files,
 registered and sealed in a separate zero-episode canonical label run. Supply the
 exact registered artifact paths, their hashes, and that label run's ID.
+The [annotation publisher](reader-annotations-3.md) seals reviewed explicit labels
+and source/audit receipts without decoding or inferring truth. The label envelope
+must have completed successfully; partial labels require a separately governed
+completed publication before construction or evaluation may consume them.
 
 `ResultAnnotation` accepts only `field="result_distance"`. A readable result has
 `is_result=true` and digits-only `text`; an unreadable result has `is_result=true`
@@ -56,7 +60,14 @@ after registration and before acquisition. Its entire
 set of annotation bytes must be sealed before the earliest viewed prediction
 from that session. Keep prediction logs and automatic summaries hidden from
 labelers until then. An audited absence of exposure has a null timestamp and a
-reviewed-through cutoff; an absent audit is rejected.
+reviewed-through cutoff; an absent audit is rejected. New audits explicitly state
+`prediction_exposure_status` as `none_reported`, `known` or `unknown`, matched by
+the session attestation. Known construction exposure may have a null first-view
+timestamp when that time was never recorded. It remains exposed; neither it nor
+unknown exposure can supply blinded evidence without a defensible first-view
+time. A known exact timestamp still permits the existing check that all labels
+preceded exposure. Older records omitting status retain their original audited
+null semantics; no historical file is rewritten to add the new field.
 
 The current source is a single continuous native acquisition, so the draft uses
 its run ID as the explicit construction session identity. This does not permit
@@ -102,9 +113,10 @@ separately as unavailable source evidence. Non-result sampling uses a sealed
 original `reader_non_result_frame` metadata and the source configuration's
 `reader_sampling_source_id`. Every preregistered negative must be present; capture
 intervals cannot overlap. Historical menu crops without that original metadata
-cannot become qualified negatives. The next native collector must implement
-these declarations and sampling receipts before collection; this workflow does
-not fabricate them retrospectively.
+cannot become qualified negatives. The [opt-in native hooks](reader-native-collection-3.md)
+implement these declarations and sampling receipts behind a draft acquisition
+amendment. They require separate registration before collection and cannot
+fabricate retrospective metadata.
 
 After review and registration, explicit commands are:
 
@@ -149,6 +161,11 @@ source session for future blinded qualification, including failed/cancelled
 attempts. New names, audits or replacement labels cannot erase this known
 exposure. A preflight-only failure can be retried, with the earlier attempt and
 its costs retained. External or unrecorded exposure still requires honest review.
+An explicit known/unknown exposure attestation is itself retained before further
+validation in both the journal and canonical envelope. Rejected preflight plans,
+replacement audit files and event-write failure cannot erase that disclosure.
+A wrongly referenced audit from another session is rejected before its exposure
+can be attributed to the requested source.
 
 Focused checks use synthetic images and records only:
 

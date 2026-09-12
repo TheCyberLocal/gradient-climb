@@ -142,6 +142,28 @@ def test_audited_absence_of_exposure_is_allowed_but_absent_audit_is_not():
         validate(data)
 
 
+@pytest.mark.parametrize("status", ["known", "unknown"])
+def test_unknown_first_view_time_cannot_claim_blinded_labels(status):
+    data = manifest_data()
+    data["sessions"][0].update(prediction_exposure_status=status, first_prediction_exposure_at=None)
+    with pytest.raises(ValueError, match="Unknown first-view timing"):
+        validate(data)
+
+
+def test_explicit_known_exposure_after_labels_preserves_existing_chronology():
+    data = manifest_data()
+    data["sessions"][0]["prediction_exposure_status"] = "known"
+    assert validate(data)["labels"] == 1
+
+
+@pytest.mark.parametrize("status", ["none_reported", "unknown"])
+def test_exposure_status_cannot_contradict_recorded_view_time(status):
+    data = manifest_data()
+    data["sessions"][0]["prediction_exposure_status"] = status
+    with pytest.raises(ValueError, match="contradicts"):
+        validate(data)
+
+
 @pytest.mark.parametrize(
     "session_change,match",
     [
