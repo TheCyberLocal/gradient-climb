@@ -1,0 +1,23 @@
+"""Seal candidate reader/UI hashes before independent session collection."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from gradientclimb.experiments.reader_validation3 import freeze_reader3
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--project-root", type=Path, required=True)
+    parser.add_argument("--plan", type=Path, required=True)
+    args = parser.parse_args()
+    print(
+        json.dumps(freeze_reader3(args.project_root, json.loads(args.plan.read_bytes())), indent=2)
+    )
+
+
+if __name__ == "__main__":
+    main()
