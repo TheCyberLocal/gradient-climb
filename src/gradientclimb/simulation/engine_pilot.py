@@ -11,14 +11,102 @@ import importlib.metadata
 import math
 import time
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from itertools import pairwise
 
 import numpy as np
 
 ENGINE_DISTRIBUTION = "Box2D"
 ENGINE_VERSION = "2.3.10"
-FIXTURE_VERSION = "articulated-engine-fixtures-3.0"
+FIXTURE_VERSION = "articulated-engine-fixtures-3.1"
+GROUND_ENVELOPE = {"speed_bound": 100.0, "horizon_seconds": 10.0, "margin": 20.0}
+
+
+def ground_extent() -> tuple[float, float]:
+    """Synthetic support covers the declared speed/horizon plus starting-body margin."""
+    extent = GROUND_ENVELOPE["speed_bound"] * GROUND_ENVELOPE["horizon_seconds"]
+    extent += GROUND_ENVELOPE["margin"]
+    return -extent, extent
+
+
+@dataclass
+class GroundSupportDiagnostics:
+    """Observe support coverage separately from penetration at every physics substep.
+
+    Static floor exists where a wheel centre projects onto an actual segment.
+    The outer-domain check includes the full horizontal wheel radius. A bridge
+    gap is an explicit region, never fabricated static floor or missing data.
+    """
+
+    segments: list
+    radius: float = 0.3
+    checked_physics_substeps: int = 0
+    outside_ground_domain_substeps: int = 0
+    bridge_gap_substeps: int = 0
+    first_ground_domain_exit: dict | None = None
+    first_bridge_gap_entry: dict | None = None
+    minima: dict = field(default_factory=dict)
+
+    def observe(self, wheels, *, decision: int, physics_substep: int, simulated_seconds: float):
+        lower, upper = ground_extent()
+        outside = gap = False
+        for index, (x, y) in enumerate(wheels):
+            over_floor = any(first[0] <= x <= second[0] for first, second in self.segments)
+            beyond_domain = x - self.radius < lower or x + self.radius > upper
+            in_gap = not over_floor and lower <= x <= upper
+            event = {
+                "decision": decision,
+                "physics_substep": physics_substep,
+                "simulated_seconds": simulated_seconds,
+                "wheel_index": index,
+                "wheel_center": [float(x), float(y)],
+                "wheel_bottom_y": float(y - self.radius),
+            }
+            regions = ["global"]
+            if over_floor:
+                regions.append("static_floor")
+            if in_gap:
+                regions.append("bridge_gap")
+                gap = True
+                if self.first_bridge_gap_entry is None:
+                    self.first_bridge_gap_entry = event
+            if beyond_domain:
+                outside = True
+                if self.first_ground_domain_exit is None:
+                    self.first_ground_domain_exit = event
+            for region in regions:
+                if region not in self.minima or (
+                    event["wheel_bottom_y"] < self.minima[region]["wheel_bottom_y"]
+                ):
+                    self.minima[region] = event
+        self.checked_physics_substeps += 1
+        self.outside_ground_domain_substeps += int(outside)
+        self.bridge_gap_substeps += int(gap)
+
+    def to_record(self) -> dict:
+        def minimum(region):
+            return self.minima.get(region, {}).get("wheel_bottom_y")
+
+        return {
+            "ground_domain_x": list(ground_extent()),
+            "static_ground_segments": self.segments,
+            "ground_envelope": dict(GROUND_ENVELOPE),
+            "support_observation_cadence": "every_physics_substep",
+            "checked_physics_substeps": self.checked_physics_substeps,
+            "outside_ground_domain_substeps": self.outside_ground_domain_substeps,
+            "ground_domain_contained": self.outside_ground_domain_substeps == 0
+            if self.checked_physics_substeps
+            else None,
+            "first_ground_domain_exit": self.first_ground_domain_exit,
+            "minimum_wheel_bottom_y": minimum("global"),
+            "minimum_wheel_bottom_evidence": self.minima.get("global"),
+            "minimum_wheel_bottom_over_static_floor_y": minimum("static_floor"),
+            "minimum_wheel_bottom_over_static_floor_evidence": self.minima.get("static_floor"),
+            "bridge_gap_substeps": self.bridge_gap_substeps,
+            "first_bridge_gap_entry": self.first_bridge_gap_entry,
+            "minimum_wheel_bottom_in_bridge_gap_y": minimum("bridge_gap"),
+            "minimum_wheel_bottom_in_bridge_gap_evidence": self.minima.get("bridge_gap"),
+        }
 
 
 @dataclass(frozen=True)
@@ -83,11 +171,13 @@ class ArticulatedFixture:
         self.planks, self.bridge_joints, self.wheel_joints = [], [], []
         self.render_polygons, self.render_circles = [], []
         self.surface_segments = []
+        lower, upper = ground_extent()
         if kind == "flat":
-            segments = [((-20, 0), (100, 0))]
+            segments = [((lower, 0), (upper, 0))]
         else:
-            segments = [((-20, 0), (6, 0)), ((14, 0), (100, 0))]
+            segments = [((lower, 0), (6, 0)), ((14, 0), (upper, 0))]
             self._bridge()
+        self.ground_support = GroundSupportDiagnostics(segments)
         for first, second in segments:
             self.ground.CreateEdgeFixture(vertices=(first, second), friction=0.9)
             self.surface_segments.append((first, second))
@@ -129,7 +219,6 @@ class ArticulatedFixture:
         self.decisions = 0
         self.peak_joint_error = self.peak_lateral_wheel_error = 0.0
         self.bridge_contact_steps = 0
-        self.minimum_wheel_bottom = math.inf
         self.max_speed = self.max_abs_angular_speed = 0.0
         self.bridge_minimum_y = 0.0
         self.state_digest = hashlib.sha256()
@@ -193,7 +282,7 @@ class ArticulatedFixture:
             raise ValueError("Fixture actions require the four joint pedal states")
         gas, brake = bool(action & 1), bool(action & 2)
         settings = self.settings
-        for _ in range(settings.substeps):
+        for substep_index in range(settings.substeps):
             for wheel, joint in zip(self.wheels, self.wheel_joints, strict=True):
                 # Separate drive torque and zero-speed brake motor act together.
                 # The synthetic torque curve is not a game calibration.
@@ -207,6 +296,13 @@ class ArticulatedFixture:
                 settings.position_iterations,
             )
             self.world.ClearForces()
+            physics_substep = self.decisions * settings.substeps + substep_index + 1
+            self.ground_support.observe(
+                [(wheel.position.x, wheel.position.y) for wheel in self.wheels],
+                decision=self.decisions + 1,
+                physics_substep=physics_substep,
+                simulated_seconds=physics_substep * settings.decision_seconds / settings.substeps,
+            )
         self.decisions += 1
         state = self.state()
         if not np.isfinite(state).all():
@@ -214,9 +310,6 @@ class ArticulatedFixture:
         self.state_digest.update(state.astype("<f8").tobytes())
         self.max_speed = max(self.max_speed, float(np.linalg.norm(state[:, 3:5], axis=1).max()))
         self.max_abs_angular_speed = max(self.max_abs_angular_speed, float(abs(state[:, 5]).max()))
-        self.minimum_wheel_bottom = min(
-            self.minimum_wheel_bottom, *(wheel.position.y - 0.3 for wheel in self.wheels)
-        )
         cs, sn = math.cos(self.chassis.angle), math.sin(self.chassis.angle)
         for joint in self.wheel_joints:
             delta = joint.anchorB - joint.anchorA
@@ -246,7 +339,7 @@ class ArticulatedFixture:
             "state_sha256": self.state_digest.hexdigest(),
             "peak_bridge_joint_anchor_error": self.peak_joint_error,
             "peak_wheel_lateral_constraint_error": self.peak_lateral_wheel_error,
-            "minimum_wheel_bottom_y": self.minimum_wheel_bottom if self.decisions else None,
+            **self.ground_support.to_record(),
             "bridge_contact_steps": self.bridge_contact_steps,
             "minimum_bridge_body_y": self.bridge_minimum_y if self.planks else None,
             "max_body_speed": self.max_speed,

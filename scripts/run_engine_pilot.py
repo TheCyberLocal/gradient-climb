@@ -13,7 +13,7 @@ from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / "src"))
-PROTOCOL = PROJECT / "experiments/definitions/cycle-3-engine-pilot.json"
+PROTOCOL = PROJECT / "experiments/definitions/cycle-3-engine-pilot-3.1.json"
 
 
 def plan() -> dict:
@@ -105,12 +105,35 @@ def diagnostic_gate(first: dict, repeated: dict, limits: dict) -> dict:
         "bounded_angular_speed": first["max_abs_angular_speed"] <= limits["max_abs_angular_speed"],
     }
     if first["kind"] == "flat":
-        checks["flat_penetration"] = (
-            first["minimum_wheel_bottom_y"] >= limits["minimum_flat_wheel_bottom_y"]
+        checks["ground_domain_contained"] = all(
+            row["ground_domain_contained"] is True for row in (first, repeated)
+        )
+        checks["flat_penetration"] = all(
+            row["minimum_wheel_bottom_over_static_floor_y"] is not None
+            and row["minimum_wheel_bottom_over_static_floor_y"]
+            >= limits["minimum_flat_wheel_bottom_y"]
+            for row in (first, repeated)
         )
     elif first["kind"] == "bridge_load":
         checks["moving_bridge_contact"] = first["bridge_contact_steps"] > 0
     return {"passed": all(checks.values()), "checks": checks}
+
+
+def check_protocol(protocol: dict) -> None:
+    from gradientclimb.simulation.engine_pilot import FIXTURE_VERSION, GROUND_ENVELOPE
+
+    if protocol["fixture_version"] != FIXTURE_VERSION:
+        raise ValueError("Protocol and source fixture versions must match")
+    if protocol["ground_envelope"] != GROUND_ENVELOPE:
+        raise ValueError("Protocol and source ground envelopes must match")
+    limits = protocol["diagnostics"]["engineering_sanity_limits"]
+    if limits["max_body_speed"] != GROUND_ENVELOPE["speed_bound"]:
+        raise ValueError("Ground envelope must use the declared diagnostic speed bound")
+    duration = protocol["solver"]["decision_seconds"] * max(
+        protocol["diagnostics"]["decisions"], protocol["screen"]["decisions_per_world"]
+    )
+    if duration > GROUND_ENVELOPE["horizon_seconds"]:
+        raise ValueError("Diagnostic and screen horizons must fit the declared ground envelope")
 
 
 def record_engine_observation(run, name: str, kind: str, result: dict, protocol: str) -> dict:
@@ -142,6 +165,7 @@ def execute(root: Path, expected_sha: str) -> dict:
 
     check_source(expected_sha)
     protocol = plan()
+    check_protocol(protocol)
     start = time.perf_counter()
     with RunRecorder(
         root,

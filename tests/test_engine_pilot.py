@@ -6,7 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from gradientclimb.simulation.engine_pilot import SolverSettings
+from gradientclimb.simulation.engine_pilot import (
+    GroundSupportDiagnostics,
+    SolverSettings,
+    ground_extent,
+)
 
 SPEC = importlib.util.spec_from_file_location(
     "run_engine_pilot", Path(__file__).resolve().parents[1] / "scripts/run_engine_pilot.py"
@@ -35,6 +39,79 @@ def test_invalid_solver_settings_fail(settings):
 def test_execution_rejects_missing_source_pin_before_work():
     with pytest.raises(ValueError, match="expected committed source SHA"):
         PILOT.check_source("")
+
+
+def test_protocol_must_match_source_identity_and_declared_extent():
+    protocol = PILOT.plan()
+    PILOT.check_protocol(protocol)
+    assert ground_extent() == (-1020, 1020)
+    protocol["fixture_version"] = "articulated-engine-fixtures-3.0"
+    with pytest.raises(ValueError, match="fixture versions"):
+        PILOT.check_protocol(protocol)
+    protocol = PILOT.plan()
+    protocol["screen"]["decisions_per_world"] = 601
+    with pytest.raises(ValueError, match="horizons"):
+        PILOT.check_protocol(protocol)
+
+
+def test_successor_preserves_solver_thresholds_schedule_and_budgets():
+    prior = json.loads(
+        (PILOT.PROJECT / "experiments/definitions/cycle-3-engine-pilot.json").read_text()
+    )
+    successor = PILOT.plan()
+    for key in ("solver", "screen", "budgets", "candidate"):
+        assert successor[key] == prior[key]
+    for key in ("engineering_sanity_limits", "fixtures", "repeat_seed", "decisions", "repeats"):
+        assert successor["diagnostics"][key] == prior["diagnostics"][key]
+    assert successor["predecessor"]["run_id"] == "a88aeae4-ccdf-4f84-a178-bc5e58feebd8"
+    assert not successor["data_collected"]
+
+
+def test_domain_exit_does_not_become_penetration_and_gap_evidence_is_retained():
+    lower, upper = ground_extent()
+    flat = GroundSupportDiagnostics([((lower, 0), (upper, 0))])
+    flat.observe([(0, 0.29)], decision=1, physics_substep=1, simulated_seconds=1 / 120)
+    flat.observe([(upper + 1, -4)], decision=1, physics_substep=2, simulated_seconds=1 / 60)
+    observed = flat.to_record()
+    assert not observed["ground_domain_contained"]
+    assert observed["outside_ground_domain_substeps"] == 1
+    assert observed["first_ground_domain_exit"]["physics_substep"] == 2
+    assert observed["minimum_wheel_bottom_y"] == -4.3
+    assert observed["minimum_wheel_bottom_over_static_floor_y"] == pytest.approx(-0.01)
+    assert observed["minimum_wheel_bottom_over_static_floor_evidence"]["simulated_seconds"] == (
+        1 / 120
+    )
+    bridge = GroundSupportDiagnostics([((lower, 0), (6, 0)), ((14, 0), (upper, 0))])
+    bridge.observe([(10, -3)], decision=1, physics_substep=1, simulated_seconds=1 / 120)
+    observed = bridge.to_record()
+    assert observed["ground_domain_contained"]
+    assert observed["minimum_wheel_bottom_over_static_floor_y"] is None
+    assert observed["minimum_wheel_bottom_y"] == observed["minimum_wheel_bottom_in_bridge_gap_y"]
+    assert observed["minimum_wheel_bottom_in_bridge_gap_y"] == -3.3
+    assert observed["bridge_gap_substeps"] == 1
+    assert observed["first_bridge_gap_entry"]["wheel_center"] == [10, -3]
+
+
+def test_flat_gate_retains_penetration_threshold_and_requires_domain_coverage():
+    row = {
+        "kind": "flat",
+        "state_sha256": "a",
+        "peak_wheel_lateral_constraint_error": 0,
+        "peak_bridge_joint_anchor_error": 0,
+        "max_body_speed": 1,
+        "max_abs_angular_speed": 1,
+        "minimum_wheel_bottom_over_static_floor_y": -0.049,
+        "ground_domain_contained": True,
+    }
+    limits = PILOT.plan()["diagnostics"]["engineering_sanity_limits"]
+    assert limits["minimum_flat_wheel_bottom_y"] == -0.05
+    assert PILOT.diagnostic_gate(row, row, limits)["passed"]
+    assert not PILOT.diagnostic_gate(
+        {**row, "minimum_wheel_bottom_over_static_floor_y": -0.051}, row, limits
+    )["checks"]["flat_penetration"]
+    assert not PILOT.diagnostic_gate(row, {**row, "ground_domain_contained": False}, limits)[
+        "checks"
+    ]["ground_domain_contained"]
 
 
 def test_diagnostic_gate_rejects_disconnection_and_requires_bridge_contact():
@@ -90,6 +167,8 @@ def test_synthetic_measurements_are_retained_without_evaluation_episodes(
                 "peak_wheel_lateral_constraint_error": 1 if failure == "diagnostic_gate" else 0,
                 "peak_bridge_joint_anchor_error": 0,
                 "minimum_wheel_bottom_y": 0,
+                "minimum_wheel_bottom_over_static_floor_y": 0,
+                "ground_domain_contained": True,
                 "max_body_speed": 0,
                 "max_abs_angular_speed": 0,
                 "completed_steps": self.steps,
@@ -148,3 +227,9 @@ def test_optional_engine_fixture_is_deterministic_and_articulated(kind):
     assert first.world.bodyCount == (4 if kind == "flat" else 16)
     assert first.world.jointCount == (2 if kind == "flat" else 15)
     assert first.render().size == (320, 180)
+    support = first.diagnostics()
+    assert support["checked_physics_substeps"] == 60
+    assert support["ground_domain_x"] == [-1020, 1020]
+    assert support["ground_domain_contained"]
+    if kind == "bridge_load":
+        assert support["bridge_gap_substeps"] > 0

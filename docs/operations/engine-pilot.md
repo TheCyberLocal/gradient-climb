@@ -22,12 +22,33 @@ labels the API a development preview and requires Python 3.12 or newer. It has
 not been rejected by performance evidence. A follow-up pilot is justified if the
 first candidate reveals a relevant limitation.
 
-The [registered protocol](../../experiments/definitions/cycle-3-engine-pilot.json)
-fixes one bounded screening campaign. Original synthetic fixtures contain
+The [3.1 successor protocol](../../experiments/definitions/cycle-3-engine-pilot-3.1.json)
+fixes one bounded screening campaign. The
+[3.0 predecessor](../../experiments/definitions/cycle-3-engine-pilot.json) remains
+unchanged: run `a88aeae4-ccdf-4f84-a178-bc5e58feebd8` failed its flat gate after the
+vehicle left a floor ending at x=100. The observed minimum was outside that floor;
+the retained aggregate does not rule out earlier penetration within its extent.
+Original synthetic fixtures contain
 independently rotating wheel bodies and wheel joints, plus twelve articulated
 collidable planks spanning an actual gap. A stationary bridge load and scripted
 traversal exercise contact. None of the dimensions, stiffness, torque, friction,
 or appearance is inferred from game images.
+
+Fixture version 3.1 extends the outer ground to `[-1020, 1020]`, derived from the
+unchanged speed bound of 100 units/second times the 10-second simulated horizon,
+plus 20 units covering initial positions/body extent. It preserves the open
+static-ground bridge gap `(6, 14)`, articulation, solver, actions and all numerical
+thresholds, including the `-0.05` flat penetration limit.
+
+Every physics substep records support-domain coverage and first-exit evidence.
+Global wheel-bottom minima, minima over actual static floor and minima inside the
+bridge gap are separate, with wheel position and decision/substep/time evidence.
+Flat qualification requires zero outer-domain exits in both repeats. A gap fall
+remains visible in global/gap measurements; the implementation never fills the
+gap or silently removes unsupported states. Script dispatch checks protocol/source
+fixture identity and the speed/horizon envelope. The successor permits one screen
+within the original 600-second total wall cap; another failure requires a new
+diagnosis and committed prospective amendment.
 
 Review the plan without installing or stepping an engine:
 
