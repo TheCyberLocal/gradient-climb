@@ -118,6 +118,29 @@ def adapter_profile_id(path):
     return json.loads(Path(path).read_text(encoding="utf-8")).get("profile_id", "unknown")
 
 
+STABILIZING_PITCH_THRESHOLD_RADIANS = 0.35
+
+
+def stabilizing_action(screen, *, pitch_threshold=STABILIZING_PITCH_THRESHOLD_RADIANS):
+    """Registered real-baselines-2.0 stabilizing control: gas when level and grounded.
+
+    Coast (neutral) when the body pitch magnitude exceeds the threshold or when
+    both wheels are measured clear of the terrain; never brake. The body axis is
+    modulo pi, so this is a level-versus-tilted rule without a nose-direction
+    sign. Unknown wheel state counts as grounded; unknown pitch falls back to gas.
+    Parameters were fixed a priori and are never tuned on evaluation episodes.
+    """
+    from gradientclimb.experiments.objectives import body_pitch_radians, wheels_clear
+
+    names, values, valid = FEATURE_NAMES, screen.values, screen.valid
+    if wheels_clear(names, values, valid):
+        return 0
+    pitch = body_pitch_radians(names, values, valid)
+    if pitch is not None and abs(pitch) > pitch_threshold:
+        return 0
+    return 1
+
+
 def annotate_parked_score(summary, parked, paused_reader):
     """Attach the actual paused-boundary score, never an earlier HUD maximum."""
     if parked is None or parked.state != "paused" or summary.get("error"):
@@ -349,7 +372,14 @@ def main():
     parser.add_argument("--parent-run", help="Sealed canonical run that registered the checkpoint")
     parser.add_argument(
         "--baseline",
-        choices=["always_gas", "random", "neutral", "alternating_gas_random"],
+        choices=[
+            "always_gas",
+            "random",
+            "neutral",
+            "stabilizing",
+            "alternating_gas_random",
+            "interleaved_baselines",
+        ],
         default="always_gas",
     )
     parser.add_argument("--episodes", type=int, default=2)
@@ -409,12 +439,16 @@ def main():
         "random": lambda _: int(rng.integers(4)),
         "always_gas": lambda _: 1,
         "neutral": lambda _: 0,
+        "stabilizing": stabilizing_action,
+    }
+    schedules = {
+        "alternating_gas_random": ("always_gas", "random"),
+        "interleaved_baselines": ("random", "always_gas", "stabilizing"),
     }
 
     def attempt_policy_name(index):
-        if args.baseline == "alternating_gas_random":
-            return "always_gas" if index % 2 == 0 else "random"
-        return args.baseline
+        cycle = schedules.get(args.baseline)
+        return cycle[index % len(cycle)] if cycle else args.baseline
 
     choose = scripted[attempt_policy_name(0)]
     checkpoint_hash = None

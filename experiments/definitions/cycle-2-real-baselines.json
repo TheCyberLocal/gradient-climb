@@ -1,0 +1,48 @@
+{
+  "protocol_version": "real-baselines-2.0",
+  "status": "REGISTERED before data collection; executes only after the native reliability study reports",
+  "question": "What distance, survival and pace do explicit non-learning controls achieve on the actual game under the Cycle 2 episode lifecycle, so that learned policies have matched comparators?",
+  "environment": "actual_hill_climb_racing",
+  "vehicle": "Hill Climber",
+  "map": "Countryside",
+  "upgrades": "recorded from the Tune or vehicle screen at session start; expected 13/13, 14/14, 16/16, 10/10",
+  "policies": {
+    "random": "uniform over the four joint pedal states each decision; learner RNG seed 5201",
+    "always_gas": "gas held every decision",
+    "stabilizing": {
+      "definition": "gas when the body is level and grounded; coast (neutral) when the body pitch magnitude exceeds the threshold or when airborne; brake is never used",
+      "pitch_source": "0.5 * atan2(body_sin_2angle, body_cos_2angle) from the screen bridge (image axis modulo pi; sign convention not required)",
+      "pitch_threshold_radians": 0.35,
+      "airborne_rule": "detect_airtime_events criterion on the current frame: both wheel clearances valid and above max(0.15 axles, 1.6 x wheel radius); unknown wheel state counts as grounded",
+      "fallback": "gas when body pitch is unavailable; neutral when the required body features are missing",
+      "parameters_chosen": "a priori from Cycle 1 measurement units, before any Cycle 2 baseline or learned data; never tuned on evaluation episodes"
+    }
+  },
+  "schedule": "interleaved order random, always_gas, stabilizing repeated; 10 completed attempts per policy targeted; sessions of at most 12 attempts",
+  "episode_horizon_seconds": 60,
+  "maximum_sessions": 6,
+  "reset_deadline_seconds": 90,
+  "capture_backend": "dxcam",
+  "score_readers": {
+    "gameplay_hud": "artifacts/runs/78a29b33-8cf4-4bb4-be7a-f408acde1fcc/gameplay-glyphs/hud-glyphs.json",
+    "result": "artifacts/runs/66ce7f08-ef45-466c-ac77-33bacd0f0a41/result-reader.json",
+    "coins": "hud-coin-counter-2.0 on the first and last playing frames (exploratory until validated)",
+    "fuel": "hud-fuel-gauge-2.0 on the last playing frame (exploratory until validated)"
+  },
+  "outcome_vector": "behavioral-metrics-2.0 per attempt: distance with source, terminal cause, survival of the horizon, gameplay and session seconds, reset and advertisement overhead, HUD coverage, time to reach 100/250/500 m, stagnation, airtime events, coin boundary readings",
+  "statistics": "per policy: n, mean, median, std, p05/p25/p75/p95, episode percentile bootstrap CI (conditional on the scripted policy); survival fraction with exact binomial interval; terminal cause counts; scored versus excluded attempts",
+  "exclusion_rules": "none after the fact; unscored attempts are reported as unknown distance and excluded only from distance statistics with their count shown",
+  "missingness_rules": "unknown scores stay unknown; a halted session reports remaining scheduled attempts as not_attempted",
+  "success_criteria": "descriptive study; it succeeds when every policy has at least 10 completed scored attempts or the six-session budget is exhausted with all attempts classified",
+  "cycle2_versions": {
+    "metric_schema": "behavioral-metrics-2.0",
+    "observation_schema": "hcr-screen-relative-1",
+    "reward_fitness": "distance-only-2.0",
+    "benchmark": "real-baselines-2.0",
+    "simulator": null,
+    "calibration": null,
+    "ui_profile": "hcr-wrapper-reset-v2",
+    "score_reader": "result-reader-66ce7f08 + hud-glyphs-78a29b33",
+    "recovery_definition": null
+  }
+}

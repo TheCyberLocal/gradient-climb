@@ -481,6 +481,51 @@ def hacking_diagnostics(outcomes: list[EpisodeOutcome]) -> dict[str, Any]:
     }
 
 
+def wheels_clear(
+    names,
+    values,
+    valid,
+    *,
+    clearance_threshold_axles: float = 0.15,
+    radius_multiple: float | None = 1.6,
+) -> bool:
+    """True only when both wheels are measured clear of the terrain on this frame.
+
+    Unknown wheel or radius measurements never count as airborne. The same rule
+    feeds ``detect_airtime_events`` and any scripted baseline that must react to
+    airtime, so the two can never disagree about what "airborne" means.
+    """
+    index = {name: position for position, name in enumerate(names)}
+    wheels = ("left_wheel_to_terrain_axles", "right_wheel_to_terrain_axles")
+    radii = ("left_radius_axles", "right_radius_axles")
+    needed = wheels + (radii if radius_multiple is not None else ())
+    if not all(name in index and bool(valid[index[name]]) for name in needed):
+        return False
+    thresholds = [clearance_threshold_axles, clearance_threshold_axles]
+    if radius_multiple is not None:
+        thresholds = [
+            max(floor, radius_multiple * float(values[index[radius]]))
+            for floor, radius in zip(thresholds, radii, strict=True)
+        ]
+    return all(
+        float(values[index[wheel]]) > threshold
+        for wheel, threshold in zip(wheels, thresholds, strict=True)
+    )
+
+
+def body_pitch_radians(names, values, valid) -> float | None:
+    """Body axis angle from the doubled-angle encoding, in (-pi/2, pi/2]; None if unknown.
+
+    The axis is modulo pi, so this cannot distinguish upright from inverted; it is
+    a level-versus-tilted magnitude, not a signed nose-up/nose-down measurement.
+    """
+    index = {name: position for position, name in enumerate(names)}
+    sin_name, cos_name = "body_sin_2angle", "body_cos_2angle"
+    if not all(name in index and bool(valid[index[name]]) for name in (sin_name, cos_name)):
+        return None
+    return 0.5 * math.atan2(float(values[index[sin_name]]), float(values[index[cos_name]]))
+
+
 def detect_airtime_events(
     rows: list[dict[str, Any]],
     *,
@@ -515,21 +560,13 @@ def detect_airtime_events(
         values, valid = screen.get("values") or [], screen.get("valid") or []
         airborne = False
         if names and len(values) == len(names) == len(valid):
-            index = {name: position for position, name in enumerate(names)}
-            wheels = ("left_wheel_to_terrain_axles", "right_wheel_to_terrain_axles")
-            radii = ("left_radius_axles", "right_radius_axles")
-            needed = wheels + (radii if radius_multiple is not None else ())
-            if all(name in index and valid[index[name]] for name in needed):
-                thresholds = [clearance_threshold_axles, clearance_threshold_axles]
-                if radius_multiple is not None:
-                    thresholds = [
-                        max(floor, radius_multiple * values[index[radius]])
-                        for floor, radius in zip(thresholds, radii, strict=True)
-                    ]
-                airborne = all(
-                    values[index[wheel]] > threshold
-                    for wheel, threshold in zip(wheels, thresholds, strict=True)
-                )
+            airborne = wheels_clear(
+                names,
+                values,
+                valid,
+                clearance_threshold_axles=clearance_threshold_axles,
+                radius_multiple=radius_multiple,
+            )
         elapsed = row.get("elapsed_seconds")
         if airborne and elapsed is not None:
             if current is None:

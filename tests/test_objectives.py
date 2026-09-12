@@ -1,5 +1,6 @@
 """Cycle 2 objective versioning: unknown stays unknown, and every arm is explicit."""
 
+import numpy as np
 import pytest
 
 from gradientclimb.experiments.objectives import (
@@ -319,3 +320,30 @@ def test_hacking_diagnostics_mark_unmeasured_indicators_explicitly():
     assert report["slow_but_safe"]["survival_fraction"] == 0.5
     with pytest.raises(ValueError):
         hacking_diagnostics([])
+
+
+def test_wheels_clear_and_body_pitch_helpers_fail_closed():
+    from gradientclimb.experiments.objectives import body_pitch_radians, wheels_clear
+
+    names = [
+        "left_wheel_to_terrain_axles",
+        "right_wheel_to_terrain_axles",
+        "left_radius_axles",
+        "right_radius_axles",
+        "body_sin_2angle",
+        "body_cos_2angle",
+    ]
+    grounded = [0.17, 0.18, 0.17, 0.17, 0.0, 1.0]
+    valid = [True] * 6
+    assert not wheels_clear(names, grounded, valid)
+    airborne = [0.5, 0.45, 0.17, 0.17, 0.0, 1.0]
+    assert wheels_clear(names, airborne, valid)
+    assert not wheels_clear(names, airborne, [True, True, False, True, True, True])
+    assert wheels_clear(
+        names, airborne, [True, True, False, True, True, True], radius_multiple=None
+    )
+    assert not wheels_clear(names[:2], airborne[:2], valid[:2])
+    assert body_pitch_radians(names, grounded, valid) == pytest.approx(0.0)
+    tilted = grounded[:4] + [float(np.sin(0.8)), float(np.cos(0.8))]
+    assert body_pitch_radians(names, tilted, valid) == pytest.approx(0.4)
+    assert body_pitch_radians(names, tilted, valid[:4] + [False, True]) is None

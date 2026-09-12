@@ -229,3 +229,34 @@ def test_attempt_classification_uses_registered_vocabulary():
     assert classify_attempt({"reason": "observed_result", "distance": None}, None) == (
         "unknown_failure"
     )
+
+
+def test_stabilizing_baseline_gases_only_when_level_and_grounded():
+    module = episode_module()
+    from gradientclimb.perception.screen_features import FEATURE_NAMES
+
+    index = {name: i for i, name in enumerate(FEATURE_NAMES)}
+
+    def screen(pitch=0.0, clearance=0.17, radius=0.17, wheels_valid=True, pitch_valid=True):
+        values = np.zeros(len(FEATURE_NAMES), dtype=np.float32)
+        valid = np.zeros(len(FEATURE_NAMES), dtype=bool)
+        values[index["body_sin_2angle"]] = np.sin(2 * pitch)
+        values[index["body_cos_2angle"]] = np.cos(2 * pitch)
+        valid[index["body_sin_2angle"]] = valid[index["body_cos_2angle"]] = pitch_valid
+        for name in ("left_wheel_to_terrain_axles", "right_wheel_to_terrain_axles"):
+            values[index[name]] = clearance
+            valid[index[name]] = wheels_valid
+        for name in ("left_radius_axles", "right_radius_axles"):
+            values[index[name]] = radius
+            valid[index[name]] = wheels_valid
+        return SimpleNamespace(values=values, valid=valid)
+
+    act = module.stabilizing_action
+    assert act(screen()) == 1
+    assert act(screen(pitch=0.5)) == 0
+    assert act(screen(pitch=-0.5)) == 0
+    assert act(screen(clearance=0.5)) == 0
+    assert act(screen(clearance=0.5, wheels_valid=False)) == 1
+    assert act(screen(pitch=0.5, pitch_valid=False)) == 1
+    assert act(screen(pitch=0.5), pitch_threshold=0.6) == 1
+    assert module.STABILIZING_PITCH_THRESHOLD_RADIANS == 0.35
