@@ -559,6 +559,36 @@
       },
       "matching": "rgb",
       "notes": "Vehicle selection screen shown after a cold boot with HILL CLIMBER selected; the vehicle title is an identity anchor. Start is the only control; Shop, Stage, Vehicle previews, boosters and currency are never actionable. Captured after the emulator crash/relaunch during Cycle 2."
+    },
+    {
+      "label": "admob_tiny_layout_close",
+      "state": "advertisement",
+      "file": "runs/28a9d5be-c0c3-4884-99a6-8988417d9858/reset-035.png",
+      "sha256": "f4baa44b38dd9a203744e9bc8cd80be8b0300a0cf67da275c2df278f716b72e1",
+      "anchors": [
+        [
+          1004,
+          38,
+          1034,
+          52
+        ],
+        [
+          198,
+          140,
+          210,
+          154
+        ]
+      ],
+      "controls": {
+        "legitimate_ad_close": [
+          1004,
+          38,
+          1034,
+          52
+        ]
+      },
+      "matching": "rgb",
+      "notes": "Google-served interstitial end card rendered by the emulator as a small card in the top-left corner over a black letterbox, with a tiny Close text pill at the extreme top-right of the game area that appears several seconds after the card. Anchors are the Close pill and the static container marker at the card's bottom-right corner; the creative, its title and its Install pill are never controls. Clicked only after two stable frames."
     }
   ],
   "glyph_threshold": 0.9,
